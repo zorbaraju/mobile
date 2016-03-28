@@ -5,10 +5,10 @@ public class RoomData {
    private String name = "";
    private boolean isRGB = false;
    
-   public RoomData(String var1, String var2) {
-      this.name = var2;
-      this.address = var1;
-      isRGB = name.endsWith("_RGB");
+   public RoomData(String address, String name, boolean isRGB) {
+      this.name = name;
+      this.address = address;
+      this.isRGB = isRGB;
    }
 
    public String getAddress() {
