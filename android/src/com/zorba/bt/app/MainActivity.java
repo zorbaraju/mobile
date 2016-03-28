@@ -63,11 +63,13 @@ public class MainActivity extends Activity implements NotificationListener{
 	int selectedSchedulerId = 0;
 
 	LinearLayout roomContent = null;
-	ColorPickerDialog colorPickerDialog;
+	RGBController rgbController = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.landinglayout);
+		rgbController = new RGBController(this);
 		final ListPopupWindow homeMenu = prepareHomeMenu();
 		ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
 		homeButton.setOnClickListener(new OnClickListener() {
@@ -617,44 +619,7 @@ public class MainActivity extends Activity implements NotificationListener{
 		BtLocalDB.getInstance(this).setLastSelectedRoom(paramInt);
 		BtLocalDB.getInstance(this).clearDeviceStatus();
 		if( selectedRoom.isRGBType()){
-			BtHwLayer.getInstance(MainActivity.this).initDevice(selectedRoom.getAddress());
-			
-			LinearLayout rgbPanel  = (LinearLayout)findViewById(R.id.rgbPanel);
-			((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.GONE);
-			((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.VISIBLE);
-			((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.GONE);
-			final ColorPicker colorPickerView = new ColorPicker(this);
-			int color = 0;
-			try {
-				byte[] irgb = BtHwLayer.getInstance(MainActivity.this).readRGBToDevice();
-				BtHwLayer.getInstance(MainActivity.this).printBytes("Read...", irgb);
-				color = 100;
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			colorPickerView.setColor(color);
-			colorPickerView.setOnTouchListener(new OnTouchListener() {
-				
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					if(event.getAction() == MotionEvent.ACTION_UP) {
-						byte si = 0;
-						byte sr = 0;
-						byte sg = 0;
-						byte sb = 0;
-						try {
-							BtHwLayer.getInstance(MainActivity.this).sendRGBToDevice(si,sr,sg,sb);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					return false;
-				}
-			});
-			rgbPanel.removeAllViews();
-			rgbPanel.addView(colorPickerView);
+			rgbController.setRGBView(selectedRoom);
 		} else {
 			((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.VISIBLE);
 			((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);

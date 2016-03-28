@@ -10,6 +10,7 @@ public class DiscoveryRoom extends LinearLayout {
    String devAddress = null;
    BluetoothDevice device = null;
    TextView nameText = null;
+   boolean isRGB = false;
 
    public DiscoveryRoom(Context var1, String var2, BluetoothDevice var3) {
       super(var1);
@@ -18,6 +19,7 @@ public class DiscoveryRoom extends LinearLayout {
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
       this.nameText = (TextView)this.findViewById(R.id.devicename);
       this.nameText.setText(var3.getName());
+      this.isRGB = var3.getName().endsWith("_RGB");
    }
 
    public BluetoothDevice getDevice() {
@@ -35,4 +37,9 @@ public class DiscoveryRoom extends LinearLayout {
    public String getRoomName() {
       return ((TextView)this.findViewById(R.id.roomname)).getText().toString();
    }
+   
+   public boolean isRGBType() {
+	   return this.isRGB;
+   }
+   
 }

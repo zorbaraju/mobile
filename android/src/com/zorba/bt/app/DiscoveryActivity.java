@@ -76,7 +76,7 @@ public class DiscoveryActivity extends ZorbaActivity {
          CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          var3 = null;
       } else {
-         RoomData var4 = new RoomData(var1.getDeviceAddress(), var2);
+         RoomData var4 = new RoomData(var1.getDeviceAddress(), var2, var1.isRGBType());
          BtLocalDB.getInstance(this).addRoom(var4);
          this.addRoomButton(var4);
          var3 = var2;

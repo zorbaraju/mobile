@@ -34,7 +34,8 @@ public class BtLocalDB {
 
    public void addRoom(RoomData var1) {
       String var3 = this.dbInfo.getString("BtList", "");
-      String var4 = var1.getAddress() + "#" + var1.getName();
+      String rgb = var1.isRGBType()?"1":"0";
+      String var4 = var1.getAddress() + "#" + var1.getName() + "#" + rgb;
       if(!var3.equals("")) {
          var4 = var3 + "#" + var4;
       }
@@ -59,12 +60,13 @@ public class BtLocalDB {
    public void cleanDB() {
       int var1 = this.dbInfo.getInt("version", -1);
       if(this.isStoreClean || var1 != version) {
+    	  System.out.println("cleaing");
          Editor var2 = this.dbInfo.edit();
-         var2.putInt("version", version);
          var2.clear();
+         var2.putInt("version", version);
          var2.commit();
       }
-
+      
    }
 
    public void clearDeviceStatus() {
@@ -135,11 +137,11 @@ public class BtLocalDB {
          String[] var9 = var7.split("#");
          int var2 = 0;
 
-         for(var4 = var5; var2 < var9.length; var2 += 2) {
+         for(var4 = var5; var2 < var9.length; var2 += 3) {
             if(var9[var2 + 1].equals(var1)) {
                var3 = var9[var2];
             } else {
-               var5 = var9[var2] + "#" + var9[var2 + 1];
+               var5 = var9[var2] + "#" + var9[var2 + 1]+ "#" + var9[var2 + 2];
                if(var4.equals("")) {
                   var4 = var5;
                } else {
@@ -284,12 +286,12 @@ public class BtLocalDB {
    public ArrayList getRoomList() {
       String var3 = this.dbInfo.getString("BtList", "");
       ArrayList var2 = new ArrayList();
-      var2.add(new RoomData("GGYYGGYYGYY", "GGYYGGYYGYY"));
+      var2.add(new RoomData("GGYYGGYYGYY", "GGYYGGYYGYY", false));
       if(!var3.isEmpty()) {
          String[] var4 = var3.split("#");
 
-         for(int var1 = 0; var1 < var4.length; var1 += 2) {
-            var2.add(new RoomData(var4[var1], var4[var1 + 1]));
+         for(int var1 = 0; var1 < var4.length; var1 += 3) {
+             var2.add(new RoomData(var4[var1], var4[var1 + 1], var4[var1 + 2].equals("1")));
          }
       }
 
@@ -363,7 +365,7 @@ public class BtLocalDB {
             break;
          }
 
-         var2 += 2;
+         var2 += 3;
       }
 
       return var3;
@@ -375,7 +377,7 @@ public class BtLocalDB {
       if(!var4.isEmpty()) {
          String[] var5 = var4.split("#");
 
-         for(int var2 = 0; var2 < var5.length; var2 += 2) {
+         for(int var2 = 0; var2 < var5.length; var2 += 3) {
             if(var1.equals(var5[var2 + 1])) {
                var3 = true;
                return var3;
