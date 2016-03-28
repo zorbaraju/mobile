@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
-               BuildableName = "BtHome.app"
-               BlueprintName = "BtHome"
-               ReferencedContainer = "container:BtHome.xcodeproj">
+               BuildableName = "ZBtHome.app"
+               BlueprintName = "ZBtHome"
+               ReferencedContainer = "container:ZBtHome.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
-            BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BuildableName = "ZBtHome.app"
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
-            BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BuildableName = "ZBtHome.app"
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
-            BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BuildableName = "ZBtHome.app"
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
