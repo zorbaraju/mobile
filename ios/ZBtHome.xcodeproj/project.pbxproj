@@ -58,6 +58,7 @@
 		DE61B16C1C92E1010004A680 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				DE3D5AE11CA64F2D0080138D /* appicon_1.png */,
 				DEF9787F1C937A17001A253D /* about.png */,
 				DEF978801C937A17001A253D /* cancel.png */,
 				DEF978811C937A17001A253D /* downarrow.png */,
@@ -90,7 +91,6 @@
 		DECF82AD1C7EC6AA00A1AA1C /* bthome */ = {
 			isa = PBXGroup;
 			children = (
-				DE3D5AE11CA64F2D0080138D /* appicon_1.png */,
 				DE61B16C1C92E1010004A680 /* Image */,
 				DECF82AE1C7EC6AA00A1AA1C /* AppDelegate.swift */,
 				DECF82B01C7EC6AA00A1AA1C /* ViewController.swift */,
