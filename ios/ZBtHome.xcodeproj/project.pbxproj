@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DE3D5AE21CA64F2D0080138D /* appicon_1.png in Resources */ = {isa = PBXBuildFile; fileRef = DE3D5AE11CA64F2D0080138D /* appicon_1.png */; };
 		DE61B1E71C92E1310004A680 /* refresh.gif in Resources */ = {isa = PBXBuildFile; fileRef = DE61B19E1C92E1310004A680 /* refresh.gif */; };
 		DECF82AF1C7EC6AA00A1AA1C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECF82AE1C7EC6AA00A1AA1C /* AppDelegate.swift */; };
 		DECF82B11C7EC6AA00A1AA1C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DECF82B01C7EC6AA00A1AA1C /* ViewController.swift */; };
@@ -25,23 +24,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		DE3D5AE11CA64F2D0080138D /* appicon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon_1.png; sourceTree = "<group>"; };
-		DE61B19E1C92E1310004A680 /* refresh.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = refresh.gif; sourceTree = "<group>"; };
+		DE61B19E1C92E1310004A680 /* refresh.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = refresh.gif; path = ../resources/refresh.gif; sourceTree = "<group>"; };
 		DECF82AB1C7EC6AA00A1AA1C /* ZBtHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZBtHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DECF82AE1C7EC6AA00A1AA1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		DECF82B01C7EC6AA00A1AA1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		DECF82AE1C7EC6AA00A1AA1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../resources/AppDelegate.swift; sourceTree = "<group>"; };
+		DECF82B01C7EC6AA00A1AA1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ../resources/ViewController.swift; sourceTree = "<group>"; };
 		DECF82B31C7EC6AA00A1AA1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DECF82B51C7EC6AA00A1AA1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DECF82B51C7EC6AA00A1AA1C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../resources/Assets.xcassets; sourceTree = "<group>"; };
 		DECF82B81C7EC6AA00A1AA1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		DECF82BA1C7EC6AA00A1AA1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DEF9787F1C937A17001A253D /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
-		DEF978801C937A17001A253D /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
-		DEF978811C937A17001A253D /* downarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = downarrow.png; sourceTree = "<group>"; };
-		DEF978821C937A17001A253D /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
-		DEF978831C937A17001A253D /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minus.png; sourceTree = "<group>"; };
-		DEF978841C937A17001A253D /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
-		DEF978851C937A17001A253D /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save.png; sourceTree = "<group>"; };
-		DEF978861C937A17001A253D /* spinnertriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinnertriangle.png; sourceTree = "<group>"; };
+		DECF82BA1C7EC6AA00A1AA1C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../resources/Info.plist; sourceTree = "<group>"; };
+		DEF9787F1C937A17001A253D /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = about.png; path = ../resources/about.png; sourceTree = "<group>"; };
+		DEF978801C937A17001A253D /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = cancel.png; path = ../resources/cancel.png; sourceTree = "<group>"; };
+		DEF978811C937A17001A253D /* downarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = downarrow.png; path = ../resources/downarrow.png; sourceTree = "<group>"; };
+		DEF978821C937A17001A253D /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = home.png; path = ../resources/home.png; sourceTree = "<group>"; };
+		DEF978831C937A17001A253D /* minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = minus.png; path = ../resources/minus.png; sourceTree = "<group>"; };
+		DEF978841C937A17001A253D /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plus.png; path = ../resources/plus.png; sourceTree = "<group>"; };
+		DEF978851C937A17001A253D /* save.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = save.png; path = ../resources/save.png; sourceTree = "<group>"; };
+		DEF978861C937A17001A253D /* spinnertriangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = spinnertriangle.png; path = ../resources/spinnertriangle.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +56,6 @@
 		DE61B16C1C92E1010004A680 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				DE3D5AE11CA64F2D0080138D /* appicon_1.png */,
 				DEF9787F1C937A17001A253D /* about.png */,
 				DEF978801C937A17001A253D /* cancel.png */,
 				DEF978811C937A17001A253D /* downarrow.png */,
@@ -135,6 +132,7 @@
 				TargetAttributes = {
 					DECF82AA1C7EC6AA00A1AA1C = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 7RX6XZH94X;
 					};
 				};
 			};
@@ -164,7 +162,6 @@
 				DEF978871C937A17001A253D /* about.png in Resources */,
 				DEF9788C1C937A17001A253D /* plus.png in Resources */,
 				DECF82B91C7EC6AA00A1AA1C /* LaunchScreen.storyboard in Resources */,
-				DE3D5AE21CA64F2D0080138D /* appicon_1.png in Resources */,
 				DEF9788B1C937A17001A253D /* minus.png in Resources */,
 				DECF82B61C7EC6AA00A1AA1C /* Assets.xcassets in Resources */,
 				DEF978891C937A17001A253D /* downarrow.png in Resources */,
@@ -198,6 +195,7 @@
 				DECF82B31C7EC6AA00A1AA1C /* Base */,
 			);
 			name = Main.storyboard;
+			path = ../resources;
 			sourceTree = "<group>";
 		};
 		DECF82B71C7EC6AA00A1AA1C /* LaunchScreen.storyboard */ = {
@@ -206,6 +204,7 @@
 				DECF82B81C7EC6AA00A1AA1C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			path = ../resources;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -300,10 +299,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = new2/Info.plist;
+				INFOPLIST_FILE = resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pers.aa.new2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zorba.bt.app;
 				PRODUCT_NAME = ZBtHome;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -316,10 +315,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = new2/Info.plist;
+				INFOPLIST_FILE = resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pers.aa.new2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zorba.bt.app;
 				PRODUCT_NAME = ZBtHome;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
