@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/layout_root" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/emptydevicepanel" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" layout="@layout/dialogheader" />
+    <ScrollView android:id="@id/scrollView1" android:background="#ff1d2832" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:background="#ff1d2832" android:layout_width="fill_parent" android:layout_height="fill_parent">
+            <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:id="@id/cbox" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="1.0dip" android:text="Group Name" />
+            <EditText android:id="@id/groupNameText" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" />
+            <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:text="Devices" />
+            <LinearLayout android:orientation="vertical" android:id="@id/groupdevices" android:background="#ff1d2825" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_margin="2.0dip" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
