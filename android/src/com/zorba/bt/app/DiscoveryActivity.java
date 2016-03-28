@@ -68,21 +68,18 @@ public class DiscoveryActivity extends ZorbaActivity {
    }
 
    private String createRoom(DiscoveryRoom var1) {
-      String var2 = CommonUtils.isValidName(this, var1.getRoomName());
-      String var3;
-      if(var2 == null) {
-         var3 = null;
-      } else if(BtLocalDB.getInstance(this.getApplication()).isRoomNameExist(var2)) {
+      String validName = CommonUtils.isValidName(this, var1.getRoomName());
+      if(validName == null) {
+         return null;
+      } else if(BtLocalDB.getInstance(this.getApplication()).isRoomNameExist(validName)) {
          CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
-         var3 = null;
+         return null;
       } else {
-         RoomData var4 = new RoomData(var1.getDeviceAddress(), var2, var1.isRGBType());
+         RoomData var4 = new RoomData(var1.getDeviceAddress(), validName, var1.isRGBType());
          BtLocalDB.getInstance(this).addRoom(var4);
          this.addRoomButton(var4);
-         var3 = var2;
       }
-
-      return var3;
+      return validName;
    }
 
    private boolean isBtInView(LinearLayout var1, String var2) {
@@ -144,6 +141,7 @@ public class DiscoveryActivity extends ZorbaActivity {
       this.startDiscoveryProcess();
    }
 
+   @Override
    public void onBackPressed() {
       Intent var1 = new Intent();
       var1.putExtra("newroomname", this.roomNameAddedNewly);

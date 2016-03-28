@@ -182,24 +182,20 @@ public class CommonUtils {
       return var2;
    }
 
-   public static String isValidName(Activity var0, String var1) {
-      Object var2 = null;
-      var1 = var1.trim();
-      String var3;
-      if(var1.isEmpty()) {
-         AlertBox(var0, "Name", "Name is empty");
-         var3 = (String)var2;
-      } else if(var1.length() > 12) {
+   public static String isValidName(Activity var0, String name) {
+      String validName = null;
+      name = name.trim();
+      if(name.isEmpty()) {
+    	 AlertBox(var0, "Name", "Name is empty");
+      } else if(name.length() > 12) {
          AlertBox(var0, "Name", "Name should not be more than 12 chars");
-         var3 = (String)var2;
-      } else if(var1.contains("#")) {
+      } else if(name.contains("#")) {
          AlertBox(var0, "Name", "Name should not contain # letter in the name");
-         var3 = (String)var2;
       } else {
-         var3 = Character.toString(var1.charAt(0)).toUpperCase() + var1.substring(1);
+    	  validName = Character.toString(name.charAt(0)).toUpperCase() + name.substring(1);
       }
 
-      return var3;
+      return validName;
    }
 
    public static final int measureContentWidth(ViewGroup var0, ListAdapter var1) {

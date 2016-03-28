@@ -170,46 +170,47 @@ public class MainActivity extends Activity implements NotificationListener{
 		return popupWindow;
 	}
 
-	private void prepareRoomListMenu(String paramString, boolean paramBoolean) {
+	private void prepareRoomListMenu(String newRoomName, boolean paramBoolean) {
 		final TextView localTextView = (TextView) findViewById(R.id.roomList);
 		Object localObject = new View.OnClickListener() {
-			public void onClick(View paramAnonymousView) {
+			public void onClick(View view) {
 				MainActivity.this.roomMenuList.dismiss();
-				MainActivity.this.roomChanged(localTextView, ((Integer) paramAnonymousView.getTag()).intValue());
+				MainActivity.this.roomChanged(localTextView, ((Integer) view.getTag()).intValue());
 			}
 		};
 		this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
-		System.out.println("From localdb..." + roomDataList);
 		TextAdapter localTextAdapter = new TextAdapter(this, this.roomDataList, (View.OnClickListener) localObject);
 		this.roomMenuList.setAdapter(localTextAdapter);
 		this.roomMenuList.setAnchorView(findViewById(R.id.roomList));
 		try {
-			int i = CommonUtils.measureContentWidth(this.roomMenuList.getListView(), localTextAdapter) + 20;
-			this.roomMenuList.setWidth(i);
-			localTextView.setWidth(i);
+			int width = CommonUtils.measureContentWidth(this.roomMenuList.getListView(), localTextAdapter) + 20;
+			this.roomMenuList.setWidth(width);
+			localTextView.setWidth(width);
 			this.roomDataList.remove(0);
 			localObject = new TextAdapter(this, this.roomDataList, (View.OnClickListener) localObject);
 			((TextAdapter) localObject).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			this.roomMenuList.setAdapter((ListAdapter) localObject);
 			if (!paramBoolean) {
-				int j = BtLocalDB.getInstance(this).getLastSelectedRoom();
-				System.out.println("lasted...." + j);
-				i = j;
-				if (!paramString.isEmpty()) {
-					System.out.println("Jaii.not empty..");
-					i = 0;
-					if (i >= this.roomDataList.size()) {
-						i = j;
+				int selectedRoomIndex = BtLocalDB.getInstance(this).getLastSelectedRoom();
+				int selectIndex = selectedRoomIndex;
+				if (!newRoomName.isEmpty()) {
+					selectIndex = 0;
+					if (selectIndex >= this.roomDataList.size()) {
+						selectIndex = selectedRoomIndex;
 					}
 				} else {
-					System.out.println("Jaii.empty.." + roomDataList.size());
 					if (this.roomDataList.size() <= 0) {
 						return;
 					}
-					System.out.println("RoomsChenaded");
-					roomChanged(localTextView, i);
 				}
+				roomChanged(localTextView, selectIndex);
 			} else {
+				if (this.roomDataList.size() == 0) {
+					((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.GONE);
+					((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);
+					((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.VISIBLE);
+					localTextView.setText("No rooms");
+				}
 				return;
 			}
 		} catch (Exception localException) {
