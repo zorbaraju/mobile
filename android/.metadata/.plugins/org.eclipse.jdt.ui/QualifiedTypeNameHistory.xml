@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.chiralcode.colorpicker.ColorPickerDialog"/>
+<fullyQualifiedTypeName name="com.chiralcode.colorpicker.ColorPickerDialog.OnColorSelectedListener"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="android.widget.LinearLayout"/>
+<fullyQualifiedTypeName name="com.zorba.bt.app.R.id"/>
+<fullyQualifiedTypeName name="android.view.View.OnTouchListener"/>
+<fullyQualifiedTypeName name="android.view.MotionEvent"/>
+<fullyQualifiedTypeName name="com.zorba.bt.app.bluetooth.BtHwLayer"/>
+<fullyQualifiedTypeName name="com.zorba.bt.app.MainActivity"/>
+</qualifiedTypeNameHistroy>

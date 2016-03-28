@@ -1,0 +1,457 @@
+package com.zorba.bt.app.bluetooth;
+
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+
+import com.zorba.bt.app.CommonUtils;
+import com.zorba.bt.app.Logger;
+import com.zorba.bt.app.MainActivity;
+import com.zorba.bt.app.bluetooth.BtReceiver;
+import com.zorba.bt.app.bluetooth.BtSender;
+import com.zorba.bt.app.dao.DeviceData;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+public class BtHwLayer {
+
+	byte[] STARTBYTES = new byte[] { (byte) 35, (byte) 63, (byte) 36, (byte) 64, (byte) 45, (byte) 38, (byte) 126,
+			(byte) 40, (byte) 41 };
+
+	int mConnectionState = BluetoothProfile.STATE_DISCONNECTED;
+
+	final int STATE_DISCONNECTED = 0;
+	final int STATE_CONNECTING = 1;
+	final int STATE_CONNECTED = 2;
+
+	final String ACTION_GATT_CONNECTED = "com.example.bluetooth.le.ACTION_GATT_CONNECTED";
+	final String ACTION_GATT_DISCONNECTED = "com.example.bluetooth.le.ACTION_GATT_DISCONNECTED";
+	final String ACTION_GATT_SERVICES_DISCOVERED = "com.example.bluetooth.le.ACTION_GATT_SERVICES_DISCOVERED";
+	final String ACTION_DATA_AVAILABLE = "com.example.bluetooth.le.ACTION_DATA_AVAILABLE";
+	final String EXTRA_DATA = "com.example.bluetooth.le.EXTRA_DATA";
+
+	private static BtHwLayer instance = null;
+	static byte reqgenerator = 0;
+	UUID service_uuid = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
+	UUID charr_uuid = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
+	MainActivity activity = null;
+	BluetoothManager mBluetoothManager;
+	BluetoothAdapter mBluetoothAdapter;
+	String mBluetoothDeviceAddress;
+	BluetoothGatt mBluetoothGatt;
+	BluetoothGattCharacteristic charr;
+	String devAddress = "";
+	String error = null;
+	NotificationListener notificationListener = null;
+	boolean isBtTurnedOffManually = false;
+	Object lock = new Object();
+	HashMap<Integer, byte[]> responseQueue = new HashMap<Integer, byte[]>();
+	boolean isConnected = false;
+	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		public void onReceive(Context var1, Intent var2) {
+			if ("android.bluetooth.adapter.action.STATE_CHANGED".equals(var2.getAction())) {
+				if (var2.getIntExtra("android.bluetooth.adapter.extra.STATE", -1) == 10) {
+					BtHwLayer.this.error = "Please turn on the Bluetooth, Its has been turned off manually";
+					BtHwLayer.this.isBtTurnedOffManually = true;
+				} else if (var2.getIntExtra("android.bluetooth.adapter.extra.STATE", -1) == 12) {
+					BtHwLayer.this.isBtTurnedOffManually = false;
+					BtHwLayer.this.error = null;
+				}
+
+				System.out.println("Hai......." + BtHwLayer.this.isBtTurnedOffManually + "..."
+						+ var2.getIntExtra("android.bluetooth.adapter.extra.STATE", -1));
+			}
+
+		}
+	};
+
+	private BtHwLayer(Activity var1) {
+		this.activity = (MainActivity) var1;
+
+		mBluetoothManager = (BluetoothManager) this.activity.getSystemService(Context.BLUETOOTH_SERVICE);
+		if (mBluetoothManager == null) {
+			System.out.println("Unable to initialize BluetoothManager.");
+			return;
+		}
+
+		mBluetoothAdapter = mBluetoothManager.getAdapter();
+		if (mBluetoothAdapter == null) {
+			System.out.println("Unable to obtain a BluetoothAdapter.");
+			return;
+		}
+
+		this.activity.registerReceiver(this.mReceiver,
+				new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
+	}
+
+	private void checkConnection() throws Exception {
+		if( !isConnected) {
+			throw new Exception("No connection to the device");
+		}
+		if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
+			String var1 = this.initDevice(this.devAddress);
+			if (var1 != null) {
+				throw new Exception(var1);
+			}
+		}
+
+	}
+
+	public static BtHwLayer getInstance(Activity var0) {
+		if (instance == null) {
+			instance = new BtHwLayer(var0);
+		}
+
+		return instance;
+	}
+
+	public String initDevice(String macaddress) {
+		isConnected = false;
+		BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(macaddress);
+		if (device == null) {
+			System.out.println("Device not found.  Unable to connect.");
+			return "Device is not found";
+		}
+
+		final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
+			@Override
+			public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+				String intentAction;
+				if (newState == BluetoothProfile.STATE_CONNECTED) {
+					intentAction = ACTION_GATT_CONNECTED;
+					mConnectionState = STATE_CONNECTED;
+					System.out.println("Connected to GATT server.");
+					gatt.discoverServices();
+
+				} else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+					intentAction = ACTION_GATT_DISCONNECTED;
+					mConnectionState = STATE_DISCONNECTED;
+					System.out.println("Disconnected from GATT server.");
+				}
+			}
+
+			@Override
+			public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+				if (status == BluetoothGatt.GATT_SUCCESS) {
+					System.out.println("Gatt service discovered");
+					BluetoothGattService service = gatt.getService(service_uuid);
+					if (service == null) {
+						System.out.println("Service is not yet found");
+						return;
+					} else {
+						System.out.println("Service is found");
+						charr = service.getCharacteristic(charr_uuid);
+						gatt.setCharacteristicNotification(charr, true);
+						System.out.println("Notifying for service found");
+						synchronized (lock) {
+							lock.notify();
+							isConnected = true;
+						}
+						
+						System.out.println("Notified for service found");
+					}
+				}
+			}
+
+			@Override
+			public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
+					int status) {
+				System.out.println("On Characteistic read " + status);
+			}
+
+			@Override
+			public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
+					int status) {
+				byte[] values = characteristic.getValue();
+				printBytes("OnWrite", values);
+
+			}
+
+			@Override
+			public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+				byte[] values = characteristic.getValue();
+				printBytes("OnRead", values);
+				if (values[0] == 36) {
+					byte []data = new byte[values.length-2];
+					for(int i=0; i<data.length; i++)
+						data[i] = values[i+2];
+					activity.notificationReceived(data);
+				} else {
+					synchronized (lock) {
+						byte []data = new byte[values.length-2];
+						for(int i=0; i<data.length; i++)
+							data[i] = values[i+2];
+						int reqno = values[1];
+						responseQueue.put(reqno, data);
+						lock.notify();
+					}
+
+				}
+
+			}
+		};
+		// We want to directly connect to the device, so we are setting the
+		// autoConnect
+		// parameter to false.
+		mBluetoothGatt = device.connectGatt(this.activity, false, mGattCallback);
+
+		System.out.println("Trying to create a new connection.");
+		boolean isconnected = mBluetoothGatt.connect();
+		if (!isconnected) {
+			System.out.println("Connection failed.");
+			return "Could not connect to device";
+		}
+		mBluetoothGatt.discoverServices();
+		System.out.println("WAiting for service found");
+		synchronized (lock) {
+			try {
+				lock.wait(5000);	
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println("WAiting for service released");
+		return "";
+	}
+
+	private byte getNextReqno() {
+		reqgenerator++;
+		return reqgenerator;
+	}
+
+	public void closeDevice() {
+		try {
+			if (this.mBluetoothGatt != null)
+				this.mBluetoothGatt.disconnect();
+			this.mBluetoothGatt = null;
+
+		} catch (Exception var2) {
+			var2.printStackTrace();
+		}
+
+	}
+	
+	public boolean isConnected(){
+		return isConnected;
+	}
+
+	public void connectionLost() {
+		this.activity.putInOffline();
+	}
+
+	public long convertBytesToLong(byte[] var1) {
+		long var3 = (long) var1[0];
+
+		for (int var2 = 1; var2 < var1.length; ++var2) {
+			var3 = var3 << 8 | (long) (var1[var2] & 255);
+		}
+
+		Logger.e(this.activity, "BtHwLayer", "bytes(" + var1.length + "):<" + var3 + ">");
+		return var3;
+	}
+
+	public boolean makeBtEnabled() {
+		boolean var1;
+		if (!this.mBluetoothAdapter.isEnabled()) {
+			Intent var2 = new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE");
+			this.activity.startActivityForResult(var2, 2);
+			var1 = false;
+		} else {
+			var1 = true;
+		}
+
+		return var1;
+	}
+
+	public void print(String var1) {
+		Logger.e(this.activity, "BtHwLayer", var1);
+	}
+
+	public void printBytes(String var1, byte[] var2) {
+		String resp = "";
+		for (int i = 0; i < var2.length; i++) {
+			resp += " " + Integer.toHexString(var2[i]);
+		}
+		System.out.println("Data:(" + var1 + "): " + resp);
+	}
+
+	private byte[] getData(int reqno) {
+		byte readbytes[] = null;
+		synchronized (lock) {
+			try {
+				lock.wait();
+				readbytes = responseQueue.remove(reqno);
+				return readbytes;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return readbytes;
+	}
+
+	private void writeBytes(byte[] wbytes) {
+		charr.setValue(wbytes);
+		mBluetoothGatt.writeCharacteristic(charr);
+	}
+
+	public int getNumberOfDevices() throws Exception {
+		this.checkConnection();
+		byte var1 = this.getNextReqno();
+		this.writeBytes(new byte[] { (byte) 41, var1 });
+		byte[] var2 = this.getData(var1);
+		if (var2 == null) {
+			throw new Exception("No data from device");
+		} else {
+			System.out.println("Number of devive....." + var2[0]);
+			return var2[0];
+		}
+	}
+
+	public byte[] readAllStatus() throws Exception {
+		this.checkConnection();
+		byte var1 = this.getNextReqno();
+		this.writeBytes(new byte[] { (byte) 63, var1, (byte) -1 });
+		return this.getData(var1);
+	}
+
+	public int readCommandToDevice(int var1) throws Exception {
+		this.checkConnection();
+		byte var3 = this.getNextReqno();
+		byte var2 = (byte) var1;
+		this.writeBytes(new byte[] { (byte) 63, var3, (byte) 1, var2 });
+		byte[] var4 = this.getData(var3);
+		if (var4 == null) {
+			throw new Exception("No data from device");
+		} else {
+			return var4[2];
+		}
+	}
+
+	public long readPower() throws Exception {
+		this.checkConnection();
+		byte var1 = this.getNextReqno();
+		this.writeBytes(new byte[] { (byte) 38, var1 });
+		byte[] var2 = this.getData(var1);
+		if (var2 == null) {
+			throw new Exception("No data from device");
+		} else {
+			return this.convertBytesToLong(var2);
+		}
+	}
+
+	public void sendAlarmCommandToDevice(int var1, int var2, int var3, int var4, DeviceData[] var5) throws Exception {
+		this.checkConnection();
+		byte var6 = this.getNextReqno();
+		byte[] var7 = new byte[] { (byte) 64, var6, (byte) var1, (byte) var2, (byte) var3, (byte) var4, (byte) 0,
+				(byte) var5.length};
+		byte deviceInfo[] = new byte[var5.length];
+
+		for (var1 = 0; var1 < var5.length; ++var1) {
+			byte var8 = (byte) var5[var1].getDevId();
+			deviceInfo[var1] = (byte) ((byte) var5[var1].getStatus() & 15 | (byte) (var8 << 4));
+		}
+		byte[] both = new byte[var7.length+deviceInfo.length];
+		for(int i=0; i<var7.length; i++)
+			both[i] = var7[i];
+		for(int i=0; i<deviceInfo.length; i++)
+			both[var7.length+i] = deviceInfo[i];
+		
+		this.writeBytes(both);
+		this.getData(var6);
+	}
+
+	public void sendCommandToDevice(int var1, int var2) throws Exception {
+		this.checkConnection();
+		byte var3 = this.getNextReqno();
+		byte var4 = (byte) var1;
+		byte var5 = (byte) var2;
+		this.writeBytes(new byte[] { (byte) 35, var3, (byte) 1, var4, var5 });
+		this.getData(var3);
+	}
+
+	public void sendCommandToDevices(int[] var1) throws Exception {
+		this.checkConnection();
+		byte var2 = this.getNextReqno();
+		byte[] var5 = new byte[var1.length + 3];
+		int var3 = 0 + 1;
+		var5[0] = 35;
+		int var4 = var3 + 1;
+		var5[var3] = var2;
+		var5[var4] = (byte) (var1.length / 2);
+		var3 = 0;
+		++var4;
+
+		while (var3 < var1.length) {
+			var5[var4] = (byte) var1[var3];
+			++var3;
+			++var4;
+		}
+
+		this.writeBytes(var5);
+		this.getData(var2);
+	}
+
+	public void sendDeleteAlarmCommandToDevice(int var1) throws Exception {
+		this.checkConnection();
+		byte var3 = this.getNextReqno();
+		this.print("Scheduler id = " + var1);
+		byte var2 = (byte) var1;
+		this.writeBytes(new byte[] { (byte) 45, var3, var2 });
+		this.getData(var3);
+	}
+
+	public void setDateAndTime() throws Exception {
+		this.checkConnection();
+		byte var1 = this.getNextReqno();
+		this.writeBytes(new byte[] { (byte) 126, var1 });
+		byte[] var2 = CommonUtils.getCurrentTime();
+		this.writeBytes(var2);
+		this.getData(var1);
+	}
+
+	public void setDeviceType(int var1, boolean var2) throws Exception {
+		this.checkConnection();
+		byte var4 = this.getNextReqno();
+		byte var3 = 1;
+		if (var2) {
+			var3 = 2;
+		}
+
+		byte var5 = (byte) var1;
+		this.writeBytes(new byte[] { (byte) 40, var4, var5, var3 });
+		this.getData(var4);
+	}
+
+	public boolean shouldReconnect(String var1) {
+		boolean var2;
+		if (this.devAddress.equals(var1) && this.mBluetoothGatt != null) {
+			var2 = false;
+		} else {
+			this.closeDevice();
+			var2 = true;
+		}
+
+		return var2;
+	}
+
+	public void setNotificationListener(NotificationListener var1) {
+		this.notificationListener = var1;
+	}
+}

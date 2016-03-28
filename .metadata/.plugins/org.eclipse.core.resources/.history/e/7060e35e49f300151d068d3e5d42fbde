@@ -1,0 +1,293 @@
+package com.zorba.bt.app;
+
+import android.app.AlertDialog.Builder;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.LinearLayout.LayoutParams;
+import java.util.ArrayList;
+
+import com.zorba.bt.app.dao.RoomData;
+import com.zorba.bt.app.db.BtLocalDB;
+
+public class DiscoveryActivity extends ZorbaActivity {
+   static final int ENABLE_BT = 1;
+   ImageButton deleteButton = null;
+   private String deletedRoomList = "";
+   LinearLayout discoveryContent = null;
+   GifAnimationDrawable little = null;
+   private BluetoothManager mBluetoothManager;
+   private BluetoothAdapter mBTA;
+   private BroadcastReceiver mReceiver;
+   private String roomNameAddedNewly = "";
+   FlowLayout roomsContent = null;
+   ImageTextButton selectedRoomButton = null;
+
+   private void addRoomButton(RoomData var1) {
+      final ImageTextButton var2 = new ImageTextButton(this);
+      var2.setBackgroundImage(R.drawable.scheduler);
+      var2.setText(var1.getName());
+      var2.setOnClickListener(new OnClickListener() {
+         public void onClick(View var1) {
+            DiscoveryActivity.this.deleteButton.setVisibility(8);
+            int var3 = DiscoveryActivity.this.roomsContent.getChildCount();
+
+            for(int var2 = 0; var2 < var3; ++var2) {
+               ((ImageTextButton)DiscoveryActivity.this.roomsContent.getChildAt(var2)).setBorderSelected(false);
+            }
+
+         }
+      });
+      var2.setOnLongClickListener(new OnLongClickListener() {
+         public boolean onLongClick(View var1) {
+            DiscoveryActivity.this.deleteButton.setVisibility(0);
+            DiscoveryActivity.this.selectedRoomButton = var2;
+            var2.setBorderSelected(true);
+            return true;
+         }
+      });
+      LayoutParams var3 = new LayoutParams(-2, -2);
+      var3.setMargins(10, 10, 10, 10);
+      var2.setLayoutParams(var3);
+      this.roomsContent.addView(var2);
+   }
+
+   private String createRoom(DiscoveryRoom var1) {
+      String var2 = CommonUtils.isValidName(this, var1.getRoomName());
+      String var3;
+      if(var2 == null) {
+         var3 = null;
+      } else if(BtLocalDB.getInstance(this.getApplication()).isRoomNameExist(var2)) {
+         CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
+         var3 = null;
+      } else {
+         RoomData var4 = new RoomData(var1.getDeviceAddress(), var2,"");
+         BtLocalDB.getInstance(this).addRoom(var4);
+         this.addRoomButton(var4);
+         var3 = var2;
+      }
+
+      return var3;
+   }
+
+   private boolean isBtInView(LinearLayout var1, String var2) {
+      int var4 = var1.getChildCount();
+      int var3 = 0;
+
+      boolean var5;
+      while(true) {
+         if(var3 >= var4) {
+            var5 = false;
+            break;
+         }
+
+         if(((DiscoveryRoom)var1.getChildAt(var3)).getDeviceName().equals(var2)) {
+            var5 = true;
+            break;
+         }
+
+         ++var3;
+      }
+
+      return var5;
+   }
+
+   private void startDiscoveryProcess() {
+      this.little.start();
+      ((ImageView)this.findViewById(R.id.spinnertriangle)).setVisibility(8);
+      ((TextView)this.findViewById(R.id.controllerValue)).setText("Bluetooth Discovery is going on");
+      if(this.mBTA.isDiscovering()) {
+         this.mBTA.cancelDiscovery();
+      }
+
+      this.discoveryContent.removeAllViews();
+      this.mBTA.startDiscovery();
+      (new Thread(new Runnable() {
+         public void run() {
+            try {
+               Thread.sleep(5000L);
+            } catch (InterruptedException var2) {
+               var2.printStackTrace();
+            }
+
+            DiscoveryActivity.this.stopDiscoveryProcess();
+         }
+      })).start();
+   }
+
+   private void stopDiscoveryProcess() {
+      this.runOnUiThread(new Runnable() {
+         public void run() {
+            ((TextView)DiscoveryActivity.this.findViewById(R.id.controllerValue)).setText("Bluetooth Discovery is stopped");
+            ((ImageView)DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
+            DiscoveryActivity.this.little.stop();
+         }
+      });
+   }
+
+   public void onActivityResult(int var1, int var2, Intent var3) {
+      this.startDiscoveryProcess();
+   }
+
+   public void onBackPressed() {
+      Intent var1 = new Intent();
+      var1.putExtra("newroomname", this.roomNameAddedNewly);
+      var1.putExtra("deletedrooms", this.deletedRoomList);
+      this.setResult(1, var1);
+      super.onBackPressed();
+   }
+
+   protected void onCreate(Bundle var1) {
+      super.onCreate(var1);
+      this.setContentView(R.layout.discoverylayout);
+      ((ImageView)this.findViewById(R.id.spinnertriangle)).setOnClickListener(new OnClickListener() {
+         public void onClick(View var1) {
+            DiscoveryActivity.this.startDiscoveryProcess();
+         }
+      });
+      if (mBluetoothManager == null) {
+          mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+          if (mBluetoothManager == null) {
+        	  Toast.makeText(this, "Unable to initialize BluetoothManager.",0).show();
+              return ;
+          }
+      }
+
+      this.mBTA = mBluetoothManager.getAdapter();
+      this.mBTA = BluetoothAdapter.getDefaultAdapter();
+      if(this.mBTA == null) {
+         Toast.makeText(this, "No Bluetooth on this handset", 0).show();
+         this.finish();
+      } else {
+         if(!this.mBTA.isEnabled()) {
+            this.startActivityForResult(new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE"), 1);
+         }
+
+         this.discoveryContent = (LinearLayout)this.findViewById(R.id.discoveryContent);
+         this.mReceiver = new BroadcastReceiver() {
+            public void onReceive(Context var1, Intent var2) {
+               String var4 = var2.getAction();
+               Logger.e(DiscoveryActivity.this, "Discovery", "onReceive " + var4);
+               if("android.bluetooth.device.action.FOUND".equals(var4)) {
+                  BluetoothDevice var5 = (BluetoothDevice)var2.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
+                  if(var5.getType() != BluetoothDevice.DEVICE_TYPE_LE) {
+                     Logger.e(DiscoveryActivity.this, "Discovery", "Device with " + var5.getName() + " is not our device");
+                  } else {
+                     String var6 = var5.getAddress();
+                     if(BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(var6)) {
+                        Logger.e(DiscoveryActivity.this, "Discovery", "Device with " + var6 + " is already in List");
+                     } else {
+                        String var3 = var5.getName() + " - " + var5.getAddress();
+                        Logger.e(DiscoveryActivity.this, "Discovery", "onReceive found " + var3);
+                        if(DiscoveryActivity.this.isBtInView(DiscoveryActivity.this.discoveryContent, var5.getName())) {
+                           Logger.e(DiscoveryActivity.this, "Discovery", "Device with " + var6 + " is already in Panel");
+                        } else {
+                           DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(), var6, var5);
+                           DiscoveryActivity.this.discoveryContent.addView(var7);
+                           Logger.e(DiscoveryActivity.this, "Discovery", "Deviece with the name " + var5.getName() + " is added in the panel");
+                        }
+                     }
+                  }
+               }
+
+            }
+         };
+         IntentFilter var5 = new IntentFilter("android.bluetooth.device.action.FOUND");
+         this.registerReceiver(this.mReceiver, var5);
+         var5 = new IntentFilter("android.bluetooth.device.action.PAIRING_REQUEST");
+         this.registerReceiver(this.mReceiver, var5);
+         ((Button)this.findViewById(R.id.savebutton)).setOnClickListener(new OnClickListener() {
+            public void onClick(View var1) {
+               for(int var2 = 0; var2 < DiscoveryActivity.this.discoveryContent.getChildCount(); ++var2) {
+                  DiscoveryRoom var4 = (DiscoveryRoom)DiscoveryActivity.this.discoveryContent.getChildAt(var2);
+                  String var3 = DiscoveryActivity.this.createRoom(var4);
+                  if(var3 == null) {
+                     break;
+                  }
+
+                  if(DiscoveryActivity.this.roomNameAddedNewly.isEmpty()) {
+                     DiscoveryActivity.this.roomNameAddedNewly = var3;
+                  }
+
+                  DiscoveryActivity.this.discoveryContent.removeView(var4);
+               }
+
+            }
+         });
+         this.deleteButton = (ImageButton)this.findViewById(R.id.deletebutton);
+         this.roomsContent = (FlowLayout)this.findViewById(R.id.roomscontent);
+         ArrayList var6 = BtLocalDB.getInstance(this).getRoomList();
+         var6.remove(0);
+
+         for(int var2 = 0; var2 < var6.size(); ++var2) {
+            this.addRoomButton((RoomData)var6.get(var2));
+         }
+
+         this.deleteButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View var1) {
+               (new Builder(DiscoveryActivity.this)).setTitle("Delete").setMessage("Do you really want to delete ?").setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface var1, int var2) {
+                     BtLocalDB.getInstance(DiscoveryActivity.this).deleteRoom(DiscoveryActivity.this.selectedRoomButton.getText());
+                     DiscoveryActivity.this.roomsContent.removeView(DiscoveryActivity.this.selectedRoomButton);
+                     DiscoveryActivity.this.deleteButton.setVisibility(8);
+                     if(DiscoveryActivity.this.deletedRoomList.isEmpty()) {
+                        DiscoveryActivity.this.deletedRoomList = DiscoveryActivity.this.selectedRoomButton.getText();
+                     } else {
+                        DiscoveryActivity var3 = DiscoveryActivity.this;
+                        var3.deletedRoomList = var3.deletedRoomList + "#" + DiscoveryActivity.this.selectedRoomButton.getText();
+                     }
+
+                  }
+               }).setNegativeButton("No", new android.content.DialogInterface.OnClickListener() {
+                  public void onClick(DialogInterface var1, int var2) {
+                     var1.cancel();
+                  }
+               }).show();
+            }
+         });
+         ImageView var7 = (ImageView)this.findViewById(R.id.loadingImage);
+
+         try {
+            GifAnimationDrawable var3 = new GifAnimationDrawable(this.getResources().openRawResource(R.drawable.refresh));
+            this.little = var3;
+            this.little.setOneShot(false);
+            var7.setImageDrawable(this.little);
+         } catch (Exception var4) {
+            var4.printStackTrace();
+         }
+
+         Logger.e(this, "Discovery", "Discvoery started");
+         this.startDiscoveryProcess();
+      }
+
+   }
+
+   public void onDestroy() {
+      try {
+         if(this.mBTA.isDiscovering()) {
+            this.mBTA.cancelDiscovery();
+         }
+
+         this.unregisterReceiver(this.mReceiver);
+      } catch (Exception var2) {
+         Logger.e(this, "Discovery", "Not able to unregister Bt" + var2.getMessage());
+      }
+
+      super.onDestroy();
+   }
+}
