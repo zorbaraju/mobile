@@ -1,0 +1,4 @@
+INDEX VERSION 1.127+/Users/mackbook/Documents/mobile/.metadata/.plugins/org.eclipse.jdt.core
+1252312768.index
+1011690279.index
+3019696119.index

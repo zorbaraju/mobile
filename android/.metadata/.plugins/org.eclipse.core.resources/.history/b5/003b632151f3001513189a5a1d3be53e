@@ -1,0 +1,483 @@
+package com.zorba.bt.app.db;
+
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
+import com.zorba.bt.app.CommonUtils;
+import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.RoomData;
+import com.zorba.bt.app.dao.SchedulerData;
+
+public class BtLocalDB {
+   private static BtLocalDB instance = null;
+   private static int version = 1;
+   private SharedPreferences dbInfo = null;
+   private HashMap deviceStatusMap = new HashMap();
+   boolean isStoreClean = false;
+
+   private BtLocalDB(Context var1) {
+      this.dbInfo = var1.getSharedPreferences("BtHome", 0);
+   }
+
+   public static BtLocalDB getInstance(Context var0) {
+      if(instance == null) {
+         instance = new BtLocalDB(var0);
+      }
+
+      return instance;
+   }
+
+   public void addRoom(RoomData var1) {
+      String var3 = this.dbInfo.getString("BtList", "");
+      String var4 = var1.getAddress() + "#" + var1.getName();
+      if(!var3.equals("")) {
+         var4 = var3 + "#" + var4;
+      }
+
+      var3 = "";
+
+      for(int var2 = 0; var2 < CommonUtils.MAX_NO_DEVICES; ++var2) {
+         String var5 = "Unknown " + (var2 + 1) + "#" + "Unknown" + "#" + "10";
+         if(var2 == 0) {
+            var3 = var5;
+         } else {
+            var3 = var3 + "#" + var5;
+         }
+      }
+
+      Editor var6 = this.dbInfo.edit();
+      var6.putString("BtList", var4);
+      var6.putString("Room" + var1.getAddress(), var3);
+      var6.commit();
+   }
+
+   public void cleanDB() {
+      int var1 = this.dbInfo.getInt("version", -1);
+      if(this.isStoreClean || var1 != version) {
+         Editor var2 = this.dbInfo.edit();
+         var2.putInt("version", version);
+         var2.clear();
+         var2.commit();
+      }
+
+   }
+
+   public void clearDeviceStatus() {
+      this.deviceStatusMap.clear();
+   }
+
+   public void deleteDevice(RoomData var1, String var2) {
+      String[] var4 = this.dbInfo.getString("Room" + var1.getAddress(), "").split("#");
+
+      int var3;
+      for(var3 = 0; var3 < var4.length; var3 += 3) {
+         if(var4[var3].equals(var2)) {
+            var4[var3] = "Unknown " + (var3 + 1);
+            var4[var3 + 1] = "Unknown";
+            var4[var3 + 2] = "10";
+            break;
+         }
+      }
+
+      var2 = "";
+
+      for(var3 = 0; var3 < var4.length; ++var3) {
+         if(var3 == 0) {
+            var2 = var4[var3];
+         } else {
+            var2 = var2 + "#" + var4[var3];
+         }
+      }
+
+      Editor var5 = this.dbInfo.edit();
+      var5.putString("Room" + var1.getAddress(), var2);
+      var5.commit();
+   }
+
+   public void deleteGroup(String var1, String var2) {
+      String[] var8 = this.dbInfo.getString("Group" + var1, "").split("#");
+      String var6 = "";
+      int var4 = var8.length;
+
+      String var5;
+      for(int var3 = 0; var3 < var4; var6 = var5) {
+         String var7 = var8[var3];
+         var5 = var6;
+         if(!var2.equals(var7)) {
+            if(var6.isEmpty()) {
+               var5 = var7;
+            } else {
+               var5 = "#" + var7;
+            }
+         }
+
+         ++var3;
+      }
+
+      Editor var9 = this.dbInfo.edit();
+      var9.putString("Group" + var1, var6);
+      var9.remove("Group" + var1 + var2);
+      var9.commit();
+   }
+
+   public void deleteRoom(String var1) {
+      String var7 = this.dbInfo.getString("BtList", "");
+      String var5 = "";
+      String var3 = "";
+      String var6 = var3;
+      String var4 = var5;
+      if(!var7.isEmpty()) {
+         String[] var9 = var7.split("#");
+         int var2 = 0;
+
+         for(var4 = var5; var2 < var9.length; var2 += 2) {
+            if(var9[var2 + 1].equals(var1)) {
+               var3 = var9[var2];
+            } else {
+               var5 = var9[var2] + "#" + var9[var2 + 1];
+               if(var4.equals("")) {
+                  var4 = var5;
+               } else {
+                  var4 = var4 + "#" + var5;
+               }
+            }
+         }
+
+         var6 = var3;
+      }
+
+      Editor var8 = this.dbInfo.edit();
+      var8.putString("BtList", var4);
+      var8.remove("Room" + var6);
+      var8.commit();
+   }
+
+   public void deleteSchedule(String var1, int var2) {
+      String var8 = this.dbInfo.getString("Schedule" + var1, "");
+      String var5 = "";
+      String var7 = "";
+      String var6 = var5;
+      String var4 = var7;
+      if(!var8.isEmpty()) {
+         String[] var10 = var8.split("#");
+         int var3 = 0;
+
+         for(var4 = var7; var3 < var10.length; var3 += 2) {
+            if(Integer.parseInt(var10[var3]) == var2) {
+               var4 = var10[var3];
+            } else {
+               var6 = var10[var3] + "#" + var10[var3 + 1];
+               if(var5.equals("")) {
+                  var5 = var6;
+               } else {
+                  var5 = var5 + "#" + var6;
+               }
+            }
+         }
+
+         var6 = var5;
+      }
+
+      Editor var9 = this.dbInfo.edit();
+      var9.putString("Schedule" + var1, var6);
+      var9.remove("Schedule" + var1 + var4 + var1);
+      var9.commit();
+   }
+
+   public int getDeviceStatus(String var1) {
+      byte var2 = -1;
+      if(this.deviceStatusMap.containsKey(var1)) {
+         var2 = ((Byte)this.deviceStatusMap.get(var1)).byteValue();
+      }
+
+      return var2;
+   }
+
+   public DeviceData[] getDevices(String var1) {
+      String[] var3 = this.dbInfo.getString("Room" + var1, "").split("#");
+      DeviceData[] var4 = new DeviceData[var3.length / 3];
+
+      for(int var2 = 0; var2 < var3.length / 3; ++var2) {
+         var4[var2] = new DeviceData(var2 + 1, var3[var2 * 3], var3[var2 * 3 + 1], var3[var2 * 3 + 2], -1);
+      }
+
+      return var4;
+   }
+
+   public int getDevicesOnCount() {
+      int var1 = 0;
+      Iterator var2 = this.deviceStatusMap.keySet().iterator();
+
+      while(var2.hasNext()) {
+         if(((Byte)this.deviceStatusMap.get(var2.next())).byteValue() > 0) {
+            ++var1;
+         }
+      }
+
+      return var1;
+   }
+
+   public int[] getGroupDevices(String var1, String var2) {
+      var2 = this.dbInfo.getString("Group" + var1 + var2, "").trim();
+      int[] var4 = new int[0];
+      if(!var2.isEmpty()) {
+         String[] var5 = var2.split("#");
+         var4 = new int[var5.length];
+
+         for(int var3 = 0; var3 < var5.length; ++var3) {
+            var4[var3] = Integer.parseInt(var5[var3]);
+         }
+      }
+
+      return var4;
+   }
+
+   public String[] getGroups(String var1) {
+      String var2 = this.dbInfo.getString("Group" + var1, "");
+      String[] var3 = new String[0];
+      if(!var2.isEmpty()) {
+         var3 = var2.split("#");
+      }
+
+      return var3;
+   }
+
+   public int getLastSelectedRoom() {
+      int var1 = this.dbInfo.getInt("lastVisitedRoom", 0);
+      System.out.println("getLastSelectedRoom...." + var1);
+      return var1;
+   }
+
+   public int getNewSchedulerId(String var1) {
+      int var3 = 1;
+      byte var4 = 1;
+      var1 = this.dbInfo.getString("Schedule" + var1, "");
+      if(!var1.isEmpty()) {
+         String[] var5 = var1.split("#");
+         HashMap var6 = new HashMap();
+
+         int var2;
+         for(var2 = 0; var2 < var5.length; var2 += 2) {
+            var6.put(var5[var2], var5[var2 + 1]);
+         }
+
+         var2 = var4;
+
+         while(true) {
+            var3 = var2;
+            if(!var6.containsKey("" + var2)) {
+               break;
+            }
+
+            ++var2;
+         }
+      }
+
+      return var3;
+   }
+
+   public ArrayList getRoomList() {
+      String var3 = this.dbInfo.getString("BtList", "");
+      ArrayList var2 = new ArrayList();
+      var2.add(new RoomData("GGYYGGYYGYY", "GGYYGGYYGYY","raju"));
+      if(!var3.isEmpty()) {
+         String[] var4 = var3.split("#");
+
+         for(int var1 = 0; var1 < var4.length; var1 += 2) {
+            var2.add(new RoomData(var4[var1], var4[var1 + 1]));
+         }
+      }
+
+      return var2;
+   }
+
+   public ArrayList getSchedules(String var1) {
+      String var3 = this.dbInfo.getString("Schedule" + var1, "");
+      ArrayList var4 = new ArrayList();
+      if(!var3.isEmpty()) {
+         String[] var5 = var3.split("#");
+
+         for(int var2 = 0; var2 < var5.length; var2 += 2) {
+            var4.add(new SchedulerData(var5[var2], var5[var2 + 1]));
+         }
+      }
+
+      return var4;
+   }
+
+   public boolean isDeviceNameExist(String var1, String var2) {
+      String[] var5 = this.dbInfo.getString("Room" + var1, "").split("#");
+      int var3 = 0;
+
+      boolean var4;
+      while(true) {
+         if(var3 >= var5.length / 3) {
+            var4 = false;
+            break;
+         }
+
+         if(var2.equals(var5[var3 * 3])) {
+            var4 = true;
+            break;
+         }
+
+         ++var3;
+      }
+
+      return var4;
+   }
+
+   public boolean isGroupNameExist(String var1, String var2) {
+      boolean var5 = false;
+      String[] var6 = this.getGroups(var1);
+      int var4 = var6.length;
+
+      for(int var3 = 0; var3 < var4; ++var3) {
+         if(var2.equals(var6[var3])) {
+            var5 = true;
+            break;
+         }
+      }
+
+      return var5;
+   }
+
+   public boolean isRoomExists(String var1) {
+      String[] var4 = this.dbInfo.getString("BtList", "").split("#");
+      int var2 = 0;
+
+      boolean var3;
+      while(true) {
+         if(var2 >= var4.length) {
+            var3 = false;
+            break;
+         }
+
+         if(var4[var2].equals(var1)) {
+            var3 = true;
+            break;
+         }
+
+         var2 += 2;
+      }
+
+      return var3;
+   }
+
+   public boolean isRoomNameExist(String var1) {
+      String var4 = this.dbInfo.getString("BtList", "");
+      boolean var3;
+      if(!var4.isEmpty()) {
+         String[] var5 = var4.split("#");
+
+         for(int var2 = 0; var2 < var5.length; var2 += 2) {
+            if(var1.equals(var5[var2 + 1])) {
+               var3 = true;
+               return var3;
+            }
+         }
+      }
+
+      var3 = false;
+      return var3;
+   }
+
+   public boolean isSchedulerNameExist(String var1, String var2) {
+      var1 = this.dbInfo.getString("Schedule" + var1, "");
+      boolean var4;
+      if(!var1.isEmpty()) {
+         String[] var5 = var1.split("#");
+
+         for(int var3 = 0; var3 < var5.length; var3 += 2) {
+            if(var5[var3 + 1].equals(var2)) {
+               var4 = true;
+               return var4;
+            }
+         }
+      }
+
+      var4 = false;
+      return var4;
+   }
+
+   public void saveGroup(String var1, String var2, String var3) {
+      String var5 = this.dbInfo.getString("Group" + var1, "");
+      String var4 = var5;
+      if(var5.indexOf(var2) == -1) {
+         if(var5.isEmpty()) {
+            var4 = var5 + var2;
+         } else {
+            var4 = var5 + "#" + var2;
+         }
+      }
+
+      var4 = var4.trim();
+      Editor var6 = this.dbInfo.edit();
+      var6.putString("Group" + var1, var4);
+      var6.putString("Group" + var1 + var2, var3);
+      var6.commit();
+   }
+
+   public void saveSchedule(String var1, int var2, int var3, int var4, String var5, int var6, int var7, DeviceData[] var8) {
+      String var10 = this.dbInfo.getString("Schedule" + var1, "");
+      String var9 = var10;
+      if(var10.indexOf(var5) == -1) {
+         if(var10.isEmpty()) {
+            var9 = var10 + var2 + "#" + var5;
+         } else {
+            var9 = var10 + "#" + var2 + "#" + var5;
+         }
+      }
+
+      var5 = var3 + "#" + var4 + "#" + var6 + "#" + var7 + "#";
+
+      for(var3 = 0; var3 < var8.length; ++var3) {
+         var5 = var5 + var8[var3].getDevId() + "#" + var8[var3].getStatus() + "#";
+      }
+
+      String var12 = var9.trim();
+      Editor var11 = this.dbInfo.edit();
+      var11.putString("Schedule" + var1, var12);
+      var11.putString("Schedule" + var1 + var2, var5);
+      var11.commit();
+   }
+
+   public void setLastSelectedRoom(int var1) {
+      Editor var2 = this.dbInfo.edit();
+      var2.putInt("lastVisitedRoom", var1);
+      var2.commit();
+      System.out.println("setLastSelectedRoom...." + var1);
+   }
+
+   public void updateDevice(String var1, DeviceData var2) {
+      String var4 = this.dbInfo.getString("Room" + var1, "");
+      String[] var5 = var4.split("#");
+      int var3 = var2.getDevId() - 1;
+      var5[var3 * 3] = var2.getName();
+      var5[var3 * 3 + 1] = var2.getType();
+      var5[var3 * 3 + 2] = var2.getPower();
+      var3 = 0;
+
+      String var6;
+      for(var6 = var4; var3 < var5.length; var3 += 3) {
+         if(var3 == 0) {
+            var6 = var5[var3] + "#" + var5[var3 + 1] + "#" + var5[var3 + 2];
+         } else {
+            var6 = var6 + "#" + var5[var3] + "#" + var5[var3 + 1] + "#" + var5[var3 + 2];
+         }
+      }
+
+      Editor var7 = this.dbInfo.edit();
+      var7.putString("Room" + var1, var6);
+      var7.commit();
+   }
+
+   public void updateDeviceStatus(byte var1, byte var2) {
+      this.deviceStatusMap.put("" + var1, Byte.valueOf(var2));
+   }
+}
