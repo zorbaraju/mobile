@@ -27,7 +27,7 @@
 /* Begin PBXFileReference section */
 		DE3D5AE11CA64F2D0080138D /* appicon_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appicon_1.png; sourceTree = "<group>"; };
 		DE61B19E1C92E1310004A680 /* refresh.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = refresh.gif; sourceTree = "<group>"; };
-		DECF82AB1C7EC6AA00A1AA1C /* BtHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BtHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DECF82AB1C7EC6AA00A1AA1C /* ZBtHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZBtHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECF82AE1C7EC6AA00A1AA1C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DECF82B01C7EC6AA00A1AA1C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		DECF82B31C7EC6AA00A1AA1C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 		DECF82AC1C7EC6AA00A1AA1C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DECF82AB1C7EC6AA00A1AA1C /* BtHome.app */,
+				DECF82AB1C7EC6AA00A1AA1C /* ZBtHome.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,9 +106,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DECF82AA1C7EC6AA00A1AA1C /* BtHome */ = {
+		DECF82AA1C7EC6AA00A1AA1C /* ZBtHome */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DECF82BD1C7EC6AA00A1AA1C /* Build configuration list for PBXNativeTarget "BtHome" */;
+			buildConfigurationList = DECF82BD1C7EC6AA00A1AA1C /* Build configuration list for PBXNativeTarget "ZBtHome" */;
 			buildPhases = (
 				DECF82A71C7EC6AA00A1AA1C /* Sources */,
 				DECF82A81C7EC6AA00A1AA1C /* Frameworks */,
@@ -118,9 +118,9 @@
 			);
 			dependencies = (
 			);
-			name = BtHome;
+			name = ZBtHome;
 			productName = new2;
-			productReference = DECF82AB1C7EC6AA00A1AA1C /* BtHome.app */;
+			productReference = DECF82AB1C7EC6AA00A1AA1C /* ZBtHome.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -138,7 +138,7 @@
 					};
 				};
 			};
-			buildConfigurationList = DECF82A61C7EC6AA00A1AA1C /* Build configuration list for PBXProject "BtHome" */;
+			buildConfigurationList = DECF82A61C7EC6AA00A1AA1C /* Build configuration list for PBXProject "ZBtHome" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -151,7 +151,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DECF82AA1C7EC6AA00A1AA1C /* BtHome */,
+				DECF82AA1C7EC6AA00A1AA1C /* ZBtHome */,
 			);
 		};
 /* End PBXProject section */
@@ -304,7 +304,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pers.aa.new2;
-				PRODUCT_NAME = BtHome;
+				PRODUCT_NAME = ZBtHome;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -320,7 +320,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pers.aa.new2;
-				PRODUCT_NAME = BtHome;
+				PRODUCT_NAME = ZBtHome;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -329,7 +329,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DECF82A61C7EC6AA00A1AA1C /* Build configuration list for PBXProject "BtHome" */ = {
+		DECF82A61C7EC6AA00A1AA1C /* Build configuration list for PBXProject "ZBtHome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DECF82BB1C7EC6AA00A1AA1C /* Debug */,
@@ -338,7 +338,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DECF82BD1C7EC6AA00A1AA1C /* Build configuration list for PBXNativeTarget "BtHome" */ = {
+		DECF82BD1C7EC6AA00A1AA1C /* Build configuration list for PBXNativeTarget "ZBtHome" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DECF82BE1C7EC6AA00A1AA1C /* Debug */,

@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
                BuildableName = "BtHome.app"
-               BlueprintName = "BtHome"
-               ReferencedContainer = "container:BtHome.xcodeproj">
+               BlueprintName = "ZBtHome"
+               ReferencedContainer = "container:ZBtHome.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
             BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -57,8 +57,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
             BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -76,8 +76,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "DECF82AA1C7EC6AA00A1AA1C"
             BuildableName = "BtHome.app"
-            BlueprintName = "BtHome"
-            ReferencedContainer = "container:BtHome.xcodeproj">
+            BlueprintName = "ZBtHome"
+            ReferencedContainer = "container:ZBtHome.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
