@@ -1,6 +1,5 @@
 //
 //  AppDelegate.swift
-//  new2
 //
 //  Created by Mackbook on 25/02/16.
 //  Copyright © 2016 Mackbook. All rights reserved.
