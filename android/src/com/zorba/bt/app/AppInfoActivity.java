@@ -5,6 +5,6 @@ import android.os.Bundle;
 public class AppInfoActivity extends ZorbaActivity {
    protected void onCreate(Bundle var1) {
       super.onCreate(var1);
-      this.setContentView(2130903041);
+      this.setContentView(R.layout.about);
    }
 }
