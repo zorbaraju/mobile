@@ -171,25 +171,24 @@ public class MainActivity extends Activity implements NotificationListener{
 	}
 
 	private void prepareRoomListMenu(String newRoomName, boolean paramBoolean) {
-		final TextView localTextView = (TextView) findViewById(R.id.roomList);
-		Object localObject = new View.OnClickListener() {
+		final TextView roomListText = (TextView) findViewById(R.id.roomList);
+		OnClickListener listener = new View.OnClickListener() {
 			public void onClick(View view) {
 				MainActivity.this.roomMenuList.dismiss();
-				MainActivity.this.roomChanged(localTextView, ((Integer) view.getTag()).intValue());
+				MainActivity.this.roomChanged(roomListText, ((Integer) view.getTag()).intValue());
 			}
 		};
 		this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
-		TextAdapter localTextAdapter = new TextAdapter(this, this.roomDataList, (View.OnClickListener) localObject);
+		TextAdapter localTextAdapter = new TextAdapter(this, this.roomDataList, listener);
 		this.roomMenuList.setAdapter(localTextAdapter);
-		this.roomMenuList.setAnchorView(findViewById(R.id.roomList));
+		this.roomMenuList.setAnchorView(roomListText);
 		try {
 			int width = CommonUtils.measureContentWidth(this.roomMenuList.getListView(), localTextAdapter) + 20;
 			this.roomMenuList.setWidth(width);
-			localTextView.setWidth(width);
+			roomListText.setWidth(width);
 			this.roomDataList.remove(0);
-			localObject = new TextAdapter(this, this.roomDataList, (View.OnClickListener) localObject);
-			((TextAdapter) localObject).setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			this.roomMenuList.setAdapter((ListAdapter) localObject);
+			localTextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			this.roomMenuList.setAdapter(localTextAdapter);
 			if (!paramBoolean) {
 				int selectedRoomIndex = BtLocalDB.getInstance(this).getLastSelectedRoom();
 				int selectIndex = selectedRoomIndex;
@@ -203,13 +202,13 @@ public class MainActivity extends Activity implements NotificationListener{
 						return;
 					}
 				}
-				roomChanged(localTextView, selectIndex);
+				roomChanged(roomListText, selectIndex);
 			} else {
 				if (this.roomDataList.size() == 0) {
 					((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.VISIBLE);
-					localTextView.setText("No rooms");
+					roomListText.setText("No rooms");
 				}
 				return;
 			}
