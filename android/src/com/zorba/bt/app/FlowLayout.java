@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 public class FlowLayout extends ViewGroup {
-    public static final int LEFT_TO_RIGHT = 0;
-    public static final int TOP_DOWN = 1;
-    public static final int RIGHT_TO_LEFT = 2;
-    public static final int BOTTOM_UP = 3;
-
-    private int mGravity;
-    private int mElementSpacing;
-    private int mLineSpacing;
-    private int mFlowDirection;
-    private int mMaxLines;
+	
+	public static final int BOTTOM_UP = 3;
+	public static final int LEFT_TO_RIGHT = 0;
+	public static final int RIGHT_TO_LEFT = 2;
+	public static final int TOP_DOWN = 1;
+	
+	private int childMaxWidth = 0;
+	private int mElementSpacing;
+	private int mFlowDirection;
+	private int mGravity;
+	private int mLineSpacing;
+	private int mMaxLines;
 
     public FlowLayout(Context context) {
         super(context);
@@ -85,7 +87,10 @@ public class FlowLayout extends ViewGroup {
             int childWidthMeasureSpec = makeMeasureSpec(childLayoutParams.width, widthSize, isWrapContentWidth);
             int childHeightMeasureSpec = makeMeasureSpec(childLayoutParams.height, heightSize, isWrapContentHeight);
             child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
-
+            int childWidth = child.getMeasuredWidth();
+            if( childWidth> childMaxWidth)
+            	childMaxWidth = childWidth;
+            
             int childLength;
             int childThickness;
             if (horizontal) {
@@ -268,16 +273,7 @@ public class FlowLayout extends ViewGroup {
             a.recycle();
         }
     }
-
-    public void setChildMaxWidth(int width){
-    	
-    }
-    public int getChildMaxWidth(){
-    	return 100;
-    }
-    public void recalculateMaxWidth(){
-    	
-    }
+  
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
         private int mLength, mThickness, mDepth, mPos;
         public boolean breakLine;
@@ -299,5 +295,24 @@ public class FlowLayout extends ViewGroup {
         public LayoutParams(ViewGroup.LayoutParams layoutParams) {
             super(layoutParams);
         }
+    }
+    
+    public void setChildMaxWidth(int paramInt)
+    {
+      if (paramInt > this.childMaxWidth)
+      {
+        this.childMaxWidth = paramInt;
+        requestLayout();
+      }
+    }
+    
+    public int getChildMaxWidth()
+    {
+      return this.childMaxWidth;
+    }
+    
+    public void recalculateMaxWidth()
+    {
+      
     }
 }
