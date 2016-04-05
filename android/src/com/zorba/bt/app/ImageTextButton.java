@@ -107,6 +107,7 @@ public class ImageTextButton extends LinearLayout {
       this.setDeviceType(var1.getType());
       this.setText(var1.getName());
       this.setId(var1.getDevId());
+      System.out.println("....device data....."+var1);
       this.changeDeviceButtonStyle(this.deviceType, var1.getStatus());
    }
 

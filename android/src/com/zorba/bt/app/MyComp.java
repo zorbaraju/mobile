@@ -249,8 +249,9 @@ public class MyComp extends LinearLayout {
 
       for(int var1 = 0; var1 < var2; ++var1) {
          ImageTextButton var5 = (ImageTextButton)this.compLaout.getChildAt(var1);
-         String var4 = "" + var5.getId();
+         String var4 = ""+var5.getId();
          int var3 = BtLocalDB.getInstance(this.getContext()).getDeviceStatus(var4);
+         System.out.println("update button panelll..status.."+var3+"....id."+var4);
          if(var3 != -1) {
             var5.changeDeviceButtonStyle(var5.getDeviceType(), var3);
          }

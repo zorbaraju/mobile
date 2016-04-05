@@ -3,27 +3,26 @@ package com.zorba.bt.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.chiralcode.colorpicker.ColorPicker;
-import com.chiralcode.colorpicker.ColorPickerDialog;
-import com.chiralcode.colorpicker.ColorPickerDialog.OnColorSelectedListener;
 import com.zorba.bt.app.bluetooth.BtHwLayer;
+import com.zorba.bt.app.bluetooth.ConnectionListener;
 import com.zorba.bt.app.bluetooth.NotificationListener;
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.dao.RoomData;
 import com.zorba.bt.app.dao.SchedulerData;
 import com.zorba.bt.app.db.BtLocalDB;
+import com.zorba.bt.app.utils.BackgroundTask;
+import com.zorba.bt.app.utils.BackgroundTaskDialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Process;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,23 +32,24 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements NotificationListener{
+public class MainActivity extends ZorbaActivity implements NotificationListener, ConnectionListener{
 
 	public static final int DISCOVERY_CODE = 1;
-	public static final int ENABLEBT_CODE = 2;
-	public static final int ADDDEVICE_CODE = 3;
-	public static final int ADDGROUP_CODE = 4;
-	public static final int ADDSCHEDULER_CODE = 5;
-	public static final int APPINFO_CODE = 6;
-	public static final int SENDLOG_CODE = 7;
-	public static final int HELP_CODE = 8;
+	public static final int ENABLEBT_CODE = DISCOVERY_CODE+1;
+	public static final int ENABLEWIFI_CODE = ENABLEBT_CODE+1;
+	public static final int ADDDEVICE_CODE = ENABLEWIFI_CODE+1;
+	public static final int ADDGROUP_CODE = ADDDEVICE_CODE+1;
+	public static final int ADDSCHEDULER_CODE = ADDGROUP_CODE+1;
+	public static final int APPINFO_CODE = ADDSCHEDULER_CODE+1;
+	public static final int SENDLOG_CODE = APPINFO_CODE+1;
+	public static final int HELP_CODE = SENDLOG_CODE+1;
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
 	int _color = 0;
 	long backPressedTime = 0L;
 	MyComp devicePanel = null;
 	MyComp groupPanel = null;
-	HashMap<String, Boolean> groupStatusMap = new HashMap();
+	HashMap<String, Boolean> groupStatusMap = new HashMap<String, Boolean>();
 	MyComp lightsPanel = null;
 	ArrayList<RoomData> roomDataList = null;
 	ListPopupWindow roomMenuList = null;
@@ -64,11 +64,13 @@ public class MainActivity extends Activity implements NotificationListener{
 
 	LinearLayout roomContent = null;
 	RGBController rgbController = null;
+	BtHwLayer btHwLayer = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.landinglayout);
+		
 		rgbController = new RGBController(this);
 		final ListPopupWindow homeMenu = prepareHomeMenu();
 		ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
@@ -80,9 +82,6 @@ public class MainActivity extends Activity implements NotificationListener{
 			}
 		});
 		this.roomMenuList = new ListPopupWindow(this);
-		System.out.println("Calling pre");
-		prepareRoomListMenu("", false);
-		System.out.println("Called pre");
 		TextView roomText = (TextView) findViewById(R.id.roomList);
 		roomText.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
@@ -99,18 +98,23 @@ public class MainActivity extends Activity implements NotificationListener{
 		if (db != null) {
 			db.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View paramAnonymousView1) {
+					btHwLayer.unregister();
 					Intent paramAnonymousView = new Intent(MainActivity.this, DiscoveryActivity.class);
 					MainActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
 				}
 			});
 		}
-		System.out.println("Number of rooms...." + roomDataList.size());
+		btHwLayer = BtHwLayer.getInstance(this);
+		prepareRoomListMenu("", false);
+		
+		System.out.println("Number>>>>> of rooms...." + roomDataList.size());
 		if (this.roomDataList.size() == 0) {
 			startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
 		}
-	    
 	}
 
+	
+	@Override
 	public void onBackPressed() {
 		new AlertDialog.Builder(this).setTitle("Exit").setMessage("Do you really want to exit ?")
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -125,7 +129,8 @@ public class MainActivity extends Activity implements NotificationListener{
 	}
 
 	private void performExit() {
-		BtHwLayer.getInstance(this).closeDevice();
+		btHwLayer.unregister();
+		btHwLayer.closeDevice();
 		Logger.e(this, "main", "App is closed.....");
 		finish();
 		Process.killProcess(Process.myPid());
@@ -273,7 +278,7 @@ public class MainActivity extends Activity implements NotificationListener{
 			public void doAddAction() {
 				Intent localIntent = new Intent(MainActivity.this.getBaseContext(), AddGroupActivity.class);
 				localIntent.putExtra("deviceAddress", MainActivity.this.selectedRoom.getAddress());
-				MainActivity.this.startActivityForResult(localIntent, 4);
+				MainActivity.this.startActivityForResult(localIntent, ADDGROUP_CODE);
 			}
 
 			public void doDeleteAction() {
@@ -323,8 +328,7 @@ public class MainActivity extends Activity implements NotificationListener{
 							public void onClick(DialogInterface paramAnonymous2DialogInterface,
 									int paramAnonymous2Int) {
 								try {
-									BtHwLayer.getInstance(MainActivity.this)
-											.sendDeleteAlarmCommandToDevice(MainActivity.this.selectedSchedulerId);
+									btHwLayer.sendDeleteAlarmCommandToDevice(MainActivity.this.selectedSchedulerId);
 									BtLocalDB.getInstance(MainActivity.this).deleteSchedule(
 											MainActivity.this.selectedRoom.getAddress(),
 											MainActivity.this.selectedSchedulerId);
@@ -347,61 +351,77 @@ public class MainActivity extends Activity implements NotificationListener{
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(this.schedulePanel);
-		ArrayList localArrayList = BtLocalDB.getInstance(this).getSchedules(this.selectedRoom.getAddress());
-		int i = 0;
-		for (;;) {
-			if (i >= localArrayList.size()) {
-				return this.schedulePanel;
-			}
-			SchedulerData localSchedulerData = (SchedulerData) localArrayList.get(i);
+		ArrayList<SchedulerData> scheduleList = BtLocalDB.getInstance(this).getSchedules(this.selectedRoom.getAddress());
+		
+		for (int i=0; i<scheduleList.size(); i++) {
+			SchedulerData localSchedulerData = scheduleList.get(i);
 			addScheduleButton(Integer.parseInt(localSchedulerData.getSchedulerId()), localSchedulerData.getName());
-			i += 1;
 		}
+		return this.schedulePanel;
 	}
 
 	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData) {
 		final int i = paramDeviceData.getDevId();
+		System.out.println("addButtonPanel....id>>>"+i);
 		final String str1 = paramDeviceData.getType();
 		final String str2 = paramDeviceData.getName();
 		paramDeviceData.setStatus(BtLocalDB.getInstance(this).getDeviceStatus(str2));
-		final ImageTextButton localImageTextButton = new ImageTextButton(this);
-		localImageTextButton.setDevice(paramDeviceData);
-		localImageTextButton.setOnLongClickListener(new View.OnLongClickListener() {
+		final ImageTextButton deviceButton = new ImageTextButton(this);
+		deviceButton.setDevice(paramDeviceData);
+		deviceButton.setOnLongClickListener(new View.OnLongClickListener() {
 			public boolean onLongClick(View paramAnonymousView) {
 				paramMyComp.showDeleteButton(true);
 				MainActivity.this.selectedDeviceName = str2;
-				paramMyComp.selectComp(localImageTextButton);
+				paramMyComp.selectComp(deviceButton);
 				if (DeviceData.isDimmable(str1)) {
-					MainActivity.this.controlDevice(localImageTextButton, str1, i);
+					MainActivity.this.controlDevice(deviceButton, str1, i);
 				}
 				return true;
 			}
 		});
-		localImageTextButton.setOnClickListener(new View.OnClickListener() {
+		deviceButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
 				paramMyComp.deselectAll();
-				MainActivity.this.singleClickButton(i, str1, localImageTextButton);
+				MainActivity.this.singleClickButton(i, str1, deviceButton);
 			}
 		});
-		paramMyComp.addMyView(localImageTextButton);
+		paramMyComp.addMyView(deviceButton);
 	}
 
 	private void readAndUpateStatusForRoom(boolean update) {
+		System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is false..."+CommonUtils.MAX_NO_DEVICES);
 		if( update ) {
-			int numberOfDevices = CommonUtils.MAX_NO_DEVICES;
-			for(byte ind = 0; ind<numberOfDevices; ind++){
-				try {
-					byte deviceid = (byte)(ind+1);
-					byte status = (byte)BtHwLayer.getInstance(this).readCommandToDevice(deviceid);
-					 BtLocalDB.getInstance(this).updateDeviceStatus(deviceid, status);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			try {
+				byte allStatus[] = btHwLayer.readAllStatus();
+				if( allStatus == null) {
+					CommonUtils.AlertBox(this, "Device count", "No data from device");
+					return;
 				}
+				for(byte ind=1; ind<allStatus.length; ind++){
+					try {
+						byte deviceid = (byte)(ind);
+						byte status = allStatus[ind];
+						System.out.println("GGGGGGGGGGG>>>>>devid="+deviceid+" status="+status);
+						 BtLocalDB.getInstance(this).updateDeviceStatus(deviceid, status);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is ="+update);
+					}
+				}
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			
 		}
+		
 		runOnUiThread(new Runnable() {
 			public void run() {
+				if( MainActivity.this.lightsPanel == null) {
+					System.out.println("Notification is received.....i dont know why its coming here....");
+					return;
+				}
 				MainActivity.this.lightsPanel.updateButtonInPanel();
 				MainActivity.this.devicePanel.updateButtonInPanel();
 				int i = BtLocalDB.getInstance(MainActivity.this).getDevicesOnCount();
@@ -410,8 +430,7 @@ public class MainActivity extends Activity implements NotificationListener{
 					if (MainActivity.this.groupPanel.isReset()) {
 						MainActivity.this.groupPanel.updateLiveButtonInPanel();
 					}
-					System.out.println("ISConnected....."+BtHwLayer.getInstance(MainActivity.this).isConnected());
-					if(!BtHwLayer.getInstance(MainActivity.this).isConnected())
+					if(!btHwLayer.isConnected())
 						groupPanel.resetButtonInPanel(true);
 					return;
 				} catch (Exception localException) {
@@ -421,23 +440,38 @@ public class MainActivity extends Activity implements NotificationListener{
 		});
 	}
 
-	private void singleClickButton(int paramInt, String paramString, ImageTextButton paramImageTextButton) {
-		try {
-			int readValue = BtHwLayer.getInstance(this).readCommandToDevice(paramInt);
-			System.out.println("ReadValue..." + readValue);
-			if (readValue != 0)
-				readValue = 0;
-			else
-				readValue = 9;
-			System.out.println("Send ReadValue..." + readValue);
-			BtHwLayer.getInstance(this).sendCommandToDevice(paramInt, readValue);
-			BtLocalDB.getInstance(this).updateDeviceStatus((byte) paramInt, (byte) readValue);
-			readAndUpateStatusForRoom(false);
-			return;
-		} catch (Exception paramString1) {
-			paramString1.printStackTrace();
-			CommonUtils.AlertBox(this, "Read Error", paramString1.getMessage());
-		}
+	private void singleClickButton(final int paramInt, String paramString, ImageTextButton paramImageTextButton) {
+		BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
+			
+			@Override
+			public Object runTask(Object params) {
+				try {
+					int readValue = btHwLayer.readCommandToDevice(paramInt);
+					System.out.println("ReadValue..." + readValue);
+					if (readValue != 0)
+						readValue = 0;
+					else
+						readValue = 9;
+					System.out.println("Send ReadValue..paramInt."+paramInt+" value..." + readValue);
+					btHwLayer.sendCommandToDevice(paramInt, readValue);
+					System.out.println("Send ReadValue..paramIntaaaa."+paramInt+"  byte.."+((byte) paramInt)+" value..." + readValue);
+					BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
+					readAndUpateStatusForRoom(false);
+					return null;
+				} catch (Exception paramString1) {
+					paramString1.printStackTrace();
+					CommonUtils.AlertBox(MainActivity.this, "Read Error", paramString1.getMessage());
+				}
+				return null;
+			}
+			
+			@Override
+			public void finishedTask(Object result) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
 	}
 
 	private void addGroupButton(final String groupName)
@@ -459,7 +493,7 @@ public class MainActivity extends Activity implements NotificationListener{
 	        	}
 	        }
 	        try {
-				BtHwLayer.getInstance(MainActivity.this).sendCommandToDevices(groudIds);
+	        	btHwLayer.sendCommandToDevices(groudIds);
 				if( !groupClicked ) {
 		        	MainActivity.this.groupStatusMap.put(groupName, Boolean.valueOf(true));
 		        	localImageTextButton.changeDeviceButtonStyle(1);
@@ -477,7 +511,7 @@ public class MainActivity extends Activity implements NotificationListener{
 				MainActivity.this.groupStatusMap.remove(groupName);
 	        	localImageTextButton.changeDeviceButtonStyle(-1);
 	            localImageTextButton.setBackgroundImage(R.drawable.group);
-	            System.out.println("No connection");
+	            CommonUtils.AlertBox(MainActivity.this, "Read Error", e.getMessage());
 			}
 	      }
 	    });
@@ -531,7 +565,7 @@ public class MainActivity extends Activity implements NotificationListener{
 		localBuilder.setView((View) localObject);
 		localObject = (SeekBar) ((View) localObject).findViewById(R.id.seekBar1);
 		try {
-			int i = BtHwLayer.getInstance(this).readCommandToDevice(paramInt);
+			int i = btHwLayer.readCommandToDevice(paramInt);
 			if (i != -1) {
 				((SeekBar) localObject).setProgress(i * 10);
 			}
@@ -544,7 +578,7 @@ public class MainActivity extends Activity implements NotificationListener{
 						if (i == 10) {
 							paramAnonymousInt = 9;
 						}
-						BtHwLayer.getInstance(MainActivity.this).sendCommandToDevice(paramInt, paramAnonymousInt);
+						btHwLayer.sendCommandToDevice(paramInt, paramAnonymousInt);
 						paramImageTextButton.changeDeviceButtonStyle(paramString, paramAnonymousInt);
 						return;
 					} catch (Exception paramAnonymousSeekBare) {
@@ -572,7 +606,7 @@ public class MainActivity extends Activity implements NotificationListener{
 	}
 
 	private void populatePageForSelectedRoom() {
-		if (!BtHwLayer.getInstance(this).makeBtEnabled()) {
+		if (!btHwLayer.makeBtEnabled()) {
 			System.out.println("pbt is not enableds");
 			return;
 		}
@@ -590,19 +624,37 @@ public class MainActivity extends Activity implements NotificationListener{
 	}
 
 	private void updateWithRealtime() {
-		boolean isUpdate = false;
-		System.out.println("Last " + selectedRoom.getAddress());
-		String error = BtHwLayer.getInstance(this).initDevice(selectedRoom.getAddress());
-		System.out.println("Connected....");
-		try {
-			int numberOfDevices = BtHwLayer.getInstance(this).getNumberOfDevices();
-			CommonUtils.setNumMaxNoDevices(numberOfDevices);
-			isUpdate = true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		readAndUpateStatusForRoom(isUpdate);
+		BackgroundTaskDialog task = new BackgroundTaskDialog(this) {
+			
+			@Override
+			public Object runTask(Object params) {
+				boolean isUpdate = false;
+				btHwLayer.setConnectionListener(MainActivity.this);
+				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getIpAddress());
+				if( error == null) {
+					try {
+						int numberOfDevices = btHwLayer.getNumberOfDevices();
+						CommonUtils.setNumMaxNoDevices(numberOfDevices);
+						isUpdate = true;
+					} catch (Exception e) {
+						isUpdate = false;
+						CommonUtils.AlertBox(MainActivity.this, "Connection", e.getMessage());
+					}
+				} else {
+					CommonUtils.AlertBox(MainActivity.this, "Connection", error);
+					connectionLost();
+					return null;
+				}
+				readAndUpateStatusForRoom(isUpdate);
+				return null;
+			}
+			
+			@Override
+			public void finishedTask(Object result) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 	}
 
 	private void roomChanged(TextView paramTextView, int paramInt) {
@@ -634,9 +686,13 @@ public class MainActivity extends Activity implements NotificationListener{
 		runOnUiThread(new Runnable() {
 			public void run() {
 				System.out.println("Update Status");
-				MainActivity.this.lightsPanel.resetButtonInPanel(false);
-				MainActivity.this.devicePanel.resetButtonInPanel(false);
-				MainActivity.this.groupPanel.resetButtonInPanel(true);
+				if( MainActivity.this.lightsPanel == null) {
+					//rgbController.putOffLine(true);
+				} else {
+					MainActivity.this.lightsPanel.resetButtonInPanel(false);
+					MainActivity.this.devicePanel.resetButtonInPanel(false);
+					MainActivity.this.groupPanel.resetButtonInPanel(true);
+				}
 			}
 		});
 	}
@@ -679,6 +735,7 @@ public class MainActivity extends Activity implements NotificationListener{
 	public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
 		Logger.e(this, "onActivityResult", "requestcode=" + requestCode + " resultCode=" + resultCode);
 		if (requestCode == DISCOVERY_CODE) {
+			btHwLayer.register();
 			fromDiscoveryActivity(resultIntent);
 		} else if (requestCode == ENABLEBT_CODE) {
 			populatePageForSelectedRoom();
@@ -723,4 +780,20 @@ public class MainActivity extends Activity implements NotificationListener{
 	    }
 	  }
 
+	public void connectionStarted() {
+		//putOffLine(false);
+		System.out.println("ConnectionStarted.....need to be defined");
+	}
+	public void connectionLost() {
+		runOnUiThread(new Runnable() {
+			public void run() {
+				if( MainActivity.this.lightsPanel != null) {
+					MainActivity.this.lightsPanel.resetButtonInPanel(false);
+					MainActivity.this.devicePanel.resetButtonInPanel(false);
+					MainActivity.this.groupPanel.resetButtonInPanel(true);
+				}
+			}
+		});
+		
+	}
 }

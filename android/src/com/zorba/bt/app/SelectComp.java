@@ -37,6 +37,7 @@ public class SelectComp extends LinearLayout {
       LayoutParams var8;
       if(!var2.isDimmable()) {
          final Switch var5 = new Switch(var1);
+         var5.setChecked(true);
          var5.setGravity(17);
          this.view = var5;
          var5.setOnTouchListener(new OnTouchListener() {

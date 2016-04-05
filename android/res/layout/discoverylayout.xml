@@ -21,9 +21,63 @@
         </RelativeLayout>
         <com.zorba.bt.app.FlowLayout android:id="@id/roomscontent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="100.0dip" app:elementSpacing="1.0dip" app:lineSpacing="10.0dip" />
     </LinearLayout>
-    <LinearLayout android:orientation="vertical" android:background="#ff131b22" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="10.0dip">
-        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-            <TextView android:textAppearance="?android:textAppearanceMedium"  android:gravity="center" android:id="@id/controllerValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bluetooth Discovery is going on" android:layout_centerInParent="true" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10.0dip"
+        android:layout_marginTop="2.0dip"
+        android:background="#ff131b22"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/wifiInfoPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#ff131b22" >
+
+            <TextView
+                android:id="@+id/wifiPwdLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wifi Password"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textSize="23.0sp" />
+
+            <EditText
+                android:id="@+id/wifiPwdText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:layout_marginRight="10.0dip"
+                android:background="#000000"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textSize="23.0sp" >
+
+                <requestFocus />
+            </EditText>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+
+            <TextView
+                android:id="@id/controllerValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="false"
+                android:layout_toLeftOf="@id/spinnertriangle"
+                android:gravity="center"
+                android:text="Bluetooth Discovery is going on"
+                android:textAppearance="?android:textAppearanceMedium" />
+
             <ImageView android:id="@id/spinnertriangle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="25.0dip" android:src="@drawable/discovery" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
         </RelativeLayout>
         <ImageView android:gravity="center" android:layout_gravity="center" android:id="@id/loadingImage" android:layout_width="35.0dip" android:layout_height="35.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" />

@@ -90,6 +90,20 @@ public class FlowLayout extends ViewGroup {
             int childWidth = child.getMeasuredWidth();
             if( childWidth> childMaxWidth)
             	childMaxWidth = childWidth;
+        }
+        for (int i = 0, childCount = getChildCount(); i < childCount; i++) {
+            View child = getChildAt(i);
+            if (child.getVisibility() == View.GONE) {
+                continue;
+            }
+
+            LayoutParams childLayoutParams = (LayoutParams) child.getLayoutParams();
+
+            int childWidthMeasureSpec = makeMeasureSpec(childLayoutParams.width, widthSize, isWrapContentWidth);
+            int childHeightMeasureSpec = makeMeasureSpec(childLayoutParams.height, heightSize, isWrapContentHeight);
+            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            
+            
             
             int childLength;
             int childThickness;
@@ -101,10 +115,13 @@ public class FlowLayout extends ViewGroup {
                 childThickness = child.getMeasuredWidth();
             }
 
+            //childLength = childMaxWidth+mElementSpacing;
+            //childThickness = childMaxWidth;
             childLayoutParams.mLength = childLength;
             childLayoutParams.mThickness = childThickness;
 
-            int newLineLength = lineLength + childLength;
+            int newLineLength = lineLength + childMaxWidth+mElementSpacing;
+            //int newLineLength = lineLength + childLength;
 
             if (i == 0 || childLayoutParams.breakLine || newLineLength > lineLengthLimit) {
                 totalLength = Math.max(lineLength, totalLength);
@@ -113,7 +130,7 @@ public class FlowLayout extends ViewGroup {
                 linePos += lineThickness + (i == 0 ? 0 : mLineSpacing);
 
                 childLayoutParams.mDepth = 0;
-                lineLength = childLength;
+                lineLength = childMaxWidth+mElementSpacing;
                 lineThickness = childThickness;
             } else {
                 childLayoutParams.mDepth = lineLength + mElementSpacing;
@@ -127,7 +144,7 @@ public class FlowLayout extends ViewGroup {
 
             childLayoutParams.mPos = linePos;
             currentLine.add(childLayoutParams);
-
+            //System.out.println("lineLength="+lineLength+" mElementSpacing="+mElementSpacing+" "+currentLine.size()+" md="+childLayoutParams.mDepth+" mp="+childLayoutParams.mPos);
         }
 
         lines.add(new Pair<ArrayList<LayoutParams>, Integer>(currentLine, lineLength));
@@ -177,6 +194,7 @@ public class FlowLayout extends ViewGroup {
 
         for (Pair<ArrayList<LayoutParams>, Integer> lineInfo : lines) {
             int emptySpaceAtEnd = lineLengthLimit - lineInfo.second;
+            //System.out.println("emptySpaceAtEnd="+emptySpaceAtEnd);
             ArrayList<LayoutParams> line = lineInfo.first;
             if (fill) {
                 int childCount = line.size();
@@ -185,12 +203,24 @@ public class FlowLayout extends ViewGroup {
                     for (int i = 1; i < childCount; i++) {
                         LayoutParams childLayoutParams = line.get(i);
                         childLayoutParams.mDepth += spacing * i;
+                        //System.out.println("i="+i+" childLayoutParams.mDepth="+childLayoutParams.mDepth+" spacing="+spacing);
                     }
                 }
             } else {
-                int spacing = emptySpaceAtEnd / 2;
+                //int spacing = emptySpaceAtEnd / 2;
+                int i=0;
+                int lw = getMeasuredWidth();
+                int maxwithspacing = childMaxWidth+mElementSpacing;
+                int gap = lw%maxwithspacing;
+                int maxnum = lw/maxwithspacing;
+                int numgaps = maxnum+1;
+                int intgap = gap/numgaps;
                 for (LayoutParams childLayoutParams : line) {
-                    childLayoutParams.mDepth += spacing;
+                    //childLayoutParams.mDepth += spacing;
+                	int middle = (maxwithspacing-childLayoutParams.mLength)/2;
+                	childLayoutParams.mDepth = maxwithspacing*i+(intgap*(i+1))+mElementSpacing/2+middle;
+                    //System.out.println("fill= childLayoutParams.mDepth="+childLayoutParams.mDepth+" spacing="+spacing);
+                    i++;
                 }
             }
         }
@@ -203,12 +233,12 @@ public class FlowLayout extends ViewGroup {
         for (int i = 0, childCount = getChildCount(); i < childCount; i++) {
             View child = getChildAt(i);
             if (child.getVisibility() != GONE) {
-                layoutChild(child, width, height);
+                layoutChild(i, child, width, height);
             }
         }
     }
 
-    private void layoutChild(View child, int layoutWidth, int layoutHeight) {
+    private void layoutChild(int index, View child, int layoutWidth, int layoutHeight) {
         LayoutParams childLayoutParams = (LayoutParams) child.getLayoutParams();
         int left, top, right, bottom;
         switch (mFlowDirection) {
@@ -238,7 +268,15 @@ public class FlowLayout extends ViewGroup {
                 break;
         }
 
-        child.layout(left + getPaddingLeft(), top + getPaddingTop(), right + getPaddingLeft(), bottom + getPaddingTop());
+        int x = left+getPaddingLeft();
+        int y = top+getPaddingTop();
+        int w = right+getPaddingLeft();
+        int h = bottom+getPaddingTop();
+        /*System.out.println("pl="+getPaddingLeft()+" pt="+getPaddingTop()
+        +" lw="+layoutWidth+" lh="+layoutHeight
+        +" cw="+childLayoutParams.mLength
+        +" max="+childMaxWidth+" index-"+index+" x="+x+" y="+y+" w="+w+" h="+h);*/
+        child.layout(x, y, w, h);
     }
 
     @Override
@@ -269,6 +307,7 @@ public class FlowLayout extends ViewGroup {
             mGravity = a.getInt(R.styleable.FlowLayout_android_gravity, Gravity.NO_GRAVITY);
             mFlowDirection = a.getInt(R.styleable.FlowLayout_flowDirection, LEFT_TO_RIGHT);
             mMaxLines = a.getInt(R.styleable.FlowLayout_android_maxLines, 0);
+            //System.out.println("mElementSpacing...."+mElementSpacing);
         } finally {
             a.recycle();
         }
@@ -297,13 +336,16 @@ public class FlowLayout extends ViewGroup {
         }
     }
     
-    public void setChildMaxWidth(int paramInt)
+    public void setChildMaxWidth(int width)
     {
-      if (paramInt > this.childMaxWidth)
-      {
-        this.childMaxWidth = paramInt;
+    	//System.out.println("Width......"+width);
+      if( width> childMaxWidth) {
+    	  //System.out.println("Width..changing maxwidth...."+width);
+        this.childMaxWidth = width;
         requestLayout();
       }
+       
+      
     }
     
     public int getChildMaxWidth()
@@ -313,6 +355,31 @@ public class FlowLayout extends ViewGroup {
     
     public void recalculateMaxWidth()
     {
-      
+    	this.childMaxWidth = 0;
+    	final int widthMode = MeasureSpec.getMode(View.MeasureSpec.EXACTLY);
+        final int heightMode = MeasureSpec.getMode(View.MeasureSpec.EXACTLY);
+
+        final int widthSize = (widthMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec.getSize(View.MeasureSpec.EXACTLY)) - getPaddingLeft() - getPaddingRight();
+        final int heightSize = (heightMode == MeasureSpec.UNSPECIFIED ? Integer.MAX_VALUE : MeasureSpec.getSize(View.MeasureSpec.EXACTLY)) - getPaddingTop() - getPaddingBottom();
+
+        final boolean isWrapContentWidth = widthMode != MeasureSpec.EXACTLY;
+        final boolean isWrapContentHeight = heightMode != MeasureSpec.EXACTLY;
+
+        
+    	for (int i = 0, childCount = getChildCount(); i < childCount; i++) {
+            View child = getChildAt(i);
+            if (child.getVisibility() == View.GONE) {
+                continue;
+            }
+
+            LayoutParams childLayoutParams = (LayoutParams) child.getLayoutParams();
+
+            int childWidthMeasureSpec = makeMeasureSpec(childLayoutParams.width, widthSize, isWrapContentWidth);
+            int childHeightMeasureSpec = makeMeasureSpec(childLayoutParams.height, heightSize, isWrapContentHeight);
+            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            int childWidth = child.getMeasuredWidth();
+            if( childWidth> childMaxWidth)
+            	childMaxWidth = childWidth;
+        }
     }
 }

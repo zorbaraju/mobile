@@ -1,14 +1,24 @@
 package com.zorba.bt.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
 import android.widget.ListAdapter;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Calendar;
+import com.zorba.bt.app.bluetooth.NetworkInfo;
 
 public class CommonUtils {
    public static int MAX_NO_DEVICES = 6;
@@ -22,14 +32,28 @@ public class CommonUtils {
    public static final String MENUITEM_EXIT = "Exit";
    public static final String MENUITEM_HELP = "Help";
    public static final String MENUITEM_SENDLOG = "Send Log";
+   
+   public static NetworkInfo networkInfo = null;
 
-   public static void AlertBox(Activity var0, String var1, String var2) {
-      (new Builder(var0)).setTitle(var1).setMessage(var2).setPositiveButton("Close", new OnClickListener() {
-         public void onClick(DialogInterface var1, int var2) {
-            var1.dismiss();
-         }
-      }).show();
-   }
+	public static void AlertBox(final Activity var0, final String var1, final String var2) {
+		var0.runOnUiThread(new Runnable() {
+			public void run() {
+				(new Builder(var0)).setTitle(var1).setMessage(var2).setPositiveButton("Close", new OnClickListener() {
+					public void onClick(DialogInterface var1, int var2) {
+						var1.dismiss();
+					}
+				}).show();
+			}
+		});
+	}
+	
+	public static AlertDialog clearDialog(final Activity var0, final String var1, final String var2) {
+		Builder builder = new Builder(var0);
+		AlertDialog dialog = builder.create();
+		dialog.setTitle(var1);
+		dialog.setMessage(var2);
+		return dialog;
+	}
 
    public static byte[] getCurrentTime() {
       Calendar var7 = Calendar.getInstance();
@@ -239,5 +263,62 @@ public class CommonUtils {
 
    public static void setNumMaxNoDevices(int var0) {
       MAX_NO_DEVICES = var0;
+      System.out.println("numbe............>>>>>>>>>>>"+var0+"...."+MAX_NO_DEVICES);
    }
+   
+   public static NetworkInfo getNetworkInfo() {
+	   return networkInfo;
+   }
+   
+   public static void getUnUsedIpInfo(Activity activity, int numberOfUnUsed) {
+	    networkInfo = new NetworkInfo();
+	   	WifiManager wifiManager = (WifiManager) activity.getSystemService (Context.WIFI_SERVICE);
+		WifiInfo info = wifiManager.getConnectionInfo ();
+		String ssid = info.getSSID ();
+		if( ssid.isEmpty()) {
+			System.out.println("Ssid....is empty");
+			networkInfo = null;
+			return;
+		}
+		System.out.println("Ssid...."+ssid);
+		ssid = ssid.substring(1, ssid.length()-1);
+		System.out.println("ssid...."+ssid);
+		String ip = Formatter.formatIpAddress(info.getIpAddress());
+		String subnet = ip.substring(0,ip.lastIndexOf("."));
+		System.out.println("subnet..."+subnet);
+		networkInfo.unusedIndex = new int[numberOfUnUsed];
+		int numfound = 0;
+		for(int i=255; i>0; i--) {
+			if( numfound >=numberOfUnUsed)
+				break;
+			try {
+				boolean isused = InetAddress.getByName(subnet+"."+i).isReachable(1000);
+				if( isused)
+				continue;
+			} catch (UnknownHostException e) {
+				System.out.println("Unknown host..."+e.getMessage());
+			} catch (IOException e) {
+				System.out.println("Unknown ..."+e.getMessage());
+			}
+			networkInfo.unusedIndex[numfound] = i;
+			numfound++;
+		}
+		for (int  index : networkInfo.unusedIndex) {
+			System.err.println("unused ip..."+subnet+"."+index+" ssid...."+ssid);
+		}
+		
+		networkInfo.ssid = ssid;
+		networkInfo.subnet = subnet;
+   }
+   
+   public static void printStackTrace() {
+	   String l = null;
+		try{
+			l.length();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+   }
+	
 }

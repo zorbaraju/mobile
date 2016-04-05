@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MyListMenu extends LinearLayout {
    Runnable callback;
    ListPopupWindow listPopup;
-   ArrayList menuListItem;
+   ArrayList<String> menuListItem;
    int selectedPosition;
    TextView textlistmenu;
 
@@ -27,7 +27,7 @@ public class MyListMenu extends LinearLayout {
 
    public MyListMenu(Context var1, AttributeSet var2) {
       super(var1, var2);
-      this.menuListItem = new ArrayList();
+      this.menuListItem = new ArrayList<String>();
       this.listPopup = null;
       this.callback = null;
       this.selectedPosition = -1;
@@ -37,7 +37,7 @@ public class MyListMenu extends LinearLayout {
       this.listPopup = new ListPopupWindow(this.getContext());
       this.listPopup.setAnchorView(this);
       this.listPopup.setOnItemClickListener(new OnItemClickListener() {
-         public void onItemClick(AdapterView var1, View var2, int var3, long var4) {
+         public void onItemClick(AdapterView<?> var1, View var2, int var3, long var4) {
             MyListMenu.this.listPopup.dismiss();
             MyListMenu.this.textlistmenu.setText((CharSequence)MyListMenu.this.menuListItem.get(var3));
             MyListMenu.this.selectedPosition = var3;
@@ -89,10 +89,10 @@ public class MyListMenu extends LinearLayout {
       this.textlistmenu.setWidth(var2);
    }
 
-   class TextAdapter extends ArrayAdapter {
-      ArrayList list;
+   class TextAdapter extends ArrayAdapter<String> {
+      ArrayList<String> list;
 
-      public TextAdapter(Context var2, ArrayList var3) {
+      public TextAdapter(Context var2, ArrayList<String> var3) {
          super(var2, -1, var3);
          this.list = var3;
       }

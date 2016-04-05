@@ -17,7 +17,7 @@ public class BtLocalDB {
    private static BtLocalDB instance = null;
    private static int version = 1;
    private SharedPreferences dbInfo = null;
-   private HashMap deviceStatusMap = new HashMap();
+   private HashMap<String, Byte> deviceStatusMap = new HashMap<String, Byte>();
    boolean isStoreClean = false;
 
    private BtLocalDB(Context var1) {
@@ -35,7 +35,7 @@ public class BtLocalDB {
    public void addRoom(RoomData var1) {
       String var3 = this.dbInfo.getString("BtList", "");
       String rgb = var1.isRGBType()?"1":"0";
-      String var4 = var1.getAddress() + "#" + var1.getName() + "#" + rgb;
+      String var4 = var1.getAddress() + "#" + var1.getName() + "#" + rgb + "#" + var1.getIpAddress();
       if(!var3.equals("")) {
          var4 = var3 + "#" + var4;
       }
@@ -137,11 +137,11 @@ public class BtLocalDB {
          String[] var9 = var7.split("#");
          int var2 = 0;
 
-         for(var4 = var5; var2 < var9.length; var2 += 3) {
+         for(var4 = var5; var2 < var9.length; var2 += 4) {
             if(var9[var2 + 1].equals(var1)) {
                var3 = var9[var2];
             } else {
-               var5 = var9[var2] + "#" + var9[var2 + 1]+ "#" + var9[var2 + 2];
+               var5 = var9[var2] + "#" + var9[var2 + 1]+ "#" + var9[var2 + 2]+ "#" + var9[var2 + 3];
                if(var4.equals("")) {
                   var4 = var5;
                } else {
@@ -192,11 +192,10 @@ public class BtLocalDB {
    }
 
    public int getDeviceStatus(String var1) {
-      byte var2 = -1;
+      int var2 = -1;
       if(this.deviceStatusMap.containsKey(var1)) {
          var2 = ((Byte)this.deviceStatusMap.get(var1)).byteValue();
       }
-
       return var2;
    }
 
@@ -213,7 +212,7 @@ public class BtLocalDB {
 
    public int getDevicesOnCount() {
       int var1 = 0;
-      Iterator var2 = this.deviceStatusMap.keySet().iterator();
+      Iterator<?> var2 = this.deviceStatusMap.keySet().iterator();
 
       while(var2.hasNext()) {
          if(((Byte)this.deviceStatusMap.get(var2.next())).byteValue() > 0) {
@@ -261,7 +260,7 @@ public class BtLocalDB {
       var1 = this.dbInfo.getString("Schedule" + var1, "");
       if(!var1.isEmpty()) {
          String[] var5 = var1.split("#");
-         HashMap var6 = new HashMap();
+         HashMap<String, String> var6 = new HashMap<String, String>();
 
          int var2;
          for(var2 = 0; var2 < var5.length; var2 += 2) {
@@ -283,24 +282,24 @@ public class BtLocalDB {
       return var3;
    }
 
-   public ArrayList getRoomList() {
+   public ArrayList<RoomData> getRoomList() {
       String var3 = this.dbInfo.getString("BtList", "");
-      ArrayList var2 = new ArrayList();
-      var2.add(new RoomData("GGYYGGYYGYY", "GGYYGGYYGYY", false));
+      ArrayList<RoomData> var2 = new ArrayList<RoomData>();
+      var2.add(new RoomData("GGYYGGYYGYY", "GGYYGGYYGYY", false, ""));
       if(!var3.isEmpty()) {
          String[] var4 = var3.split("#");
 
-         for(int var1 = 0; var1 < var4.length; var1 += 3) {
-             var2.add(new RoomData(var4[var1], var4[var1 + 1], var4[var1 + 2].equals("1")));
+         for(int var1 = 0; var1 < var4.length; var1 += 4) {
+             var2.add(new RoomData(var4[var1], var4[var1 + 1], var4[var1 + 2].equals("1"), var4[var1 + 3]));
          }
       }
 
       return var2;
    }
 
-   public ArrayList getSchedules(String var1) {
+   public ArrayList<SchedulerData> getSchedules(String var1) {
       String var3 = this.dbInfo.getString("Schedule" + var1, "");
-      ArrayList var4 = new ArrayList();
+      ArrayList<SchedulerData> var4 = new ArrayList<SchedulerData>();
       if(!var3.isEmpty()) {
          String[] var5 = var3.split("#");
 
@@ -318,12 +317,12 @@ public class BtLocalDB {
 
       boolean var4;
       while(true) {
-         if(var3 >= var5.length / 3) {
+         if(var3 >= var5.length / 4) {
             var4 = false;
             break;
          }
 
-         if(var2.equals(var5[var3 * 3])) {
+         if(var2.equals(var5[var3 * 4])) {
             var4 = true;
             break;
          }
@@ -365,7 +364,7 @@ public class BtLocalDB {
             break;
          }
 
-         var2 += 3;
+         var2 += 4;
       }
 
       return var3;
@@ -373,19 +372,17 @@ public class BtLocalDB {
 
    public boolean isRoomNameExist(String var1) {
       String var4 = this.dbInfo.getString("BtList", "");
-      boolean var3;
+      boolean var3 = false;
       if(!var4.isEmpty()) {
          String[] var5 = var4.split("#");
 
-         for(int var2 = 0; var2 < var5.length; var2 += 3) {
+         for(int var2 = 0; var2 < var5.length; var2 += 4) {
             if(var1.equals(var5[var2 + 1])) {
                var3 = true;
-               return var3;
+               break;
             }
          }
       }
-
-      var3 = false;
       return var3;
    }
 
@@ -480,6 +477,7 @@ public class BtLocalDB {
    }
 
    public void updateDeviceStatus(byte var1, byte var2) {
-      this.deviceStatusMap.put("" + var1, Byte.valueOf(var2));
+	   System.out.println("updateDeviceStatusupdateDeviceStatus.."+var1+".."+var2);
+      this.deviceStatusMap.put(""+var1, var2);
    }
 }
