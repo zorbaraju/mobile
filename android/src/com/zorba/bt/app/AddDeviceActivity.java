@@ -8,14 +8,20 @@ import com.zorba.bt.app.db.BtLocalDB;
 import android.widget.ImageButton;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
 public class AddDeviceActivity extends ZorbaActivity {
    String deviceAddress = null;
-
+   String tabName = "Lights";
+   CheckBox isdimmable = null;
+   
    private String[] getUnusedDeviceIds() {
       DeviceData[] var3 = BtLocalDB.getInstance(this).getDevices(this.deviceAddress);
       ArrayList<Integer> var2 = new ArrayList<Integer>();
@@ -47,6 +53,13 @@ public class AddDeviceActivity extends ZorbaActivity {
             AddDeviceActivity.this.saveDevice();
          }
       });
+      isdimmable.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			changeDevicePopup();
+		}
+	});
    }
 
    private void saveDevice() {
@@ -98,13 +111,15 @@ public class AddDeviceActivity extends ZorbaActivity {
       this.setContentView(R.layout.adddevicelayout);
       var1 = this.getIntent().getExtras();
       this.deviceAddress = var1.getString("deviceAddress");
-      String var4 = var1.getString("tabName");
+      tabName = var1.getString("tabName");
+      EditText var3 = (EditText)this.findViewById(R.id.deviceNameInput);
+      var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       TextView var5 = (TextView)this.findViewById(R.id.title);
       TextView var6 = (TextView)this.findViewById(R.id.devicename);
+      isdimmable = (CheckBox)this.findViewById(R.id.isdimmable);
       TextView var2 = (TextView)this.findViewById(R.id.devicetype);
       ((MyListMenu)this.findViewById(R.id.deviceid)).setMenuItems(this.getUnusedDeviceIds());
-      MyPopupDialog var3 = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
-      if(var4.equals("Lights")) {
+      if(tabName.equals("Lights")) {
          var5.setText("New Light");
          var6.setText("Light Name");
          var2.setText("Light Type");
@@ -113,11 +128,28 @@ public class AddDeviceActivity extends ZorbaActivity {
          var6.setText("Device Name");
          var2.setText("Device Type");
       }
-
-      var3.setMenuForLight(var4.equals("Lights"));
+      changeDevicePopup();
       this.initListeners();
+      
    }
 
+   private void changeDevicePopup() {
+	   int deviceTypeWithDimmable = 0;
+	   MyPopupDialog var3 = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+	      
+      if (tabName.equals("Lights")) {
+    	  if( isdimmable.isChecked()) {
+    		  deviceTypeWithDimmable = 1;
+    	  }
+      } else {
+    	  if( isdimmable.isChecked()) {
+    		  deviceTypeWithDimmable = 3;
+    	  } else
+    		  deviceTypeWithDimmable = 2;
+      }
+      var3.setMenuForLight(deviceTypeWithDimmable);
+   }
+   
    public void onDestroy() {
       super.onDestroy();
    }

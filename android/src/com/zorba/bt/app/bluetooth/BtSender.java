@@ -24,6 +24,9 @@ public class BtSender {
       try {
          this.hwLayer.printBytes("Write", var1);
          this.outStream.write(var1);
+        System.out.println("flusing...");
+         this.outStream.flush();
+         System.out.println("flused...");
       } catch (Exception var3) {
          this.error = var3.getMessage();
          var2 = false;

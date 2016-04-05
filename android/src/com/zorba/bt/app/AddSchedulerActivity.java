@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
@@ -237,6 +238,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
    protected void onCreate(Bundle var1) {
       super.onCreate(var1);
       this.setContentView(R.layout.addschedulerlayout);
+      EditText var3 = (EditText)this.findViewById(R.id.schedulerNameText);
+      var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       ((TextView)this.findViewById(R.id.title)).setText("New Scheduler");
       this.deviceAddress = this.getIntent().getExtras().getString("deviceAddress");
       MyListMenu var2 = (MyListMenu)this.findViewById(R.id.repeattype);

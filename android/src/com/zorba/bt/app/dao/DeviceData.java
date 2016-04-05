@@ -25,8 +25,10 @@ public class DeviceData {
    public static final String DEVICETYPE_TV = "TV";
    public static final String DEVICETYPE_UNKNOWN = "Unknown";
    public static final String[] deviceTypes = new String[]{"Light", "Dimmable Light", "Tube Light", "CFL Bulb", "Cove light", "Fan", "Table Fan", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain", "Door Bell", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
-   public static final String[] lightdeviceTypes = new String[]{"Light", "Dimmable Light", "Tube Light", "CFL Bulb", "Cove light"};
-   public static final String[] nonlightdeviceTypes = new String[]{"Fan", "Table Fan", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain", "Door Bell", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
+   public static final String[] lightdeviceTypes = new String[]{"Light", "Tube Light", "CFL Bulb", "Cove light"};
+   public static final String[] dimmablelightdeviceTypes = new String[]{"Dimmable Light"};
+   public static final String[] nonlightdeviceTypes = new String[]{"Table Fan", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain", "Door Bell", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
+   public static final String[] dimmablenonlightdeviceTypes = new String[]{"Fan"};
    private int devid = 0;
    private String name = "";
    private String powerinwatts = "10";
@@ -41,26 +43,17 @@ public class DeviceData {
       this.status = var5;
    }
 
-   public static boolean isDimmable(String var0) {
-      boolean var1;
-      if(!var0.equals("Dimmable Light") && !var0.equals("Fan")) {
-         var1 = false;
-      } else {
-         var1 = true;
-      }
-
-      return var1;
+   public static boolean isDimmable(String type) {
+      boolean isdimmable = !(!type.equals("Dimmable Light") && !type.equals("Fan"));
+      return isdimmable;
    }
 
-   public static boolean isLightType(String var0) {
-      boolean var1;
-      if(!var0.equals("Light") && !var0.equals("Dimmable Light") && !var0.equals("Cove light") && !var0.equals("Dimmable Light") && !var0.equals("Tube Light")) {
-         var1 = false;
-      } else {
-         var1 = true;
-      }
-
-      return var1;
+   public static boolean isLightType(String type) {
+	   for (String lightType : lightdeviceTypes) {
+			if( type.equals(lightType))
+				return true;
+	   }
+      return false;
    }
 
    public int getDevId() {

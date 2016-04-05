@@ -10,13 +10,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-public class ImageTextAdapter extends ArrayAdapter {
+public class ImageTextAdapter extends ArrayAdapter<ImageTextData> {
    OnClickListener callback;
    Activity context;
    LayoutInflater inflater;
-   ArrayList list;
+   ArrayList<ImageTextData> list;
 
-   public ImageTextAdapter(Activity activity, ArrayList arrayList, OnClickListener cb) {
+   public ImageTextAdapter(Activity activity, ArrayList<ImageTextData> arrayList, OnClickListener cb) {
       super(activity, R.layout.imagetextitem , arrayList);
       this.context = activity;
       this.list = arrayList;

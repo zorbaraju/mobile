@@ -2,7 +2,9 @@ package com.zorba.bt.app;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,8 +20,9 @@ public class DiscoveryRoom extends LinearLayout {
       this.device = var3;
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
       this.nameText = (TextView)this.findViewById(R.id.devicename);
+      nameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       this.nameText.setText(var3.getName());
-      this.isRGB = var3.getName().endsWith("_RGB");
+      this.isRGB = !var3.getName().endsWith("_RGB");
    }
 
    public BluetoothDevice getDevice() {
@@ -42,4 +45,7 @@ public class DiscoveryRoom extends LinearLayout {
 	   return this.isRGB;
    }
    
+   public String toString() {
+	   return this.nameText.getText().toString();
+   }
 }

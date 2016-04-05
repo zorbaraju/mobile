@@ -55,26 +55,32 @@ public class MyPopupDialog extends LinearLayout {
       return this.textlistmenu.getText().toString();
    }
 
-   public void setMenuForLight(boolean var1) {
+   public void setMenuForLight(int deviceTypeWithDimmable) {
       FlowLayout var4 = (FlowLayout)this.dialog.findViewById(R.id.devicetypecontent);
-      String[] var3 = DeviceData.nonlightdeviceTypes;
-      if(var1) {
-         var3 = DeviceData.lightdeviceTypes;
-      }
+      var4.removeAllViews();
+      String[] devicenames = DeviceData.nonlightdeviceTypes;
+      if( deviceTypeWithDimmable == 0)
+    	  devicenames = DeviceData.lightdeviceTypes;
+      else if( deviceTypeWithDimmable == 1)
+    	  devicenames = DeviceData.dimmablelightdeviceTypes;
+      else if( deviceTypeWithDimmable == 2)
+    	  devicenames = DeviceData.nonlightdeviceTypes;
+      else if( deviceTypeWithDimmable == 3)
+    	  devicenames = DeviceData.dimmablenonlightdeviceTypes;
 
       this.textlistmenu = (TextView)this.findViewById(R.id.textlistmenu);
-      this.textlistmenu.setText(var3[0]);
+      this.textlistmenu.setText(devicenames[0]);
 
-      for(int var2 = 0; var2 < var3.length; ++var2) {
+      for(int var2 = 0; var2 < devicenames.length; ++var2) {
          ImageView var6 = new ImageView(this.getContext());
          LinearLayout var5 = new LinearLayout(this.getContext());
          var5.setOrientation(0);
          var5.setPadding(5, 5, 5, 5);
          var6.setBackgroundColor(Color.parseColor("#1d2832"));
-         var6.setImageResource(CommonUtils.getDeviceImage(var3[var2], 1));
+         var6.setImageResource(CommonUtils.getDeviceImage(devicenames[var2], 1));
          var5.addView(var6);
          var4.addView(var5);
-         final String settext  = var3[var2];
+         final String settext  = devicenames[var2];
          var6.setOnClickListener(new OnClickListener() {
             public void onClick(View var1) {
                MyPopupDialog.this.textlistmenu.setText(settext);

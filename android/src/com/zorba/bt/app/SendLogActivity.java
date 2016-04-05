@@ -8,19 +8,31 @@ import android.os.Environment;
 import android.widget.Toast;
 import java.io.File;
 
+import com.zorba.bt.app.utils.BackgroundTask;
+
 public class SendLogActivity extends ZorbaActivity {
    protected void onCreate(Bundle var1) {
       super.onCreate(var1);
-      this.setContentView(2130903066);
-      (new Thread(new Runnable() {
-         public void run() {
-            SendLogActivity.this.runOnUiThread(new Runnable() {
-               public void run() {
-                  SendLogActivity.this.sendEmail();
-               }
-            });
-         }
-      })).start();
+      this.setContentView(R.layout.sendlog);
+      (new BackgroundTask() {
+		
+		@Override
+		public Object runTask(Object params) {
+			SendLogActivity.this.runOnUiThread(new Runnable() {
+	               public void run() {
+	                  SendLogActivity.this.sendEmail();
+	               }
+	            });
+			return null;
+		}
+		
+		@Override
+		public void finishedTask(Object result) {
+			// TODO Auto-generated method stub
+			
+		}
+	}).execute("");
+     
    }
 
    protected void sendEmail() {
