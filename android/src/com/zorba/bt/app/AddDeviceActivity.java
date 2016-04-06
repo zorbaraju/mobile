@@ -6,6 +6,7 @@ import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -118,6 +119,7 @@ public class AddDeviceActivity extends ZorbaActivity {
       TextView var6 = (TextView)this.findViewById(R.id.devicename);
       isdimmable = (CheckBox)this.findViewById(R.id.isdimmable);
       TextView var2 = (TextView)this.findViewById(R.id.devicetype);
+      ((RelativeLayout)findViewById(R.id.powerLayout)).setVisibility(View.GONE);
       ((MyListMenu)this.findViewById(R.id.deviceid)).setMenuItems(this.getUnusedDeviceIds());
       if(tabName.equals("Lights")) {
          var5.setText("New Light");
