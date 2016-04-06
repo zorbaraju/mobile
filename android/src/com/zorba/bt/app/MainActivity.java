@@ -88,12 +88,13 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				MainActivity.this.roomMenuList.show();
 			}
 		});
+		/*
 		((ImageButton) findViewById(R.id.aboutButton)).setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView1) {
 				Intent paramAnonymousView = new Intent(MainActivity.this, AppInfoActivity.class);
 				MainActivity.this.startActivityForResult(paramAnonymousView, APPINFO_CODE);
 			}
-		});
+		});*/
 		ImageButton db = (ImageButton) findViewById(R.id.discoverbutton);
 		if (db != null) {
 			db.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +112,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		if (this.roomDataList.size() == 0) {
 			startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
 		}
+		setConnectionModeIcon();
 	}
 
 	
@@ -795,5 +797,13 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		});
 		
+	}
+	
+	public void setConnectionModeIcon() {
+		ImageButton aboutButton = (ImageButton)findViewById(R.id.aboutButton);
+		if ( btHwLayer.isWifiEnabled() )
+			aboutButton.setImageResource(R.drawable.wifi);
+		else
+			aboutButton.setImageResource(R.drawable.bt);
 	}
 }

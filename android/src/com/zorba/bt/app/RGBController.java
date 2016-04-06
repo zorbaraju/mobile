@@ -41,7 +41,7 @@ public class RGBController implements ConnectionListener{
 			{"#00ff00", "#ffffff", "#90b9d2", "#90b9d2","#90b9d2", "#90b9d2"}
 	};
 	String[] remotestrt= { 
-			"-", "+", "Off", "On",
+			"B-", "B+", "Off", "On",
 			"","","","W",
 			"","","","FL",
 			"","","","S",

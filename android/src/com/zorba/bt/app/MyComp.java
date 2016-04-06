@@ -152,31 +152,20 @@ public class MyComp extends LinearLayout {
    public void relayout() {
       (new Handler(Looper.getMainLooper())).post(new Runnable() {
          public void run() {
-            byte var4 = 0;
-            int var1 = MyComp.this.compLaout.getChildMaxWidth();
-            MyComp[] var7 = MyComp.this.siblingComps;
-            int var5 = var7.length;
-
-            int var2;
-            int var3;
-            for(var2 = 0; var2 < var5; var1 = var3) {
-               MyComp var6 = var7[var2];
-               var3 = var1;
-               if(var6.getChildMaxWidth() > var1) {
-                  var3 = var6.getChildMaxWidth();
+            MyComp[] sibs = MyComp.this.siblingComps;
+            
+            int maxwidth = 0;
+            for(int var2 = 0; var2 < sibs.length; var2++) {
+               if(sibs[var2].getChildMaxWidth() > maxwidth) {
+                  maxwidth = sibs[var2].getChildMaxWidth();
                }
-
-               ++var2;
             }
+            
+            for(int var2 = 0; var2 < sibs.length; var2++) {
+            	sibs[var2].setChildMaxWidth(maxwidth);
+             }
 
-            MyComp[] var8 = MyComp.this.siblingComps;
-            var3 = var8.length;
-
-            for(var2 = var4; var2 < var3; ++var2) {
-               var8[var2].setChildMaxWidth(var1);
-            }
-
-            MyComp.this.setChildMaxWidth(var1);
+            MyComp.this.setChildMaxWidth(maxwidth);
          }
       });
    }
