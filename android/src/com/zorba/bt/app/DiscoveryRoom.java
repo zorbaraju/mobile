@@ -22,7 +22,7 @@ public class DiscoveryRoom extends LinearLayout {
       this.nameText = (TextView)this.findViewById(R.id.devicename);
       nameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       this.nameText.setText(var3.getName());
-      this.isRGB = !var3.getName().endsWith("_RGB");
+      this.isRGB = var3.getName().endsWith("_RGB");
    }
 
    public BluetoothDevice getDevice() {

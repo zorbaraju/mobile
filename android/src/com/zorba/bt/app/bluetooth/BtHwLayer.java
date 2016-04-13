@@ -153,12 +153,7 @@ public class BtHwLayer {
 		if (ipaddr != null && ipaddr.equals("null")) {
 			ipaddr = null;
 		}
-		if (ipaddr != null && ipaddr.startsWith("10.0.0.255")) {
-			ipaddr = "10.0.0.156";
-		}
-		if (ipaddr != null && ipaddr.startsWith("10.0.0.254")) {
-			ipaddr = "10.0.0.157";
-		}
+		
 		
 		if (!isWifiEnabled()) {
 			ipaddr = null;
