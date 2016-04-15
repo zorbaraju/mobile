@@ -268,10 +268,10 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 	@Override
 	public void onBackPressed() {
-		Intent var1 = new Intent();
-		var1.putExtra("newroomname", this.roomNameAddedNewly);
-		var1.putExtra("deletedrooms", this.deletedRoomList);
-		this.setResult(1, var1);
+		Intent intent = new Intent();
+		intent.putExtra("newroomname", this.roomNameAddedNewly);
+		intent.putExtra("deletedrooms", this.deletedRoomList);
+		this.setResult(1, intent);
 		super.onBackPressed();
 	}
 
@@ -349,28 +349,24 @@ public class DiscoveryActivity extends ZorbaActivity {
 		saveButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
 				String pwd = "null";
-				if( needip) {
-					pwd = ((TextView) findViewById(R.id.wifiPwdText)).getText().toString();
-					if (pwd.isEmpty()) {
-						CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
-						return;
-					}
+				pwd = ((TextView) findViewById(R.id.wifiPwdText)).getText().toString();
+				if (pwd.isEmpty()) {
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
+					return;
 				}
 				System.out.println(
 						"Nou  discovered devices..." + DiscoveryActivity.this.discoveryContent.getChildCount());
 				int nthDevice = 0;
 				while (DiscoveryActivity.this.discoveryContent.getChildCount() > 0) {
 					DiscoveryRoom var4 = (DiscoveryRoom) DiscoveryActivity.this.discoveryContent.getChildAt(0);
-					String var3 = createRoom(var4, pwd, nthDevice);
-					System.out.println("created room.." + var4 + "...val3..." + var3);
-					if (var3 == null) {
+					String roomname = createRoom(var4, pwd, nthDevice);
+					System.out.println("created room.." + var4 + "...roomname..." + roomname);
+					if (roomname == null) {
 						System.out.println("created room.is null.");
 						break;
 					}
 					nthDevice++;
-					if (DiscoveryActivity.this.roomNameAddedNewly.isEmpty()) {
-						DiscoveryActivity.this.roomNameAddedNewly = var3;
-					}
+					DiscoveryActivity.this.roomNameAddedNewly = roomname;
 					System.out.println("created room. is removed from discoverycontent.");
 					DiscoveryActivity.this.discoveryContent.removeView(var4);
 					System.out.println("Nou  discovered devices..after removed....."
