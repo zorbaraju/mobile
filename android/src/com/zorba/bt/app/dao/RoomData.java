@@ -11,11 +11,6 @@ public class RoomData {
       this.address = address;
       this.isRGB = isRGB;
       this.ipaddress = ipaddress;
-      
-      if( name.equals("ez_125_RGB")) {
-    	  this.ipaddress = "10.0.0.156";
-      } else
-    	  this.ipaddress = "10.0.0.157";
    }
 
    public String getAddress() {

@@ -403,9 +403,9 @@ public class BtHwLayer {
 
 	private void writeBytes(byte[] wbytes) {
 		if (isWifi()) {
-			System.out.println("Waiting for 50 ms before writing the data to wifi device");
+			System.out.println("Waiting for 250 ms before writing the data to wifi device");
 			try {
-				Thread.sleep(50);
+				Thread.sleep(250);
 			} catch (Exception e) {
 			}
 			sender.sendCmd(wbytes);
