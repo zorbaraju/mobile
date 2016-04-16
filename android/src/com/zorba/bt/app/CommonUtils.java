@@ -21,7 +21,7 @@ import java.util.Calendar;
 import com.zorba.bt.app.bluetooth.NetworkInfo;
 
 public class CommonUtils {
-   public static int MAX_NO_DEVICES = 6;
+   public static int MAX_NO_DEVICES = 10;
    public static final int MENUITEMINDEX_ABOUT = 3;
    public static final int MENUITEMINDEX_DISCOVERY = 0;
    public static final int MENUITEMINDEX_EXIT = 4;
@@ -288,7 +288,7 @@ public class CommonUtils {
 		System.out.println("subnet..."+subnet);
 		networkInfo.unusedIndex = new int[numberOfUnUsed];
 		int numfound = 0;
-		for(int i=255; i>0; i--) {
+		for(int i=254; i>0; i--) {
 			if( numfound >=numberOfUnUsed)
 				break;
 			try {
