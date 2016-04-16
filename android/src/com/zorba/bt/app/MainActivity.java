@@ -399,10 +399,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 					CommonUtils.AlertBox(this, "Device count", "No data from device");
 					return;
 				}
-				for(byte ind=1; ind<allStatus.length; ind++){
+				for(byte ind=1; ind<allStatus.length; ind += 2){
 					try {
-						byte deviceid = (byte)(ind);
-						byte status = allStatus[ind];
+						byte deviceid = allStatus[ind];
+						byte status = allStatus[ind+1];
 						System.out.println("GGGGGGGGGGG>>>>>devid="+deviceid+" status="+status);
 						 BtLocalDB.getInstance(this).updateDeviceStatus(deviceid, status);
 					} catch (Exception e) {
