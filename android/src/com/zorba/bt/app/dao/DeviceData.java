@@ -35,12 +35,12 @@ public class DeviceData {
    private int status = -1;
    private String type = "Unknown";
 
-   public DeviceData(int var1, String var2, String var3, String var4, int var5) {
-      this.devid = var1;
-      this.name = var2;
-      this.type = var3;
-      this.powerinwatts = var4;
-      this.status = var5;
+   public DeviceData(int devid, String name, String type, String powerinwatts, int status) {
+      this.devid = devid;
+      this.name = name;
+      this.type = type;
+      this.powerinwatts = powerinwatts;
+      this.status = status;
    }
 
    public static boolean isDimmable(String type) {
@@ -50,6 +50,10 @@ public class DeviceData {
 
    public static boolean isLightType(String type) {
 	   for (String lightType : lightdeviceTypes) {
+			if( type.equals(lightType))
+				return true;
+	   }
+	   for (String lightType : dimmablelightdeviceTypes) {
 			if( type.equals(lightType))
 				return true;
 	   }

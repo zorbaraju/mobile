@@ -35,8 +35,8 @@ public class CommonUtils {
    public static final String MENUITEM_EXIT = "Exit";
    public static final String MENUITEM_HELP = "Help";
    public static final String MENUITEM_SENDLOG = "Send Log";
-   public static final String APPPASSWORD = "ezorba1234";
-   public static final String DEVICEPASSWORD = "ezorba1234";
+   public static final String APPPASSWORD = "EZORBA1234";
+   public static final String DEVICEPASSWORD = "EZORBA1234";
    
    public static NetworkInfo networkInfo = null;
 
