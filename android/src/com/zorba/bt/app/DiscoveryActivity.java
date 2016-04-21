@@ -247,6 +247,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 					if( !wifiapdiscoveryBox.isChecked() && wifirdiscoveryBox.isChecked()) {
 						ssid = null;
 					}
+					System.out.println("created room.." + droom + "...roomname..." + droom.getRoomName());
+					DiscoveryActivity.this.roomNameAddedNewly = droom.getRoomName();
+					System.out.println("created room. is removed from discoverycontent.");
+					DiscoveryActivity.this.discoveryContent.removeView(droom);
+					System.out.println("Nou  discovered devices..after removed....."
+							+ DiscoveryActivity.this.discoveryContent.getChildCount());
 					RoomData var4 = new RoomData(droom.getDeviceAddress(), validName, droom.isRGBType(),
 							(String) result, devicename, ssid);
 					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(var4);
@@ -576,12 +582,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				for(int nth=0;nth<numdiscovered; nth++) {
 					DiscoveryRoom disRoom = nonEmptyChildren.get(nth);
 					String roomname = createRoom(disRoom, pwd, nth);
-					System.out.println("created room.." + disRoom + "...roomname..." + roomname);
-					DiscoveryActivity.this.roomNameAddedNewly = roomname;
-					System.out.println("created room. is removed from discoverycontent.");
-					DiscoveryActivity.this.discoveryContent.removeView(disRoom);
-					System.out.println("Nou  discovered devices..after removed....."
-							+ DiscoveryActivity.this.discoveryContent.getChildCount());
+					
 				}
 				nonEmptyChildren.clear();
 			}
