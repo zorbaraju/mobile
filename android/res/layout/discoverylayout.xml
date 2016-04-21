@@ -56,12 +56,39 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:textSize="23.0sp" >
-
-                <requestFocus />
-            </EditText>
-
+                android:textSize="23.0sp" />
         </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/btdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Bluetooth" />
+
+        <RadioButton
+            android:id="@+id/wifirdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:text="Wifi Router" />
+
+        <RadioButton
+            android:id="@+id/wifiapdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checked="true"
+            android:text="Wifi AP" />
+
+</RadioGroup>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -78,10 +105,38 @@
                 android:text="Bluetooth Discovery is going on"
                 android:textAppearance="?android:textAppearanceMedium" />
 
-            <ImageView android:id="@id/spinnertriangle" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="25.0dip" android:src="@drawable/discovery" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            <ImageView
+                android:id="@id/spinnertriangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="25.0dip"
+                android:src="@drawable/discovery" />
         </RelativeLayout>
-        <ImageView android:gravity="center" android:layout_gravity="center" android:id="@id/loadingImage" android:layout_width="35.0dip" android:layout_height="35.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" />
-        <LinearLayout android:orientation="vertical" android:id="@id/discoveryContent" android:layout_width="fill_parent" android:layout_height="wrap_content" />
-        <Button android:layout_gravity="center" android:id="@id/savebutton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Save" />
+
+        <ImageView
+            android:id="@id/loadingImage"
+            android:layout_width="35.0dip"
+            android:layout_height="35.0dip"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5.0dip"
+            android:layout_marginTop="5.0dip"
+            android:gravity="center" />
+
+        <LinearLayout
+            android:id="@id/discoveryContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <Button
+            android:id="@id/savebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Save" />
     </LinearLayout>
+
 </LinearLayout>

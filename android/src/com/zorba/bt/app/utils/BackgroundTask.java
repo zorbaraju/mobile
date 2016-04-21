@@ -15,7 +15,12 @@ public abstract class BackgroundTask extends AsyncTask<Object, Object, Object> {
 
 	@Override
 	protected Object doInBackground(Object... params) {
-		return runTask(params[0]);
+		try{
+			return runTask(params[0]);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override

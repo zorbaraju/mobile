@@ -100,7 +100,8 @@ public class BtReceiver extends Thread {
 			   System.out.println("Exception in read thread..."+e.getMessage());
 			   shouldStop = true;
 			   hwLayer.closeDevice();
-			   connectionListener.connectionLost();
+			   if( connectionListener != null)
+				   connectionListener.connectionLost();
 		   }
 	   }
    }

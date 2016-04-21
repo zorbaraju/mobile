@@ -176,12 +176,13 @@ containing a value of this type.
     }
     public static final class id {
         public static final int aboutButton=0x7f050034;
-        public static final int action_settings=0x7f05004b;
+        public static final int action_settings=0x7f05004e;
         public static final int addbutton=0x7f05001b;
         public static final int analyticsButton=0x7f050033;
         public static final int analyticsContent=0x7f050017;
         public static final int bottomUp=0x7f050044;
         public static final int bottom_container=0x7f05003a;
+        public static final int btdiscovery=0x7f05004a;
         public static final int button=0x7f050037;
         public static final int buttontext=0x7f050038;
         public static final int cancel=0x7f050022;
@@ -223,7 +224,7 @@ containing a value of this type.
         public static final int powerLayout=0x7f050046;
         public static final int powerinwatts=0x7f05000e;
         public static final int repeattype=0x7f050014;
-        public static final int rgbPanel=0x7f05004a;
+        public static final int rgbPanel=0x7f05004d;
         public static final int right=0x7f050001;
         public static final int rightToLeft=0x7f050043;
         public static final int roomContent=0x7f05003b;
@@ -251,6 +252,8 @@ containing a value of this type.
         public static final int wifiInfoPanel=0x7f050047;
         public static final int wifiPwdLabel=0x7f050048;
         public static final int wifiPwdText=0x7f050049;
+        public static final int wifiapdiscovery=0x7f05004c;
+        public static final int wifirdiscovery=0x7f05004b;
     }
     public static final class layout {
         public static final int a=0x7f030000;

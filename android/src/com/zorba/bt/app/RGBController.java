@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.ConnectionListener;
 import com.zorba.bt.app.dao.RoomData;
+import com.zorba.bt.app.db.BtLocalDB;
 import com.zorba.bt.app.utils.BackgroundTaskDialog;
 
 import android.app.Activity;
@@ -295,7 +296,7 @@ public class RGBController implements ConnectionListener{
 			
 			@Override
 			public Object runTask(Object params) {
-				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getIpAddress());
+				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getSSID(), selectedRoom.getIpAddress(), BtLocalDB.getInstance(activity).getPassword());
 				if (error != null) {
 					CommonUtils.AlertBox(activity, "No connection", error);
 				}

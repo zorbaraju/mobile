@@ -30,6 +30,8 @@ public class BtHwLayer {
 	// request>>> {: reqid ssid32 \0 pass64 \0 ipaddr \0}
 	// response>>> {: reqid }
 
+	long lastsenttime = System.currentTimeMillis();
+	
 	public static final String NOCONNECTIONERROR 	= null;
 	public static final String NOCONNECTION			= "No connection to the device";
 	public static final String DEVICE_NOTFOUND		= "Device is not found";
@@ -68,6 +70,8 @@ public class BtHwLayer {
 
 	String devAddress = "";
 	String ipAddress = "";
+	String pwd = null;
+	String ssid = "";
 	String error = null;
 	ConnectionListener connectionListener = null;
 	NotificationListener notificationListener = null;
@@ -115,11 +119,11 @@ public class BtHwLayer {
 
 	private void checkConnection() throws Exception {
 		
-		if (isWifi()) {
+		if (isWifi() && isWifiEnabled()) {
 			System.out.println("checkConnection for wifi");
-			if (getInstance(this.activity).makeWifiEnabled() && this.shouldReconnect(this.ipAddress)) {
+			if ( this.shouldReconnect(this.ipAddress)) {
 				System.out.println("In checkConnection reinit wifi");
-				String error = this.initDevice(this.devAddress, this.ipAddress);
+				String error = this.initDevice(this.devAddress, this.ssid, this.ipAddress, this.pwd);
 				if (error != null) {
 					System.out.println("In checkConnection reinit wifi error="+error);
 					throw new Exception(error);
@@ -128,10 +132,10 @@ public class BtHwLayer {
 		} else {
 			System.out.println("checkConnection for bt");
 			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
-				System.out.println("In checkConnection reinit bt");
-				String var1 = this.initDevice(this.devAddress, this.ipAddress);
+				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
+				String var1 = this.initDevice(this.devAddress, this.ssid, this.ipAddress, this.pwd);
 				if (var1 != null) {
-					System.out.println("In checkConnection reinit bt error="+error);
+					System.out.println("In checkConnection reinit bt error="+var1);
 					throw new Exception(var1);
 				}
 			}
@@ -145,15 +149,14 @@ public class BtHwLayer {
 		return instance;
 	}
 
-	public String initDevice(String macaddress, String ipaddr) {
+	public String initDevice(String macaddress, String ssid, String ipaddr, String pass) {
 		
-		System.out.println("In InitDevice Incoming macaddress= "+macaddress + "  ipaddress...." + ipaddr);
+		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr);
 		isConnected = false;
 
 		if (ipaddr != null && ipaddr.equals("null")) {
 			ipaddr = null;
 		}
-		
 		
 		if (!isWifiEnabled()) {
 			ipaddr = null;
@@ -161,6 +164,10 @@ public class BtHwLayer {
 		}
 		System.out.println("The ipaddress going to be used for init device is " + ipaddr);
 		ipAddress = ipaddr;
+		this.devAddress = macaddress;
+		this.pwd = pass;
+		this.ssid = ssid;
+		
 		if (isWifi()) {
 			try {
 				clientSocket = new Socket(ipAddress, 1336);
@@ -168,7 +175,8 @@ public class BtHwLayer {
 				receiver.setNotificationListener(activity);
 				receiver.setConnectionListener(connectionListener);
 				sender = new BtSender(this, clientSocket.getOutputStream());
-				connectionListener.connectionStarted();
+				if( connectionListener != null)
+					connectionListener.connectionStarted();
 				System.out.println("Device is connected in wifi and waiting for 1 sec");
 				Thread.sleep(1 * 1000);
 				System.out.println("wait is released for 1 sec");
@@ -181,8 +189,13 @@ public class BtHwLayer {
 				return NOCONNECTION;
 			}
 		} else {
-			this.devAddress = macaddress;
-			BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(macaddress);
+			BluetoothDevice device = null;
+			try {
+				device = mBluetoothAdapter.getRemoteDevice(macaddress);
+			}catch(Exception e){
+				device = null;
+				return "Error in getting device using mac address>"+e.getMessage();
+			}
 			if (device == null) {
 				System.out.println("BT Device not found.  Unable to connect. for "+macaddress);
 				return DEVICE_NOTFOUND;
@@ -274,6 +287,17 @@ public class BtHwLayer {
 			if( !isConnected) {
 				return NOCONNECTION;
 			}
+		}
+		try {
+			byte[] response = verifyPwd(pass);
+			String respstr = new String(response).toLowerCase();
+			if( respstr.equals("fail")) {
+				return "Autherization is failed";
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "Authentication Error "+e.getMessage();
 		}
 		return NOCONNECTIONERROR;
 	}
@@ -403,12 +427,18 @@ public class BtHwLayer {
 
 	private void writeBytes(byte[] wbytes) {
 		if (isWifi()) {
-			System.out.println("Waiting for 250 ms before writing the data to wifi device");
-			try {
-				Thread.sleep(250);
-			} catch (Exception e) {
+			long current = System.currentTimeMillis();
+			if( current - lastsenttime < 250) {
+				System.out.println("Waiting for 250 ms before writing the data to wifi device");
+				try {
+					Thread.sleep(250);
+				} catch (Exception e) {
+				}
+			} else {
+				System.out.println(" no Waiting for 250");
 			}
 			sender.sendCmd(wbytes);
+			lastsenttime = System.currentTimeMillis();
 		} else {
 			int numBytes = wbytes.length;
 			int numSent = 0;
@@ -431,23 +461,69 @@ public class BtHwLayer {
 		}
 	}
 
-	private byte[] getDataAndValidate(byte reqno) throws Exception{
-		byte[] data = this.getData(reqno);
+	private byte[] processReqWithRetries(byte reqno, byte[] writeBytes)  throws Exception {
+		byte[] data = null;
+		int numRetries = 0;
+		while(numRetries<3){
+			numRetries++;
+			System.err.println("retry count ... "+numRetries+ "   wating for "+(numRetries*20)+"ms");
+			this.writeBytes(writeBytes);
+			data = this.getData(reqno);
+			if( data == null) {
+				try {
+					Thread.sleep(numRetries*100);
+				}catch(Exception e){
+					System.out.println("Error in sleeping ..."+e.getMessage());
+				}
+				continue;
+			} else
+				break;
+		}
+		
 		if (data == null) {
 			throw new Exception("No data from device");
 		} else {
 			return data;
 		}
 	}
+	
 	public int getNumberOfDevices() throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 41, reqno });
-		byte[] data = this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 41, reqno };
+		byte[] data = processReqWithRetries(reqno, writeBytes);
 		// first byte will be the number of devices
 		return data[0];
 	}
 
+	public byte[] changePwd(String pwd) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		System.out.println("pwd="+pwd);
+		pwd = pwd + "\0\0";
+		byte[] pwdbytes = pwd.getBytes();
+		byte pwdsetbytes[] = new byte[1 + 1 + pwdbytes.length ];
+		pwdsetbytes[0] = 'P';
+		pwdsetbytes[1] = reqno;
+		for (int index = 0; index < pwdbytes.length; index++)
+			pwdsetbytes[2 + index] = pwdbytes[index];
+		return processReqWithRetries(reqno, pwdsetbytes);
+	}
+	
+	public byte[] verifyPwd(String pwd) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		System.out.println("pwd="+pwd);
+		pwd = pwd + "\0\0";
+		byte[] pwdbytes = pwd.getBytes();
+		byte pwdsetbytes[] = new byte[1 + 1 + pwdbytes.length ];
+		pwdsetbytes[0] = 'A';
+		pwdsetbytes[1] = reqno;
+		for (int index = 0; index < pwdbytes.length; index++)
+			pwdsetbytes[2 + index] = pwdbytes[index];
+		return processReqWithRetries(reqno, pwdsetbytes);
+	}
+	
 	public byte[] setIpAddress(String ssid, String passwd, String ipaddress) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
@@ -463,37 +539,36 @@ public class BtHwLayer {
 		for (int index = 0; index < ipbytes.length; index++)
 			ipsetbytes[2 + ssidinfobytes.length + index] = ipbytes[index];
 		ipsetbytes[2 + ssidinfobytes.length + ipbytes.length] = '\0';
-		this.writeBytes(ipsetbytes);
-		return this.getDataAndValidate(reqno);
+		return processReqWithRetries(reqno, ipsetbytes);
 	}
 
 	public byte[] readAllStatus() throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 63, reqno, (byte) -1 });
-		return this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 63, reqno, (byte) -1 };
+		return processReqWithRetries(reqno, writeBytes);
 	}
 
 	public byte[] readRGBToDevice() throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) '^', reqno });
-		return this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) '^', reqno };
+		return processReqWithRetries(reqno, writeBytes);
 	}
 
 	public int readCommandToDevice(int var1) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 63, reqno, (byte) 1, (byte) var1 });
-		byte data[] =  this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 63, reqno, (byte) 1, (byte) var1 };
+		byte data[] =   processReqWithRetries(reqno, writeBytes);
 		return data[2];
 	}
 
 	public long readPower() throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 38, reqno });
-		byte[] data = this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 38, reqno };
+		byte data[] =   processReqWithRetries(reqno, writeBytes);
 		return convertBytesToLong(data);
 	}
 
@@ -514,22 +589,22 @@ public class BtHwLayer {
 		for (int i = 0; i < deviceInfo.length; i++)
 			both[timeBytes.length + i] = deviceInfo[i];
 
-		this.writeBytes(both);
-		this.getDataAndValidate(reqno);
+		processReqWithRetries(reqno, both);
 	}
 
 	public void sendRGBToDevice(byte i, byte r, byte g, byte b) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) '+', reqno, i, r, g, b });
-		getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) '+', reqno, i, r, g, b };
+		processReqWithRetries(reqno, writeBytes);
+		
 	}
 
 	public void sendCommandToDevice(int devid, int status) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 35, reqno, (byte) 1, (byte)devid, (byte)status });
-		this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 35, reqno, (byte) 1, (byte)devid, (byte)status };
+		processReqWithRetries(reqno, writeBytes);
 	}
 
 	public void sendCommandToDevices(int[] devidandstatuses) throws Exception {
@@ -542,15 +617,14 @@ public class BtHwLayer {
 		for (int i=0; i<devidandstatuses.length; i++) {
 			writeBytes[3+i] = (byte)devidandstatuses[i];
 		}
-		this.writeBytes(writeBytes);
-		this.getDataAndValidate(reqno);
+		processReqWithRetries(reqno, writeBytes);
 	}
 
 	public void sendDeleteAlarmCommandToDevice(int schedid) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		this.writeBytes(new byte[] { (byte) 45, reqno, (byte)schedid });
-		this.getDataAndValidate(reqno);
+		byte[] writeBytes = new byte[] { (byte) 45, reqno, (byte)schedid };
+		processReqWithRetries(reqno, writeBytes);
 	}
 
 	public void setDateAndTime() throws Exception {
@@ -562,16 +636,15 @@ public class BtHwLayer {
 		writeBytes[1] = reqno;
 		for(int i=0; i<timeBytes.length; i++)
 			writeBytes[i+2] = timeBytes[i];
-		this.writeBytes(writeBytes);
-		this.getDataAndValidate(reqno);
+		processReqWithRetries(reqno, writeBytes);
 	}
 
 	public void setDeviceType(int devid, boolean isDimmable) throws Exception {
 		/*this.checkConnection();
 		byte reqno = this.getNextReqno();
 		byte type = (byte)(isDimmable?2:1);
-		this.writeBytes(new byte[] { (byte) 40, reqno, (byte)devid, type });
-		this.getDataAndValidate(reqno);*/
+		byte[] writeBytes = new byte[] { (byte) 40, reqno, (byte)devid, type };
+		processReqWithRetries(reqno, writeBytes);*/
 	}
 
 	public boolean shouldReconnect(String ipAddressOrDevAddress) {
