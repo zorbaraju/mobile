@@ -1,32 +1,36 @@
 package com.zorba.bt.app;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class DiscoveryRoom extends LinearLayout {
    String devAddress = null;
-   BluetoothDevice device = null;
    TextView nameText = null;
    boolean isRGB = false;
+   boolean isWAP = false;
+   String ssid = null;
 
-   public DiscoveryRoom(Context var1, String var2, BluetoothDevice var3) {
-      super(var1);
-      this.devAddress = var2;
-      this.device = var3;
-      ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
+   public DiscoveryRoom(Context context, String deviceAddress, String deviceName) {
+	   this(context, deviceAddress, deviceName, null, false);
+   }
+   public DiscoveryRoom(Context context, String deviceAddress, String deviceName, String ssid, boolean iswap) {
+      super(context);
+      isWAP = iswap;
+      this.devAddress = deviceAddress;
+      this.ssid = ssid;
+      ((LayoutInflater)context.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
       this.nameText = (TextView)this.findViewById(R.id.devicename);
       nameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
-      this.nameText.setText(var3.getName());
-      this.isRGB = var3.getName().endsWith("_RGB");
+      this.nameText.setText(deviceName);
+      
+      this.isRGB = deviceName.endsWith("_RGB");
    }
 
-   public BluetoothDevice getDevice() {
-      return this.device;
+   public boolean isWAP() {
+	   return isWAP;
    }
 
    public String getDeviceAddress() {
@@ -35,6 +39,10 @@ public class DiscoveryRoom extends LinearLayout {
 
    public String getDeviceName() {
       return this.nameText.getText().toString();
+   }
+   
+   public String getSSID() {
+	   return this.ssid;
    }
 
    public String getRoomName() {

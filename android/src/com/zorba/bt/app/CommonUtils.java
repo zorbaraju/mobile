@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
@@ -18,10 +19,12 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.List;
+
 import com.zorba.bt.app.bluetooth.NetworkInfo;
 
 public class CommonUtils {
-   public static int MAX_NO_DEVICES = 10;
+   public static int MAX_NO_DEVICES = 6;
    public static final int MENUITEMINDEX_ABOUT = 3;
    public static final int MENUITEMINDEX_DISCOVERY = 0;
    public static final int MENUITEMINDEX_EXIT = 4;
@@ -32,6 +35,8 @@ public class CommonUtils {
    public static final String MENUITEM_EXIT = "Exit";
    public static final String MENUITEM_HELP = "Help";
    public static final String MENUITEM_SENDLOG = "Send Log";
+   public static final String APPPASSWORD = "ezorba1234";
+   public static final String DEVICEPASSWORD = "ezorba1234";
    
    public static NetworkInfo networkInfo = null;
 
@@ -320,5 +325,68 @@ public class CommonUtils {
 			e.printStackTrace();
 		}
    }
+   
+	public static String enableNetwork(Activity activity, String networkSSID, String networkPass) {
+		String ipaddr = null;
+		System.out.println("Enabling network1");
+		try {
+			WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
+			List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+			int netId = -1;
+			for (WifiConfiguration wc : list) {
+				String ssid = wc.SSID.substring(1, wc.SSID.length()-1);
+				if( ssid.equals(networkSSID)) {
+					netId = wc.networkId;
+					break;
+				}
+			}
+			System.out.println("Enabling network11 networkid...."+netId);
+			WifiConfiguration wc = new WifiConfiguration();
+			System.out.println("Enabling network21");
+			wc.SSID = "\"" + networkSSID + "\"";
+			System.out.println("Enabling network31");
+			wc.preSharedKey = "\"" + networkPass + "\"";
+			wc.status = WifiConfiguration.Status.ENABLED;
+			wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+			wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+			wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+			wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+			wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+			wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+			// connect to and enable the connection
+			System.out.println("Enabling network41");
+			System.out.println("Enabling network15");
+			wifiManager.setWifiEnabled(true);
+			System.out.println("Enabling network61");
+			if( netId == -1) {
+				netId = wifiManager.addNetwork(wc);
+			} 
+			if( netId == -1){
+				System.out.println("Not able to get ip");
+				return null;
+			}
+			System.out.println("Enabling network71");
+			wifiManager.enableNetwork(netId, true);
+			System.out.println("Enabling network81");
+			boolean isconnected = wifiManager.reconnect();
+			System.out.println("Enabling network19");
+			if (isconnected) {
+				Thread.sleep(5000);
+				System.out.println("Enabling network111");
+				ipaddr = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
+				System.out.println(
+						"Connected..." + ipaddr);
+				ipaddr = ipaddr.substring(0,ipaddr.lastIndexOf("."))+".1";
+				
+			} else {
+				System.out.println("Not connected");
+			}
+			System.out.println("Enabling network111"); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("Enabling network1");
+		return ipaddr;
+	}
 	
 }

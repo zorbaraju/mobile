@@ -7,13 +7,16 @@ import android.os.AsyncTask;
 
 public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Object> {
 
+	boolean waitDialogEnabled = false;
 	private AlertDialog dialog;
 	public BackgroundTaskDialog(Activity context) {
-		Builder builder = new Builder(context);
-		builder.setCancelable(false);
-		dialog = builder.create();
-		dialog.setTitle("Wait");
-		dialog.setMessage("Please wait");
+		if( waitDialogEnabled ) {
+			Builder builder = new Builder(context);
+			builder.setCancelable(false);
+			dialog = builder.create();
+			dialog.setTitle("Wait");
+			dialog.setMessage("Please wait");
+		}
 		execute("");
 	}
 
@@ -27,14 +30,16 @@ public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Obj
 	}
 
 	protected void onPreExecute() {
-        this.dialog.setMessage("Please wait");
-        this.dialog.show();
+		if( waitDialogEnabled ) {
+			this.dialog.setMessage("Please wait");
+			this.dialog.show();
+		}
     }
 
     @Override
     protected void onPostExecute(Object result) {
     	finishedTask(result);
-        if (dialog.isShowing()) {
+        if (waitDialogEnabled && dialog.isShowing()) {
             dialog.dismiss();
         }
     }

@@ -2,22 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zorba.bt.app"
     android:versionCode="1"
-    android:versionName="bw 1.5" >
+    android:versionName="bw 2.0" >
 
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/appicon"
-        android:label="@string/app_name">
+        android:label="@string/app_name" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -39,11 +40,11 @@
             android:name=".SendLogActivity"
             android:label="@string/title_sendlog" >
         </activity>
-         <activity
+        <activity
             android:name=".AppInfoActivity"
             android:label="@string/title_appinfo" >
         </activity>
-         <activity
+        <activity
             android:name=".AddDeviceActivity"
             android:label="@string/title_appinfo" >
         </activity>
@@ -55,7 +56,12 @@
             android:name=".AddSchedulerActivity"
             android:label="@string/title_appinfo" >
         </activity>
-        
+
+        <receiver android:name=".NetworkStateReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

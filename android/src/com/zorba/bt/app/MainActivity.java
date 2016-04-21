@@ -32,17 +32,17 @@ import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class MainActivity extends ZorbaActivity implements NotificationListener, ConnectionListener{
+public class MainActivity extends ZorbaActivity implements NotificationListener, ConnectionListener {
 
 	public static final int DISCOVERY_CODE = 1;
-	public static final int ENABLEBT_CODE = DISCOVERY_CODE+1;
-	public static final int ENABLEWIFI_CODE = ENABLEBT_CODE+1;
-	public static final int ADDDEVICE_CODE = ENABLEWIFI_CODE+1;
-	public static final int ADDGROUP_CODE = ADDDEVICE_CODE+1;
-	public static final int ADDSCHEDULER_CODE = ADDGROUP_CODE+1;
-	public static final int APPINFO_CODE = ADDSCHEDULER_CODE+1;
-	public static final int SENDLOG_CODE = APPINFO_CODE+1;
-	public static final int HELP_CODE = SENDLOG_CODE+1;
+	public static final int ENABLEBT_CODE = DISCOVERY_CODE + 1;
+	public static final int ENABLEWIFI_CODE = ENABLEBT_CODE + 1;
+	public static final int ADDDEVICE_CODE = ENABLEWIFI_CODE + 1;
+	public static final int ADDGROUP_CODE = ADDDEVICE_CODE + 1;
+	public static final int ADDSCHEDULER_CODE = ADDGROUP_CODE + 1;
+	public static final int APPINFO_CODE = ADDSCHEDULER_CODE + 1;
+	public static final int SENDLOG_CODE = APPINFO_CODE + 1;
+	public static final int HELP_CODE = SENDLOG_CODE + 1;
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
 	int _color = 0;
@@ -65,57 +65,63 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	LinearLayout roomContent = null;
 	RGBController rgbController = null;
 	BtHwLayer btHwLayer = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.landinglayout);
-		
-		rgbController = new RGBController(this);
-		final ListPopupWindow homeMenu = prepareHomeMenu();
-		ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
-		homeButton.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				homeMenu.show();
-			}
-		});
-		this.roomMenuList = new ListPopupWindow(this);
-		TextView roomText = (TextView) findViewById(R.id.roomList);
-		roomText.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View paramAnonymousView) {
-				MainActivity.this.roomMenuList.show();
-			}
-		});
-		/*
-		((ImageButton) findViewById(R.id.aboutButton)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View paramAnonymousView1) {
-				Intent paramAnonymousView = new Intent(MainActivity.this, AppInfoActivity.class);
-				MainActivity.this.startActivityForResult(paramAnonymousView, APPINFO_CODE);
-			}
-		});*/
-		ImageButton db = (ImageButton) findViewById(R.id.discoverbutton);
-		if (db != null) {
-			db.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View paramAnonymousView1) {
-					btHwLayer.unregister();
-					Intent paramAnonymousView = new Intent(MainActivity.this, DiscoveryActivity.class);
-					MainActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
+		try {
+			setContentView(R.layout.landinglayout);
+
+			rgbController = new RGBController(this);
+			final ListPopupWindow homeMenu = prepareHomeMenu();
+			ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);
+			homeButton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					homeMenu.show();
 				}
 			});
+			this.roomMenuList = new ListPopupWindow(this);
+			TextView roomText = (TextView) findViewById(R.id.roomList);
+			roomText.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View paramAnonymousView) {
+					MainActivity.this.roomMenuList.show();
+				}
+			});
+			/*
+			 * ((ImageButton)
+			 * findViewById(R.id.aboutButton)).setOnClickListener(new
+			 * View.OnClickListener() { public void onClick(View
+			 * paramAnonymousView1) { Intent paramAnonymousView = new
+			 * Intent(MainActivity.this, AppInfoActivity.class);
+			 * MainActivity.this.startActivityForResult(paramAnonymousView,
+			 * APPINFO_CODE); } });
+			 */
+			ImageButton db = (ImageButton) findViewById(R.id.discoverbutton);
+			if (db != null) {
+				db.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View paramAnonymousView1) {
+						btHwLayer.unregister();
+						Intent paramAnonymousView = new Intent(MainActivity.this, DiscoveryActivity.class);
+						MainActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
+					}
+				});
+			}
+			btHwLayer = BtHwLayer.getInstance(this);
+			prepareRoomListMenu("", false);
+
+			System.out.println("Number>>>>> of rooms...." + roomDataList.size());
+			if (this.roomDataList.size() == 0) {
+				startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
+			}
+			setConnectionModeIcon();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		btHwLayer = BtHwLayer.getInstance(this);
-		prepareRoomListMenu("", false);
-		
-		System.out.println("Number>>>>> of rooms...." + roomDataList.size());
-		if (this.roomDataList.size() == 0) {
-			startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
-		}
-		setConnectionModeIcon();
 	}
 
-	
 	@Override
 	public void onBackPressed() {
 		new AlertDialog.Builder(this).setTitle("Exit").setMessage("Do you really want to exit ?")
@@ -353,9 +359,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(this.schedulePanel);
-		ArrayList<SchedulerData> scheduleList = BtLocalDB.getInstance(this).getSchedules(this.selectedRoom.getAddress());
-		
-		for (int i=0; i<scheduleList.size(); i++) {
+		ArrayList<SchedulerData> scheduleList = BtLocalDB.getInstance(this)
+				.getSchedules(this.selectedRoom.getAddress());
+
+		for (int i = 0; i < scheduleList.size(); i++) {
 			SchedulerData localSchedulerData = scheduleList.get(i);
 			addScheduleButton(Integer.parseInt(localSchedulerData.getSchedulerId()), localSchedulerData.getName());
 		}
@@ -363,11 +370,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData) {
-		final int i = paramDeviceData.getDevId();
-		System.out.println("addButtonPanel....id>>>"+i);
+		final int devid = paramDeviceData.getDevId();
+		System.out.println("addButtonPanel....id>>>" + devid);
 		final String str1 = paramDeviceData.getType();
 		final String str2 = paramDeviceData.getName();
-		paramDeviceData.setStatus(BtLocalDB.getInstance(this).getDeviceStatus(str2));
+		paramDeviceData.setStatus(BtLocalDB.getInstance(this).getDeviceStatus((byte)devid));
 		final ImageTextButton deviceButton = new ImageTextButton(this);
 		deviceButton.setDevice(paramDeviceData);
 		deviceButton.setOnLongClickListener(new View.OnLongClickListener() {
@@ -376,7 +383,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				MainActivity.this.selectedDeviceName = str2;
 				paramMyComp.selectComp(deviceButton);
 				if (DeviceData.isDimmable(str1)) {
-					MainActivity.this.controlDevice(deviceButton, str1, i);
+					MainActivity.this.controlDevice(deviceButton, str1, devid);
 				}
 				return true;
 			}
@@ -384,55 +391,55 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		deviceButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
 				paramMyComp.deselectAll();
-				MainActivity.this.singleClickButton(i, str1, deviceButton);
+				MainActivity.this.singleClickButton(devid, str1, deviceButton);
 			}
 		});
 		paramMyComp.addMyView(deviceButton);
 	}
 
 	private void readAndUpateStatusForRoom(boolean update) {
-		System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is false..."+CommonUtils.MAX_NO_DEVICES);
-		if( update ) {
+		System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is false..." + CommonUtils.MAX_NO_DEVICES);
+		if (update) {
 			try {
 				byte allStatus[] = btHwLayer.readAllStatus();
-				if( allStatus == null) {
+				if (allStatus == null) {
 					CommonUtils.AlertBox(this, "Device count", "No data from device");
 					return;
 				}
-				for(byte ind=1; ind<allStatus.length; ind += 2){
+				for (byte ind = 1; ind < allStatus.length; ind++) {
 					try {
-						byte deviceid = allStatus[ind];
-						byte status = allStatus[ind+1];
-						System.out.println("GGGGGGGGGGG>>>>>devid="+deviceid+" status="+status);
-						 BtLocalDB.getInstance(this).updateDeviceStatus(deviceid, status);
+						byte deviceid = (byte) ind;
+						byte status = allStatus[ind];
+						System.out.println("GGGGGGGGGGG>>>>>devid=" + deviceid + " status=" + status);
+						BtLocalDB.getInstance(this).updateDeviceStatus(deviceid, status);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-						System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is ="+update);
+						System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is =" + update);
 					}
 				}
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
+
 		}
-		
+
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if( MainActivity.this.lightsPanel == null) {
+				if (MainActivity.this.lightsPanel == null) {
 					System.out.println("Notification is received.....i dont know why its coming here....");
 					return;
 				}
 				MainActivity.this.lightsPanel.updateButtonInPanel();
 				MainActivity.this.devicePanel.updateButtonInPanel();
 				int i = BtLocalDB.getInstance(MainActivity.this).getDevicesOnCount();
-				((TextView) findViewById(R.id.onDeviceCount)).setText(""+i);
+				((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
 				try {
 					if (MainActivity.this.groupPanel.isReset()) {
 						MainActivity.this.groupPanel.updateLiveButtonInPanel();
 					}
-					if(!btHwLayer.isConnected())
+					if (!btHwLayer.isConnected())
 						groupPanel.resetButtonInPanel(true);
 					return;
 				} catch (Exception localException) {
@@ -444,7 +451,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 
 	private void singleClickButton(final int paramInt, String paramString, ImageTextButton paramImageTextButton) {
 		BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
-			
+
 			@Override
 			public Object runTask(Object params) {
 				try {
@@ -454,9 +461,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 						readValue = 0;
 					else
 						readValue = 9;
-					System.out.println("Send ReadValue..paramInt."+paramInt+" value..." + readValue);
+					System.out.println("Send ReadValue..paramInt." + paramInt + " value..." + readValue);
 					btHwLayer.sendCommandToDevice(paramInt, readValue);
-					System.out.println("Send ReadValue..paramIntaaaa."+paramInt+"  byte.."+((byte) paramInt)+" value..." + readValue);
+					System.out.println("Send ReadValue..paramIntaaaa." + paramInt + "  byte.." + ((byte) paramInt)
+							+ " value..." + readValue);
 					BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
 					readAndUpateStatusForRoom(false);
 					return null;
@@ -466,70 +474,67 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				}
 				return null;
 			}
-			
+
 			@Override
 			public void finishedTask(Object result) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
-		
+
 	}
 
-	private void addGroupButton(final String groupName)
-	  {
-	    final ImageTextButton localImageTextButton = new ImageTextButton(this);
-	    localImageTextButton.setText(groupName);
-	    localImageTextButton.changeDeviceButtonStyle(0);
-	    localImageTextButton.setBackgroundImage(R.drawable.group);
-	    localImageTextButton.setOnClickListener(new View.OnClickListener()
-	    {
-	      public void onClick(View paramAnonymousView)
-	      {
-	        MainActivity.this.groupPanel.deselectAll();
-	        int groudIds[] = BtLocalDB.getInstance(MainActivity.this).getGroupDevices(MainActivity.this.selectedRoom.getAddress(), groupName);
-	        boolean groupClicked = MainActivity.this.groupStatusMap.containsKey(groupName);
-	        if(groupClicked){
-	        	for(int dindex = 0; dindex<groudIds.length; dindex += 2) {
-	        		groudIds[dindex+1] = 0;
-	        	}
-	        }
-	        try {
-	        	btHwLayer.sendCommandToDevices(groudIds);
-				if( !groupClicked ) {
-		        	MainActivity.this.groupStatusMap.put(groupName, Boolean.valueOf(true));
-		        	localImageTextButton.changeDeviceButtonStyle(1);
-		            localImageTextButton.setBackgroundImage(R.drawable.group);
-		        } else {
-		        	MainActivity.this.groupStatusMap.remove(groupName);
-		        	localImageTextButton.changeDeviceButtonStyle(0);
-		            localImageTextButton.setBackgroundImage(R.drawable.group);
-		        }
-				for(int dindex = 0; dindex<groudIds.length; dindex += 2) {
-		        	BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) groudIds[dindex], (byte) groudIds[dindex+1]);
-	        	}
-		        MainActivity.this.readAndUpateStatusForRoom(false);
-			} catch (Exception e) {
-				MainActivity.this.groupStatusMap.remove(groupName);
-	        	localImageTextButton.changeDeviceButtonStyle(-1);
-	            localImageTextButton.setBackgroundImage(R.drawable.group);
-	            CommonUtils.AlertBox(MainActivity.this, "Read Error", e.getMessage());
+	private void addGroupButton(final String groupName) {
+		final ImageTextButton localImageTextButton = new ImageTextButton(this);
+		localImageTextButton.setText(groupName);
+		localImageTextButton.changeDeviceButtonStyle(0);
+		localImageTextButton.setBackgroundImage(R.drawable.group);
+		localImageTextButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View paramAnonymousView) {
+				MainActivity.this.groupPanel.deselectAll();
+				int groudIds[] = BtLocalDB.getInstance(MainActivity.this)
+						.getGroupDevices(MainActivity.this.selectedRoom.getAddress(), groupName);
+				boolean groupClicked = MainActivity.this.groupStatusMap.containsKey(groupName);
+				if (groupClicked) {
+					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
+						groudIds[dindex + 1] = 0;
+					}
+				}
+				try {
+					btHwLayer.sendCommandToDevices(groudIds);
+					if (!groupClicked) {
+						MainActivity.this.groupStatusMap.put(groupName, Boolean.valueOf(true));
+						localImageTextButton.changeDeviceButtonStyle(1);
+						localImageTextButton.setBackgroundImage(R.drawable.group);
+					} else {
+						MainActivity.this.groupStatusMap.remove(groupName);
+						localImageTextButton.changeDeviceButtonStyle(0);
+						localImageTextButton.setBackgroundImage(R.drawable.group);
+					}
+					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
+						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) groudIds[dindex],
+								(byte) groudIds[dindex + 1]);
+					}
+					MainActivity.this.readAndUpateStatusForRoom(false);
+				} catch (Exception e) {
+					MainActivity.this.groupStatusMap.remove(groupName);
+					localImageTextButton.changeDeviceButtonStyle(-1);
+					localImageTextButton.setBackgroundImage(R.drawable.group);
+					CommonUtils.AlertBox(MainActivity.this, "Read Error", e.getMessage());
+				}
 			}
-	      }
-	    });
-	    localImageTextButton.setOnLongClickListener(new View.OnLongClickListener()
-	    {
-	      public boolean onLongClick(View paramAnonymousView)
-	      {
-	        MainActivity.this.groupPanel.showDeleteButton(true);
-	        MainActivity.this.selectedGroupName = groupName;
-	        MainActivity.this.selectedGroupButton = localImageTextButton;
-	        MainActivity.this.groupPanel.selectComp(localImageTextButton);
-	        return true;
-	      }
-	    });
-	    this.groupPanel.addMyView(localImageTextButton);
-	  }
+		});
+		localImageTextButton.setOnLongClickListener(new View.OnLongClickListener() {
+			public boolean onLongClick(View paramAnonymousView) {
+				MainActivity.this.groupPanel.showDeleteButton(true);
+				MainActivity.this.selectedGroupName = groupName;
+				MainActivity.this.selectedGroupButton = localImageTextButton;
+				MainActivity.this.groupPanel.selectComp(localImageTextButton);
+				return true;
+			}
+		});
+		this.groupPanel.addMyView(localImageTextButton);
+	}
 
 	private void addScheduleButton(final int paramInt, final String paramString) {
 		final ImageTextButton localImageTextButton = new ImageTextButton(this);
@@ -608,7 +613,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private void populatePageForSelectedRoom() {
-		if (!btHwLayer.makeBtEnabled()) {
+		if (!btHwLayer.isWifiEnabled() && !btHwLayer.makeBtEnabled()) {
 			System.out.println("pbt is not enableds");
 			return;
 		}
@@ -627,13 +632,21 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 
 	private void updateWithRealtime() {
 		BackgroundTaskDialog task = new BackgroundTaskDialog(this) {
-			
+
 			@Override
 			public Object runTask(Object params) {
 				boolean isUpdate = false;
 				btHwLayer.setConnectionListener(MainActivity.this);
-				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getIpAddress());
-				if( error == null) {
+				String incomingssid = selectedRoom.getSSID();
+				String ipaddress = selectedRoom.getIpAddress();
+				String macaddress = selectedRoom.getAddress();
+				if( incomingssid != null && !incomingssid.isEmpty()) {
+					macaddress = null;
+					ipaddress = CommonUtils.enableNetwork(MainActivity.this, incomingssid, incomingssid);
+				}
+				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
+						BtLocalDB.getInstance(MainActivity.this).getPassword());
+				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
 						CommonUtils.setNumMaxNoDevices(numberOfDevices);
@@ -650,11 +663,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				readAndUpateStatusForRoom(isUpdate);
 				return null;
 			}
-			
+
 			@Override
 			public void finishedTask(Object result) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		};
 	}
@@ -668,11 +681,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		this.selectedRoom = ((RoomData) this.roomDataList.get(paramInt));
 		paramTextView.setText(this.selectedRoom.getName());
 		System.out.println("processing calling pageforselectedroom " + selectedRoom.getName());
-		
-		System.out.println("processing rooms isrgb="+selectedRoom.isRGBType());
+
+		System.out.println("processing rooms isrgb=" + selectedRoom.isRGBType());
 		BtLocalDB.getInstance(this).setLastSelectedRoom(paramInt);
 		BtLocalDB.getInstance(this).clearDeviceStatus();
-		if( selectedRoom.isRGBType()){
+		if (selectedRoom.isRGBType()) {
 			rgbController.setRGBView(selectedRoom);
 		} else {
 			((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.VISIBLE);
@@ -680,16 +693,15 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.GONE);
 			populatePageForSelectedRoom();
 		}
-		
-		
+
 	}
 
 	public void putInOffline() {
 		runOnUiThread(new Runnable() {
 			public void run() {
 				System.out.println("Update Status");
-				if( MainActivity.this.lightsPanel == null) {
-					//rgbController.putOffLine(true);
+				if (MainActivity.this.lightsPanel == null) {
+					// rgbController.putOffLine(true);
 				} else {
 					MainActivity.this.lightsPanel.resetButtonInPanel(false);
 					MainActivity.this.devicePanel.resetButtonInPanel(false);
@@ -765,43 +777,36 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			addScheduleButton(requestCode, name);
 		}
 	}
-	
-	public void notificationReceived(byte[] paramArrayOfByte)
-	  {
-	    int i = 0;
-	    for (;;)
-	    {
-	      if (i >= paramArrayOfByte.length / 2) {
-	        return;
-	      }
-	      byte b1 = paramArrayOfByte[(i * 2)];
-	      byte b2 = paramArrayOfByte[(i * 2 + 1)];
-	      BtLocalDB.getInstance(this).updateDeviceStatus(b1, b2);
-	      readAndUpateStatusForRoom(false);
-	      i += 1;
-	    }
-	  }
+
+	public void notificationReceived(byte[] paramArrayOfByte) {
+		for (int index=0; index<paramArrayOfByte.length; index++) {
+			byte b1 = paramArrayOfByte[(index * 2)];
+			byte b2 = paramArrayOfByte[(index * 2 + 1)];
+			BtLocalDB.getInstance(this).updateDeviceStatus(b1, b2);
+			readAndUpateStatusForRoom(false);
+		}
+	}
 
 	public void connectionStarted() {
-		//putOffLine(false);
-		System.out.println("ConnectionStarted.....need to be defined");
+		setConnectionModeIcon();
 	}
+
 	public void connectionLost() {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if( MainActivity.this.lightsPanel != null) {
+				if (MainActivity.this.lightsPanel != null) {
 					MainActivity.this.lightsPanel.resetButtonInPanel(false);
 					MainActivity.this.devicePanel.resetButtonInPanel(false);
 					MainActivity.this.groupPanel.resetButtonInPanel(true);
+					setConnectionModeIcon();
 				}
 			}
 		});
-		
 	}
-	
+
 	public void setConnectionModeIcon() {
-		ImageButton aboutButton = (ImageButton)findViewById(R.id.aboutButton);
-		if ( btHwLayer.isWifiEnabled() )
+		ImageButton aboutButton = (ImageButton) findViewById(R.id.aboutButton);
+		if (btHwLayer.isWifiEnabled())
 			aboutButton.setImageResource(R.drawable.wifi);
 		else
 			aboutButton.setImageResource(R.drawable.bt);
