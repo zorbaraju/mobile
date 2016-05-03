@@ -19,12 +19,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class AddDeviceActivity extends ZorbaActivity {
-   String deviceAddress = null;
+   String deviceName = null;
    String tabName = "Lights";
    CheckBox isdimmable = null;
    
    private String[] getUnusedDeviceIds() {
-      DeviceData[] var3 = BtLocalDB.getInstance(this).getDevices(this.deviceAddress);
+      DeviceData[] var3 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
       ArrayList<Integer> var2 = new ArrayList<Integer>();
 
       int var1;
@@ -71,10 +71,10 @@ public class AddDeviceActivity extends ZorbaActivity {
       String var8 = var2.getText();
       String var9 = CommonUtils.isValidName(this, var3.getText().toString());
       if(var9 != null) {
-         if(com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceAddress, var9)) {
+         if(com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceName, var9)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
-            DeviceData[] var6 = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceAddress);
+            DeviceData[] var6 = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceName);
             if(var4.getText().isEmpty()) {
                CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + var6.length + " devices can only be added");
             } else {
@@ -93,7 +93,7 @@ public class AddDeviceActivity extends ZorbaActivity {
                   return;
                }
 
-               com.zorba.bt.app.db.BtLocalDB.getInstance(this).updateDevice(this.deviceAddress, var10);
+               com.zorba.bt.app.db.BtLocalDB.getInstance(this).updateDevice(this.deviceName, var10);
                Intent var11 = new Intent();
                var11.putExtra("name", var9);
                var11.putExtra("type", var8);
@@ -111,7 +111,7 @@ public class AddDeviceActivity extends ZorbaActivity {
       super.onCreate(var1);
       this.setContentView(R.layout.adddevicelayout);
       var1 = this.getIntent().getExtras();
-      this.deviceAddress = var1.getString("deviceAddress");
+      this.deviceName = var1.getString("deviceName");
       tabName = var1.getString("tabName");
       EditText var3 = (EditText)this.findViewById(R.id.deviceNameInput);
       var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});

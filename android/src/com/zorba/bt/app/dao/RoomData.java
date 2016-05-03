@@ -8,7 +8,7 @@ public class RoomData {
 	private String deviceName = "";
 	private String ssid = "";
 
-	public RoomData(String macaddress, String name, boolean isRGB, String ipaddress, String devname, String ssid) {
+	public RoomData(String macaddress, String name, boolean isRGB, String ipaddress, String ssid, String devname) {
 		this.name = name;
 		this.address = macaddress;
 		this.isRGB = isRGB;

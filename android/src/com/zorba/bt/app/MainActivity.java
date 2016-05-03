@@ -257,7 +257,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(local16);
-		DeviceData[] arrayOfDeviceData = BtLocalDB.getInstance(this).getDevices(this.selectedRoom.getAddress());
+		DeviceData[] arrayOfDeviceData = BtLocalDB.getInstance(this).getDevices(this.selectedRoom.getDeviceName());
 		local16.expandComp(true);
 		if (paramString.equals("Lights"))
 			this.lightsPanel = local16;
@@ -285,7 +285,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		this.groupPanel = new MyComp(getApplicationContext(), "Groups") {
 			public void doAddAction() {
 				Intent localIntent = new Intent(MainActivity.this.getBaseContext(), AddGroupActivity.class);
-				localIntent.putExtra("deviceAddress", MainActivity.this.selectedRoom.getAddress());
+				localIntent.putExtra("deviceName", MainActivity.this.selectedRoom.getDeviceName());
 				MainActivity.this.startActivityForResult(localIntent, ADDGROUP_CODE);
 			}
 
@@ -296,7 +296,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 							public void onClick(DialogInterface paramAnonymous2DialogInterface,
 									int paramAnonymous2Int) {
 								BtLocalDB.getInstance(MainActivity.this).deleteGroup(
-										MainActivity.this.selectedRoom.getAddress(),
+										MainActivity.this.selectedRoom.getDeviceName(),
 										MainActivity.this.selectedGroupName);
 								MainActivity.this.groupPanel.removeMyView(MainActivity.this.selectedGroupName);
 								showDeleteButton(false);
@@ -310,7 +310,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(this.groupPanel);
-		String[] arrayOfString = BtLocalDB.getInstance(this).getGroups(this.selectedRoom.getAddress());
+		String[] arrayOfString = BtLocalDB.getInstance(this).getGroups(this.selectedRoom.getDeviceName());
 		int i = 0;
 		for (;;) {
 			if (i >= arrayOfString.length) {
@@ -325,7 +325,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		this.schedulePanel = new MyComp(getApplicationContext(), "Schedules") {
 			public void doAddAction() {
 				Intent localIntent = new Intent(MainActivity.this.getBaseContext(), AddSchedulerActivity.class);
-				localIntent.putExtra("deviceAddress", MainActivity.this.selectedRoom.getAddress());
+				localIntent.putExtra("deviceName", MainActivity.this.selectedRoom.getDeviceName());
 				MainActivity.this.startActivityForResult(localIntent, ADDSCHEDULER_CODE);
 			}
 
@@ -398,7 +398,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private void readAndUpateStatusForRoom(boolean update) {
-		System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is false..." + CommonUtils.MAX_NO_DEVICES);
+		System.out.println("isUpdate.inside..readAndUpateStatusForRoom.is false..." + CommonUtils.getMaxNoDevices());
 		if (update) {
 			try {
 				byte allStatus[] = btHwLayer.readAllStatus();
@@ -493,7 +493,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			public void onClick(View paramAnonymousView) {
 				MainActivity.this.groupPanel.deselectAll();
 				int groudIds[] = BtLocalDB.getInstance(MainActivity.this)
-						.getGroupDevices(MainActivity.this.selectedRoom.getAddress(), groupName);
+						.getGroupDevices(MainActivity.this.selectedRoom.getDeviceName(), groupName);
 				boolean groupClicked = MainActivity.this.groupStatusMap.containsKey(groupName);
 				if (groupClicked) {
 					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
@@ -560,7 +560,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 
 	private void configureDevice(String paramString) {
 		Intent localIntent = new Intent(getBaseContext(), AddDeviceActivity.class);
-		localIntent.putExtra("deviceAddress", this.selectedRoom.getAddress());
+		localIntent.putExtra("deviceName", this.selectedRoom.getDeviceName());
 		localIntent.putExtra("tabName", paramString);
 		startActivityForResult(localIntent, ADDDEVICE_CODE);
 	}
@@ -640,16 +640,22 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				String incomingssid = selectedRoom.getSSID();
 				String ipaddress = selectedRoom.getIpAddress();
 				String macaddress = selectedRoom.getAddress();
-				if( incomingssid != null && !incomingssid.isEmpty()) {
+				if( incomingssid != null && !incomingssid.isEmpty() && !incomingssid.equals("null")) {
 					macaddress = null;
 					ipaddress = CommonUtils.enableNetwork(MainActivity.this, incomingssid, incomingssid);
+					if( ipaddress == null) {
+						CommonUtils.AlertBox(MainActivity.this, "Connection", "Ipaddress is found for ssid:"+incomingssid);
+						return null;
+					}
+				} else {
+					incomingssid = null;
 				}
 				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
 						BtLocalDB.getInstance(MainActivity.this).getPassword());
 				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
-						CommonUtils.setNumMaxNoDevices(numberOfDevices);
+						CommonUtils.setMaxNoDevices(numberOfDevices);
 						isUpdate = true;
 					} catch (Exception e) {
 						isUpdate = false;
@@ -779,16 +785,22 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	public void notificationReceived(byte[] paramArrayOfByte) {
-		for (int index=0; index<paramArrayOfByte.length; index++) {
-			byte b1 = paramArrayOfByte[(index * 2)];
-			byte b2 = paramArrayOfByte[(index * 2 + 1)];
-			BtLocalDB.getInstance(this).updateDeviceStatus(b1, b2);
+		for (int index=0; index<paramArrayOfByte.length; index +=2) {
+			byte devid = paramArrayOfByte[index];
+			byte status = paramArrayOfByte[index+ 1];
+			BtLocalDB.getInstance(this).updateDeviceStatus(devid, status);
 			readAndUpateStatusForRoom(false);
 		}
 	}
 
 	public void connectionStarted() {
-		setConnectionModeIcon();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				if (MainActivity.this.lightsPanel != null) {
+					setConnectionModeIcon();
+				}
+			}
+		});
 	}
 
 	public void connectionLost() {
