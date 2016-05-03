@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class AddGroupActivity extends ZorbaActivity {
-   String deviceAddress = null;
+   String deviceName = null;
 
    private void initListeners() {
       ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
@@ -31,8 +31,7 @@ public class AddGroupActivity extends ZorbaActivity {
 
    private void populateDevices() {
       LinearLayout var3 = (LinearLayout)this.findViewById(R.id.groupdevices);
-      DeviceData[] var2 = BtLocalDB.getInstance(this).getDevices(this.deviceAddress);
-
+      DeviceData[] var2 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
       for(int var1 = 0; var1 < var2.length; ++var1) {
          if(!var2[var1].isUnknownType()) {
             SelectComp var4 = new SelectComp(this, var2[var1]);
@@ -49,7 +48,7 @@ public class AddGroupActivity extends ZorbaActivity {
       LinearLayout var6 = (LinearLayout)this.findViewById(R.id.groupdevices);
       String var5 = CommonUtils.isValidName(this, var3.getText().toString());
       if(var5 != null) {
-         if(BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceAddress, var5)) {
+         if(BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceName, var5)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
             int var2 = var6.getChildCount();
@@ -75,7 +74,7 @@ public class AddGroupActivity extends ZorbaActivity {
                CommonUtils.AlertBox(this, "Save group", "No devices are selected");
             } else {
                var8 = var4.trim();
-               BtLocalDB.getInstance(this).saveGroup(this.deviceAddress, var5, var8);
+               BtLocalDB.getInstance(this).saveGroup(this.deviceName, var5, var8);
                Intent var9 = new Intent();
                var9.putExtra("name", var5);
                this.setResult(1, var9);
@@ -92,7 +91,7 @@ public class AddGroupActivity extends ZorbaActivity {
       EditText var3 = (EditText)this.findViewById(R.id.groupNameText);
       var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       ((TextView)this.findViewById(R.id.title)).setText("New Group");
-      this.deviceAddress = this.getIntent().getExtras().getString("deviceAddress");
+      this.deviceName = this.getIntent().getExtras().getString("deviceName");
       this.populateDevices();
    }
 

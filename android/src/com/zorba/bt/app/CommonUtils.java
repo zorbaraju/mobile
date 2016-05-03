@@ -24,7 +24,7 @@ import java.util.List;
 import com.zorba.bt.app.bluetooth.NetworkInfo;
 
 public class CommonUtils {
-   public static int MAX_NO_DEVICES = 6;
+   private static int max_no_devices = 0;
    public static final int MENUITEMINDEX_ABOUT = 3;
    public static final int MENUITEMINDEX_DISCOVERY = 0;
    public static final int MENUITEMINDEX_EXIT = 4;
@@ -266,10 +266,14 @@ public class CommonUtils {
       return var2;
    }
 
-   public static void setNumMaxNoDevices(int var0) {
-      MAX_NO_DEVICES = var0;
-      System.out.println("numbe............>>>>>>>>>>>"+var0+"...."+MAX_NO_DEVICES);
+   public static void setMaxNoDevices(int var0) {
+      max_no_devices = var0;
+      System.out.println("numbe............>>>>>>>>>>>"+var0+"...."+max_no_devices);
    }
+   
+   public static int getMaxNoDevices() {
+		return max_no_devices;
+	}
    
    public static NetworkInfo getNetworkInfo() {
 	   return networkInfo;
@@ -291,6 +295,7 @@ public class CommonUtils {
 		String ip = Formatter.formatIpAddress(info.getIpAddress());
 		String subnet = ip.substring(0,ip.lastIndexOf("."));
 		System.out.println("subnet..."+subnet);
+		printStackTrace();
 		networkInfo.unusedIndex = new int[numberOfUnUsed];
 		int numfound = 0;
 		for(int i=254; i>0; i--) {
@@ -385,8 +390,7 @@ public class CommonUtils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Enabling network1");
+		System.out.println("Enabling network1>>"+ipaddr);
 		return ipaddr;
 	}
-	
 }

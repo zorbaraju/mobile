@@ -150,7 +150,6 @@ public class BtHwLayer {
 	}
 
 	public String initDevice(String macaddress, String ssid, String ipaddr, String pass) {
-		
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr);
 		isConnected = false;
 
@@ -232,7 +231,8 @@ public class BtHwLayer {
 							synchronized (lock) {
 								lock.notifyAll();
 								isConnected = true;
-								connectionListener.connectionStarted();
+								if(connectionListener != null)
+									connectionListener.connectionStarted();
 							}
 							System.out.println("Notified for service found");
 						}
@@ -251,9 +251,23 @@ public class BtHwLayer {
 					byte[] values = characteristic.getValue();
 					printBytes("OnRead", values);
 					if (values[0] == 36) {
-						byte[] data = new byte[values.length - 2];
-						for (int i = 0; i < data.length; i++)
-							data[i] = values[i + 2];
+						byte reqid = values[1];
+						byte numdevs = values[2];
+						byte[] data = null;
+						byte alldevs = (byte)0xFF;
+						if( numdevs == alldevs) {
+							data = new byte[CommonUtils.getMaxNoDevices()*2];
+							byte devindex = 1;
+							for (int i = 3; i < data.length; i++) {
+								byte status = data[i];
+								data[devindex*2] = devindex;
+								data[devindex*2+1] = status;
+							}
+						} else {
+							data = new byte[values.length - 3];
+							for (int i = 0; i < data.length; i++)
+								data[i] = values[i + 3];
+						}
 						activity.notificationReceived(data);
 					} else {
 						synchronized (lock) {
@@ -428,14 +442,14 @@ public class BtHwLayer {
 	private void writeBytes(byte[] wbytes) {
 		if (isWifi()) {
 			long current = System.currentTimeMillis();
-			if( current - lastsenttime < 250) {
-				System.out.println("Waiting for 250 ms before writing the data to wifi device");
+			if( current - lastsenttime < 1) {
+				System.out.println("Waiting for 1 ms before writing the data to wifi device");
 				try {
-					Thread.sleep(250);
+					Thread.sleep(1);
 				} catch (Exception e) {
 				}
 			} else {
-				System.out.println(" no Waiting for 250");
+				System.out.println(" no Waiting for 1 ms");
 			}
 			sender.sendCmd(wbytes);
 			lastsenttime = System.currentTimeMillis();
@@ -471,7 +485,7 @@ public class BtHwLayer {
 			data = this.getData(reqno);
 			if( data == null) {
 				try {
-					Thread.sleep(numRetries*100);
+					Thread.sleep(numRetries*20);
 				}catch(Exception e){
 					System.out.println("Error in sleeping ..."+e.getMessage());
 				}
