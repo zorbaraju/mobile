@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
@@ -26,8 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +45,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 	private String deletedRoomList = "";
 	LinearLayout discoveryContent = null;
 	GifAnimationDrawable little = null;
+	WifiManager wifiManager = null;
+	WifiScanReceiver wifiReciever = null;
+	List<ScanResult> sr = null;
 	private BluetoothManager mBluetoothManager;
 	private BluetoothAdapter mBTA;
 	private BroadcastReceiver mReceiver;
@@ -55,7 +56,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 	ImageTextButton selectedRoomButton = null;
 	Button saveButton = null;
 	BtHwLayer btHwLayer = null;
-	boolean needip = false;
 	RadioButton btdiscoveryBox = null;
 	RadioButton wifirdiscoveryBox = null;
 	RadioButton wifiapdiscoveryBox = null;
@@ -69,7 +69,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		var2.setText(var1.getName());
 		var2.setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
-				DiscoveryActivity.this.deleteButton.setVisibility(8);
+				DiscoveryActivity.this.deleteButton.setVisibility(View.GONE);
 				int var3 = DiscoveryActivity.this.roomsContent.getChildCount();
 
 				for (int var2 = 0; var2 < var3; ++var2) {
@@ -80,7 +80,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		});
 		var2.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View var1) {
-				DiscoveryActivity.this.deleteButton.setVisibility(0);
+				DiscoveryActivity.this.deleteButton.setVisibility(View.VISIBLE);
 				DiscoveryActivity.this.selectedRoomButton = var2;
 				var2.setBorderSelected(true);
 				return true;
@@ -106,8 +106,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 				@Override
 				public Object runTask(Object params) {
 					String ipaddress = null;
-					System.out.println("backend task..."+droom.isWAP);
-					if (droom.isWAP) {
+					System.out.println("backend task..."+currentDiscoveryType);
+					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
+						System.out.println("CreateRoom.....AP");
 						if( !btHwLayer.makeWifiEnabled()) {
 							return null;
 						}
@@ -119,18 +120,19 @@ public class DiscoveryActivity extends ZorbaActivity {
 						if (ipaddr == null)
 							return null;
 						try {
-							NetworkInfo networkInfo = CommonUtils.getNetworkInfo();
-							if (networkInfo != null && nthDevice < networkInfo.unusedIndex.length)
-								ipaddress = networkInfo.subnet + "." + networkInfo.unusedIndex[nthDevice];
-							else {
-								ipaddress = "null";
-								System.out.println("No ip adress.....");
-							}
-							System.out.println("Device name......"+droom.getDeviceName());
+							
 							String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, CommonUtils.DEVICEPASSWORD);
 							if( error != null ) {
 								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 										"Not able to init connection " + droom.getRoomName()+" : "+error);
+								return null;
+							}
+							try {
+								btHwLayer.setWifiAPMode(true);
+							} catch (Exception e1) {
+								e1.printStackTrace();
+								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+										"Not able to set access point mode " + droom.getRoomName());
 								return null;
 							}
 							try {
@@ -151,40 +153,15 @@ public class DiscoveryActivity extends ZorbaActivity {
 							}
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
-							if( droom.ssid == null) {
-								byte[] response = btHwLayer.setIpAddress(networkInfo.ssid, pwd, ipaddress);
-								if (response != null) {
-									String responseStr = new String(response).toLowerCase();
-									System.out.println("Response for set ip address is.." + responseStr);
-									if (!responseStr.equals("ok")) {
-										CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-												"Ip address is not set for " + droom.getRoomName());
-										return null;
-									}
-								} else {
-									CommonUtils.AlertBox(DiscoveryActivity.this, "Ip set",
-											"No response from device for ip set");
-									System.out.println("Not able to set ip address...");
-									ipaddress = "null";
-								}
-								System.out.println("Changed ipadress ..."+ipaddress);
-								ipaddr = ipaddress;
-							}
-							Thread.sleep(2000);
-							try{
-								System.out.println("Clissssss");
-								btHwLayer.closeDevice();
-								System.out.println("Cliss111ssss");
-							}catch(Exception e){
-								System.out.println("Closing device..."+e.getMessage());
-							}
-							System.out.println("Clisssssreturn aippp...s"+ipaddr);
-							return ipaddr;
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 							return null;
 						}
-					} else {
+					} else if ( currentDiscoveryType == DISCOVERYTYPE_BT){
+						
+						System.out.println("CreateRoom.....BT");
+						System.out.println("Device name......"+droom.getDeviceName());
 						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, null, CommonUtils.DEVICEPASSWORD);
 						if( error != null ) {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
@@ -210,17 +187,77 @@ public class DiscoveryActivity extends ZorbaActivity {
 						try {
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
-
-							if (needip) {
-								NetworkInfo networkInfo = CommonUtils.getNetworkInfo();
-								if (networkInfo != null && nthDevice < networkInfo.unusedIndex.length)
-									ipaddress = networkInfo.subnet + "." + networkInfo.unusedIndex[nthDevice];
-								else
-									ipaddress = "null";
-
+						} catch (Exception e) {
+							System.out.println("Not able to get number of devices");
+							e.printStackTrace();
+							return null;
+						}
+						try{
+							System.out.println("Clissssss");
+							btHwLayer.closeDevice();
+							System.out.println("Cliss111ssss");
+						}catch(Exception e){
+							System.out.println("Closing device..."+e.getMessage());
+						}
+						System.out.println("Clisssssreturn aippp...s"+ipaddress);
+						
+					} else {
+						System.out.println("CreateRoom.....ROUTER");
+						System.out.println("droomssid..."+droom.ssid +"...."+currentWifiSSID);
+						
+						NetworkInfo networkInfo = CommonUtils.getNetworkInfo();
+						if (networkInfo != null && nthDevice < networkInfo.unusedIndex.length)
+							ipaddress = networkInfo.subnet + "." + networkInfo.unusedIndex[nthDevice];
+						else {
+							ipaddress = "null";
+							System.out.println("No ip adress.....");
+						}
+						System.out.println("backend task...enabling network");
+						String ipaddr = CommonUtils.enableNetwork(DiscoveryActivity.this, droom.getDeviceName(),
+								droom.getDeviceName());
+						
+						System.out.println("Device name......"+droom.getDeviceName());
+						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, CommonUtils.DEVICEPASSWORD);
+						if( error != null ) {
+							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+									"Not able to init connection " + droom.getRoomName()+" : "+error);
+							return null;
+						}
+						try {
+							btHwLayer.setWifiAPMode(false);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+									"Not able to set station mode " + droom.getRoomName());
+							return null;
+						}
+						try {
+							byte [] response = btHwLayer.changePwd(BtLocalDB.getInstance(DiscoveryActivity.this).getPassword());
+							if( response != null){
+								error = new String(response).toLowerCase();
+								if( !error.equals("ok")) {
+									CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+											"Not able to change the password " + droom.getRoomName()+" : "+error);
+									return null;
+								}
+							}
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+									"Not able to change the password " + droom.getRoomName());
+							return null;
+						}
+						try {
+							int numberOfDevices = btHwLayer.getNumberOfDevices();
+							CommonUtils.setMaxNoDevices(numberOfDevices);
+						} catch (Exception e) {
+							System.out.println("Not able to get number of devices");
+							e.printStackTrace();
+							return null;
+						}
+						try {
+							if( currentWifiSSID != null) {
 								byte[] response = btHwLayer.setIpAddress(networkInfo.ssid, pwd, ipaddress);
-								Thread.sleep(2000);
-								btHwLayer.closeDevice();
 								if (response != null) {
 									String responseStr = new String(response).toLowerCase();
 									System.out.println("Response for set ip address is.." + responseStr);
@@ -235,38 +272,46 @@ public class DiscoveryActivity extends ZorbaActivity {
 									System.out.println("Not able to set ip address...");
 									ipaddress = "null";
 								}
+								System.out.println("Changed ipadress ..."+ipaddress);
+								Thread.sleep(2000);		
 							}
-
-						} catch (Exception e) {
-							System.out.println("Not able to configure ip address");
-							e.printStackTrace();
-							return null;
+						}catch(Exception e){
+							System.out.println("Closing device..."+e.getMessage());
 						}
+						try{
+							System.out.println("Clissssss");
+							btHwLayer.closeDevice();
+							System.out.println("Cliss111ssss");
+						}catch(Exception e){
+							System.out.println("Closing device..."+e.getMessage());
+						}
+						System.out.println("Clisssssreturn aippp...s"+ipaddress);
 					}
-
-					return ipaddress;
+					String ssid = null;
+					if( currentDiscoveryType == DISCOVERYTYPE_WAP) {
+						ssid = droom.getDeviceName();
+					}
+					RoomData newRoom = new RoomData(droom.getDeviceAddress(), validName, droom.isRGBType(),
+							ipaddress, ssid, droom.getDeviceName());
+					
+					return newRoom;
 				}
 
 				@Override
 				public void finishedTask(Object result) {
-					System.out.println("Finished result..." + result);
-					if( (currentDiscoveryType != DISCOVERYTYPE_BT) && result == null)
+					System.out.println("Finished result.room ." + result);
+					if( result == null)
 						return;
-					String devicename = droom.getDeviceName();
-					String ssid = droom.getSSID();
-					if( currentDiscoveryType == DISCOVERYTYPE_WR) {
-						ssid = null;
-					}
 					System.out.println("created room.." + droom + "...roomname..." + droom.getRoomName());
 					DiscoveryActivity.this.roomNameAddedNewly = droom.getRoomName();
 					System.out.println("created room. is removed from discoverycontent.");
 					DiscoveryActivity.this.discoveryContent.removeView(droom);
 					System.out.println("Nou  discovered devices..after removed....."
 							+ DiscoveryActivity.this.discoveryContent.getChildCount());
-					RoomData var4 = new RoomData(droom.getDeviceAddress(), validName, droom.isRGBType(),
-							(String) result, ssid, devicename);
-					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(var4);
-					addRoomButton(var4);
+					
+					RoomData createdRoom = (RoomData)result;
+					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(createdRoom);
+					addRoomButton(createdRoom);
 					saveButton.setEnabled(false);
 					System.out.println("validaname...." + validName);
 				}
@@ -298,39 +343,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	private void startDiscoveryProcess() {
-		this.discoveryContent.removeAllViews();
-		if (!btHwLayer.isWifiEnabled()) {
-			(new Builder(DiscoveryActivity.this)).setTitle("Assign Ip").setMessage("Do you want to assign ip ?")
-					.setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface var1, int var2) {
-							needip = true;
-							System.out.println("need ip.make true." + needip);
-							runDiscoveryWithYesOrNo();
-						}
-					}).setNegativeButton("No", new android.content.DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface var1, int var2) {
-							needip = false;
-							System.out.println("need ip.make false." + needip);
-							var1.cancel();
-							runDiscoveryWithYesOrNo();
-						}
-					}).show();
-
-		} else {
-			runDiscoveryWithYesOrNo();
-		}
-
-		/*
-		*/
-	}
-
-	private void runDiscoveryWithYesOrNo() {
+		presettingsForDiscovery();
+		
 		if (currentDiscoveryType == DISCOVERYTYPE_BT) {
-			if (!little.isRunning())
-				little.start();
-			saveButton.setEnabled(false);
-			((ImageView) findViewById(R.id.spinnertriangle)).setVisibility(8);
-			((TextView) findViewById(R.id.controllerValue)).setText("Bluetooth Discovery is going on");
 			if (mBTA.isDiscovering()) {
 				mBTA.cancelDiscovery();
 			}
@@ -356,11 +371,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 						public Object runTask(Object params) {
 							System.out.println("runtask");
 							mBTA.cancelDiscovery();
-							if (needip) {
-								if (!btHwLayer.makeWifiEnabled())
-									return null;
-								findFreeIp();
-							}
 							DiscoveryActivity.this.stopDiscoveryProcess();
 							return null;
 						}
@@ -368,54 +378,142 @@ public class DiscoveryActivity extends ZorbaActivity {
 						@Override
 						public void finishedTask(Object result) {
 							TextView pwd = (TextView) findViewById(R.id.wifiPwdText);
-							pwd.setEnabled(needip);
+							pwd.setEnabled(currentDiscoveryType == DISCOVERYTYPE_WR);
 						}
 					};
 				}
 
 			}).start();
-		} if (currentDiscoveryType != DISCOVERYTYPE_BT) {
-			if (!little.isRunning())
-				little.start();
-			saveButton.setEnabled(false);
-			((ImageView) findViewById(R.id.spinnertriangle)).setVisibility(8);
-			populateCurrentSSID();
+		} 
+		if (currentDiscoveryType != DISCOVERYTYPE_BT) {
+			if(currentDiscoveryType == DISCOVERYTYPE_WR)
+				populateCurrentSSID();
 			isChangedToAPMode = false;
-			WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-			List<ScanResult> sr = wifiManager.getScanResults();
-			for(ScanResult wc:sr){
-				System.out.println("sss..scanresult."+wc.SSID);
-				System.out.println("ssid...."+wc.SSID);
-				String ssid = wc.SSID;
-				System.out.println("ssid...."+ssid);
-				if (ssid.startsWith("ZOR")) {
-					if (BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(ssid)) {
-						Logger.e(DiscoveryActivity.this, "Discovery",
-								"Device with " + ssid + " is already in List");
-						continue;
-					}
-					// adding room here.....
-					System.out.println("Found our device..." + ssid);
-					String deviceName = ssid;
-					if(currentDiscoveryType == DISCOVERYTYPE_WR)
-						ssid = null;
-					DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(), null, deviceName,
-							ssid, true);
-					DiscoveryActivity.this.discoveryContent.addView(var7);
-					Logger.e(DiscoveryActivity.this, "Discovery",
-							"Deviece with the name " + ssid + " is added in the panel");
-					System.out.println("Dosing 555wfi");
-				}
-			}
-			Thread th = new Thread(new Runnable() {
+			wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+			wifiManager.setWifiEnabled(true);
+			wifiReciever = new WifiScanReceiver();
+			registerReceiver(wifiReciever, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		      
+			wifiManager.startScan();
+			new Thread(new Runnable() {
+
+				@Override
 				public void run() {
-					findFreeIp();
+
+					BackgroundTask task = new BackgroundTask() {
+						protected void onPreExecute() {
+							try {
+								Thread.sleep(5000);
+							} catch (InterruptedException var2) {
+								var2.printStackTrace();
+							}
+							System.out.println("After delay");
+
+						}
+
+						@Override
+						public Object runTask(Object params) {
+							
+							System.out.println("runtask");
+							return null;
+						}
+
+						@Override
+						public void finishedTask(Object result) {
+							if( sr == null) {
+								return;
+							}
+							ArrayList localList = new ArrayList<String>();
+							for(ScanResult wc:sr){
+								System.out.println("sss..scanresult."+wc.SSID);
+								System.out.println("ssid...."+wc.SSID);
+								String ssid = wc.SSID;
+								System.out.println("ssid...."+ssid);
+								if (ssid.startsWith("ZOR")) {
+									if (localList.contains(ssid) || BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(ssid)) {
+										Logger.e(DiscoveryActivity.this, "Discovery",
+												"Device with " + ssid + " is already in List");
+										continue;
+									}
+									// adding room here.....
+									System.out.println("Found our device..." + ssid);
+									String deviceName = ssid;
+									localList.add(deviceName);
+									if(currentDiscoveryType == DISCOVERYTYPE_WR)
+										ssid = null;
+									DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(), null, deviceName,
+											ssid);
+									DiscoveryActivity.this.discoveryContent.addView(var7);
+									Logger.e(DiscoveryActivity.this, "Discovery",
+											"Deviece with the name " + ssid + " is added in the panel");
+									System.out.println("Dosing 555wfi");
+								}
+							}
+							List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();	
+							System.out.println("sss.no....Wificonfiguration."+list.size());
+							for(WifiConfiguration wc:list){
+								System.out.println("sss..Wificonfiguration."+wc.SSID);
+								System.out.println("ssid...."+wc.SSID);
+								String ssid = wc.SSID;
+								ssid = ssid.substring(1, ssid.length()-1);
+								System.out.println("ssid...."+ssid);
+								if (ssid.startsWith("ZOR")) {
+									if (localList.contains(ssid) || BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(ssid)) {
+										Logger.e(DiscoveryActivity.this, "Discovery",
+												"Device with " + ssid + " is already in List");
+										continue;
+									}
+									// adding room here.....
+									System.out.println("Found our device..." + ssid);
+									String deviceName = ssid;
+									localList.add(deviceName);
+									if(currentDiscoveryType == DISCOVERYTYPE_WR)
+										ssid = null;
+									DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(), null, deviceName,
+											ssid);
+									DiscoveryActivity.this.discoveryContent.addView(var7);
+									Logger.e(DiscoveryActivity.this, "Discovery",
+											"Deviece with the name " + ssid + " is added in the panel");
+									System.out.println("Dosing 555wfi");
+								}
+							}
+							localList.clear();
+							TextView pwd = (TextView) findViewById(R.id.wifiPwdText);
+							pwd.setEnabled(currentDiscoveryType == DISCOVERYTYPE_WR);
+							DiscoveryActivity.this.stopDiscoveryProcess();
+						}
+						
+					};
 				}
-			});
-			th.start();
+
+			}).start();
 			
-			stopDiscoveryProcess();
+			
 		}
+	}
+
+	private void presettingsForDiscovery() {
+		this.discoveryContent.removeAllViews();
+		TextView pwd = (TextView) findViewById(R.id.wifiPwdText);
+		pwd.setEnabled(currentDiscoveryType == DISCOVERYTYPE_WR);
+		if (!little.isRunning())
+			little.start();
+		saveButton.setEnabled(false);
+		((ImageView) findViewById(R.id.spinnertriangle)).setVisibility(View.GONE);
+		((TextView) findViewById(R.id.controllerValue)).setText(getDiscoveryModeStr()+" is going on");
+		btdiscoveryBox.setEnabled(false);
+		wifirdiscoveryBox.setEnabled(false);
+		wifiapdiscoveryBox.setEnabled(false);
+	}
+
+	private String getDiscoveryModeStr() {
+		String modeStr = "Bluetooth Discovery";
+		if (currentDiscoveryType == DISCOVERYTYPE_WR) {
+			modeStr = "Station Discovery";
+		} else if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
+			modeStr = "Access point Discovery";
+		}
+		return modeStr;
 	}
 
 	private void populateCurrentSSID() {
@@ -447,11 +545,23 @@ public class DiscoveryActivity extends ZorbaActivity {
 	private void stopDiscoveryProcess() {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
+				if( currentDiscoveryType == DISCOVERYTYPE_WR) {
+					Thread th = new Thread(new Runnable() {
+						public void run() {
+							findFreeIp();
+						}
+					});
+					th.start();
+				}
 				((TextView) DiscoveryActivity.this.findViewById(R.id.controllerValue))
-						.setText("Bluetooth Discovery is stopped");
+						.setText(getDiscoveryModeStr()+" is done");
 				((ImageView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
 				DiscoveryActivity.this.little.stop();
 				saveButton.setEnabled(true);
+				btdiscoveryBox.setEnabled(true);
+				wifirdiscoveryBox.setEnabled(true);
+				wifiapdiscoveryBox.setEnabled(true);
+				
 			}
 		});
 	}
@@ -587,7 +697,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
 				System.out.println("Nou  discovered devices..."+pwdview.getVisibility()+".."+View.VISIBLE);
 				pwd = pwdview.getText().toString();
-				if (needip && pwd.isEmpty()) {
+				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty()) {
 					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
 					return;
 				}
@@ -607,7 +717,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				numdiscovered = nonEmptyChildren.size();
 				for(int nth=0;nth<numdiscovered; nth++) {
 					DiscoveryRoom disRoom = nonEmptyChildren.get(nth);
-					String roomname = createRoom(disRoom, pwd, nth);
+					createRoom(disRoom, pwd, nth);
 					
 				}
 				nonEmptyChildren.clear();
@@ -663,6 +773,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 	public void onDestroy() {
 		try {
+			if( wifiReciever != null)
+				unregisterReceiver(wifiReciever);
+		} catch (Exception var2) {
+			Logger.e(this, "Discovery", "Not able to unregister wifiReciever" + var2.getMessage());
+		}
+		
+		try {
 			if (this.mBTA.isDiscovering()) {
 				this.mBTA.cancelDiscovery();
 			}
@@ -671,5 +788,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 			Logger.e(this, "Discovery", "Not able to unregister Bt" + var2.getMessage());
 		}
 		super.onDestroy();
+	}
+	
+	private class WifiScanReceiver extends BroadcastReceiver {
+		public void onReceive(Context c, Intent intent) {
+			sr = wifiManager.getScanResults();
+			for (ScanResult scanResult : sr) {
+				System.out.println("Hai...."+scanResult.SSID);
+			}
+		}
 	}
 }

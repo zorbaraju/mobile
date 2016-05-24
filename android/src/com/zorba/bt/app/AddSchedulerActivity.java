@@ -22,7 +22,7 @@ import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 public class AddSchedulerActivity extends ZorbaActivity {
-   String deviceAddress = null;
+   String deviceName = null;
    private int mDay;
    private int mHour;
    private int mMinute;
@@ -105,7 +105,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
       this.updateDateDisplay(localObject1);
       this.updateTimeDisplay(localObject2);
       LinearLayout var6 = (LinearLayout)this.findViewById(R.id.scheduledevices);
-      DeviceData[] var7 = BtLocalDB.getInstance(this).getDevices(this.deviceAddress);
+      DeviceData[] var7 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
 
       for(int var1 = 0; var1 < var7.length; ++var1) {
          if(!var7[var1].isUnknownType()) {
@@ -158,7 +158,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
 
       String var18 = CommonUtils.isValidName(this, var10.getText().toString());
       if(var18 != null) {
-         if(BtLocalDB.getInstance(this.getApplication()).isSchedulerNameExist(this.deviceAddress, var18)) {
+         if(BtLocalDB.getInstance(this.getApplication()).isSchedulerNameExist(this.deviceName, var18)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
             int var6 = var9.getChildCount();
@@ -204,7 +204,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
                   ++var4;
                }
 
-               var2 = BtLocalDB.getInstance(this).getNewSchedulerId(this.deviceAddress);
+               var2 = BtLocalDB.getInstance(this).getNewSchedulerId(this.deviceName);
                Intent var17 = new Intent();
                var17.putExtra("scheduleid", var2);
                var17.putExtra("name", var18);
@@ -218,7 +218,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
                   return;
                }
 
-               BtLocalDB.getInstance(this).saveSchedule(this.deviceAddress, var2, var5, var1, var18, this.mHour, this.mMinute, var15);
+               BtLocalDB.getInstance(this).saveSchedule(this.deviceName, var2, var5, var1, var18, this.mHour, this.mMinute, var15);
                this.setResult(1, var17);
                this.finish();
             }
@@ -241,7 +241,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
       EditText var3 = (EditText)this.findViewById(R.id.schedulerNameText);
       var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       ((TextView)this.findViewById(R.id.title)).setText("New Scheduler");
-      this.deviceAddress = this.getIntent().getExtras().getString("deviceAddress");
+      this.deviceName = this.getIntent().getExtras().getString("deviceName");
       MyListMenu var2 = (MyListMenu)this.findViewById(R.id.repeattype);
       var2.addCallback(new Runnable() {
          public void run() {
