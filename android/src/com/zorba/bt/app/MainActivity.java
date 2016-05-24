@@ -72,7 +72,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 
 		try {
 			setContentView(R.layout.landinglayout);
-
+			BtLocalDB.getInstance(this).cleanDB();
 			rgbController = new RGBController(this);
 			final ListPopupWindow homeMenu = prepareHomeMenu();
 			ImageButton homeButton = (ImageButton) findViewById(R.id.homeButton);

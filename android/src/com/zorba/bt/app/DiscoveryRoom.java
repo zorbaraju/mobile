@@ -10,15 +10,13 @@ public class DiscoveryRoom extends LinearLayout {
    String devAddress = null;
    TextView nameText = null;
    boolean isRGB = false;
-   boolean isWAP = false;
    String ssid = null;
 
    public DiscoveryRoom(Context context, String deviceAddress, String deviceName) {
-	   this(context, deviceAddress, deviceName, null, false);
+	   this(context, deviceAddress, deviceName, null);
    }
-   public DiscoveryRoom(Context context, String deviceAddress, String deviceName, String ssid, boolean iswap) {
+   public DiscoveryRoom(Context context, String deviceAddress, String deviceName, String ssid) {
       super(context);
-      isWAP = iswap;
       this.devAddress = deviceAddress;
       this.ssid = ssid;
       ((LayoutInflater)context.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
@@ -28,11 +26,7 @@ public class DiscoveryRoom extends LinearLayout {
       
       this.isRGB = deviceName.endsWith("_RGB");
    }
-
-   public boolean isWAP() {
-	   return isWAP;
-   }
-
+  
    public String getDeviceAddress() {
       return this.devAddress;
    }
