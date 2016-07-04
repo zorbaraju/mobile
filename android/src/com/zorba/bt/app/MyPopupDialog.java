@@ -51,6 +51,11 @@ public class MyPopupDialog extends LinearLayout {
       return this.selectedPosition;
    }
 
+   public void setText(String text) {
+	   this.textlistmenu.setText(text);
+   }
+
+   
    public String getText() {
       return this.textlistmenu.getText().toString();
    }
