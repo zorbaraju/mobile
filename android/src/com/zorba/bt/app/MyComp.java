@@ -25,6 +25,7 @@ public class MyComp extends LinearLayout {
    MyComp[] siblingComps = new MyComp[0];
    private boolean isEditNeeded = false;
    private int maxComp = -1;
+   private boolean isAddButtonShown = false;
 
    public MyComp(Context context, String compName, int maxComps, boolean isEditNeeded) {
       super(context);
@@ -111,7 +112,7 @@ public class MyComp extends LinearLayout {
       var2.setMargins(10, 10, 10, 10);
       var1.setLayoutParams(var2);
       this.compLaout.addView(var1);
-      if( maxComp != -1 && isButtonShown(R.id.addbutton))
+      if( maxComp != -1 && isAddButtonShown)
 		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
       this.relayout();
    }
@@ -206,7 +207,8 @@ public class MyComp extends LinearLayout {
             break;
          }
       }
-      if( maxComp != -1 && isButtonShown(R.id.addbutton))
+      
+      if( maxComp != -1 && isAddButtonShown)
 		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
    }
 
@@ -251,6 +253,7 @@ public class MyComp extends LinearLayout {
    }
 
    public void showAddButton(boolean show) {
+	  isAddButtonShown = show;
 	  this.showButton(R.id.addbutton, show);
 	  if( show && maxComp != -1)
 		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);

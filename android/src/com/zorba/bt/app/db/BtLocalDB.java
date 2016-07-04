@@ -103,8 +103,8 @@ public class BtLocalDB {
 		this.deviceStatusMap.clear();
 	}
 
-	public void deleteDevice(RoomData var1, String var2) {
-		String[] var4 = this.dbInfo.getString("Room" + var1.getDeviceName(), "").split("#");
+	public void deleteDevice(String deviceName, String var2) {
+		String[] var4 = this.dbInfo.getString("Room" + deviceName, "").split("#");
 		
 		int var3;
 		for (var3 = 0; var3 < var4.length; var3 += 3) {
@@ -127,7 +127,7 @@ public class BtLocalDB {
 		}
 
 		Editor var5 = this.dbInfo.edit();
-		var5.putString("Room" + var1.getDeviceName(), var2);
+		var5.putString("Room" + deviceName, var2);
 		var5.commit();
 	}
 
@@ -194,15 +194,16 @@ public class BtLocalDB {
 		return status;
 	}
 
-	public DeviceData[] getDevices(String deviceName) {
+	public ArrayList<DeviceData> getDevices(String deviceName, String switchName) {
 		currentDeviceName  = deviceName;
 		String[] var3 = this.dbInfo.getString("Room" + deviceName, "").split("#");
-		DeviceData[] var4 = new DeviceData[var3.length / 3];
+		ArrayList<DeviceData> list = new ArrayList<DeviceData>();
 		for (int var2 = 0; var2 < var3.length / 3; ++var2) {
-			var4[var2] = new DeviceData(var2 + 1, var3[var2 * 3], var3[var2 * 3 + 1], var3[var2 * 3 + 2], -1);
+			DeviceData deviceData = new DeviceData(var2 + 1, var3[var2 * 3], var3[var2 * 3 + 1], var3[var2 * 3 + 2], -1);
+			if( switchName == null || switchName.equals(deviceData.getName()))
+			list.add(deviceData);
 		}
-
-		return var4;
+		return list;
 	}
 
 	public int getDevicesOnCount() {
@@ -465,6 +466,7 @@ public class BtLocalDB {
 	}
 
 	public void updateDevice(String deviceName, DeviceData var2) {
+		deleteDevice(deviceName, var2.getName());
 		String var4 = this.dbInfo.getString("Room" + deviceName, "");
 		String[] var5 = var4.split("#");
 		int var3 = var2.getDevId() - 1;

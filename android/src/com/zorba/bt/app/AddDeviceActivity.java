@@ -22,15 +22,18 @@ public class AddDeviceActivity extends ZorbaActivity {
    String deviceName = null;
    String tabName = "Lights";
    CheckBox isdimmable = null;
+   String editDeviceName = null;
    
    private String[] getUnusedDeviceIds() {
-      DeviceData[] var3 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
+      ArrayList<DeviceData> deviceList = BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
       ArrayList<Integer> var2 = new ArrayList<Integer>();
 
       int var1;
-      for(var1 = 0; var1 < var3.length; ++var1) {
-         if(var3[var1].isUnknownType()) {
-            var2.add(Integer.valueOf(var3[var1].getDevId()));
+      int numdevices = deviceList.size();
+      for(var1 = 0; var1 < numdevices; ++var1) {
+    	  DeviceData device = deviceList.get(var1);
+         if(device.isUnknownType()) {
+            var2.add(Integer.valueOf(device.getDevId()));
          }
       }
 
@@ -71,12 +74,13 @@ public class AddDeviceActivity extends ZorbaActivity {
       String var8 = var2.getText();
       String var9 = CommonUtils.isValidName(this, var3.getText().toString());
       if(var9 != null) {
-         if(com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceName, var9)) {
+    	 boolean isNew = editDeviceName==null;
+         if(editDeviceName == null && com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceName, var9)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
-            DeviceData[] var6 = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceName);
+        	 ArrayList<DeviceData> deviceList = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
             if(var4.getText().isEmpty()) {
-               CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + var6.length + " devices can only be added");
+               CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + deviceList.size() + " devices can only be added");
             } else {
                String var12 = var5.getText().toString().trim();
                if(var12.isEmpty()) {
@@ -99,6 +103,7 @@ public class AddDeviceActivity extends ZorbaActivity {
                var11.putExtra("type", var8);
                var11.putExtra("index", var1);
                var11.putExtra("power", var12);
+               var11.putExtra("isnew", isNew);
                this.setResult(1, var11);
                this.finish();
             }
@@ -113,26 +118,47 @@ public class AddDeviceActivity extends ZorbaActivity {
       var1 = this.getIntent().getExtras();
       this.deviceName = var1.getString("deviceName");
       tabName = var1.getString("tabName");
-      EditText var3 = (EditText)this.findViewById(R.id.deviceNameInput);
-      var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
-      TextView var5 = (TextView)this.findViewById(R.id.title);
+      EditText deviceNameText = (EditText)this.findViewById(R.id.deviceNameInput);
+      deviceNameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
+      TextView titleText = (TextView)this.findViewById(R.id.title);
       TextView var6 = (TextView)this.findViewById(R.id.devicename);
       isdimmable = (CheckBox)this.findViewById(R.id.isdimmable);
-      TextView var2 = (TextView)this.findViewById(R.id.devicetype);
+      TextView deviceTypeLabel = (TextView)this.findViewById(R.id.devicetype);
       ((RelativeLayout)findViewById(R.id.powerLayout)).setVisibility(View.GONE);
-      ((MyListMenu)this.findViewById(R.id.deviceid)).setMenuItems(this.getUnusedDeviceIds());
+      MyListMenu deviceIdMenu = (MyListMenu)this.findViewById(R.id.deviceid);
+      deviceIdMenu.setMenuItems(this.getUnusedDeviceIds());
       if(tabName.equals("Lights")) {
-         var5.setText("New Light");
+    	  titleText.setText("New Light");
          var6.setText("Light Name");
-         var2.setText("Light Type");
+         deviceTypeLabel.setText("Light Type");
       } else {
-         var5.setText("New Device");
+    	  titleText.setText("New Device");
          var6.setText("Device Name");
-         var2.setText("Device Type");
+         deviceTypeLabel.setText("Device Type");
       }
       changeDevicePopup();
       this.initListeners();
-      
+      editDeviceName = this.getIntent().getExtras().getString("entityName");
+      if( editDeviceName != null) {
+    	  String title = "Device "+ editDeviceName;
+    	  if(tabName.equals("Lights")) {
+    		  title = "Light "+ editDeviceName;
+    	  }
+    	  titleText.setText(title);
+    	  deviceNameText.setText(editDeviceName);
+    	  deviceNameText.setEnabled(false);
+    	  
+    	  DeviceData deviceData = BtLocalDB.getInstance(this).getDevices(deviceName, editDeviceName).get(0);
+    	  isdimmable.setChecked(deviceData.isDimmable());
+    	  String unusedids[] = this.getUnusedDeviceIds();
+    	  String [] ids = new String[unusedids.length+1];
+    	  ids[0] = ""+deviceData.getDevId();
+    	  for(int index=0; index<unusedids.length; index++)
+    		  ids[index+1] = unusedids[index]; 
+    	  deviceIdMenu.setMenuItems(ids);
+    	  MyPopupDialog deviceTypeText = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+    	  deviceTypeText.setText(deviceData.getType());
+      }
    }
 
    private void changeDevicePopup() {

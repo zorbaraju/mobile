@@ -228,10 +228,21 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		}
 	}
 
-	private MyComp populateDeviceButtons(final String paramString) {
-		MyComp local16 = new MyComp(getApplicationContext(), paramString, -1, false) {
+	private MyComp populateDeviceButtons(final String tabName) {
+		MyComp local16 = new MyComp(getApplicationContext(), tabName, -1, true) {
 			public void doAddAction() {
-				MainActivity.this.configureDevice(paramString);
+				Intent localIntent = new Intent(getBaseContext(), AddDeviceActivity.class);
+				localIntent.putExtra("deviceName", selectedRoom.getDeviceName());
+				localIntent.putExtra("tabName", tabName);
+				startActivityForResult(localIntent, ADDDEVICE_CODE);
+			}
+			
+			public void doEditAction() {
+				Intent localIntent = new Intent(getBaseContext(), AddDeviceActivity.class);
+				localIntent.putExtra("deviceName", MainActivity.this.selectedRoom.getDeviceName());
+				localIntent.putExtra("tabName", tabName);
+				localIntent.putExtra("entityName", MainActivity.this.selectedDeviceName);
+				MainActivity.this.startActivityForResult(localIntent, ADDDEVICE_CODE);
 			}
 			
 			public void doDeleteAction() {
@@ -240,7 +251,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 						.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface paramAnonymous2DialogInterface,
 									int paramAnonymous2Int) {
-								BtLocalDB.getInstance(MainActivity.this).deleteDevice(MainActivity.this.selectedRoom,
+								BtLocalDB.getInstance(MainActivity.this).deleteDevice(MainActivity.this.selectedRoom.getDeviceName(),
 										MainActivity.this.selectedDeviceName);
 								MainActivity.this.lightsPanel.removeMyView(MainActivity.this.selectedDeviceName);
 								MainActivity.this.devicePanel.removeMyView(MainActivity.this.selectedDeviceName);
@@ -256,28 +267,25 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(local16);
-		DeviceData[] arrayOfDeviceData = BtLocalDB.getInstance(this).getDevices(this.selectedRoom.getDeviceName());
+		ArrayList<DeviceData> deviceList = BtLocalDB.getInstance(this).getDevices(this.selectedRoom.getDeviceName(), null);
 		local16.expandComp(true);
-		if (paramString.equals("Lights"))
+		if (tabName.equals("Lights"))
 			this.lightsPanel = local16;
 		else
 			this.devicePanel = local16;
-		int i = 0;
-		for (;;) {
-			if (i >= arrayOfDeviceData.length) {
-				return local16;
-			}
-			if (!arrayOfDeviceData[i].isUnknownType()) {
-				if ((paramString.equals("Lights")) && (DeviceData.isLightType(arrayOfDeviceData[i].getType()))) {
-					addButtonPanel(local16, arrayOfDeviceData[i]);
-				} else if ((paramString.equals("Devices"))
-						&& (!DeviceData.isLightType(arrayOfDeviceData[i].getType()))) {
-					addButtonPanel(local16, arrayOfDeviceData[i]);
+		int numdevices =deviceList.size();
+		for (int ddindex=0; ddindex<numdevices; ddindex++) {
+			DeviceData device = deviceList.get(ddindex);
+			if (!device.isUnknownType()) {
+				if ((tabName.equals("Lights")) && (DeviceData.isLightType(device.getType()))) {
+					addButtonPanel(local16, device, true);
+				} else if ((tabName.equals("Devices"))
+						&& (!DeviceData.isLightType(device.getType()))) {
+					addButtonPanel(local16, device, true);
 				}
 			}
-			i += 1;
-
 		}
+		return local16;
 	}
 
 	private MyComp populateGroups() {
@@ -378,7 +386,9 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		return this.schedulePanel;
 	}
 
-	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData) {
+	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData, boolean isnew) {
+		if( !isnew )
+			return;
 		final int devid = paramDeviceData.getDevId();
 		final String str1 = paramDeviceData.getType();
 		final String str2 = paramDeviceData.getName();
@@ -566,14 +576,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		});
 		this.schedulePanel.addMyView(localImageTextButton);
-	}
-
-	private void configureDevice(String tabName) {
-		Intent localIntent = new Intent(getBaseContext(), AddDeviceActivity.class);
-		localIntent.putExtra("deviceName", this.selectedRoom.getDeviceName());
-		localIntent.putExtra("tabName", tabName);
-		startActivityForResult(localIntent, ADDDEVICE_CODE);
-	}
+	}	
 
 	private void controlDevice(final ImageTextButton paramImageTextButton, final String paramString,
 			final int paramInt) {
@@ -784,9 +787,9 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			DeviceData deviceData = new DeviceData(resultIntent.getExtras().getInt("index"), name, type,
 					resultIntent.getExtras().getString("power"), -1);
 			if (DeviceData.isLightType(type)) {
-				addButtonPanel(this.lightsPanel, deviceData);
+				addButtonPanel(this.lightsPanel, deviceData, resultIntent.getExtras().getBoolean("isnew"));
 			} else {
-				addButtonPanel(this.devicePanel, deviceData);
+				addButtonPanel(this.devicePanel, deviceData, resultIntent.getExtras().getBoolean("isnew"));
 			}
 			updateDeviceCount();
 			return;

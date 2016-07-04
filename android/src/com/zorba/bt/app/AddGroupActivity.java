@@ -1,5 +1,7 @@
 package com.zorba.bt.app;
 
+import java.util.ArrayList;
+
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
@@ -32,11 +34,13 @@ public class AddGroupActivity extends ZorbaActivity {
 
    private void populateDevices() {
       LinearLayout devicesLayout = (LinearLayout)this.findViewById(R.id.groupdevices);
-      DeviceData[] deviceDataArr = BtLocalDB.getInstance(this).getDevices(this.deviceName);
-      for(int ddindex = 0; ddindex < deviceDataArr.length; ++ddindex) {
-         if(!deviceDataArr[ddindex].isUnknownType()) {
-            SelectComp comp = new SelectComp(this, deviceDataArr[ddindex]);
-            comp.setId(deviceDataArr[ddindex].getDevId());
+      ArrayList<DeviceData> deviceList = BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
+      int numDevices = deviceList.size();
+      for(int ddindex = 0; ddindex < numDevices; ++ddindex) {
+    	  DeviceData device = deviceList.get(ddindex);
+    	  if(!device.isUnknownType()) {
+            SelectComp comp = new SelectComp(this, device);
+            comp.setId(device.getDevId());
             devicesLayout.addView(comp);
          }
       }

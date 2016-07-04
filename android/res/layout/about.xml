@@ -4,6 +4,6 @@
   xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt">
     <TextView android:textAppearance="?android:textAppearanceLarge" android:textSize="23.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/cbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Application Detail" />
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <TextView android:textAppearance="?android:textAppearanceMedium" android:layout_gravity="center" android:id="@id/controllerValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:text="Version bw 5.6" />
+        <TextView android:textAppearance="?android:textAppearanceMedium" android:layout_gravity="center" android:id="@id/controllerValue" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="50.0dip" android:text="Version bw 5.7" />
     </LinearLayout>
 </LinearLayout>

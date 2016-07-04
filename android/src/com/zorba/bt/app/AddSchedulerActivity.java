@@ -108,12 +108,13 @@ public class AddSchedulerActivity extends ZorbaActivity {
       this.updateDateDisplay(localObject1);
       this.updateTimeDisplay(localObject2);
       LinearLayout var6 = (LinearLayout)this.findViewById(R.id.scheduledevices);
-      DeviceData[] var7 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
-
-      for(int var1 = 0; var1 < var7.length; ++var1) {
-         if(!var7[var1].isUnknownType()) {
-            SelectComp var4 = new SelectComp(this, var7[var1]);
-            var4.setId(var7[var1].getDevId());
+      ArrayList<DeviceData> deviceList = BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
+      int numdevices = deviceList.size();
+      for(int ddindex = 0; ddindex < numdevices; ++ddindex) {
+    	  DeviceData device = deviceList.get(ddindex);
+    	  if(!device.isUnknownType()) {
+            SelectComp var4 = new SelectComp(this, device);
+            var4.setId(device.getDevId());
             var6.addView(var4);
          }
       }
