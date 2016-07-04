@@ -12,7 +12,7 @@ public class CustomCheckBox extends LinearLayout {
    CheckBox button;
 
    public CustomCheckBox(Context var1) {
-      this(var1, (AttributeSet)null);
+      super(var1);
    }
 
    public CustomCheckBox(Context var1, AttributeSet var2) {
@@ -29,6 +29,10 @@ public class CustomCheckBox extends LinearLayout {
          var5.recycle();
       }
 
+   }
+   
+   public void setDaySelected(boolean isChecked) {
+	   this.button.setChecked(isChecked);
    }
 
    public boolean isDaySelected() {

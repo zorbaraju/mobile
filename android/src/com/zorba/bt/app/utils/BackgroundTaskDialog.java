@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Object> {
 
-	boolean waitDialogEnabled = false;
+	boolean isdismissed = false;
+	boolean waitDialogEnabled = true;
 	private AlertDialog dialog;
 	public BackgroundTaskDialog(Activity context) {
 		if( waitDialogEnabled ) {
@@ -32,12 +34,20 @@ public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Obj
 	protected void onPreExecute() {
 		if( waitDialogEnabled ) {
 			this.dialog.setMessage("Please wait");
-			this.dialog.show();
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  if( !isdismissed )
+					dialog.show();
+			  }
+			}, 200);
 		}
     }
 
     @Override
     protected void onPostExecute(Object result) {
+    	isdismissed = true;
     	finishedTask(result);
         if (waitDialogEnabled && dialog.isShowing()) {
             dialog.dismiss();

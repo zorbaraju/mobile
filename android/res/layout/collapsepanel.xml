@@ -2,13 +2,24 @@
 <LinearLayout android:orientation="vertical" android:background="#ff1d2832" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginBottom="1.0dip"
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app">
-    <RelativeLayout android:layout_gravity="center_vertical" android:orientation="horizontal" android:id="@id/collapseheader" android:background="#ff202e39" android:layout_width="fill_parent" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" android:layout_marginRight="5.0dip">
+
+    <RelativeLayout
+        android:id="@+id/collapseheader"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginRight="5.0dip"
+        android:background="#ff202e39"
+        android:orientation="horizontal" >
+
         <LinearLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_centerInParent="true">
             <ImageView android:layout_gravity="center" android:id="@id/loadingImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" android:src="@drawable/rightarrow" />
             <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/name" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" />
         </LinearLayout>
         <LinearLayout android:gravity="right" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="10.0dip" android:layout_alignParentRight="true">
             <ImageButton android:layout_gravity="center" android:id="@id/addbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/plus" />
+            <ImageButton android:layout_gravity="center" android:id="@id/configbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" android:src="@drawable/minus" />
             <ImageButton android:layout_gravity="center" android:id="@id/deletebutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" android:src="@drawable/minus" />
         </LinearLayout>
     </RelativeLayout>

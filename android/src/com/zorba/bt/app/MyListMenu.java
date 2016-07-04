@@ -30,7 +30,7 @@ public class MyListMenu extends LinearLayout {
       this.menuListItem = new ArrayList<String>();
       this.listPopup = null;
       this.callback = null;
-      this.selectedPosition = -1;
+      this.selectedPosition = 0;
       this.textlistmenu = null;
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.mylistmenu, this);
       this.textlistmenu = (TextView)this.findViewById(R.id.textlistmenu);
@@ -58,6 +58,12 @@ public class MyListMenu extends LinearLayout {
       this.callback = var1;
    }
 
+   public void setSelectedItem(int selectIndex){
+	   this.listPopup.setSelection(selectIndex);
+	   textlistmenu.setText((CharSequence)MyListMenu.this.menuListItem.get(selectIndex));
+	   this.selectedPosition = selectIndex;
+   }
+   
    public int getSelectedItemPosition() {
       return this.selectedPosition;
    }

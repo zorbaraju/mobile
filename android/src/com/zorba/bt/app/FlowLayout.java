@@ -144,7 +144,6 @@ public class FlowLayout extends ViewGroup {
 
             childLayoutParams.mPos = linePos;
             currentLine.add(childLayoutParams);
-            //System.out.println("lineLength="+lineLength+" mElementSpacing="+mElementSpacing+" "+currentLine.size()+" md="+childLayoutParams.mDepth+" mp="+childLayoutParams.mPos);
         }
 
         lines.add(new Pair<ArrayList<LayoutParams>, Integer>(currentLine, lineLength));
@@ -194,7 +193,6 @@ public class FlowLayout extends ViewGroup {
 
         for (Pair<ArrayList<LayoutParams>, Integer> lineInfo : lines) {
             int emptySpaceAtEnd = lineLengthLimit - lineInfo.second;
-            //System.out.println("emptySpaceAtEnd="+emptySpaceAtEnd);
             ArrayList<LayoutParams> line = lineInfo.first;
             if (fill) {
                 int childCount = line.size();
@@ -203,7 +201,6 @@ public class FlowLayout extends ViewGroup {
                     for (int i = 1; i < childCount; i++) {
                         LayoutParams childLayoutParams = line.get(i);
                         childLayoutParams.mDepth += spacing * i;
-                        //System.out.println("i="+i+" childLayoutParams.mDepth="+childLayoutParams.mDepth+" spacing="+spacing);
                     }
                 }
             } else {
@@ -219,7 +216,6 @@ public class FlowLayout extends ViewGroup {
                     //childLayoutParams.mDepth += spacing;
                 	int middle = (maxwithspacing-childLayoutParams.mLength)/2;
                 	childLayoutParams.mDepth = maxwithspacing*i+(intgap*(i+1))+mElementSpacing/2+middle;
-                    //System.out.println("fill= childLayoutParams.mDepth="+childLayoutParams.mDepth+" spacing="+spacing);
                     i++;
                 }
             }
@@ -272,10 +268,6 @@ public class FlowLayout extends ViewGroup {
         int y = top+getPaddingTop();
         int w = right+getPaddingLeft();
         int h = bottom+getPaddingTop();
-        /*System.out.println("pl="+getPaddingLeft()+" pt="+getPaddingTop()
-        +" lw="+layoutWidth+" lh="+layoutHeight
-        +" cw="+childLayoutParams.mLength
-        +" max="+childMaxWidth+" index-"+index+" x="+x+" y="+y+" w="+w+" h="+h);*/
         child.layout(x, y, w, h);
     }
 
@@ -307,7 +299,6 @@ public class FlowLayout extends ViewGroup {
             mGravity = a.getInt(R.styleable.FlowLayout_android_gravity, Gravity.NO_GRAVITY);
             mFlowDirection = a.getInt(R.styleable.FlowLayout_flowDirection, LEFT_TO_RIGHT);
             mMaxLines = a.getInt(R.styleable.FlowLayout_android_maxLines, 0);
-            //System.out.println("mElementSpacing...."+mElementSpacing);
         } finally {
             a.recycle();
         }
@@ -336,16 +327,11 @@ public class FlowLayout extends ViewGroup {
         }
     }
     
-    public void setChildMaxWidth(int width)
-    {
-    	//System.out.println("Width......"+width);
+    public void setChildMaxWidth(int width) {
       if( width> childMaxWidth) {
-    	  //System.out.println("Width..changing maxwidth...."+width);
         this.childMaxWidth = width;
         requestLayout();
       }
-       
-      
     }
     
     public int getChildMaxWidth()

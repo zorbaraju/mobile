@@ -131,18 +131,21 @@ public class SelectComp extends LinearLayout {
 
       return var1;
    }
+   
+   public void setDeviceValue(int value) {
+      if(!DeviceData.isDimmable(this.deviceType)) {
+    	  ((Switch)this.view).setChecked(value == 9);
+      } else {
+    	  ((SeekBar)this.view).setProgress(value*10);
+      }
+   }
 
    public boolean isSelected() {
       return ((CheckBox)this.findViewById(R.id.selected)).isChecked();
    }
 
-   public void setSelected(boolean var1) {
-      if(var1) {
-         this.setBackgroundColor(Color.parseColor("#0000ff"));
-      } else {
-         this.setBackgroundColor(0);
-      }
-
+   public void setSelected(boolean selected) {
+	   ((CheckBox)this.findViewById(R.id.selected)).setChecked(selected);
    }
 
    public void updateValue() {

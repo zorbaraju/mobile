@@ -62,14 +62,14 @@ public class CommonUtils {
 
    public static byte[] getCurrentTime() {
       Calendar var7 = Calendar.getInstance();
-      int var4 = var7.get(5);
-      int var3 = var7.get(2);
-      int var5 = var7.get(1);
-      int var2 = var7.get(7);
-      int var0 = var7.get(11);
-      int var6 = var7.get(12);
-      int var1 = var7.get(13);
-      return new byte[]{(byte)var4, (byte)(var3 + 1), (byte)(var5 - 2000), (byte)var2, (byte)var0, (byte)var6, (byte)var1};
+      int date = var7.get(var7.DATE);
+      int month = var7.get(var7.MONTH);
+      int year = var7.get(var7.YEAR);
+      int dayofweek = var7.get(var7.DAY_OF_WEEK);
+      int hr = var7.get(var7.HOUR_OF_DAY);
+      int min = var7.get(var7.MINUTE);
+      int sec = var7.get(var7.SECOND);
+      return new byte[]{(byte)date, (byte)(month + 1), (byte)(year - 2000), (byte)dayofweek, (byte)hr, (byte)min, (byte)sec};
    }
 
    public static int getDeviceImage(String var0, int var1) {
@@ -266,9 +266,8 @@ public class CommonUtils {
       return var2;
    }
 
-   public static void setMaxNoDevices(int var0) {
-      max_no_devices = var0;
-      System.out.println("numbe............>>>>>>>>>>>"+var0+"...."+max_no_devices);
+   public static void setMaxNoDevices(int no) {
+      max_no_devices = no;
    }
    
    public static int getMaxNoDevices() {
@@ -285,17 +284,12 @@ public class CommonUtils {
 		WifiInfo info = wifiManager.getConnectionInfo ();
 		String ssid = info.getSSID ();
 		if( ssid.isEmpty()) {
-			System.out.println("Ssid....is empty");
 			networkInfo = null;
 			return;
 		}
-		System.out.println("Ssid...."+ssid);
 		ssid = ssid.substring(1, ssid.length()-1);
-		System.out.println("ssid...."+ssid);
 		String ip = Formatter.formatIpAddress(info.getIpAddress());
 		String subnet = ip.substring(0,ip.lastIndexOf("."));
-		System.out.println("subnet..."+subnet);
-		printStackTrace();
 		networkInfo.unusedIndex = new int[numberOfUnUsed];
 		int numfound = 0;
 		for(int i=254; i>0; i--) {
@@ -313,10 +307,6 @@ public class CommonUtils {
 			networkInfo.unusedIndex[numfound] = i;
 			numfound++;
 		}
-		for (int  index : networkInfo.unusedIndex) {
-			System.err.println("unused ip..."+subnet+"."+index+" ssid...."+ssid);
-		}
-		
 		networkInfo.ssid = ssid;
 		networkInfo.subnet = subnet;
    }
@@ -325,17 +315,17 @@ public class CommonUtils {
 	   String l = null;
 		try{
 			l.length();
-			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
    }
    
 	public static String enableNetwork(Activity activity, String networkSSID, String networkPass) {
+		NetworkStateReceiver.removeDevice(networkSSID);
 		String ipaddr = null;
-		System.out.println("Enabling network1");
 		try {
 			WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
+			wifiManager.disconnect();
 			List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
 			int netId = -1;
 			for (WifiConfiguration wc : list) {
@@ -345,11 +335,8 @@ public class CommonUtils {
 					break;
 				}
 			}
-			System.out.println("Enabling network11 networkid...."+netId);
 			WifiConfiguration wc = new WifiConfiguration();
-			System.out.println("Enabling network21");
 			wc.SSID = "\"" + networkSSID + "\"";
-			System.out.println("Enabling network31");
 			wc.preSharedKey = "\"" + networkPass + "\"";
 			wc.status = WifiConfiguration.Status.ENABLED;
 			wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
@@ -358,11 +345,7 @@ public class CommonUtils {
 			wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
 			wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
 			wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-			// connect to and enable the connection
-			System.out.println("Enabling network41");
-			System.out.println("Enabling network15");
 			wifiManager.setWifiEnabled(true);
-			System.out.println("Enabling network61");
 			if( netId == -1) {
 				netId = wifiManager.addNetwork(wc);
 			} 
@@ -370,27 +353,20 @@ public class CommonUtils {
 				System.out.println("Not able to get ip");
 				return null;
 			}
-			System.out.println("Enabling network71");
 			wifiManager.enableNetwork(netId, true);
-			System.out.println("Enabling network81");
 			boolean isconnected = wifiManager.reconnect();
-			System.out.println("Enabling network19");
 			if (isconnected) {
-				Thread.sleep(5000);
-				System.out.println("Enabling network111");
+				boolean isSuccess = NetworkStateReceiver.waitReadyDevice(networkSSID);
+				if( !isSuccess ) {
+					return null;
+				}
 				ipaddr = Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress());
-				System.out.println(
-						"Connected..." + ipaddr);
 				ipaddr = ipaddr.substring(0,ipaddr.lastIndexOf("."))+".1";
-				
-			} else {
-				System.out.println("Not connected");
 			}
-			System.out.println("Enabling network111"); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Enabling network1>>"+ipaddr);
+		System.out.println("Enabling network ipaddr>>"+ipaddr);
 		return ipaddr;
 	}
 }
