@@ -45,7 +45,6 @@ public class ImageTextButton extends LinearLayout {
    }
 
    public void changeDeviceButtonStyle(int var1) {
-      Logger.e(this.getContext(), "changeDeviceButtonStyle", " deviceid.." + this.getId() + " name=" + this.getText() + " type=" + this.deviceType + " value=" + var1);
       this.setBackgroundImage(CommonUtils.getDeviceImage(this.deviceType, var1));
       if(var1 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
@@ -61,7 +60,6 @@ public class ImageTextButton extends LinearLayout {
    }
 
    public void changeDeviceButtonStyle(String var1, int var2) {
-      Logger.e(this.getContext(), "changeDeviceButtonStyle", " deviceid.." + this.getId() + " name=" + this.getText() + " type=" + var1 + " value=" + var2);
       this.setBackgroundImage(CommonUtils.getDeviceImage(var1, var2));
       if(var2 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
@@ -107,7 +105,6 @@ public class ImageTextButton extends LinearLayout {
       this.setDeviceType(var1.getType());
       this.setText(var1.getName());
       this.setId(var1.getDevId());
-      System.out.println("....device data....."+var1);
       this.changeDeviceButtonStyle(this.deviceType, var1.getStatus());
    }
 

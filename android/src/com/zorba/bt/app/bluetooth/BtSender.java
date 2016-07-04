@@ -20,20 +20,15 @@ public class BtSender {
    }
 
    public boolean sendCmd(byte[] var1) {
-      boolean var2;
+      boolean sent = true;
       try {
          this.hwLayer.printBytes("Write", var1);
          this.outStream.write(var1);
-        System.out.println("flusing...");
          this.outStream.flush();
-         System.out.println("flused...");
       } catch (Exception var3) {
          this.error = var3.getMessage();
-         var2 = false;
-         return var2;
+         sent = false;
       }
-
-      var2 = true;
-      return var2;
+      return sent;
    }
 }

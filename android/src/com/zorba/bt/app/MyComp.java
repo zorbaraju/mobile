@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,16 +23,19 @@ public class MyComp extends LinearLayout {
    boolean isCollapsedEnabled = false;
    boolean isReset = false;
    MyComp[] siblingComps = new MyComp[0];
+   private boolean isEditNeeded = false;
+   private int maxComp = -1;
 
-   public MyComp(Context var1, String var2) {
-      super(var1);
-      this.compname = var2;
-      ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.collapsepanel, this);
+   public MyComp(Context context, String compName, int maxComps, boolean isEditNeeded) {
+      super(context);
+      this.compname = compName;
+      this.maxComp = maxComps;
+      ((LayoutInflater)context.getSystemService("layout_inflater")).inflate(R.layout.collapsepanel, this);
       TextView var4 = (TextView)this.findViewById(R.id.name);
       this.image = (ImageView)this.findViewById(R.id.loadingImage);
       Bitmap var3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.downarrow);
       this.image.setImageBitmap(var3);
-      var4.setText(var2);
+      var4.setText(compName);
       this.compLaout = (FlowLayout)this.findViewById(R.id.compfield1);
       ((RelativeLayout)this.findViewById(R.id.collapseheader)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
@@ -67,6 +71,13 @@ public class MyComp extends LinearLayout {
             MyComp.this.doAddAction();
          }
       });
+      ((ImageButton)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
+          public void onClick(View var1) {
+        	  MyComp.this.deselectAll();
+              MyComp.this.doEditAction();
+              MyComp.this.showDeleteButton(false);
+          }
+       });
       ((ImageButton)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             MyComp.this.doDeleteAction();
@@ -74,15 +85,23 @@ public class MyComp extends LinearLayout {
             MyComp.this.showDeleteButton(false);
          }
       });
+      this.isEditNeeded = isEditNeeded;
+
+      this.showButton(R.id.configbutton, false);
       this.showAddButton(true);
    }
 
-   private void showButton(int var1, boolean var2) {
-      ImageButton var3 = (ImageButton)this.findViewById(var1);
-      if(var2) {
-         var3.setVisibility(0);
+   private boolean isButtonShown(int buttonId) {
+	   ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
+	   return imgButton.getVisibility() == Button.VISIBLE;
+   }
+   
+   private void showButton(int buttonId, boolean show) {
+      ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
+      if(show) {
+    	  imgButton.setVisibility(Button.VISIBLE);
       } else {
-         var3.setVisibility(8);
+    	  imgButton.setVisibility(Button.GONE);
       }
 
    }
@@ -92,6 +111,8 @@ public class MyComp extends LinearLayout {
       var2.setMargins(10, 10, 10, 10);
       var1.setLayoutParams(var2);
       this.compLaout.addView(var1);
+      if( maxComp != -1 && isButtonShown(R.id.addbutton))
+		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
       this.relayout();
    }
 
@@ -106,7 +127,10 @@ public class MyComp extends LinearLayout {
 
    public void doAddAction() {
    }
-
+   
+   public void doEditAction() {
+	   
+   }
    public void doDeleteAction() {
    }
 
@@ -182,7 +206,8 @@ public class MyComp extends LinearLayout {
             break;
          }
       }
-
+      if( maxComp != -1 && isButtonShown(R.id.addbutton))
+		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
    }
 
    public void resetButtonInPanel(boolean var1) {
@@ -225,12 +250,16 @@ public class MyComp extends LinearLayout {
       this.relayout();
    }
 
-   public void showAddButton(boolean var1) {
-      this.showButton(R.id.addbutton, var1);
+   public void showAddButton(boolean show) {
+	  this.showButton(R.id.addbutton, show);
+	  if( show && maxComp != -1)
+		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
    }
 
-   public void showDeleteButton(boolean var1) {
-      this.showButton(R.id.deletebutton, var1);
+   public void showDeleteButton(boolean show) {
+      this.showButton(R.id.deletebutton, show);
+      if( isEditNeeded)
+    	  this.showButton(R.id.configbutton, show);
    }
 
    public void updateButtonInPanel() {
@@ -240,7 +269,6 @@ public class MyComp extends LinearLayout {
          ImageTextButton var5 = (ImageTextButton)this.compLaout.getChildAt(var1);
          int devid = var5.getId();
          int var3 = BtLocalDB.getInstance(this.getContext()).getDeviceStatus((byte)devid);
-         System.out.println("update button panelll..status.."+var3+"....id."+devid);
          if(var3 != -1) {
             var5.changeDeviceButtonStyle(var5.getDeviceType(), var3);
          }

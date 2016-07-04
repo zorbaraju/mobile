@@ -15,10 +15,12 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.SchedulerData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 public class AddSchedulerActivity extends ZorbaActivity {
@@ -28,6 +30,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
    private int mMinute;
    private int mMonth;
    private int mYear;
+   String editSchedulerName = null;
 
    private void initListeners() {
       ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
@@ -116,6 +119,53 @@ public class AddSchedulerActivity extends ZorbaActivity {
       }
 
       this.initListeners();
+      editSchedulerName = this.getIntent().getExtras().getString("entityName");
+      if( editSchedulerName != null) {
+    	  ((TextView)this.findViewById(R.id.title)).setText("Scheduler "+editSchedulerName);
+    	  EditText schedNameText = (EditText)this.findViewById(R.id.schedulerNameText);
+    	  schedNameText.setEnabled(false);
+    	  schedNameText.setText(editSchedulerName);
+    	  ArrayList<SchedulerData> schedArr = BtLocalDB.getInstance(this).getSchedules(deviceName, editSchedulerName);
+    	  if( schedArr.size() == 0)
+    		  return;
+    	  SchedulerData schedData = schedArr.get(0);
+    	  mMinute = schedData.getMin();
+    	  mHour = schedData.getHr();
+    	  updateTimeDisplay(localObject2);
+    	  MyListMenu repeatMenu = (MyListMenu)this.findViewById(R.id.repeattype);
+    	  int repeatType = schedData.getRepeatType();
+    	  repeatMenu.setSelectedItem(repeatType);
+    	  repeatTypeChanged();
+    	  TableRow weeklyRows = (TableRow)this.findViewById(R.id.weeklyselection);
+          int repeatTypeValue = schedData.getRepeatValue();
+          if(repeatType == 2) {
+             int numdays = weeklyRows.getChildCount();
+             
+             for(int dayindex = 0; dayindex < numdays; ++dayindex) {
+            	int bitvalue = repeatTypeValue&01;
+            	((CustomCheckBox)weeklyRows.getChildAt(dayindex)).setDaySelected(bitvalue>0);
+                repeatTypeValue >>= 1;
+             }
+          }
+          
+    	  int devidAndStatus[] = schedData.getDevData();
+    	  for(int dindex = 0; dindex<devidAndStatus.length/2; dindex++) {
+        	  SelectComp comp = getSelectComp(devidAndStatus[dindex*2]);
+        	  comp.setSelected(true);
+        	  comp.setDeviceValue(devidAndStatus[dindex*2+1]);
+          }        
+      }
+   }
+   
+   private SelectComp getSelectComp(int devid){
+	   LinearLayout devLayout = (LinearLayout)this.findViewById(R.id.scheduledevices);
+	   int numComps = devLayout.getChildCount();
+	   for(int ni=0; ni<numComps; ni++){
+		   SelectComp comp = (SelectComp)devLayout.getChildAt(ni);
+		   if( comp.getDeviceIndex() == devid)
+			   return comp;
+	   }
+ 	  return null;
    }
 
    private void repeatTypeChanged() {
@@ -130,96 +180,72 @@ public class AddSchedulerActivity extends ZorbaActivity {
    }
 
    private void saveScheduler() {
-      EditText var10 = (EditText)this.findViewById(R.id.schedulerNameText);
-      LinearLayout var9 = (LinearLayout)this.findViewById(R.id.scheduledevices);
-      MyListMenu var7 = (MyListMenu)this.findViewById(R.id.repeattype);
-      TableRow var8 = (TableRow)this.findViewById(R.id.weeklyselection);
-      int var5 = var7.getSelectedItemPosition();
-      int var2 = 0;
-      int var1 = 0;
-      int var3;
-      if(var5 == 1) {
-         var1 = 127;
-      } else if(var5 == 2) {
-         var3 = var8.getChildCount();
-
-         for(var1 = 0; var1 < var3; ++var1) {
-            if(((CustomCheckBox)var8.getChildAt(var1)).isDaySelected()) {
-               var2 |= 1;
+      EditText schedNameText = (EditText)this.findViewById(R.id.schedulerNameText);
+      LinearLayout layout = (LinearLayout)this.findViewById(R.id.scheduledevices);
+      MyListMenu repeatMenu = (MyListMenu)this.findViewById(R.id.repeattype);
+      TableRow weeklyRows = (TableRow)this.findViewById(R.id.weeklyselection);
+      int repeatType = repeatMenu.getSelectedItemPosition();
+      int repeatTypeValue = 0;
+      if(repeatType == 1) {
+    	  repeatTypeValue = 0x7f;
+      } else if(repeatType == 2) {
+         int numdays = weeklyRows.getChildCount();
+         
+         for(int dayindex = 0; dayindex < numdays; ++dayindex) {
+            if(((CustomCheckBox)weeklyRows.getChildAt(dayindex)).isDaySelected()) {
+            	repeatTypeValue |= 1;
             } else {
-               var2 |= 0;
+            	repeatTypeValue |= 0;
             }
-
-            var2 <<= 1;
+            repeatTypeValue <<= 1;
          }
-
-         var1 = var2 >> 1;
+         repeatTypeValue = repeatTypeValue >> 1;
       }
-
-      String var18 = CommonUtils.isValidName(this, var10.getText().toString());
-      if(var18 != null) {
-         if(BtLocalDB.getInstance(this.getApplication()).isSchedulerNameExist(this.deviceName, var18)) {
+      boolean isNew = editSchedulerName==null;
+      
+      String name = CommonUtils.isValidName(this, schedNameText.getText().toString());
+      if(name != null) {
+         if(isNew && BtLocalDB.getInstance(this.getApplication()).isSchedulerNameExist(this.deviceName, name)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
-            int var6 = var9.getChildCount();
-            String var14 = "";
-            var3 = 0;
-
-            int var4;
-            String var13;
-            for(var2 = 0; var2 < var6; var14 = var13) {
-               SelectComp var11 = (SelectComp)var9.getChildAt(var2);
-               var4 = var3;
-               var13 = var14;
-               if(var11.isSelected()) {
-                  var4 = var11.getDeviceIndex();
-                  if(var14.isEmpty()) {
-                     var13 = var14 + var4;
-                  } else {
-                     var13 = var14 + "#" + var4;
-                  }
-
-                  var4 = var3 + 1;
+            int chCount = layout.getChildCount();
+            int numSelectedDevices = 0;
+            for(int chindex = 0; chindex < chCount; chindex++) {
+               SelectComp comp = (SelectComp)layout.getChildAt(chindex);
+               if(comp.isSelected()) {
+                  numSelectedDevices++;
                }
-
-               ++var2;
-               var3 = var4;
             }
 
-            if(var14.isEmpty()) {
+            if(numSelectedDevices ==0) {
                CommonUtils.AlertBox(this, "Save scheduler", "No devices are selected");
             } else {
-               var14.trim();
-               DeviceData[] var15 = new DeviceData[var3];
-               var2 = 0;
+               DeviceData[] devData = new DeviceData[numSelectedDevices];
+               int dindex = 0;
 
-               for(var4 = 0; var4 < var6; var2 = var3) {
-                  SelectComp var16 = (SelectComp)var9.getChildAt(var4);
-                  var3 = var2;
-                  if(var16.isSelected()) {
-                     var15[var2] = new DeviceData(var16.getDeviceIndex(), "", "", "10", var16.getDeviceValue());
-                     var3 = var2 + 1;
+               for(int chindex = 0; chindex < chCount; chindex++) {
+                  SelectComp comp = (SelectComp)layout.getChildAt(chindex);
+                  if(comp.isSelected()) {
+                	  devData[dindex++] = new DeviceData(comp.getDeviceIndex(), "", "", "10", comp.getDeviceValue());
                   }
-
-                  ++var4;
                }
 
-               var2 = BtLocalDB.getInstance(this).getNewSchedulerId(this.deviceName);
-               Intent var17 = new Intent();
-               var17.putExtra("scheduleid", var2);
-               var17.putExtra("name", var18);
+               int schedid  = BtLocalDB.getInstance(this).getNewSchedulerId(this.deviceName);
+               Intent intent = new Intent();
+               intent.putExtra("scheduleid", schedid);
+               intent.putExtra("name", name);
 
                try {
-                  BtHwLayer.getInstance(this).sendAlarmCommandToDevice(var2, var1, this.mHour, this.mMinute, var15);
-               } catch (Exception var12) {
-                  var17.putExtra("error", "Error in sending alarm:" + var12.getMessage());
-                  this.setResult(1, var17);
-                  this.finish();
+                  BtHwLayer.getInstance(this).sendAlarmCommandToDevice(schedid, repeatTypeValue, this.mHour, this.mMinute, devData);
+               } catch (Exception ex) {
+                  intent.putExtra("error", "Error in sending alarm:" + ex.getMessage());
+                  this.setResult(1, intent);
+                  this.finish(); 
                   return;
                }
-
-               BtLocalDB.getInstance(this).saveSchedule(this.deviceName, var2, var5, var1, var18, this.mHour, this.mMinute, var15);
-               this.setResult(1, var17);
+               BtLocalDB.getInstance(this).saveSchedule(this.deviceName, isNew, schedid, repeatType, repeatTypeValue, name, this.mHour, this.mMinute, devData);
+               intent.putExtra("isnew", isNew);
+               this.setResult(1, intent);
                this.finish();
             }
          }

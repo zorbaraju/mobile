@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 public class AddGroupActivity extends ZorbaActivity {
    String deviceName = null;
+   String editGroupName = null;
 
    private void initListeners() {
       ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
@@ -30,53 +31,75 @@ public class AddGroupActivity extends ZorbaActivity {
    }
 
    private void populateDevices() {
-      LinearLayout var3 = (LinearLayout)this.findViewById(R.id.groupdevices);
-      DeviceData[] var2 = BtLocalDB.getInstance(this).getDevices(this.deviceName);
-      for(int var1 = 0; var1 < var2.length; ++var1) {
-         if(!var2[var1].isUnknownType()) {
-            SelectComp var4 = new SelectComp(this, var2[var1]);
-            var4.setId(var2[var1].getDevId());
-            var3.addView(var4);
+      LinearLayout devicesLayout = (LinearLayout)this.findViewById(R.id.groupdevices);
+      DeviceData[] deviceDataArr = BtLocalDB.getInstance(this).getDevices(this.deviceName);
+      for(int ddindex = 0; ddindex < deviceDataArr.length; ++ddindex) {
+         if(!deviceDataArr[ddindex].isUnknownType()) {
+            SelectComp comp = new SelectComp(this, deviceDataArr[ddindex]);
+            comp.setId(deviceDataArr[ddindex].getDevId());
+            devicesLayout.addView(comp);
          }
       }
-
       this.initListeners();
+
+      editGroupName = this.getIntent().getExtras().getString("entityName");
+      if( editGroupName != null) {
+    	  ((TextView)this.findViewById(R.id.title)).setText("Group "+editGroupName);
+    	  EditText gNameText = (EditText)this.findViewById(R.id.groupNameText);
+    	  gNameText.setEnabled(false);
+    	  gNameText.setText(editGroupName);
+    	  int devidAndStatus[] = BtLocalDB.getInstance(this).getGroupDevices(deviceName, editGroupName);
+    	  for(int dindex = 0; dindex<devidAndStatus.length/2; dindex++) {
+        	  SelectComp comp = getSelectComp(devidAndStatus[dindex*2]);
+        	  comp.setSelected(true);
+        	  comp.setDeviceValue(devidAndStatus[dindex*2+1]);
+          }        
+      }
    }
 
+   private SelectComp getSelectComp(int devid){
+	   LinearLayout devLayout = (LinearLayout)this.findViewById(R.id.groupdevices);
+	   int numComps = devLayout.getChildCount();
+	   for(int ni=0; ni<numComps; ni++){
+		   SelectComp comp = (SelectComp)devLayout.getChildAt(ni);
+		   if( comp.getDeviceIndex() == devid)
+			   return comp;
+	   }
+ 	  return null;
+   }
+   
    private void saveGroup() {
       EditText var3 = (EditText)this.findViewById(R.id.groupNameText);
       LinearLayout var6 = (LinearLayout)this.findViewById(R.id.groupdevices);
-      String var5 = CommonUtils.isValidName(this, var3.getText().toString());
-      if(var5 != null) {
-         if(BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceName, var5)) {
+      String grpName = CommonUtils.isValidName(this, var3.getText().toString());
+      boolean isNew = editGroupName==null;
+      if(grpName != null) {
+         if(isNew && BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceName, grpName)) {
             CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
          } else {
-            int var2 = var6.getChildCount();
-            String var4 = "";
-
-            String var8;
-            for(int var1 = 0; var1 < var2; var4 = var8) {
-               SelectComp var7 = (SelectComp)var6.getChildAt(var1);
-               var8 = var4;
-               if(var7.isSelected()) {
-                  var8 = var7.getDeviceIndex() + "#" + var7.getDeviceValue();
-                  if(var4.isEmpty()) {
-                     var8 = var4 + var8;
+            int deviceCount = var6.getChildCount();
+            String devdetails = "";
+            boolean isSelectedAny = false;
+            for(int dIndex = 0; dIndex < deviceCount; dIndex++) {
+               SelectComp comp = (SelectComp)var6.getChildAt(dIndex);
+               if(comp.isSelected()) {
+            	   isSelectedAny = true;
+                  String devdetail = comp.getDeviceIndex() + "#" + comp.getDeviceValue();
+                  if(devdetails.isEmpty()) {
+                	  devdetails = devdetail;
                   } else {
-                     var8 = var4 + "#" + var8;
+                	  devdetails += "#" + devdetail;
                   }
                }
-
-               ++var1;
             }
 
-            if(var4.isEmpty()) {
+            if(!isSelectedAny) {
                CommonUtils.AlertBox(this, "Save group", "No devices are selected");
             } else {
-               var8 = var4.trim();
-               BtLocalDB.getInstance(this).saveGroup(this.deviceName, var5, var8);
+               BtLocalDB.getInstance(this).saveGroup(this.deviceName, grpName, devdetails, isNew);
                Intent var9 = new Intent();
-               var9.putExtra("name", var5);
+               var9.putExtra("name", grpName);
+               var9.putExtra("isnew", isNew);
                this.setResult(1, var9);
                this.finish();
             }

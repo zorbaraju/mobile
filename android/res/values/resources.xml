@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <resources> 
     <declare-styleable name="CustomCheckBox"> 
-        <attr name="android:galleryItemBackground" /> 
+        <attr name="text" /> 
     </declare-styleable> 
     <declare-styleable name="ImageTextButton"> 
         <attr name="android:galleryItemBackground" /> 

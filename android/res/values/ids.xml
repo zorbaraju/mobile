@@ -22,7 +22,7 @@
     <item type="id" name="weeklyselection">false</item>
     <item type="id" name="scheduledevices">false</item>
     <item type="id" name="analyticsContent">false</item>
-    <item type="id" name="collapseheader">false</item>
+    <item type="id" name="configbutton">false</item>
     <item type="id" name="loadingImage">false</item>
     <item type="id" name="name">false</item>
     <item type="id" name="addbutton">false</item>

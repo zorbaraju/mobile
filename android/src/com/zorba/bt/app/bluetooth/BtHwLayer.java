@@ -36,6 +36,7 @@ public class BtHwLayer {
 	public static final String NOCONNECTION			= "No connection to the device";
 	public static final String DEVICE_NOTFOUND		= "Device is not found";
 	public static final String NODATA				= "No data from device";
+	public static final String BTNOTENABLED			= "Bluetooth is not Enabled";
 	
 	byte[] STARTBYTES = new byte[] { (byte) 35, (byte) 63, (byte) 36, (byte) 64, (byte) 45, (byte) 38, (byte) 126,
 			(byte) 40, (byte) 41 };
@@ -79,6 +80,7 @@ public class BtHwLayer {
 	Object lock = new Object();
 	HashMap<Integer, byte[]> responseQueue = new HashMap<Integer, byte[]>();
 	boolean isConnected = false;
+	boolean isunregistered = true;
 	BroadcastReceiver mReceiver = null;
 
 	private BtHwLayer(Activity var1) {
@@ -175,7 +177,7 @@ public class BtHwLayer {
 				receiver.setConnectionListener(connectionListener);
 				sender = new BtSender(this, clientSocket.getOutputStream());
 				if( connectionListener != null)
-					connectionListener.connectionStarted();
+					connectionListener.connectionStarted(true);
 				System.out.println("Device is connected in wifi and waiting for 1 sec");
 				Thread.sleep(1 * 1000);
 				System.out.println("wait is released for 1 sec");
@@ -188,6 +190,10 @@ public class BtHwLayer {
 				return NOCONNECTION;
 			}
 		} else {
+			if(!this.mBluetoothAdapter.isEnabled()) {
+				isConnected = false;
+				return BTNOTENABLED;
+			}
 			BluetoothDevice device = null;
 			try {
 				device = mBluetoothAdapter.getRemoteDevice(macaddress);
@@ -227,12 +233,12 @@ public class BtHwLayer {
 							System.out.println("Service is found");
 							charr = service.getCharacteristic(charr_uuid);
 							gatt.setCharacteristicNotification(charr, true);
-							System.out.println("Notifying for service found ..>"+charr+">");
+							System.out.println("Notifying for service found ..>"+charr+">"+connectionListener);
 							synchronized (lock) {
 								lock.notifyAll();
 								isConnected = true;
 								if(connectionListener != null)
-									connectionListener.connectionStarted();
+									connectionListener.connectionStarted(false);
 							}
 							System.out.println("Notified for service found");
 						}
@@ -268,6 +274,7 @@ public class BtHwLayer {
 							for (int i = 0; i < data.length; i++)
 								data[i] = values[i + 3];
 						}
+						System.out.println("bt n");
 						activity.notificationReceived(data);
 					} else {
 						synchronized (lock) {
@@ -361,8 +368,11 @@ public class BtHwLayer {
 	
 	public void register() {
 		try{
-			this.activity.registerReceiver(this.mReceiver,
-					new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
+			if( isunregistered ) {
+				this.activity.registerReceiver(this.mReceiver,
+						new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
+			
+			}
 		}catch(Exception e){
 			System.out.println("Error in registering the receiver:"+e.getMessage());
 		}
@@ -371,6 +381,7 @@ public class BtHwLayer {
 	public void unregister() {
 		try{
 			this.activity.unregisterReceiver(this.mReceiver);
+			isunregistered = true;
 		}catch(Exception e){
 			System.out.println("Error in unregistering the receiver:"+e.getMessage());
 		}
@@ -392,6 +403,8 @@ public class BtHwLayer {
 	}
 
 	public boolean makeBtEnabled() {
+		System.out.println("Hai,,,,,,,,,,,,,,,,");
+		CommonUtils.printStackTrace();
 		boolean isEnabled = this.mBluetoothAdapter.isEnabled();
 		if (!isEnabled) {
 			Intent var2 = new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE");
@@ -485,7 +498,7 @@ public class BtHwLayer {
 			data = this.getData(reqno);
 			if( data == null) {
 				try {
-					Thread.sleep(numRetries*20);
+					Thread.sleep(numRetries*100);
 				}catch(Exception e){
 					System.out.println("Error in sleeping ..."+e.getMessage());
 				}
@@ -499,6 +512,17 @@ public class BtHwLayer {
 		} else {
 			return data;
 		}
+	}
+	
+	public void setWifiAPMode(boolean isAP) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte mode = 'S';
+		if( isAP ) {
+			mode = 'A';
+		}
+		byte[] writeBytes = new byte[] { 'E', reqno, mode };
+		//byte[] data = processReqWithRetries(reqno, writeBytes);
 	}
 	
 	public int getNumberOfDevices() throws Exception {
@@ -521,7 +545,8 @@ public class BtHwLayer {
 		pwdsetbytes[1] = reqno;
 		for (int index = 0; index < pwdbytes.length; index++)
 			pwdsetbytes[2 + index] = pwdbytes[index];
-		return processReqWithRetries(reqno, pwdsetbytes);
+		processReqWithRetries(reqno, pwdsetbytes);
+		return "ok".getBytes();
 	}
 	
 	public byte[] verifyPwd(String pwd) throws Exception {
@@ -586,24 +611,34 @@ public class BtHwLayer {
 		return convertBytesToLong(data);
 	}
 
-	public void sendAlarmCommandToDevice(int mon, int date, int hr, int min, DeviceData[] deviceDataArr) throws Exception {
+	public void sendAlarmCommandToDevice(int alarmid, int repeattypeValue, int hr, int min, DeviceData[] deviceDataArr) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		byte[] timeBytes = new byte[] { (byte) 64, reqno, (byte) mon, (byte) date, (byte) hr, (byte) min, (byte) 0,
+		
+		byte[] timeBytes = new byte[] { (byte) 64, reqno, (byte)alarmid, (byte)repeattypeValue, (byte) hr, (byte) min, (byte) 0,
 				(byte) deviceDataArr.length };
-		byte deviceInfo[] = new byte[deviceDataArr.length];
+		byte deviceInfo[] = new byte[deviceDataArr.length*2];
 
 		for (int index = 0; index < deviceDataArr.length; ++index) {
-			byte var8 = (byte) deviceDataArr[index].getDevId();
-			deviceInfo[index] = (byte) ((byte) deviceDataArr[index].getStatus() & 15 | (byte) (var8 << 4));
+			byte devid = (byte) deviceDataArr[index].getDevId();
+			byte status = (byte) (deviceDataArr[index].getStatus() & 0xff);
+			System.out.println("devid .."+devid+" status.."+status);
+			deviceInfo[index*2] = devid;
+			deviceInfo[index*2+1] = status;
 		}
 		byte[] both = new byte[timeBytes.length + deviceInfo.length];
 		for (int i = 0; i < timeBytes.length; i++)
 			both[i] = timeBytes[i];
-		for (int i = 0; i < deviceInfo.length; i++)
+		for (int i = 0; i < deviceInfo.length; i++) {
 			both[timeBytes.length + i] = deviceInfo[i];
-
-		processReqWithRetries(reqno, both);
+		}
+		boolean isjunk = false;
+		if( isjunk) {
+			byte [] a = {(byte)40, reqno, (byte)alarmid, (byte)0xff, (byte)hr, (byte)min, 0, (byte)0xff, deviceInfo[1]};
+			processReqWithRetries(reqno, a);
+		} else {
+			processReqWithRetries(reqno, both);
+		}
 	}
 
 	public void sendRGBToDevice(byte i, byte r, byte g, byte b) throws Exception {
@@ -651,6 +686,7 @@ public class BtHwLayer {
 		for(int i=0; i<timeBytes.length; i++)
 			writeBytes[i+2] = timeBytes[i];
 		processReqWithRetries(reqno, writeBytes);
+		Thread.sleep(2000);
 	}
 
 	public void setDeviceType(int devid, boolean isDimmable) throws Exception {
