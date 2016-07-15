@@ -23,6 +23,7 @@ import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -385,6 +386,44 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		}
 		return this.schedulePanel;
 	}
+	
+	private void constructTimePanel() {
+		LinearLayout roomContent = (LinearLayout) findViewById(R.id.roomContent);
+		
+		LinearLayout timePanel = (LinearLayout) ((LayoutInflater)getSystemService("layout_inflater")).inflate(R.layout.timepanel, null);
+		roomContent.addView(timePanel);
+		Button setButton = (Button)findViewById(R.id.setTimeButton);
+		Button getButton = (Button)findViewById(R.id.getTimeButton);
+		final TextView timeLabel = (TextView)findViewById(R.id.timeLabel);
+		setButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					btHwLayer.setDateAndTime();
+					timeLabel.setText("Setting Time cmd is sent");
+				} catch (Exception e) {
+					timeLabel.setText("Error:"+e.getMessage());
+				}
+				
+			}
+		});
+		
+		getButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				try {
+					timeLabel.setText("Get time cmd is being sent");
+					String date = btHwLayer.getDateAndTime();
+					timeLabel.setText(date);
+				} catch (Exception e) {
+					timeLabel.setText("Error:"+e.getMessage());
+				}
+				
+			}
+		});
+	}
 
 	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData, boolean isnew) {
 		if( !isnew )
@@ -643,10 +682,12 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		devicePanel = populateDeviceButtons("Devices");
 		groupPanel = populateGroups();
 		schedulePanel = populateSchedules();
+		
 		this.lightsPanel.setSiblings(new MyComp[] { this.devicePanel, this.groupPanel, this.schedulePanel });
 		this.devicePanel.setSiblings(new MyComp[] { this.lightsPanel, this.groupPanel, this.schedulePanel });
 		this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
 		this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
+		constructTimePanel();
 		updateWithRealtime();
 		relayout();
 	}
