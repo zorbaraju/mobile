@@ -688,6 +688,20 @@ public class BtHwLayer {
 		processReqWithRetries(reqno, writeBytes);
 		Thread.sleep(2000);
 	}
+	
+	public String getDateAndTime() throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte writeBytes[] = new byte[2];
+		writeBytes[0] = 'Q';
+		writeBytes[1] = reqno;
+		
+		byte[] data = processReqWithRetries(reqno, writeBytes);
+		String buf = "";
+		for(int i=0; i<data.length; i++)
+			buf += data[i] +" ";
+		return buf;
+	}
 
 	public void setDeviceType(int devid, boolean isDimmable) throws Exception {
 		/*this.checkConnection();
