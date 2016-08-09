@@ -31,6 +31,23 @@ public class BtLocalDB {
 
 		return instance;
 	}
+	
+	public String getConfiguration() {
+		StringBuffer buf = new StringBuffer("Rooms configuration<br/>");
+		ArrayList<RoomData> roomList = getRoomList();
+		roomList.remove(0);
+		for(RoomData room: roomList) {
+			buf.append("Room : "+room.getName()+"<br/>Device List<br/>");
+			ArrayList<DeviceData> deviceList = getDevices(room.getDeviceName(), null);
+			for(DeviceData deviceData: deviceList) {
+				if( deviceData.getName().startsWith("Unknown "))
+					continue;
+				buf.append("Id:"+deviceData.getDevId()+" Name:"+deviceData.getName()+"<br/>");
+			}
+			buf.append("<br/>");
+		}
+		return buf.toString();
+	}
 
 	public void addRoom(RoomData roomData) {
 		String roomstr = this.dbInfo.getString("BtList", "");
@@ -491,5 +508,15 @@ public class BtLocalDB {
 
 	public void updateDeviceStatus(byte devid, byte status) {
 		this.deviceStatusMap.put(devid, status);
+	}
+	
+	public boolean isInvEnabled(String devNameplusDevId) {
+		boolean isEnabled = this.dbInfo.getBoolean(devNameplusDevId, false);
+		return isEnabled;
+	}
+	public void setInvEnabled(String devNameplusDevId, boolean isEnabled) {
+		Editor edit = this.dbInfo.edit();
+		edit.putBoolean(devNameplusDevId, isEnabled);
+		edit.commit();
 	}
 }

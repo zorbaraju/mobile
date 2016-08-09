@@ -7,7 +7,7 @@
     <item type="id" name="imageview">false</item>
     <item type="id" name="layout_root">false</item>
     <item type="id" name="emptydevicepanel">false</item>
-    <item type="id" name="scrollView1">false</item>
+    <item type="id" name="scrollView">false</item>
     <item type="id" name="devicename">false</item>
     <item type="id" name="deviceNameInput">false</item>
     <item type="id" name="devicetype">false</item>

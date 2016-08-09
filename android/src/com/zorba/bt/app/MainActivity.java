@@ -15,8 +15,10 @@ import com.zorba.bt.app.utils.BackgroundTaskDialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Process;
@@ -44,6 +46,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	public static final int APPINFO_CODE = ADDSCHEDULER_CODE + 1;
 	public static final int SENDLOG_CODE = APPINFO_CODE + 1;
 	public static final int HELP_CODE = SENDLOG_CODE + 1;
+	public static final int INVERTOR_CODE = HELP_CODE + 1;
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
 	int _color = 0;
@@ -66,6 +69,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	LinearLayout roomContent = null;
 	RGBController rgbController = null;
 	BtHwLayer btHwLayer = null;
+	private boolean isInitial = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		registerReceiver(new NetworkStateReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 	}
 
 	@Override
@@ -151,6 +156,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		arrayList.add(new ImageTextData("Add Room", R.drawable.discovery));
 		arrayList.add(new ImageTextData("Help", R.drawable.help));
 		arrayList.add(new ImageTextData("About", R.drawable.about));
+		arrayList.add(new ImageTextData("Invertor Settings", R.drawable.invertor));
 		arrayList.add(new ImageTextData("Exit", R.drawable.exit));
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new OnClickListener() {
 			public void onClick(View popupView) {
@@ -172,6 +178,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 					MainActivity.this.startActivityForResult(intent, HELP_CODE);
 					return;
 				}
+				if (i == 3) {
+					Intent intent = new Intent(MainActivity.this, InvertorActivity.class);
+					MainActivity.this.startActivityForResult(intent, INVERTOR_CODE);
+					return;
+				}
 				MainActivity.this.performExit();
 			}
 		});
@@ -187,7 +198,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		OnClickListener listener = new View.OnClickListener() {
 			public void onClick(View view) {
 				MainActivity.this.roomMenuList.dismiss();
-				MainActivity.this.roomChanged(roomListText, ((Integer) view.getTag()).intValue(), true);
+				MainActivity.this.roomChanged(false, roomListText, ((Integer) view.getTag()).intValue(), true);
 			}
 		};
 		this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
@@ -214,10 +225,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 						return;
 					}
 				}
-				roomChanged(roomListText, selectIndex, true);
+				roomChanged(false, roomListText, selectIndex, true);
 			} else {
 				if (this.roomDataList.size() == 0) {
-					((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.GONE);
+					((ScrollView) findViewById(R.id.scrollView)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.VISIBLE);
 					roomListText.setText("No rooms");
@@ -688,8 +699,21 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
 		this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
 		constructTimePanel();
-		updateWithRealtime();
-		relayout();
+		//isInitial = false;
+		System.err.println("IsInitial....."+isInitial);
+		if( isInitial  ) {
+			 TextView roomListText = (TextView) findViewById(R.id.roomList);
+			 roomListText.post(new Runnable() {
+				public void run() {
+					Dialog dialog = onCreateDialog();
+					dialog.show();
+					//roomMenuList.show();
+				}
+			});
+		} else {
+			updateWithRealtime();
+			relayout();
+		}
 	}
 
 	private void updateWithRealtime() {
@@ -712,13 +736,14 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				} else {
 					incomingssid = null;
 				}
+				btHwLayer.closeDevice();
 				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
 						BtLocalDB.getInstance(MainActivity.this).getPassword());
 				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
 						CommonUtils.setMaxNoDevices(numberOfDevices);
-						btHwLayer.setDateAndTime();
+						//btHwLayer.setDateAndTime();
 						isUpdate = true;
 					} catch (Exception e) {
 						isUpdate = false;
@@ -741,8 +766,8 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		};
 	}
 
-	private void roomChanged(TextView paramTextView, int paramInt, boolean isFromSelection) {
-		if ((this.selectedRoom != null)
+	private void roomChanged(boolean isInitial, TextView paramTextView, int paramInt, boolean isFromSelection) {
+		if (!isInitial && (this.selectedRoom != null)
 				&& (this.selectedRoom.getName().equals(((RoomData) this.roomDataList.get(paramInt)).getName()))) {
 			if( isFromSelection)
 				return;
@@ -756,7 +781,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		if (selectedRoom.isRGBType()) {
 			rgbController.setRGBView(selectedRoom);
 		} else {
-			((ScrollView) findViewById(R.id.scrollView1)).setVisibility(View.VISIBLE);
+			((ScrollView) findViewById(R.id.scrollView)).setVisibility(View.VISIBLE);
 			((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);
 			((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.GONE);
 			populatePageForSelectedRoom();
@@ -807,7 +832,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			} else {
 				final TextView roomListText = (TextView) findViewById(R.id.roomList);
 				int selectedRoomIndex = BtLocalDB.getInstance(this).getLastSelectedRoom();
-				roomChanged(roomListText, selectedRoomIndex, false);
+				roomChanged(false, roomListText, selectedRoomIndex, false);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -849,6 +874,25 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		}
 	}
 
+	public Dialog onCreateDialog() {
+		CharSequence []menunames = new CharSequence[roomDataList.size()];
+		int index=0;
+		for(RoomData room:roomDataList) {
+			menunames[index++] = room.getName();
+		}
+		   AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		   builder.setTitle("Select a room")
+		   .setItems(menunames, new DialogInterface.OnClickListener() {
+		      public void onClick(DialogInterface dialog, int which) {
+		    	  System.out.println("Which..."+which);
+		    	  final TextView roomListText = (TextView) findViewById(R.id.roomList);
+		    	  isInitial = false;
+		  		  MainActivity.this.roomChanged(true, roomListText, which, true);
+		      }
+		   });
+		   return builder.create();
+		}
+	
 	public void notificationReceived(byte[] paramArrayOfByte) {
 		for (int index=0; index<paramArrayOfByte.length; index +=2) {
 			byte devid = paramArrayOfByte[index];

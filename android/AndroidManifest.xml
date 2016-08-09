@@ -38,6 +38,10 @@
             android:label="@string/title_help" >
         </activity>
         <activity
+            android:name=".InvertorActivity"
+            android:label="@string/title_invertor" >
+        </activity>
+        <activity
             android:name=".SendLogActivity"
             android:label="@string/title_sendlog" >
         </activity>
@@ -58,11 +62,11 @@
             android:label="@string/title_appinfo" >
         </activity>
 
-        <receiver android:name=".NetworkStateReceiver" >
+        <!--  receiver android:name=".NetworkStateReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
+        </receiver-->
     </application>
 
 </manifest>
