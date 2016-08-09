@@ -289,8 +289,11 @@ public class BtHwLayer {
 				}
 			};
 			mBluetoothGatt = device.connectGatt(this.activity, false, mGattCallback);
-			boolean isconnected = mBluetoothGatt.connect();
+			boolean isconnected = false;
+			if( mBluetoothGatt != null)
+				isconnected = mBluetoothGatt.connect();
 			if (!isconnected) {
+				closeDevice();
 				System.out.println("Gatt is not connected to device");
 				return NOCONNECTION;
 			}
@@ -306,6 +309,7 @@ public class BtHwLayer {
 				}
 			}
 			if( !isConnected) {
+				closeDevice();
 				return NOCONNECTION;
 			}
 		}
@@ -353,11 +357,15 @@ public class BtHwLayer {
 			}
 		}
 		try {
-			if (this.mBluetoothGatt != null)
-				this.mBluetoothGatt.disconnect();
+			if (this.mBluetoothGatt != null) {
+		//		this.mBluetoothGatt.disconnect();
+			}
+			if (this.mBluetoothGatt != null) {
+				this.mBluetoothGatt.close();
+			}
 			this.mBluetoothGatt = null;
 			mGattCallback = null;
-			
+			System.out.println("Bt socket is closed");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -371,7 +379,7 @@ public class BtHwLayer {
 			if( isunregistered ) {
 				this.activity.registerReceiver(this.mReceiver,
 						new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
-			
+				isunregistered = false;
 			}
 		}catch(Exception e){
 			System.out.println("Error in registering the receiver:"+e.getMessage());
@@ -380,8 +388,10 @@ public class BtHwLayer {
 	
 	public void unregister() {
 		try{
-			this.activity.unregisterReceiver(this.mReceiver);
-			isunregistered = true;
+			if( !isunregistered ) {
+				this.activity.unregisterReceiver(this.mReceiver);
+				isunregistered = true;
+			}
 		}catch(Exception e){
 			System.out.println("Error in unregistering the receiver:"+e.getMessage());
 		}
@@ -716,7 +726,9 @@ public class BtHwLayer {
 		if (isWifi()) {
 			reconnect = !(this.ipAddress.equals(ipAddressOrDevAddress) && this.clientSocket != null);
 		} else {
+			System.out.println("devAddress="+devAddress+" ipAddressOrDevAddress="+ipAddressOrDevAddress+ " mBluetoothGatt="+mBluetoothGatt+" isconnected="+isConnected);
 			reconnect = ! (this.devAddress.equals(ipAddressOrDevAddress) && this.mBluetoothGatt != null && isConnected());
+			System.out.println(" reconnect..."+reconnect);
 		}
 		if( reconnect ) {
 			closeDevice();

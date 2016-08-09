@@ -520,33 +520,39 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private void singleClickButton(final int paramInt, String paramString, ImageTextButton paramImageTextButton) {
-		BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
+		
+		if( !btHwLayer.isConnected())
+			updateWithRealtime();
+		else {
+			BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
 
-			@Override
-			public Object runTask(Object params) {
-				try {
-					int readValue = btHwLayer.readCommandToDevice(paramInt);
-					if (readValue != 0)
-						readValue = 0;
-					else
-						readValue = 9;
-					btHwLayer.sendCommandToDevice(paramInt, readValue);
-					BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
-					readAndUpateStatusForRoom(false);
+				@Override
+				public Object runTask(Object params) {
+					try {
+						int readValue = btHwLayer.readCommandToDevice(paramInt);
+						if (readValue != 0)
+							readValue = 0;
+						else
+							readValue = 9;
+						btHwLayer.sendCommandToDevice(paramInt, readValue);
+						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
+						readAndUpateStatusForRoom(false);
+						return null;
+					} catch (Exception paramString1) {
+						paramString1.printStackTrace();
+						CommonUtils.AlertBox(MainActivity.this, "Read Error", paramString1.getMessage());
+					}
 					return null;
-				} catch (Exception paramString1) {
-					paramString1.printStackTrace();
-					CommonUtils.AlertBox(MainActivity.this, "Read Error", paramString1.getMessage());
 				}
-				return null;
-			}
 
-			@Override
-			public void finishedTask(Object result) {
-				// TODO Auto-generated method stub
+				@Override
+				public void finishedTask(Object result) {
+					// TODO Auto-generated method stub
 
-			}
-		};
+				}
+			};
+		}
+		
 
 	}
 
@@ -907,6 +913,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			public void run() {
 				if (MainActivity.this.lightsPanel != null) {
 					setConnectionModeIcon(isWifi?2:1);
+					System.out.println("AJJGJHFHFHGFHJGGGGGGggcdfdfdsf");
 				}
 			}
 		});
