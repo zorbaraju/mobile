@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<section name="PreferencesImportWizard">
+	</section>
+	<section name="FileSystemImportWizard">
+	</section>
 	<section name="org.eclipse.ui.internal.QuickAccess">
 		<item value="800" key="dialogWidth"/>
 		<item value="500" key="dialogHeight"/>
 		<list key="orderedProviders">
+			<item value="org.eclipse.ui.preferences"/>
+			<item value="org.eclipse.ui.commands"/>
 		</list>
 		<list key="textArray">
+			<item value="no"/>
+			<item value="notifications"/>
 		</list>
 		<list key="orderedElements">
+			<item value="org.eclipse.mylyn.commons.notifications.preferencePages.LinkNotifications"/>
+			<item value="org.eclipse.ui.window.preferences(preferencePageId=org.eclipse.mylyn.commons.notifications.preferencePages.Notifications)"/>
 		</list>
 		<list key="textEntries">
+			<item value="1"/>
+			<item value="1"/>
 		</list>
 	</section>
 	<section name="WorkbenchPreferenceDialogSettings">
 		<item value="0" key="DIALOG_Y_ORIGIN"/>
 		<item value="0" key="DIALOG_X_ORIGIN"/>
+	</section>
+	<section name="ZipFileImportWizard">
 	</section>
 	<section name="InstallationDialogSettings">
 		<item value="702" key="DIALOG_WIDTH"/>
@@ -24,11 +38,20 @@
 		<item value="1|.SF NS Text|11.0|0|COCOA|1|.SFNSText-Regular" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="NewWizardAction">
+		<item value="com.android.ide.eclipse.editors.wizards.NewXmlFileWizard.Layout" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="com.android.ide.eclipse.wizards.category"/>
+			<item value="org.eclipse.andmore.wizards.category"/>
+		</list>
 	</section>
 	<section name="ImportExportAction">
 		<item value="org.eclipse.ui.wizards.import.ExternalProject" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
+		<item value="org.eclipse.jdt.internal.ui.fatjarpackager.JarPackageWizard" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
 		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
 			<item value="org.eclipse.ui.Basic"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.jdt.ui.Java"/>
 		</list>
 	</section>
 </section>
