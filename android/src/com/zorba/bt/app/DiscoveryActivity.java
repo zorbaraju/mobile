@@ -151,7 +151,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							}
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
-							btHwLayer.setDateAndTime();
+							//btHwLayer.setDateAndTime();
 						} catch (Exception e) {
 							e.printStackTrace();
 							return null;
@@ -183,7 +183,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 						try {
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
-							btHwLayer.setDateAndTime();
+							//btHwLayer.setDateAndTime();
 						} catch (Exception e) {
 							System.out.println("Not able to get number of devices");
 							e.printStackTrace();
@@ -236,7 +236,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 						try {
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
-							btHwLayer.setDateAndTime();
+							//btHwLayer.setDateAndTime();
 						} catch (Exception e) {
 							System.out.println("Not able to get number of devices");
 							e.printStackTrace();

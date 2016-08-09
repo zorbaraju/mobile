@@ -113,6 +113,16 @@ public class SelectComp extends LinearLayout {
       return this.deviceIndex;
    }
 
+   public void setVisibleController(boolean isVisible) {
+	   if( isVisible) {
+		   controllerValueText.setVisibility(View.VISIBLE);
+		   view.setVisibility(View.VISIBLE);
+	   } else {
+		   controllerValueText.setVisibility(View.GONE);
+		   view.setVisibility(View.GONE);
+	   }
+   }
+   
    public int getDeviceValue() {
       int var1;
       if(!DeviceData.isDimmable(this.deviceType)) {

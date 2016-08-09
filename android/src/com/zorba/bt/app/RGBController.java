@@ -78,7 +78,7 @@ public class RGBController implements ConnectionListener{
 	}
 	public void setRGBView(final RoomData selectedRoom){
 		rgbPanel  = (LinearLayout)activity.findViewById(R.id.rgbPanel);
-		((ScrollView) activity.findViewById(R.id.scrollView1)).setVisibility(View.GONE);
+		((ScrollView) activity.findViewById(R.id.scrollView)).setVisibility(View.GONE);
 		((LinearLayout) activity.findViewById(R.id.rgbPanel)).setVisibility(View.VISIBLE);
 		((LinearLayout) activity.findViewById(R.id.emptydevicepanel)).setVisibility(View.GONE);
 		/*final ColorPicker colorPickerView = new ColorPicker(activity);
