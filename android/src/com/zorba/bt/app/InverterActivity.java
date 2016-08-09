@@ -14,11 +14,11 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class InvertorActivity extends ZorbaActivity {
+public class InverterActivity extends ZorbaActivity {
 	HashMap<String,SelectComp> maps = new HashMap<String, SelectComp>();
    protected void onCreate(Bundle var1) {
       super.onCreate(var1);
-      this.setContentView(R.layout.invertor);
+      this.setContentView(R.layout.inverter);
       LinearLayout devicesLayout = (LinearLayout)this.findViewById(R.id.invRoomContent);
       ArrayList<RoomData> roomList = BtLocalDB.getInstance(this).getRoomList();
       roomList.remove(0);
