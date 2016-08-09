@@ -46,7 +46,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	public static final int APPINFO_CODE = ADDSCHEDULER_CODE + 1;
 	public static final int SENDLOG_CODE = APPINFO_CODE + 1;
 	public static final int HELP_CODE = SENDLOG_CODE + 1;
-	public static final int INVERTOR_CODE = HELP_CODE + 1;
+	public static final int INVERTER_CODE = HELP_CODE + 1;
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
 	int _color = 0;
@@ -156,7 +156,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		arrayList.add(new ImageTextData("Add Room", R.drawable.discovery));
 		arrayList.add(new ImageTextData("Help", R.drawable.help));
 		arrayList.add(new ImageTextData("About", R.drawable.about));
-		arrayList.add(new ImageTextData("Invertor Settings", R.drawable.invertor));
+		arrayList.add(new ImageTextData("Inverter Power", R.drawable.inverter));
 		arrayList.add(new ImageTextData("Exit", R.drawable.exit));
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new OnClickListener() {
 			public void onClick(View popupView) {
@@ -179,8 +179,8 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 					return;
 				}
 				if (i == 3) {
-					Intent intent = new Intent(MainActivity.this, InvertorActivity.class);
-					MainActivity.this.startActivityForResult(intent, INVERTOR_CODE);
+					Intent intent = new Intent(MainActivity.this, InverterActivity.class);
+					MainActivity.this.startActivityForResult(intent, INVERTER_CODE);
 					return;
 				}
 				MainActivity.this.performExit();
@@ -520,33 +520,39 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private void singleClickButton(final int paramInt, String paramString, ImageTextButton paramImageTextButton) {
-		BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
+		
+		if( !btHwLayer.isConnected())
+			updateWithRealtime();
+		else {
+			BackgroundTaskDialog btdialog = new BackgroundTaskDialog(this) {
 
-			@Override
-			public Object runTask(Object params) {
-				try {
-					int readValue = btHwLayer.readCommandToDevice(paramInt);
-					if (readValue != 0)
-						readValue = 0;
-					else
-						readValue = 9;
-					btHwLayer.sendCommandToDevice(paramInt, readValue);
-					BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
-					readAndUpateStatusForRoom(false);
+				@Override
+				public Object runTask(Object params) {
+					try {
+						int readValue = btHwLayer.readCommandToDevice(paramInt);
+						if (readValue != 0)
+							readValue = 0;
+						else
+							readValue = 9;
+						btHwLayer.sendCommandToDevice(paramInt, readValue);
+						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
+						readAndUpateStatusForRoom(false);
+						return null;
+					} catch (Exception paramString1) {
+						paramString1.printStackTrace();
+						CommonUtils.AlertBox(MainActivity.this, "Read Error", paramString1.getMessage());
+					}
 					return null;
-				} catch (Exception paramString1) {
-					paramString1.printStackTrace();
-					CommonUtils.AlertBox(MainActivity.this, "Read Error", paramString1.getMessage());
 				}
-				return null;
-			}
 
-			@Override
-			public void finishedTask(Object result) {
-				// TODO Auto-generated method stub
+				@Override
+				public void finishedTask(Object result) {
+					// TODO Auto-generated method stub
 
-			}
-		};
+				}
+			};
+		}
+		
 
 	}
 
@@ -907,6 +913,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			public void run() {
 				if (MainActivity.this.lightsPanel != null) {
 					setConnectionModeIcon(isWifi?2:1);
+					System.out.println("AJJGJHFHFHGFHJGGGGGGggcdfdfdsf");
 				}
 			}
 		});

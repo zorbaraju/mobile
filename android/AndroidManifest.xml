@@ -38,8 +38,8 @@
             android:label="@string/title_help" >
         </activity>
         <activity
-            android:name=".InvertorActivity"
-            android:label="@string/title_invertor" >
+            android:name=".InverterActivity"
+            android:label="@string/title_inverter" >
         </activity>
         <activity
             android:name=".SendLogActivity"
