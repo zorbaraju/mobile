@@ -5,12 +5,15 @@
 //  Created by Mackbook on 25/07/16.
 //  Copyright © 2016 Mackbook. All rights reserved.
 //
+import CoreBluetooth
 
 import UIKit
 import SystemConfiguration
 import SystemConfiguration.CaptiveNetwork
 
-class ViewController: UIViewController {
+class ViewController: UIViewController  {
+    
+    var centralManager:CBCentralManager!
     
     var selectedRoomDeviceName:String!;
     var lightsComp:FV!;
@@ -75,7 +78,10 @@ class ViewController: UIViewController {
         print("going out rajuDHI")
         populateRoomPanel(lastselectedroom)
         printWifi();
+        
     }
+    
+        
     func populateRoomPanel(lastSelectedRoom:String) {
         print("populating roompanel for the room\(lastSelectedRoom)")
         selectedRoomDeviceName = lastSelectedRoom
