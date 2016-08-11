@@ -21,6 +21,17 @@ class DBOperation {
         phoneMemory.setObject(lastSelectedRoom, forKey: lastSelectedRoomKey)
     }
     
+    func isRoomExist(deviceName:String)-> Bool {
+         var rooms = getRoomList();
+        for var i = 0; i < rooms.count; i += 1 {
+            let room = rooms[i];
+            if( room.deviceName == deviceName) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     func getLastSelectedRoom()->String {
         var lastselectedroom:String = "No Rooms";
         if( phoneMemory.stringForKey("lastselectedroom") != nil) {
@@ -45,6 +56,14 @@ class DBOperation {
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(rooms as NSArray)
         phoneMemory.setObject(archivedObject, forKey: roomsKey)
     }
+    
+    func removeRoom(roomIndex:Int) {
+        var rooms = getRoomList();
+        rooms.removeAtIndex(roomIndex)
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(rooms as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: roomsKey)
+    }
+    
     func getLights(roomDeviceName:String)->[DeviceDAO] {
         var lights:[DeviceDAO] = [DeviceDAO]()
         print("kkkkkkkkkk"+"\(roomDeviceName)lights")

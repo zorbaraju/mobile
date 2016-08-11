@@ -247,16 +247,32 @@
                                         <rect key="frame" x="0.0" y="21" width="600" height="579"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="Yln-tN-MBv" userLabel="innerView">
-                                                <rect key="frame" x="0.0" y="0.0" width="245" height="228"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="245" height="256"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Configured Rooms" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7g-7P-deO">
-                                                        <rect key="frame" x="0.0" y="0.0" width="245" height="21"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="SbZ-29-FOm">
+                                                        <rect key="frame" x="0.0" y="0.0" width="245" height="40"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Configured Rooms" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7g-7P-deO">
+                                                                <rect key="frame" x="0.0" y="0.0" width="143" height="40"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixk-tM-tcY">
+                                                                <rect key="frame" x="205" y="0.0" width="40" height="40"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="40" id="LQ7-fV-ZfL"/>
+                                                                    <constraint firstAttribute="height" constant="40" id="yKD-fu-GNA"/>
+                                                                </constraints>
+                                                                <state key="normal" image="minus.png"/>
+                                                                <connections>
+                                                                    <action selector="deleteRoom:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="dAW-nX-OFT"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="teM-SU-cqO">
-                                                        <rect key="frame" x="0.0" y="21" width="245" height="50"/>
+                                                        <rect key="frame" x="0.0" y="40" width="245" height="50"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="8HW-5e-tXc"/>
                                                         </constraints>
@@ -279,13 +295,13 @@
                                                         </cells>
                                                     </collectionView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Discovery Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYt-kl-c5h">
-                                                        <rect key="frame" x="0.0" y="71" width="245" height="21"/>
+                                                        <rect key="frame" x="0.0" y="90" width="245" height="21"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="u9H-TQ-Uqc">
-                                                        <rect key="frame" x="0.0" y="92" width="245" height="31"/>
+                                                        <rect key="frame" x="0.0" y="111" width="245" height="31"/>
                                                         <subviews>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H6a-zh-aAE">
                                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
@@ -304,17 +320,29 @@
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Discovered Devices" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="147" translatesAutoresizingMaskIntoConstraints="NO" id="6s4-2W-utG">
-                                                        <rect key="frame" x="0.0" y="123" width="245" height="21"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iCz-Ig-rv2">
+                                                        <rect key="frame" x="0.0" y="142" width="245" height="30"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" text="Discovered Devices" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="147" translatesAutoresizingMaskIntoConstraints="NO" id="6s4-2W-utG">
+                                                                <rect key="frame" x="0.0" y="0.0" width="151" height="30"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hdr-lo-0CV">
+                                                                <rect key="frame" x="151" y="0.0" width="94" height="30"/>
+                                                                <state key="normal" title="Start"/>
+                                                                <connections>
+                                                                    <action selector="startDiscovery:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="72U-bs-31h"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                    </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Tfm-jS-RLc" userLabel="discoveredDevicesPanel">
-                                                        <rect key="frame" x="0.0" y="144" width="245" height="50"/>
+                                                        <rect key="frame" x="0.0" y="172" width="245" height="50"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IXS-a5-0hi" userLabel="buttonPanel">
-                                                        <rect key="frame" x="0.0" y="194" width="245" height="34"/>
+                                                        <rect key="frame" x="0.0" y="222" width="245" height="34"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
                                                                 <rect key="frame" x="0.0" y="0.0" width="245" height="34"/>
@@ -360,6 +388,7 @@
                     </view>
                     <connections>
                         <outlet property="configuredView" destination="teM-SU-cqO" id="zkY-vT-nZf"/>
+                        <outlet property="deleteButton" destination="ixk-tM-tcY" id="BtG-6j-wrg"/>
                         <outlet property="discoveredDevicesPanel" destination="Tfm-jS-RLc" id="A7n-bj-FZC"/>
                         <outlet property="scrollView" destination="NCH-25-Hzc" id="G0I-FI-SxG"/>
                         <outlet property="verticalview" destination="Yln-tN-MBv" id="Wzy-vy-Ic1"/>
@@ -374,9 +403,10 @@
     <resources>
         <image name="about.png" width="25" height="25"/>
         <image name="cancel.png" width="25" height="25"/>
+        <image name="minus.png" width="25" height="25"/>
         <image name="save.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="eHe-7h-ddB"/>
+        <segue reference="8WZ-cV-bwN"/>
     </inferredMetricsTieBreakers>
 </document>
