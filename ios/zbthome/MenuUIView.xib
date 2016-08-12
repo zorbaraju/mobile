@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuUIView" customModule="second" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuUIView" customModule="ZBtHome" customModuleProvider="target">
             <connections>
                 <outlet property="menuButton" destination="e7K-K1-Bgr" id="jOa-nU-pud"/>
                 <outlet property="menuTableView" destination="CV4-Wn-cDE" id="bXF-Ld-sfQ"/>

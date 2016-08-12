@@ -72,6 +72,7 @@ class FV: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, 
         plusButton.tag = tag
         minusButton.tag = 100+tag
         middleLabel.text = title
+        minusButton.hidden = true;
     }
     
     func xibSetup() {
@@ -125,6 +126,7 @@ class FV: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, 
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         selectedCellIndex = indexPath.row
         print("Selected cellindex.....\(selectedCellIndex)")
+        minusButton.hidden = false;
     }
 
     func clearAllDevices() {
@@ -144,6 +146,7 @@ class FV: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, 
     }
     
     func removeComp() {
+        minusButton.hidden = true;
         compArray.removeAtIndex(selectedCellIndex)
         collectionView.reloadData()
     }

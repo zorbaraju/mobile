@@ -117,20 +117,55 @@ class DBOperation {
     }
     
     func getGroups(roomDeviceName:String)->[GroupDAO] {
-        var groups:[GroupDAO] = [GroupDAO]()
-        let temp = phoneMemory.objectForKey(roomDeviceName+"groups")
+        var lights:[GroupDAO] = [GroupDAO]()
+        print("kkkkkkkkkk"+"\(roomDeviceName)groups")
+        let temp = phoneMemory.objectForKey("\(roomDeviceName)groups")
         if let unarchivedObject = temp as? NSData {
-            groups = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [GroupDAO]!)!
+            lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [GroupDAO]!)!
         }
-        return groups
+        return lights
+    }
+    func addGroup(roomDeviceName:String, light:GroupDAO) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)groups")
+        var lights = getGroups(roomDeviceName);
+        lights.append(light)
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)groups")
+    }
+    
+    func removeGroup(roomDeviceName:String, indexAt:Int) {
+        var lights = getGroups(roomDeviceName);
+        print("size of listhfff..before..\(lights.count)")
+        lights.removeAtIndex(indexAt)
+        print("size of listhfff....\(lights.count)")
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)groups")
     }
     
     func getSchedulers(roomDeviceName:String)->[SchedulerDAO] {
-        var schedulars:[SchedulerDAO] = [SchedulerDAO]()
-        let temp = phoneMemory.objectForKey(roomDeviceName+"schedulers")
+        var lights:[SchedulerDAO] = [SchedulerDAO]()
+        print("kkkkkkkkkk"+"\(roomDeviceName)schedulers")
+        let temp = phoneMemory.objectForKey("\(roomDeviceName)schedulers")
         if let unarchivedObject = temp as? NSData {
-            schedulars = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [SchedulerDAO]!)!
+            lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [SchedulerDAO]!)!
         }
-        return schedulars
+        return lights
     }
+    func addScheduler(roomDeviceName:String, light:SchedulerDAO) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers")
+        var lights = getSchedulers(roomDeviceName);
+        lights.append(light)
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)schedulers")
+    }
+    
+    func removeScheduler(roomDeviceName:String, indexAt:Int) {
+        var lights = getSchedulers(roomDeviceName);
+        print("size of listhfff..before..\(lights.count)")
+        lights.removeAtIndex(indexAt)
+        print("size of listhfff....\(lights.count)")
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)schedulers")
+    }
+
 }

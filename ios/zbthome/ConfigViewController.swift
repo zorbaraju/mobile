@@ -36,7 +36,18 @@ class ConfigViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         print("prepareForSegue.....\(segue.identifier)"+roomDeviceName+"  daotype=\(daoType)")
         if( segue.identifier == "goBackFromSave") {
+            var name = nameText.text
             if( daoType == 1) {
+                
+                if( (name == nil) ) {
+                    let alert = UIAlertView();
+                    alert.title = "Title"
+                    alert.message = "Device name is empty"
+                    alert.addButtonWithTitle("Ok")
+                    alert.show()
+                    return;
+                }
+                
                 let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
                 DBOperation().addLight(roomDeviceName, light: light)
             } else if( daoType == 2) {
