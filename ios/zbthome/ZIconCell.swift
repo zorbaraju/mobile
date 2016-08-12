@@ -36,6 +36,17 @@ class ZIconCell: UICollectionViewCell {
         xibSetup()
     }
     
+    func setOn(on:Bool) {
+        if( on ) {
+            imageView.backgroundColor = UIColor.orangeColor();
+        } else {
+            imageView.backgroundColor = UIColor.blackColor();
+        }
+    }
+    
+    func setOffline() {
+        imageView.backgroundColor = UIColor.grayColor();
+    }
     func setLabelAndImage(title: String, imageName:String) {
         self.labelName = title
         self.imageName = imageName
@@ -53,6 +64,8 @@ class ZIconCell: UICollectionViewCell {
         view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
+        setOffline();
+        imageView.layer.cornerRadius=20;
     }
     
     func loadViewFromNib() -> UIView {

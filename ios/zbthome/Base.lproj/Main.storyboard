@@ -131,7 +131,7 @@
                                                 </constraints>
                                                 <state key="normal" image="cancel.png"/>
                                                 <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="show" id="erD-N0-dSO"/>
+                                                    <segue destination="BYZ-38-t0r" kind="show" identifier="goBackFromCancel" id="erD-N0-dSO"/>
                                                 </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adding new Device" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r5T-ab-ck4">
@@ -149,7 +149,7 @@
                                                 </constraints>
                                                 <state key="normal" image="save.png"/>
                                                 <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="show" id="APb-9r-oOS"/>
+                                                    <segue destination="BYZ-38-t0r" kind="show" identifier="goBackFromSave" id="APb-9r-oOS"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -503,7 +503,7 @@
                                                         <rect key="frame" x="0.0" y="222" width="245" height="34"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
-                                                                <rect key="frame" x="0.0" y="0.0" width="56" height="34"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="205" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
                                                                     <action selector="cancelButton:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="Xds-Hv-DAO"/>
@@ -511,7 +511,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
-                                                                <rect key="frame" x="56" y="0.0" width="189" height="34"/>
+                                                                <rect key="frame" x="205" y="0.0" width="40" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>
                                                                     <action selector="addRoomAction:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="0DC-W4-wY2"/>
@@ -654,6 +654,6 @@
         <image name="save.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zaM-S5-nBZ"/>
+        <segue reference="APb-9r-oOS"/>
     </inferredMetricsTieBreakers>
 </document>

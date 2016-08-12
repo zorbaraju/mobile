@@ -39,30 +39,22 @@ class ConfigViewController: UIViewController {
             var name = nameText.text
             if( daoType == 1) {
                 
-                if( (name == nil) ) {
+                if( (name == "") ) {
                     let alert = UIAlertView();
                     alert.title = "Title"
                     alert.message = "Device name is empty"
                     alert.addButtonWithTitle("Ok")
                     alert.show()
-                    return;
+                } else {
+                    let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceIdText.text!)!);
+                    DBOperation().addLight(roomDeviceName, light: light)
                 }
-                
-                let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
-                DBOperation().addLight(roomDeviceName, light: light)
             } else if( daoType == 2) {
                 let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
                 DBOperation().addDevice(roomDeviceName, light: light)
-            } else if( daoType == 3) {
-                let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
-                DBOperation().addLight(roomDeviceName, light: light)
-            }
+           }
             
         }
         
     }
-    /*override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject!) -> Bool {
-           print("preshouldpareForSegue.....\(identifier)")
-        return  identifier == "goBackFromCancel"
-    }*/
 }

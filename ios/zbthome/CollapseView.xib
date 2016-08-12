@@ -74,6 +74,7 @@
                             <subviews>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="avd-Kj-KvL" customClass="DynamicCollectionView" customModule="ZBtHome" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
+                                    <color key="backgroundColor" red="0.2666666667" green="0.2901960784" blue="0.31372549020000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wjI-cx-kud">
                                         <size key="itemSize" width="50" height="50"/>
                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
