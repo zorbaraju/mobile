@@ -89,15 +89,33 @@ class DBOperation {
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)lights")
     }
-
+    
     func getDevices(roomDeviceName:String)->[DeviceDAO] {
-        var devices:[DeviceDAO] = [DeviceDAO]()
-        let temp = phoneMemory.objectForKey(roomDeviceName+"devices")
+        var lights:[DeviceDAO] = [DeviceDAO]()
+        print("kkkkkkkkkk"+"\(roomDeviceName)devices")
+        let temp = phoneMemory.objectForKey("\(roomDeviceName)devices")
         if let unarchivedObject = temp as? NSData {
-            devices = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [DeviceDAO]!)!
+            lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [DeviceDAO]!)!
         }
-        return devices
+        return lights
     }
+    func addDevice(roomDeviceName:String, light:DeviceDAO) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
+        var lights = getDevices(roomDeviceName);
+        lights.append(light)
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)devices")
+    }
+    
+    func removeDevice(roomDeviceName:String, indexAt:Int) {
+        var lights = getDevices(roomDeviceName);
+        print("size of listhfff..before..\(lights.count)")
+        lights.removeAtIndex(indexAt)
+        print("size of listhfff....\(lights.count)")
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)devices")
+    }
+    
     func getGroups(roomDeviceName:String)->[GroupDAO] {
         var groups:[GroupDAO] = [GroupDAO]()
         let temp = phoneMemory.objectForKey(roomDeviceName+"groups")

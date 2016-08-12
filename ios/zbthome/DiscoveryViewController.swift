@@ -54,6 +54,10 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
         view.addGestureRecognizer(tapper)
 
     }
+    
+    @IBAction func cancelButton(sender: UIButton) {
+        
+    }
    
     func loadConfiguredRooms() {
         configuredRooms = DBOperation().getRoomList();

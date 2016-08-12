@@ -107,6 +107,7 @@
 		DECFD6911D503AB700F193F7 /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6461D503AB700F193F7 /* unknown.png */; };
 		DECFD6921D503AB700F193F7 /* watermarkimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6471D503AB700F193F7 /* watermarkimage.jpg */; };
 		DECFD6971D503B9C00F193F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6951D503B9C00F193F7 /* Main.storyboard */; };
+		DEF064101D5DA89700875C0E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF0640F1D5DA89700875C0E /* GroupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -212,6 +213,7 @@
 		DECFD6461D503AB700F193F7 /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unknown.png; path = resources/unknown.png; sourceTree = "<group>"; };
 		DECFD6471D503AB700F193F7 /* watermarkimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = watermarkimage.jpg; path = resources/watermarkimage.jpg; sourceTree = "<group>"; };
 		DECFD6961D503B9C00F193F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DEF0640F1D5DA89700875C0E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				DEC3C0D11D509FE30082F3E3 /* MenuUIView.swift */,
 				DEC3C0D21D509FE30082F3E3 /* MenuUIView.xib */,
 				DECFD6951D503B9C00F193F7 /* Main.storyboard */,
+				DEF0640F1D5DA89700875C0E /* GroupViewController.swift */,
 				DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */,
 				DEB3D5EC1D4C583500D6379A /* about.html */,
 				DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */,
@@ -516,6 +519,7 @@
 				DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */,
 				DE0227BD1D4E757A005EE857 /* ZIconCell.swift in Sources */,
 				DEC3C0D41D509FE30082F3E3 /* FullCollectionView.swift in Sources */,
+				DEF064101D5DA89700875C0E /* GroupViewController.swift in Sources */,
 				DEBF0BA81D574EBB00FEE17C /* SchedulerDAO.swift in Sources */,
 				DEBF0BA61D574EAF00FEE17C /* GroupDAO.swift in Sources */,
 				DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */,
