@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		DE0227BD1D4E757A005EE857 /* ZIconCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0227BC1D4E757A005EE857 /* ZIconCell.swift */; };
 		DE0B0BD11D4B82DD00522B12 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = DE0B0BD01D4B82DD00522B12 /* help.html */; };
+		DE1BD7121D5DDABC002D8162 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */; };
 		DE86CCAC1D556F6400037E3B /* DbOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86CCAB1D556F6400037E3B /* DbOperation.swift */; };
+		DEAFADAC1D5DD38F0078C964 /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */; };
 		DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */; };
 		DEB3D5ED1D4C583500D6379A /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = DEB3D5EC1D4C583500D6379A /* about.html */; };
 		DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */; };
@@ -107,13 +109,14 @@
 		DECFD6911D503AB700F193F7 /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6461D503AB700F193F7 /* unknown.png */; };
 		DECFD6921D503AB700F193F7 /* watermarkimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6471D503AB700F193F7 /* watermarkimage.jpg */; };
 		DECFD6971D503B9C00F193F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6951D503B9C00F193F7 /* Main.storyboard */; };
-		DEF064101D5DA89700875C0E /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF0640F1D5DA89700875C0E /* GroupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DE0227BC1D4E757A005EE857 /* ZIconCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZIconCell.swift; sourceTree = "<group>"; };
 		DE0B0BD01D4B82DD00522B12 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
+		DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		DE86CCAB1D556F6400037E3B /* DbOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DbOperation.swift; sourceTree = "<group>"; };
+		DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HtmlViewController.swift; sourceTree = "<group>"; };
 		DEB3D5EC1D4C583500D6379A /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
@@ -213,7 +216,6 @@
 		DECFD6461D503AB700F193F7 /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unknown.png; path = resources/unknown.png; sourceTree = "<group>"; };
 		DECFD6471D503AB700F193F7 /* watermarkimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = watermarkimage.jpg; path = resources/watermarkimage.jpg; sourceTree = "<group>"; };
 		DECFD6961D503B9C00F193F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DEF0640F1D5DA89700875C0E /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,28 +248,29 @@
 		DEBE52B91D45F02F001DE4DA /* zbthome */ = {
 			isa = PBXGroup;
 			children = (
+				DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */,
+				DEBE52C11D45F02F001DE4DA /* Assets.xcassets */,
+				DECFD6941D503B1000F193F7 /* images */,
 				DEBF0BA91D57686F00FEE17C /* CollapseCompData.swift */,
 				DEBF0BA71D574EBB00FEE17C /* SchedulerDAO.swift */,
 				DEBF0BA51D574EAF00FEE17C /* GroupDAO.swift */,
 				DEBF0BA31D574C9E00FEE17C /* DeviceDAO.swift */,
 				DEBF0B9F1D56AD3200FEE17C /* LabelTextView.swift */,
 				DEBF0BA01D56AD3200FEE17C /* LabelTextView.xib */,
-				DECFD6941D503B1000F193F7 /* images */,
 				DEC3C0D71D50A00C0082F3E3 /* ZIConCell.xib */,
 				DEC3C0CF1D509FE30082F3E3 /* ConfigViewController.swift */,
 				DEC3C0D01D509FE30082F3E3 /* FullCollectionView.swift */,
 				DEC3C0D11D509FE30082F3E3 /* MenuUIView.swift */,
 				DEC3C0D21D509FE30082F3E3 /* MenuUIView.xib */,
 				DECFD6951D503B9C00F193F7 /* Main.storyboard */,
-				DEF0640F1D5DA89700875C0E /* GroupViewController.swift */,
 				DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */,
 				DEB3D5EC1D4C583500D6379A /* about.html */,
 				DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */,
 				DEBE52BA1D45F02F001DE4DA /* AppDelegate.swift */,
 				DEBE52BC1D45F02F001DE4DA /* ViewController.swift */,
+				DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */,
 				DEBDD97A1D53B62100DA98B5 /* RoomDAO.swift */,
 				DEBE52CC1D45F2B0001DE4DA /* FV.xib */,
-				DEBE52C11D45F02F001DE4DA /* Assets.xcassets */,
 				DEBE52CE1D45F2D1001DE4DA /* FV.swift */,
 				DE0227BC1D4E757A005EE857 /* ZIconCell.swift */,
 				DEBE52C31D45F02F001DE4DA /* LaunchScreen.storyboard */,
@@ -513,13 +516,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE1BD7121D5DDABC002D8162 /* GroupViewController.swift in Sources */,
 				DE86CCAC1D556F6400037E3B /* DbOperation.swift in Sources */,
 				DEBE52BD1D45F02F001DE4DA /* ViewController.swift in Sources */,
+				DEAFADAC1D5DD38F0078C964 /* SchedulerViewController.swift in Sources */,
 				DEBE52BB1D45F02F001DE4DA /* AppDelegate.swift in Sources */,
 				DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */,
 				DE0227BD1D4E757A005EE857 /* ZIconCell.swift in Sources */,
 				DEC3C0D41D509FE30082F3E3 /* FullCollectionView.swift in Sources */,
-				DEF064101D5DA89700875C0E /* GroupViewController.swift in Sources */,
 				DEBF0BA81D574EBB00FEE17C /* SchedulerDAO.swift in Sources */,
 				DEBF0BA61D574EAF00FEE17C /* GroupDAO.swift in Sources */,
 				DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */,

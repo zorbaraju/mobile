@@ -172,6 +172,16 @@ class ViewController: UIViewController  {
                 print("selectindex....\(selindex)   "+selectedRoomDeviceName)
                 dbOperation.removeDevice(selectedRoomDeviceName, indexAt: selindex);
                 devicesComp.removeComp()
+            } else if( sender.tag == 103) {
+                let selindex = groupsComp.getSelectedIndex();
+                print("selectindex....\(selindex)   "+selectedRoomDeviceName)
+                dbOperation.removeGroup(selectedRoomDeviceName, indexAt: selindex);
+                groupsComp.removeComp()
+            } else if( sender.tag == 104) {
+                let selindex = schedulersComp.getSelectedIndex();
+                print("selectindex....\(selindex)   "+selectedRoomDeviceName)
+                dbOperation.removeScheduler(selectedRoomDeviceName, indexAt: selindex);
+                schedulersComp.removeComp()
             }
         }
     }
@@ -209,6 +219,12 @@ class ViewController: UIViewController  {
         } else if ( segue.identifier == "ConfigSegueId"){
             var svc = segue!.destinationViewController as! ConfigViewController;
             svc.setRoomDeviceName(lightsComp, name: selectedRoomDeviceName, tag: sender.tag)
+        } else if ( segue.identifier == "GroupSegueId"){
+            var svc = segue!.destinationViewController as! GroupViewController;
+            svc.setRoomDeviceName(selectedRoomDeviceName)
+        } else if ( segue.identifier == "ShedulerSegueId"){
+            var svc = segue!.destinationViewController as! SchedulerViewController;
+            svc.setRoomDeviceName(selectedRoomDeviceName)
         }
     }
     
