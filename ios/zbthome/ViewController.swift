@@ -16,10 +16,10 @@ class ViewController: UIViewController  {
     var centralManager:CBCentralManager!
     
     var selectedRoomDeviceName:String!;
-    var lightsComp:FV!;
-    var devicesComp:FV!;
-    var groupsComp:FV!;
-    var schedulersComp:FV!;
+    var lightsComp:CollapseView!;
+    var devicesComp:CollapseView!;
+    var groupsComp:CollapseView!;
+    var schedulersComp:CollapseView!;
 
     let dbOperation:DBOperation = DBOperation();
     
@@ -50,16 +50,16 @@ class ViewController: UIViewController  {
                 constant: 0))
         
         // Do any additional setup after loading the view, typically from a nib.
-        lightsComp = FV(frame: verticalview.bounds, title:"Lights",tag:1);
+        lightsComp = CollapseView(frame: verticalview.bounds, title:"Lights",tag:1);
         lightsComp.registerListeners(self, methodName: "buttonClicked:");
         verticalview.addArrangedSubview(lightsComp)
-        devicesComp = FV(frame: verticalview.bounds, title:"Devices",tag:2);
+        devicesComp = CollapseView(frame: verticalview.bounds, title:"Devices",tag:2);
         devicesComp.registerListeners(self, methodName: "buttonClicked:");
         verticalview.addArrangedSubview(devicesComp)
-        groupsComp = FV(frame: verticalview.bounds, title:"Groups",tag:3);
+        groupsComp = CollapseView(frame: verticalview.bounds, title:"Groups",tag:3);
         groupsComp.registerListeners(self, methodName: "buttonClicked:");
         verticalview.addArrangedSubview(groupsComp)
-        schedulersComp = FV(frame: verticalview.bounds, title:"Schedulers",tag:4);
+        schedulersComp = CollapseView(frame: verticalview.bounds, title:"Schedulers",tag:4);
         schedulersComp.registerListeners(self, methodName: "buttonClicked:");
         verticalview.addArrangedSubview(schedulersComp)
         

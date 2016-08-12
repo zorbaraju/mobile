@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FV" customModule="ZBtHome" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CollapseView" customModule="ZBtHome">
             <connections>
                 <outlet property="collapseButton" destination="JOJ-Au-trh" id="GxA-tR-OyE"/>
                 <outlet property="collectionView" destination="avd-Kj-KvL" id="sx4-q5-9tn"/>
