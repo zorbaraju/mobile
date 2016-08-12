@@ -10,7 +10,7 @@ import UIKit
 
 class ConfigViewController: UIViewController {
 
-    var collapseComp:FV!
+    var collapseComp:CollapseView!
     var roomDeviceName:String!
     var daoType:Int!
 
@@ -28,7 +28,7 @@ class ConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func setRoomDeviceName(collapseComp:FV, name:String, tag:Int) {
+    func setRoomDeviceName(collapseComp:CollapseView, name:String, tag:Int) {
         self.collapseComp = collapseComp
         roomDeviceName = name
         daoType = tag

@@ -20,8 +20,8 @@
 		DEBE52BD1D45F02F001DE4DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBE52BC1D45F02F001DE4DA /* ViewController.swift */; };
 		DEBE52C21D45F02F001DE4DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEBE52C11D45F02F001DE4DA /* Assets.xcassets */; };
 		DEBE52C51D45F02F001DE4DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DEBE52C31D45F02F001DE4DA /* LaunchScreen.storyboard */; };
-		DEBE52CD1D45F2B0001DE4DA /* FV.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEBE52CC1D45F2B0001DE4DA /* FV.xib */; };
-		DEBE52CF1D45F2D1001DE4DA /* FV.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBE52CE1D45F2D1001DE4DA /* FV.swift */; };
+		DEBE52CD1D45F2B0001DE4DA /* CollapseView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEBE52CC1D45F2B0001DE4DA /* CollapseView.xib */; };
+		DEBE52CF1D45F2D1001DE4DA /* CollapseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBE52CE1D45F2D1001DE4DA /* CollapseView.swift */; };
 		DEBF0BA11D56AD3200FEE17C /* LabelTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF0B9F1D56AD3200FEE17C /* LabelTextView.swift */; };
 		DEBF0BA21D56AD3200FEE17C /* LabelTextView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEBF0BA01D56AD3200FEE17C /* LabelTextView.xib */; };
 		DEBF0BA41D574C9E00FEE17C /* DeviceDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF0BA31D574C9E00FEE17C /* DeviceDAO.swift */; };
@@ -127,8 +127,8 @@
 		DEBE52C11D45F02F001DE4DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DEBE52C41D45F02F001DE4DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DEBE52C61D45F02F001DE4DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DEBE52CC1D45F2B0001DE4DA /* FV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FV.xib; sourceTree = "<group>"; };
-		DEBE52CE1D45F2D1001DE4DA /* FV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FV.swift; sourceTree = "<group>"; };
+		DEBE52CC1D45F2B0001DE4DA /* CollapseView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollapseView.xib; sourceTree = "<group>"; };
+		DEBE52CE1D45F2D1001DE4DA /* CollapseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapseView.swift; sourceTree = "<group>"; };
 		DEBF0B9F1D56AD3200FEE17C /* LabelTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTextView.swift; sourceTree = "<group>"; };
 		DEBF0BA01D56AD3200FEE17C /* LabelTextView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelTextView.xib; sourceTree = "<group>"; };
 		DEBF0BA31D574C9E00FEE17C /* DeviceDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceDAO.swift; sourceTree = "<group>"; };
@@ -270,8 +270,8 @@
 				DEBE52BC1D45F02F001DE4DA /* ViewController.swift */,
 				DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */,
 				DEBDD97A1D53B62100DA98B5 /* RoomDAO.swift */,
-				DEBE52CC1D45F2B0001DE4DA /* FV.xib */,
-				DEBE52CE1D45F2D1001DE4DA /* FV.swift */,
+				DEBE52CC1D45F2B0001DE4DA /* CollapseView.xib */,
+				DEBE52CE1D45F2D1001DE4DA /* CollapseView.swift */,
 				DE0227BC1D4E757A005EE857 /* ZIconCell.swift */,
 				DEBE52C31D45F02F001DE4DA /* LaunchScreen.storyboard */,
 				DEBE52C61D45F02F001DE4DA /* Info.plist */,
@@ -502,7 +502,7 @@
 				DEC3C0D61D509FE30082F3E3 /* MenuUIView.xib in Resources */,
 				DECFD6811D503AB700F193F7 /* sendemail.png in Resources */,
 				DECFD6621D503AB700F193F7 /* doorbell_on.png in Resources */,
-				DEBE52CD1D45F2B0001DE4DA /* FV.xib in Resources */,
+				DEBE52CD1D45F2B0001DE4DA /* CollapseView.xib in Resources */,
 				DECFD6851D503AB700F193F7 /* socket_on.png in Resources */,
 				DECFD67F1D503AB700F193F7 /* scheduler.png in Resources */,
 				DECFD6831D503AB700F193F7 /* settopbox_on.png in Resources */,
@@ -529,7 +529,7 @@
 				DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */,
 				DEC3C0D51D509FE30082F3E3 /* MenuUIView.swift in Sources */,
 				DEC3C0D31D509FE30082F3E3 /* ConfigViewController.swift in Sources */,
-				DEBE52CF1D45F2D1001DE4DA /* FV.swift in Sources */,
+				DEBE52CF1D45F2D1001DE4DA /* CollapseView.swift in Sources */,
 				DEBF0BA41D574C9E00FEE17C /* DeviceDAO.swift in Sources */,
 				DEBF0BAA1D57686F00FEE17C /* CollapseCompData.swift in Sources */,
 				DEBF0BA11D56AD3200FEE17C /* LabelTextView.swift in Sources */,
