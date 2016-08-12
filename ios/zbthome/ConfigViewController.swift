@@ -12,6 +12,10 @@ class ConfigViewController: UIViewController {
 
     var collapseComp:FV!
     var roomDeviceName:String!
+    var daoType:Int!
+
+    @IBOutlet var nameText: UITextField!
+    @IBOutlet var deviceIdText: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,15 +28,25 @@ class ConfigViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func setRoomDeviceName(collapseComp:FV, name:String) {
+    func setRoomDeviceName(collapseComp:FV, name:String, tag:Int) {
         self.collapseComp = collapseComp
         roomDeviceName = name
+        daoType = tag
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("prepareForSegue.....\(segue.identifier)"+roomDeviceName)
+        print("prepareForSegue.....\(segue.identifier)"+roomDeviceName+"  daotype=\(daoType)")
         if( segue.identifier == "goBackFromSave") {
-            let light:DeviceDAO = DeviceDAO(deviceName: "Name",deviceId: 1);
-            DBOperation().addLight(roomDeviceName, light: light)
+            if( daoType == 1) {
+                let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
+                DBOperation().addLight(roomDeviceName, light: light)
+            } else if( daoType == 2) {
+                let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
+                DBOperation().addDevice(roomDeviceName, light: light)
+            } else if( daoType == 3) {
+                let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
+                DBOperation().addLight(roomDeviceName, light: light)
+            }
+            
         }
         
     }

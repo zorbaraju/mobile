@@ -98,17 +98,17 @@ class ViewController: UIViewController  {
             }
             let devices:[DeviceDAO] = dbOperation.getDevices(lastSelectedRoom);
             for var i = 0; i < devices.count; i += 1 {
-                let compData:CollapseCompData = CollapseCompData(name: lights[i].deviceName);
+                let compData:CollapseCompData = CollapseCompData(name: devices[i].deviceName);
                 devicesComp.addComp(compData)
             }
             let groups:[GroupDAO] = dbOperation.getGroups(lastSelectedRoom);
             for var i = 0; i < groups.count; i += 1 {
-                let compData:CollapseCompData = CollapseCompData(name: lights[i].deviceName);
+                let compData:CollapseCompData = CollapseCompData(name: groups[i].name);
                 groupsComp.addComp(compData)
             }
             let schedulers:[SchedulerDAO] = dbOperation.getSchedulers(lastSelectedRoom);
             for var i = 0; i < schedulers.count; i += 1 {
-                let compData:CollapseCompData = CollapseCompData(name: lights[i].deviceName);
+                let compData:CollapseCompData = CollapseCompData(name: schedulers[i].name);
                 schedulersComp.addComp(compData)
             }
         }
@@ -152,15 +152,26 @@ class ViewController: UIViewController  {
     
     func buttonClicked(sender: UIButton) {
         print("...\(sender.tag)")
-        if( sender.tag >= 1 && sender.tag <= 4) {
+        if( sender.tag >= 1 && sender.tag <= 2) {
             performSegueWithIdentifier("ConfigSegueId", sender: sender)
-        } else if( sender.tag >= 101 && sender.tag <= 104) {
+        }else if( sender.tag == 3 ) {
+            performSegueWithIdentifier("GroupSegueId", sender: sender)
+        }else if( sender.tag == 4 ) {
+            performSegueWithIdentifier("ShedulerSegueId", sender: sender)
+        }
+            
+        else if( sender.tag >= 101 && sender.tag <= 104) {
             print("remove operation of collapse panel \(sender.tag)")
             if( sender.tag == 101) {
                 let selindex = lightsComp.getSelectedIndex();
                 print("selectindex....\(selindex)   "+selectedRoomDeviceName)
                 dbOperation.removeLight(selectedRoomDeviceName, indexAt: selindex);
                 lightsComp.removeComp()
+            } else if( sender.tag == 102) {
+                let selindex = devicesComp.getSelectedIndex();
+                print("selectindex....\(selindex)   "+selectedRoomDeviceName)
+                dbOperation.removeDevice(selectedRoomDeviceName, indexAt: selindex);
+                devicesComp.removeComp()
             }
         }
     }
@@ -185,7 +196,7 @@ class ViewController: UIViewController  {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
-        print("Segue called from  view controller \(segue.identifier)")
+        print("Segue called from  view controller \(segue.identifier)  \(sender.tag)")
         if (segue.identifier == "HtmlSegueId") {
             var svc = segue!.destinationViewController as! HtmlViewController;
             var title = "Help";
@@ -197,7 +208,7 @@ class ViewController: UIViewController  {
             svc.setHtmlFile(title, htmlfile: file)
         } else if ( segue.identifier == "ConfigSegueId"){
             var svc = segue!.destinationViewController as! ConfigViewController;
-            svc.setRoomDeviceName(lightsComp, name: selectedRoomDeviceName)
+            svc.setRoomDeviceName(lightsComp, name: selectedRoomDeviceName, tag: sender.tag)
         }
     }
     
