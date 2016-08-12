@@ -109,6 +109,7 @@
 		DECFD6911D503AB700F193F7 /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6461D503AB700F193F7 /* unknown.png */; };
 		DECFD6921D503AB700F193F7 /* watermarkimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6471D503AB700F193F7 /* watermarkimage.jpg */; };
 		DECFD6971D503B9C00F193F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6951D503B9C00F193F7 /* Main.storyboard */; };
+		DEF614C81D5E413E00968C06 /* BtHwLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF614C71D5E413E00968C06 /* BtHwLayer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -216,6 +217,7 @@
 		DECFD6461D503AB700F193F7 /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unknown.png; path = resources/unknown.png; sourceTree = "<group>"; };
 		DECFD6471D503AB700F193F7 /* watermarkimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = watermarkimage.jpg; path = resources/watermarkimage.jpg; sourceTree = "<group>"; };
 		DECFD6961D503B9C00F193F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DEF614C71D5E413E00968C06 /* BtHwLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BtHwLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 				DEBF0BA71D574EBB00FEE17C /* SchedulerDAO.swift */,
 				DEBF0BA51D574EAF00FEE17C /* GroupDAO.swift */,
 				DEBF0BA31D574C9E00FEE17C /* DeviceDAO.swift */,
+				DEF614C71D5E413E00968C06 /* BtHwLayer.swift */,
 				DEBF0B9F1D56AD3200FEE17C /* LabelTextView.swift */,
 				DEBF0BA01D56AD3200FEE17C /* LabelTextView.xib */,
 				DEC3C0D71D50A00C0082F3E3 /* ZIConCell.xib */,
@@ -529,6 +532,7 @@
 				DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */,
 				DEC3C0D51D509FE30082F3E3 /* MenuUIView.swift in Sources */,
 				DEC3C0D31D509FE30082F3E3 /* ConfigViewController.swift in Sources */,
+				DEF614C81D5E413E00968C06 /* BtHwLayer.swift in Sources */,
 				DEBE52CF1D45F2D1001DE4DA /* CollapseView.swift in Sources */,
 				DEBF0BA41D574C9E00FEE17C /* DeviceDAO.swift in Sources */,
 				DEBF0BAA1D57686F00FEE17C /* CollapseCompData.swift in Sources */,
