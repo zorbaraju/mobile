@@ -11,7 +11,7 @@ import UIKit
 import SystemConfiguration
 import SystemConfiguration.CaptiveNetwork
 
-class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralDelegate  {
+class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     
     var selectedRoomDeviceName:String!;
     var lightsComp:CollapseView!;
@@ -19,7 +19,8 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
     var groupsComp:CollapseView!;
     var schedulersComp:CollapseView!;
     var bthw:BtHWLayer!
-    let dbOperation:DBOperation = DBOperation();
+    let dbOperation:DBOperation = DBOperation.getInstance();
+    let queue  = dispatch_queue_create("Test", DISPATCH_QUEUE_CONCURRENT)
     
     var rooms:[RoomDAO] = [RoomDAO]()
     var roomNames: [String] = [String]()
@@ -33,6 +34,7 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bthw = BtHWLayer.getInstance();
         //view.translatesAutoresizingMaskIntoConstraints = false;
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
         //scrollView.addSubview(view)
@@ -70,42 +72,51 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
         
         homeMenu.setImageButton(UIImage(named: "home.png")!)
         homeMenu.setParentView1(self, p: view, menuItemImages: homeMenuItemImages, menuItemNames: homeMenuItemNames);
-        var lastselectedroom:String = dbOperation.getLastSelectedRoom();
-        print("Last selected room is \(lastselectedroom)")
-        self.roomMenuView.setSelecteditem(lastselectedroom)
+        var lastselectedroom:RoomDAO = dbOperation.getLastSelectedRoom();
+        print("Last selected room is \(lastselectedroom.roomName)")
+        self.roomMenuView.setSelecteditem(lastselectedroom.roomName)
         print("going out rajuDHI")
         populateRoomPanel(lastselectedroom)
         printWifi();
-        
-        bthw = BtHWLayer();
+        let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap"))
+        tap.delegate = self
+        //view.addGestureRecognizer(tap)
+
+    }
+    func handleTap() {
+        print("tap working")
+    }
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return !CGRectContainsPoint(homeMenu.bounds, touch.locationInView(homeMenu))
+
     }
     
-        
-    func populateRoomPanel(lastSelectedRoom:String) {
-        print("populating roompanel for the room\(lastSelectedRoom)")
-        selectedRoomDeviceName = lastSelectedRoom
+    func populateRoomPanel(lastSelectedRoom:RoomDAO) {
+        print("populating roompanel for the room\(lastSelectedRoom.roomName)")
+        selectedRoomDeviceName = lastSelectedRoom.roomName
         lightsComp.clearAllDevices();
         devicesComp.clearAllDevices();
         groupsComp.clearAllDevices();
         schedulersComp.clearAllDevices();
         if( lastSelectedRoom != "") {
-            let lights:[DeviceDAO] = dbOperation.getLights(lastSelectedRoom);
+            let lights:[DeviceDAO] = dbOperation.getLights(lastSelectedRoom.roomName);
             print("lightcount......\(lights.count)")
             for var i = 0; i < lights.count; i += 1 {
                 let compData:CollapseCompData = CollapseCompData(name: lights[i].deviceName);
                 lightsComp.addComp(compData)
             }
-            let devices:[DeviceDAO] = dbOperation.getDevices(lastSelectedRoom);
+            let devices:[DeviceDAO] = dbOperation.getDevices(lastSelectedRoom.roomName);
             for var i = 0; i < devices.count; i += 1 {
                 let compData:CollapseCompData = CollapseCompData(name: devices[i].deviceName);
                 devicesComp.addComp(compData)
             }
-            let groups:[GroupDAO] = dbOperation.getGroups(lastSelectedRoom);
+            let groups:[GroupDAO] = dbOperation.getGroups(lastSelectedRoom.roomName);
             for var i = 0; i < groups.count; i += 1 {
                 let compData:CollapseCompData = CollapseCompData(name: groups[i].name);
                 groupsComp.addComp(compData)
             }
-            let schedulers:[SchedulerDAO] = dbOperation.getSchedulers(lastSelectedRoom);
+            let schedulers:[SchedulerDAO] = dbOperation.getSchedulers(lastSelectedRoom.roomName);
             for var i = 0; i < schedulers.count; i += 1 {
                 let compData:CollapseCompData = CollapseCompData(name: schedulers[i].name);
                 schedulersComp.addComp(compData)
@@ -115,6 +126,37 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
         devicesComp.refresh();
         groupsComp.refresh();
         schedulersComp.refresh();
+        print("populating roompanel for the room devicename>\(lastSelectedRoom.deviceName)")
+        
+        self.bthw.initDevice(lastSelectedRoom.deviceName)
+         self.refreshWithDevice()
+      
+        
+    }
+    
+    
+    func refreshWithDevice() {
+        
+        print("Checking for connection11 ")
+        if( bthw.isConnected()) {
+            bthw.verifyPwd()
+            var numDevices = self.bthw.getNumberOfDevices()
+            print("NUmber of devices.....\(numDevices)")
+            var statuses:[UInt8] = self.bthw.getAllStatus()
+             self.bthw.closeDevice()
+            if (statuses.count == 0) {
+                print("No status")
+                return;
+            }
+            for var i = 3; i < statuses.count; i += 1 {
+                var deviceid = i-3;
+                var status = statuses[i];
+                print("Status......\(deviceid)....\(status)")
+            }
+            
+        } else {
+            print("Not Connected ")
+        }
     }
     func constructRoomList() {
         rooms = dbOperation.getRoomList()
@@ -187,7 +229,7 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
         
     }
    
-    func menuItemClicked(sourceMenu:MenuUIView, rowIndex: Int) {
+    override func menuItemClicked(sourceMenu:MenuUIView, rowIndex: Int) {
         print("MenuClciekd...\(roomNames.count)....\(rowIndex)");
         printWifi()
         if( sourceMenu == homeMenu) {
@@ -199,7 +241,7 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
                 performSegueWithIdentifier("DiscoverySegueId", sender: sender)
             }
         } else if( sourceMenu == roomMenuView) {
-            var lastroom = roomNames[rowIndex];
+            var lastroom = rooms[rowIndex];
             dbOperation.setLastSelectedRoom(lastroom)
             populateRoomPanel(lastroom)
         }
@@ -231,121 +273,13 @@ class ViewController: UIViewController , CBCentralManagerDelegate, CBPeripheralD
         }
     }
 
-    var connectingPeripheral:CBPeripheral!
-    var charr:CBCharacteristic!
-    
-    func centralManagerDidUpdateState(central: CBCentralManager){
-        print("centralManagerDidUpdateState.")
-        switch central.state{
-        case .PoweredOn:
-            print("poweredOn")
+    func backgroundThread(delay: Double = 0.0, background: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
+        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.rawValue), 0)) {
+            if(background != nil){ background!(); }
             
-            let serviceUUIDs:[CBUUID] = []//[CBUUID(string: "0000ffe0-0000-1000-8000-00805f9b34fb")]
-            let lastPeripherals = central.retrieveConnectedPeripheralsWithServices(serviceUUIDs)
-            
-            if lastPeripherals.count > 0{
-                let device = lastPeripherals.last! as CBPeripheral;
-                connectingPeripheral = device;
-                central.connectPeripheral(connectingPeripheral, options: nil)
-                print("connected")
-            }
-            else {
-                central.scanForPeripheralsWithServices(serviceUUIDs, options: nil)
-                print("Scan")
-            }
-            
-        default:
-            print(central.state)
-        }
-    }
-    
-    func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        print("centralManager.... discover peripheral....")
-        connectingPeripheral = peripheral
-        connectingPeripheral.delegate = self
-        central.connectPeripheral(connectingPeripheral, options: nil)
-    }
-    
-    
-    func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        print("centralManager.... discover serivces....")
-        
-        peripheral.discoverServices(nil)
-    }
-    
-    func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
-        print("peripheral....");
-        if let _ = error{
-            
-        }
-        else {
-            for service in peripheral.services as [CBService]!{
-                peripheral.discoverCharacteristics(nil, forService: service)
-                print("peripheral....discover charr");
-            }
-        }
-    }
-    
-    func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
-        print("periperal...2")
-        if let _ = error{
-            
-        }
-        else {
-            print("serivce uuid....")
-            print(service.UUID)
-            if service.UUID == CBUUID(string: "0000ffe0-0000-1000-8000-00805f9b34fb"){
-                print("serivce uuid..got..")
-                for characteristic in service.characteristics! as [CBCharacteristic]{
-                    switch characteristic.UUID.UUIDString{
-                        
-                    case "2A37":
-                        // Set notification on heart rate measurement
-                        print("Found a Heart Rate Measurement Characteristic")
-                        peripheral.setNotifyValue(true, forCharacteristic: characteristic)
-                        
-                    case "2A38":
-                        // Read body sensor location
-                        print("Found a Body Sensor Location Characteristic")
-                        peripheral.readValueForCharacteristic(characteristic)
-                        
-                    case "FFE1":
-                        // Write heart rate control point
-                        print("Found a Heart Rate Control Point Characteristic")
-                        peripheral.setNotifyValue(true, forCharacteristic: characteristic)
-                        charr = characteristic;
-                        var rawArray:[UInt8] = [35,1,1,1,0];
-                        //rawArray = [41,1];
-                        rawArray = [63,1,0xFF];
-                        let data = NSData(bytes: &rawArray, length: rawArray.count)
-                        peripheral.writeValue(data, forCharacteristic: characteristic, type: CBCharacteristicWriteType.WithoutResponse)
-                        
-                    default:
-                        print("Default ")
-                        print(characteristic.UUID.UUIDString)
-                    }
-                    
-                }
-            } else {
-                print("serivce uuid..not...matchedgot..")
-            }
-        }
-    }
-    
-    
-    func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        print("charuuid...")
-        
-        print(characteristic.UUID.UUIDString)
-        if let _ = error{
-            
-        }else {
-            switch characteristic.UUID.UUIDString{
-            case "FFE1":
-                print(characteristic.value?.length)
-                print(characteristic.value)
-            default:
-                print("Default")
+            let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
+            dispatch_after(popTime, dispatch_get_main_queue()) {
+                if(completion != nil){ completion!(); }
             }
         }
     }

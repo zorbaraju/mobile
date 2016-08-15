@@ -8,18 +8,33 @@
 
 import UIKit
 
-class ConfigViewController: UIViewController {
+class ConfigViewController: MenuViewController {
 
+    @IBOutlet var deviceIdMenu: MenuUIView!
+    @IBOutlet var deviceTypeMenu: MenuUIView!
     var collapseComp:CollapseView!
     var roomDeviceName:String!
     var daoType:Int!
 
+    var deviceIdMenuNames:[String] = [
+        "1",
+        "2"
+    ]
+    
+    var deviceTypeMenuNames:[String] = [
+        "Light",
+        "Fan"
+    ]
+    
     @IBOutlet var nameText: UITextField!
     @IBOutlet var deviceIdText: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        deviceIdMenu.setParentView1(self, p: view, menuItemImages: [], menuItemNames: deviceIdMenuNames);
+        deviceTypeMenu.setParentView1(self, p: view, menuItemImages: [], menuItemNames: deviceTypeMenuNames);
+        
         // Do any additional setup after loading the view.
     }
 
@@ -47,14 +62,17 @@ class ConfigViewController: UIViewController {
                     alert.show()
                 } else {
                     let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceIdText.text!)!);
-                    DBOperation().addLight(roomDeviceName, light: light)
+                    DBOperation.getInstance().addLight(roomDeviceName, light: light)
                 }
             } else if( daoType == 2) {
                 let light:DeviceDAO = DeviceDAO(deviceName: nameText.text!, deviceId: Int(deviceIdText.text!)!);
-                DBOperation().addDevice(roomDeviceName, light: light)
+                DBOperation.getInstance().addDevice(roomDeviceName, light: light)
            }
             
         }
         
+    }
+    
+    override func menuItemClicked(sourceMenu:MenuUIView, rowIndex: Int) {
     }
 }

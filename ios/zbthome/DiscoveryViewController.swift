@@ -60,7 +60,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
     }
    
     func loadConfiguredRooms() {
-        configuredRooms = DBOperation().getRoomList();
+        configuredRooms = DBOperation.getInstance().getRoomList();
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -96,7 +96,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
         if( advertisementData.indexForKey("kCBAdvDataLocalName") == nil) {
             return
         }
-        if( DBOperation().isRoomExist(peripheral.identifier.UUIDString)) {
+        if( DBOperation.getInstance().isRoomExist(peripheral.identifier.UUIDString)) {
             print("centralManager.... discover peripheral....\(peripheral.name) id:\(peripheral.identifier.UUIDString) is already configured")
             return;
         }
@@ -134,7 +134,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
         discoveredDeviceIds = [];
     }
     @IBAction func deleteRoom(sender: UIButton) {
-        DBOperation().removeRoom(selectedConfiguredRoomIndex);
+        DBOperation.getInstance().removeRoom(selectedConfiguredRoomIndex);
         configuredRooms.removeAtIndex(selectedConfiguredRoomIndex)
         configuredView.reloadData()
         deleteButton.hidden = true
@@ -164,7 +164,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
                 let inputName = lt.getValue();
                 if(!inputName.isEmpty) {
                     let newroom:RoomDAO = RoomDAO(deviceName: discoveredDeviceIds[i], roomName: inputName)
-                    DBOperation().addRoom(newroom);
+                    DBOperation.getInstance().addRoom(newroom);
                     performSegueWithIdentifier("goBackFromRoomAdd", sender: nil)
                 }
             }
