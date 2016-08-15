@@ -10,16 +10,21 @@ import UIKit
 class DBOperation {
     
     let roomsKey = "rooms"
-    let lastSelectedRoomKey = "lastselectedroom"
+    let lastvisitedroomKey = "lastvisitedroom"
     var phoneMemory:NSUserDefaults!;
-    init() {
+    
+    class func getInstance()->DBOperation {
+        struct Static {
+            static let instance = DBOperation()
+        }
+        return Static.instance
+    }
+    
+    private init() {
         phoneMemory = NSUserDefaults.standardUserDefaults()
     }
     
    
-    func setLastSelectedRoom(lastSelectedRoom:String) {
-        phoneMemory.setObject(lastSelectedRoom, forKey: lastSelectedRoomKey)
-    }
     
     func isRoomExist(deviceName:String)-> Bool {
          var rooms = getRoomList();
@@ -31,14 +36,19 @@ class DBOperation {
         }
         return false;
     }
-    
-    func getLastSelectedRoom()->String {
-        var lastselectedroom:String = "No Rooms";
-        if( phoneMemory.stringForKey("lastselectedroom") != nil) {
-            lastselectedroom = phoneMemory.stringForKey(lastSelectedRoomKey)!;
+
+    func setLastSelectedRoom(lastSelectedRoom:RoomDAO) {
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lastSelectedRoom as NSObject)
+        phoneMemory.setObject(archivedObject, forKey: lastvisitedroomKey)
+    }
+
+    func getLastSelectedRoom()->RoomDAO {
+        var room:RoomDAO = RoomDAO(deviceName: "", roomName: "No Room");
+        let obj = phoneMemory.objectForKey(lastvisitedroomKey);
+        if let unarchivedObject = obj as? NSData {
+            room = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? RoomDAO!)!
         }
-        print("Last selected room is \(lastselectedroom)")
-        return lastselectedroom
+        return room
     }
     
     func getRoomList()->[RoomDAO] {

@@ -32,7 +32,7 @@ class SchedulerViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         print("From GrpupViewController seqgueid...\(segue.identifier)")
         let grpDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text!,deviceId: 1);
-        DBOperation().addScheduler(roomName, light: grpDao)
+        DBOperation.getInstance().addScheduler(roomName, light: grpDao)
     }
 
 }

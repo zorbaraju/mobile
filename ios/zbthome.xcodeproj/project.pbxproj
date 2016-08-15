@@ -15,6 +15,10 @@
 		DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */; };
 		DEB3D5ED1D4C583500D6379A /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = DEB3D5EC1D4C583500D6379A /* about.html */; };
 		DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */; };
+		DEB3F1401D608BEC00AC1A3A /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3F13F1D608BEC00AC1A3A /* MenuViewController.swift */; };
+		DEB3F1461D60915D00AC1A3A /* CheckBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3F1451D60915D00AC1A3A /* CheckBoxView.swift */; };
+		DEB3F14B1D60945500AC1A3A /* SelectDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3F1491D60945500AC1A3A /* SelectDeviceView.swift */; };
+		DEB3F14C1D60945500AC1A3A /* SelectDeviceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEB3F14A1D60945500AC1A3A /* SelectDeviceView.xib */; };
 		DEBDD97B1D53B62100DA98B5 /* RoomDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBDD97A1D53B62100DA98B5 /* RoomDAO.swift */; };
 		DEBE52BB1D45F02F001DE4DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBE52BA1D45F02F001DE4DA /* AppDelegate.swift */; };
 		DEBE52BD1D45F02F001DE4DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBE52BC1D45F02F001DE4DA /* ViewController.swift */; };
@@ -28,6 +32,8 @@
 		DEBF0BA61D574EAF00FEE17C /* GroupDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF0BA51D574EAF00FEE17C /* GroupDAO.swift */; };
 		DEBF0BA81D574EBB00FEE17C /* SchedulerDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF0BA71D574EBB00FEE17C /* SchedulerDAO.swift */; };
 		DEBF0BAA1D57686F00FEE17C /* CollapseCompData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEBF0BA91D57686F00FEE17C /* CollapseCompData.swift */; };
+		DEC1F91E1D616DBC0045D297 /* checked_ic_box.png in Resources */ = {isa = PBXBuildFile; fileRef = DEC1F91C1D616DBC0045D297 /* checked_ic_box.png */; };
+		DEC1F91F1D616DBC0045D297 /* unchecked_ic_box.png in Resources */ = {isa = PBXBuildFile; fileRef = DEC1F91D1D616DBC0045D297 /* unchecked_ic_box.png */; };
 		DEC3C0D31D509FE30082F3E3 /* ConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC3C0CF1D509FE30082F3E3 /* ConfigViewController.swift */; };
 		DEC3C0D41D509FE30082F3E3 /* FullCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC3C0D01D509FE30082F3E3 /* FullCollectionView.swift */; };
 		DEC3C0D51D509FE30082F3E3 /* MenuUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEC3C0D11D509FE30082F3E3 /* MenuUIView.swift */; };
@@ -121,6 +127,10 @@
 		DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HtmlViewController.swift; sourceTree = "<group>"; };
 		DEB3D5EC1D4C583500D6379A /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		DEB3D5EE1D4C749C00D6379A /* DiscoveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoveryViewController.swift; sourceTree = "<group>"; };
+		DEB3F13F1D608BEC00AC1A3A /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		DEB3F1451D60915D00AC1A3A /* CheckBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckBoxView.swift; sourceTree = "<group>"; };
+		DEB3F1491D60945500AC1A3A /* SelectDeviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectDeviceView.swift; sourceTree = "<group>"; };
+		DEB3F14A1D60945500AC1A3A /* SelectDeviceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectDeviceView.xib; sourceTree = "<group>"; };
 		DEBDD97A1D53B62100DA98B5 /* RoomDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoomDAO.swift; sourceTree = "<group>"; };
 		DEBE52B71D45F02F001DE4DA /* ZBtHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZBtHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DEBE52BA1D45F02F001DE4DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +146,8 @@
 		DEBF0BA51D574EAF00FEE17C /* GroupDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDAO.swift; sourceTree = "<group>"; };
 		DEBF0BA71D574EBB00FEE17C /* SchedulerDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerDAO.swift; sourceTree = "<group>"; };
 		DEBF0BA91D57686F00FEE17C /* CollapseCompData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollapseCompData.swift; sourceTree = "<group>"; };
+		DEC1F91C1D616DBC0045D297 /* checked_ic_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = checked_ic_box.png; path = resources/checked_ic_box.png; sourceTree = "<group>"; };
+		DEC1F91D1D616DBC0045D297 /* unchecked_ic_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unchecked_ic_box.png; path = resources/unchecked_ic_box.png; sourceTree = "<group>"; };
 		DEC3C0CF1D509FE30082F3E3 /* ConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigViewController.swift; sourceTree = "<group>"; };
 		DEC3C0D01D509FE30082F3E3 /* FullCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullCollectionView.swift; sourceTree = "<group>"; };
 		DEC3C0D11D509FE30082F3E3 /* MenuUIView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuUIView.swift; sourceTree = "<group>"; };
@@ -250,14 +262,19 @@
 		DEBE52B91D45F02F001DE4DA /* zbthome */ = {
 			isa = PBXGroup;
 			children = (
+				DEC1F91C1D616DBC0045D297 /* checked_ic_box.png */,
+				DEC1F91D1D616DBC0045D297 /* unchecked_ic_box.png */,
+				DEB3F1491D60945500AC1A3A /* SelectDeviceView.swift */,
+				DEB3F14A1D60945500AC1A3A /* SelectDeviceView.xib */,
 				DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */,
-				DEBE52C11D45F02F001DE4DA /* Assets.xcassets */,
 				DECFD6941D503B1000F193F7 /* images */,
 				DEBF0BA91D57686F00FEE17C /* CollapseCompData.swift */,
 				DEBF0BA71D574EBB00FEE17C /* SchedulerDAO.swift */,
 				DEBF0BA51D574EAF00FEE17C /* GroupDAO.swift */,
 				DEBF0BA31D574C9E00FEE17C /* DeviceDAO.swift */,
 				DEF614C71D5E413E00968C06 /* BtHwLayer.swift */,
+				DEBE52C11D45F02F001DE4DA /* Assets.xcassets */,
+				DEB3F1451D60915D00AC1A3A /* CheckBoxView.swift */,
 				DEBF0B9F1D56AD3200FEE17C /* LabelTextView.swift */,
 				DEBF0BA01D56AD3200FEE17C /* LabelTextView.xib */,
 				DEC3C0D71D50A00C0082F3E3 /* ZIConCell.xib */,
@@ -280,6 +297,7 @@
 				DEBE52C61D45F02F001DE4DA /* Info.plist */,
 				DE0B0BD01D4B82DD00522B12 /* help.html */,
 				DE86CCAB1D556F6400037E3B /* DbOperation.swift */,
+				DEB3F13F1D608BEC00AC1A3A /* MenuViewController.swift */,
 			);
 			path = zbthome;
 			sourceTree = "<group>";
@@ -430,6 +448,7 @@
 				DECFD6911D503AB700F193F7 /* unknown.png in Resources */,
 				DECFD6681D503AB700F193F7 /* fan_on.png in Resources */,
 				DECFD64C1D503AB700F193F7 /* acsplit_on.png in Resources */,
+				DEC1F91E1D616DBC0045D297 /* checked_ic_box.png in Resources */,
 				DECFD6501D503AB700F193F7 /* appicon_1.png in Resources */,
 				DECFD64B1D503AB700F193F7 /* acsplit_off.png in Resources */,
 				DECFD65F1D503AB700F193F7 /* dbulb_on.png in Resources */,
@@ -470,6 +489,7 @@
 				DECFD6641D503AB700F193F7 /* doorlock_on.png in Resources */,
 				DECFD6791D503AB700F193F7 /* minus.png in Resources */,
 				DECFD6561D503AB700F193F7 /* cctvoutdoor_off.png in Resources */,
+				DEB3F14C1D60945500AC1A3A /* SelectDeviceView.xib in Resources */,
 				DEC3C0D81D50A00C0082F3E3 /* ZIConCell.xib in Resources */,
 				DECFD66B1D503AB700F193F7 /* fridge_on.png in Resources */,
 				DECFD65E1D503AB700F193F7 /* dbulb_off.png in Resources */,
@@ -498,6 +518,7 @@
 				DECFD64A1D503AB700F193F7 /* ac_on.png in Resources */,
 				DECFD67D1D503AB700F193F7 /* save.png in Resources */,
 				DECFD6871D503AB700F193F7 /* spinnertriangle_orange.png in Resources */,
+				DEC1F91F1D616DBC0045D297 /* unchecked_ic_box.png in Resources */,
 				DECFD64E1D503AB700F193F7 /* alarm_on.png in Resources */,
 				DECFD66A1D503AB700F193F7 /* fridge_off.png in Resources */,
 				DECFD6801D503AB700F193F7 /* search.png in Resources */,
@@ -526,13 +547,16 @@
 				DEBE52BB1D45F02F001DE4DA /* AppDelegate.swift in Sources */,
 				DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */,
 				DE0227BD1D4E757A005EE857 /* ZIconCell.swift in Sources */,
+				DEB3F1461D60915D00AC1A3A /* CheckBoxView.swift in Sources */,
 				DEC3C0D41D509FE30082F3E3 /* FullCollectionView.swift in Sources */,
 				DEBF0BA81D574EBB00FEE17C /* SchedulerDAO.swift in Sources */,
 				DEBF0BA61D574EAF00FEE17C /* GroupDAO.swift in Sources */,
 				DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */,
+				DEB3F1401D608BEC00AC1A3A /* MenuViewController.swift in Sources */,
 				DEC3C0D51D509FE30082F3E3 /* MenuUIView.swift in Sources */,
 				DEC3C0D31D509FE30082F3E3 /* ConfigViewController.swift in Sources */,
 				DEF614C81D5E413E00968C06 /* BtHwLayer.swift in Sources */,
+				DEB3F14B1D60945500AC1A3A /* SelectDeviceView.swift in Sources */,
 				DEBE52CF1D45F2D1001DE4DA /* CollapseView.swift in Sources */,
 				DEBF0BA41D574C9E00FEE17C /* DeviceDAO.swift in Sources */,
 				DEBF0BAA1D57686F00FEE17C /* CollapseCompData.swift in Sources */,

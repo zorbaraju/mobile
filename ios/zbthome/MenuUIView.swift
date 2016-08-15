@@ -10,7 +10,7 @@ import UIKit
 
 class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
     
-    var menudelegate:ViewController!
+    var menudelegate:MenuViewController!
     var tablerowheight:CGFloat = 40;
     var maxcellwidth:CGFloat = 0;
     var isimagemenu:Bool = false;
@@ -115,7 +115,7 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         self.menudelegate.menuItemClicked(self, rowIndex: indexPath.row)
     }
     
-    func setParentView1(delegate:ViewController, p:UIView, menuItemImages: [UIImage], menuItemNames: [String]) {
+    func setParentView1(delegate:MenuViewController, p:UIView, menuItemImages: [UIImage], menuItemNames: [String]) {
         self.menudelegate = delegate;
         parentView = p;
         parentView.addSubview(menuTableView)
