@@ -18,6 +18,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
     
     var discoveredDeviceIds:[String] = [String]()
     var centralManager:CBCentralManager!
+
     @IBOutlet var configuredView: UICollectionView!
     
     @IBOutlet var discoveredDevicesPanel: UIStackView!

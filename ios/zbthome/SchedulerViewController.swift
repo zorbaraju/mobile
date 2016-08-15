@@ -10,13 +10,33 @@ import UIKit
 
 class SchedulerViewController: UIViewController {
     
+    
+    @IBOutlet var deviceView: UIStackView!
+    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var schedularNameText: UITextField!
     var roomName:String!
    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        scrollView.translatesAutoresizingMaskIntoConstraints = false;
+        //scrollView.addSubview(view)
+        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deviceView]|", options: NSLayoutFormatOptions(rawValue:0),metrics: nil, views: ["deviceView":deviceView]))
+        scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[deviceView]|", options: NSLayoutFormatOptions(rawValue:0),metrics: nil, views: ["deviceView":deviceView]))
+        scrollView.addConstraint(
+            NSLayoutConstraint(item: scrollView,
+                attribute: .Width,
+                relatedBy: .Equal,
+                toItem: deviceView,
+                attribute: .Width,
+                multiplier: 1.0,
+                constant: 0))
+        
+        // Do any additional setup after loading the view, typically from a nib.
+        var selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, title:"Lights",tag:1);
+        deviceView.addArrangedSubview(selectDeviceComp)
+        var selectDeviceComp1 = SelectDeviceView(frame: deviceView.bounds, title:"Ra",tag:1);
+        deviceView.addArrangedSubview(selectDeviceComp1)
     }
 
     override func didReceiveMemoryWarning() {
