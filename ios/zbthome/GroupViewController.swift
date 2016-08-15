@@ -36,6 +36,7 @@ class GroupViewController: UIViewController {
         var selectDeviceComp1 = SelectDeviceView(frame: deviceView.bounds, title:"Ra",tag:1);
         deviceView.addArrangedSubview(selectDeviceComp1)
 
+
     }
     
     override func didReceiveMemoryWarning() {
