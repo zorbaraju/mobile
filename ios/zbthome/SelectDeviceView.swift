@@ -42,7 +42,7 @@ class SelectDeviceView: UIView {
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         
