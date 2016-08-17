@@ -115,6 +115,8 @@
 		DECFD6911D503AB700F193F7 /* unknown.png in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6461D503AB700F193F7 /* unknown.png */; };
 		DECFD6921D503AB700F193F7 /* watermarkimage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6471D503AB700F193F7 /* watermarkimage.jpg */; };
 		DECFD6971D503B9C00F193F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DECFD6951D503B9C00F193F7 /* Main.storyboard */; };
+		DEF22D1A1D644AD900B88E98 /* IconMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF22D181D644AD900B88E98 /* IconMenu.swift */; };
+		DEF22D1B1D644AD900B88E98 /* IconMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEF22D191D644AD900B88E98 /* IconMenu.xib */; };
 		DEF614C81D5E413E00968C06 /* BtHwLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF614C71D5E413E00968C06 /* BtHwLayer.swift */; };
 /* End PBXBuildFile section */
 
@@ -229,6 +231,8 @@
 		DECFD6461D503AB700F193F7 /* unknown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = unknown.png; path = resources/unknown.png; sourceTree = "<group>"; };
 		DECFD6471D503AB700F193F7 /* watermarkimage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = watermarkimage.jpg; path = resources/watermarkimage.jpg; sourceTree = "<group>"; };
 		DECFD6961D503B9C00F193F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		DEF22D181D644AD900B88E98 /* IconMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconMenu.swift; sourceTree = "<group>"; };
+		DEF22D191D644AD900B88E98 /* IconMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconMenu.xib; sourceTree = "<group>"; };
 		DEF614C71D5E413E00968C06 /* BtHwLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BtHwLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +266,8 @@
 		DEBE52B91D45F02F001DE4DA /* zbthome */ = {
 			isa = PBXGroup;
 			children = (
+				DEF22D181D644AD900B88E98 /* IconMenu.swift */,
+				DEF22D191D644AD900B88E98 /* IconMenu.xib */,
 				DEC1F91C1D616DBC0045D297 /* checked_ic_box.png */,
 				DEC1F91D1D616DBC0045D297 /* unchecked_ic_box.png */,
 				DEB3F1491D60945500AC1A3A /* SelectDeviceView.swift */,
@@ -462,6 +468,7 @@
 				DECFD6891D503AB700F193F7 /* sprinkler_off.png in Resources */,
 				DECFD6581D503AB700F193F7 /* cfl_off.png in Resources */,
 				DECFD6751D503AB700F193F7 /* loading.gif in Resources */,
+				DEF22D1B1D644AD900B88E98 /* IconMenu.xib in Resources */,
 				DECFD6841D503AB700F193F7 /* socket_off.png in Resources */,
 				DECFD6701D503AB700F193F7 /* led_off.png in Resources */,
 				DECFD66C1D503AB700F193F7 /* group_on.png in Resources */,
@@ -559,6 +566,7 @@
 				DEB3F14B1D60945500AC1A3A /* SelectDeviceView.swift in Sources */,
 				DEBE52CF1D45F2D1001DE4DA /* CollapseView.swift in Sources */,
 				DEBF0BA41D574C9E00FEE17C /* DeviceDAO.swift in Sources */,
+				DEF22D1A1D644AD900B88E98 /* IconMenu.swift in Sources */,
 				DEBF0BAA1D57686F00FEE17C /* CollapseCompData.swift in Sources */,
 				DEBF0BA11D56AD3200FEE17C /* LabelTextView.swift in Sources */,
 				DEBDD97B1D53B62100DA98B5 /* RoomDAO.swift in Sources */,

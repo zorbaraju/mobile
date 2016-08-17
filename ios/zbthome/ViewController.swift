@@ -23,8 +23,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     let queue  = dispatch_queue_create("Test", DISPATCH_QUEUE_CONCURRENT)
     
     var rooms:[RoomDAO] = [RoomDAO]()
-    var roomNames: [String] = [String]()
-    let roomMenuItemImages: [UIImage] = []
+    var roomNames: [[String]] = []
 
     @IBOutlet var homeMenu: MenuUIView!
     @IBOutlet var roomMenuView: MenuUIView!
@@ -64,14 +63,18 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         verticalview.addArrangedSubview(schedulersComp)
         
         constructRoomList();
-        roomMenuView.setParentView1(self, p: view, menuItemImages: roomMenuItemImages, menuItemNames: roomNames);
+        roomMenuView.setParentView1(self, p: view, menuItemNames: roomNames);
         
         // home menuItems
-        let homeMenuItemImages: [UIImage] = [UIImage(named: "home.png")!,UIImage(named: "home.png")!, UIImage(named: "home.png")!, UIImage(named: "home.png")!]
-        let homeMenuItemNames: [String] = ["Add Device", "Help", "About", "Exit"]
+        let homeMenuItemNames: [[String]] = [
+            ["Add Device", "discovery.png"],
+            ["Help","help.png"],
+            ["About","about.png"],
+            ["Exit", "exit.png"]
+            ]
         
         homeMenu.setImageButton(UIImage(named: "home.png")!)
-        homeMenu.setParentView1(self, p: view, menuItemImages: homeMenuItemImages, menuItemNames: homeMenuItemNames);
+        homeMenu.setParentView1(self, p: view, menuItemNames: homeMenuItemNames);
         var lastselectedroom:RoomDAO = dbOperation.getLastSelectedRoom();
         print("Last selected room is \(lastselectedroom.roomName)")
         self.roomMenuView.setSelecteditem(lastselectedroom.roomName)
@@ -161,7 +164,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     func constructRoomList() {
         rooms = dbOperation.getRoomList()
         for var i = 0; i < rooms.count; i += 1 {
-            roomNames.append(rooms[i].roomName)
+            roomNames.append([rooms[i].roomName,""])
         }
     }
     
@@ -222,14 +225,14 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
                 let selindex = schedulersComp.getSelectedIndex();
                 print("selectindex....\(selindex)   "+selectedRoomDeviceName)
                 dbOperation.removeScheduler(selectedRoomDeviceName, indexAt: selindex);
-                schedulersComp.removeComp()
+                schedulersComp.removeComp()  
             }
         }
         
         
     }
    
-    override func menuItemClicked(sourceMenu:MenuUIView, rowIndex: Int) {
+    override func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
         print("MenuClciekd...\(roomNames.count)....\(rowIndex)");
         printWifi()
         if( sourceMenu == homeMenu) {

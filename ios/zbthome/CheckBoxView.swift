@@ -31,6 +31,10 @@ class CheckBoxView: UIButton {
         self.isChecked = false
     }
     
+    func performButtonClicked(target: AnyObject, callback: String) {
+        self.addTarget(target, action: Selector(callback), forControlEvents: UIControlEvents.TouchUpInside)
+    }
+    
     func buttonClicked(sender: UIButton) {
         if sender == self {
             isChecked = !isChecked

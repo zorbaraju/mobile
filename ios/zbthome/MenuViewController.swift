@@ -9,6 +9,6 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-    func menuItemClicked(sourceMenu:MenuUIView, rowIndex: Int) {
+    func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
     }
 }
