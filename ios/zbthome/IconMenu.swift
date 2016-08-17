@@ -8,19 +8,19 @@
 
 import UIKit
 
-class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
+class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
     
+    @IBOutlet var collectionMenuView: UICollectionView!
     var menudelegate:MenuViewController!
     var tablerowheight:CGFloat = 40;
     var maxcellwidth:CGFloat = 0;
     var isimagemenu:Bool = false;
     var parentView:UIView!;
     var menu:MenuUIView!;
-    var menuNames  = Array<Array<String>>()
+    var menuNames: [[String]]!
     var c:String!
     let cellReuseIdentifier = "cell"
     
-    @IBOutlet var menuTableView: UITableView!
     @IBOutlet var menuButton: UIButton!
     var view: UIView!
   
@@ -54,20 +54,20 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         view.frame = bounds
         
         // Make the view stretch with containing view
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         
-        menuTableView.dataSource = self;
-        menuTableView.delegate = self;
-        self.menuTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        menuTableView.hidden = true
-        menuTableView.removeFromSuperview()
+        collectionMenuView.dataSource = self;
+        collectionMenuView.delegate = self;
+        collectionMenuView.registerClass(ZIconCell.self, forCellWithReuseIdentifier: "IConCell")
+        collectionMenuView.hidden = true
+        collectionMenuView.removeFromSuperview()
     }
     
     func loadViewFromNib() -> UIView {
         let bundle = NSBundle(forClass: self.dynamicType)
-        let nib = UINib(nibName: "MenuUIView", bundle: bundle)
+        let nib = UINib(nibName: "IconMenu", bundle: bundle)
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         menuButton.titleLabel?.text = ""
         return view
@@ -75,56 +75,35 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
     
     func setMenuItems(menuItems: [[String]]) {
         self.menuNames = menuItems
-        menuTableView.reloadData()
+        collectionMenuView.reloadData()
         if( !isimagemenu ) {
             menuButton.setTitle(menuNames[0][0], forState: .Normal)
         }
     }
-    // number of rows in table view
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("JJJJJJJJJJJJ......\(self.menuNames.count)")
         return self.menuNames.count
     }
     
-    // create a cell for each table view row
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        // create a new cell if needed or reuse an old one
-        let cell:UITableViewCell = self.menuTableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
-        
-        cell.backgroundColor = UIColor.blackColor()
-        cell.textLabel?.textColor = UIColor.whiteColor()
-        // set the text from the data model
-        cell.textLabel?.text = self.menuNames[indexPath.row][0]
-        cell.contentView.layer.cornerRadius = 3
-        cell.contentView.layer.masksToBounds = true
-        
-        cell.layer.borderColor = UIColor.grayColor().CGColor
-        cell.layer.borderWidth = 1
-        cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.bounds.width, tablerowheight);
-        
-        let v = cell.textLabel!.font.lineHeight*CGFloat(menuNames[indexPath.row][0].characters.count);
-        
-        if( maxcellwidth < v ) {
-            maxcellwidth = v
-        }
-        print("maxcellwidth \(maxcellwidth)")
-        return cell
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("IConCell", forIndexPath: indexPath) as! ZIconCell
+        cell.setLabelAndImage(self.menuNames[indexPath.row][0], imageName: self.menuNames[indexPath.row][1])
+        return cell;
     }
-    
-    // method to run when table view cell is tapped
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("You tapped cell number \(indexPath.row) \(self.menudelegate).")
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        print("You tapped cell number \(indexPath.row) \(self.menudelegate).  \(menuNames.count)")
         if( !isimagemenu ) {
             menuButton.setTitle(menuNames[indexPath.row][0], forState: .Normal)
         }
-        menuTableView.hidden = true;
+        collectionMenuView.hidden = true;
         self.menudelegate.menuItemClicked(self, rowIndex: indexPath.row)
     }
-    
+
+   
     func setParentView1(delegate:MenuViewController, p:UIView, menuItemNames: [[String]]) {
         self.menudelegate = delegate;
         parentView = p;
-        parentView.addSubview(menuTableView)
+        parentView.addSubview(collectionMenuView)
         menuNames = menuItemNames;
     }
     
@@ -141,22 +120,22 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
     
     @IBAction func menuButtonClicked(sender: UIButton) {
         print("lallll\(menuButton.titleLabel?.text)")
-        if( menuTableView.hidden) {
-            menuTableView.hidden = false;
+        if( collectionMenuView.hidden) {
+            collectionMenuView.hidden = false;
         } else {
-            menuTableView.hidden = true;
+            collectionMenuView.hidden = true;
         }
-        print("llllbl\(menuButton.titleLabel?.text)")
+        print("llllbl\(menuButton.titleLabel?.text).....\(self.menuNames.count)")
     }
     
     override func layoutSubviews() {
         //super.layoutSubviews()
-        menuTableView.rowHeight = UITableViewAutomaticDimension
-        menuTableView.estimatedRowHeight = tablerowheight+5
-        let th = menuTableView.estimatedRowHeight*CGFloat(menuNames.count)+2
+        /*collectionMenuView.row.rowHeight = UITableViewAutomaticDimension
+        collectionMenuView.estimatedRowHeight = tablerowheight+5
+        let th = collectionMenuView.estimatedRowHeight*CGFloat(menuNames.count)+2
         let tw = maxcellwidth
-        self.menuTableView.frame = CGRectMake(frame.origin.x, frame.origin.y+frame.size.height, tw, th)
-        print("lllll\(menuTableView.estimatedRowHeight).....\(c)")
+        self.collectionMenuView.frame = CGRectMake(frame.origin.x, frame.origin.y+frame.size.height, tw, th)
+        print("lllll\(collectionMenuView.estimatedRowHeight).....\(c)")*/
         print("setting titlelaelllll \(c)")
         menuButton.setTitle(c, forState: .Normal)
     }
