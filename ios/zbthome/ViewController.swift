@@ -30,7 +30,11 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
      @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var verticalview: UIStackView!
     
-    override func viewDidLoad() {
+   /* override func viewDidLoad() {
+        super.viewDidLoad()
+    
+    }*/
+     override func viewDidLoad() {
         super.viewDidLoad()
         
         bthw = BtHWLayer.getInstance();
@@ -202,9 +206,13 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
             performSegueWithIdentifier("GroupSegueId", sender: sender)
         }else if( sender.tag == 4 ) {
             performSegueWithIdentifier("ShedulerSegueId", sender: sender)
-        }
-            
-        else if( sender.tag >= 101 && sender.tag <= 104) {
+        } else if( sender.tag >= 201 && sender.tag <= 202) {
+            performSegueWithIdentifier("ConfigSegueId", sender: sender)
+        }else if( sender.tag == 203 ) {
+            performSegueWithIdentifier("GroupSegueId", sender: sender)
+        }else if( sender.tag == 204 ) {
+            performSegueWithIdentifier("ShedulerSegueId", sender: sender)
+        } else if( sender.tag >= 101 && sender.tag <= 104) {
             print("remove operation of collapse panel \(sender.tag)")
             if( sender.tag == 101) {
                 let selindex = lightsComp.getSelectedIndex();
@@ -267,12 +275,31 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         } else if ( segue.identifier == "ConfigSegueId"){
             var svc = segue!.destinationViewController as! ConfigViewController;
             svc.setRoomDeviceName(lightsComp, name: selectedRoomDeviceName, tag: sender.tag)
+            if( sender.tag == 201) {
+                let selindex = lightsComp.getSelectedIndex();
+                let deviceDAO = dbOperation.getLights(selectedRoomDeviceName)[selindex];
+                svc.updateDAO(deviceDAO);
+            } else if( sender.tag == 202) {
+                let selindex = devicesComp.getSelectedIndex();
+                let deviceDAO = dbOperation.getDevices(selectedRoomDeviceName)[selindex];
+                svc.updateDAO(deviceDAO);
+            }
         } else if ( segue.identifier == "GroupSegueId"){
             var svc = segue!.destinationViewController as! GroupViewController;
             svc.setRoomDeviceName(selectedRoomDeviceName)
+            if( sender.tag == 203) {
+                let selindex = groupsComp.getSelectedIndex();
+                let groupDAO = dbOperation.getGroups(selectedRoomDeviceName)[selindex];
+                svc.updateDAO(groupDAO);
+            }
         } else if ( segue.identifier == "ShedulerSegueId"){
             var svc = segue!.destinationViewController as! SchedulerViewController;
             svc.setRoomDeviceName(selectedRoomDeviceName)
+            if( sender.tag == 204) {
+                let selindex = schedulersComp.getSelectedIndex();
+                let schedulerDAO = dbOperation.getSchedulers(selectedRoomDeviceName)[selindex];
+                svc.updateDAO(schedulerDAO);
+            }
         }
     }
 

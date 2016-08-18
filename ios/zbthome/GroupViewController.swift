@@ -15,6 +15,9 @@ class GroupViewController: UIViewController {
     @IBOutlet var groupNameText: UITextField!
     var roomName:String!
     let cellReuseIdentifier = "cell"
+    
+    var name:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
@@ -37,6 +40,7 @@ class GroupViewController: UIViewController {
         deviceView.addArrangedSubview(selectDeviceComp1)
 
 
+        groupNameText.text = name;
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,6 +59,9 @@ class GroupViewController: UIViewController {
         DBOperation.getInstance().addGroup(roomName, light: grpDao)
     }
     
-    
+    func updateDAO(group: GroupDAO) {
+        print("Update..........DAO  ....\(group.name)")
+        name = group.name
+    }
 
 }
