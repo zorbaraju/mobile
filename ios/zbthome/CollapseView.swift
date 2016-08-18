@@ -13,6 +13,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     var compArray:[CollapseCompData] = [CollapseCompData]()
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet var minusButton: UIButton!
+    @IBOutlet var editButton: UIButton!
     @IBOutlet var plusButton: UIButton!
     @IBOutlet var middleLabel: UILabel!
     @IBOutlet var collapseButton: UIButton!
@@ -41,6 +42,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBAction func minusAction(sender: UIButton) {
         print("Minus")
     }
+    
     @IBAction func plusAction(sender: UIButton) {
         print("Plus")
     }
@@ -72,7 +74,10 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         plusButton.tag = tag
         minusButton.tag = 100+tag
         middleLabel.text = title
+        editButton.tag = 200+tag
         minusButton.hidden = true;
+        editButton.hidden = true;
+        
     }
     
     func xibSetup() {
@@ -108,6 +113,8 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     func registerListeners(delegate:AnyObject, methodName:String) {
         plusButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
         minusButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
+        editButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
+
     print("register")
     }
    
@@ -127,6 +134,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         selectedCellIndex = indexPath.row
         print("Selected cellindex.....\(selectedCellIndex)")
         minusButton.hidden = false;
+        editButton.hidden = false;
     }
 
     func clearAllDevices() {
@@ -147,6 +155,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     
     func removeComp() {
         minusButton.hidden = true;
+        editButton.hidden = true;
         compArray.removeAtIndex(selectedCellIndex)
         collectionView.reloadData()
     }
@@ -156,88 +165,3 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.reloadData()
     }
 }
-
-/*
- class ViewController : UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-     private let barSize : CGFloat = 44.0
-     private let kCellReuse : String = "PackCell"
-     private let kCellheaderReuse : String = "PackHeader"
-     private var collectionView : UICollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())   // Initialization
-  
-     override func viewDidLoad() {
-         super.viewDidLoad()
-  
-         // Collection
-         self.collectionView.delegate = self     // delegate  :  UICollectionViewDelegate
-         self.collectionView.dataSource = self   // datasource  : UICollectionViewDataSource
-         self.collectionView.backgroundColor = UIColor.clearColor()
-  
-         // Register parts(header and cell
-         self.collectionView.registerClass(PackViewCell.self, forCellWithReuseIdentifier: kCellReuse) // UICollectionViewCell
-         self.collectionView.registerClass(PackCollectionSectionView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: kCellheaderReuse)  // UICollectionReusableView
-          
-         self.view.addSubview(self.collectionView)
-     }
-  
-     override func viewWillLayoutSubviews() {
-         let frame = self.view.frame
-         self.collectionView.frame = CGRectMake(frame.origin.x, frame.origin.y + barSize, frame.size.width, frame.size.height - barSize)
-     }
-  
-     // MARK: UICollectionViewDelegate, UICollectionViewDataSource
-     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-         var cell : PackViewCell = collectionView.dequeueReusableCellWithReuseIdentifier(kCellReuse, forIndexPath: indexPath) as PackViewCell
-         return cell    // Create UICollectionViewCell
-     }
-  
-     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-         return 1  // Number of section
-     }
-  
-     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-         var res = 0
-         switch(section) {
-         case 0:
-             res = 4  // Number of cell per section(section 0)
-             break
-         default:
-             res = 0
-             break
-         }
-         return res
-     }
-  
-     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
-         // Select operation
-     }
-  
-     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-         var reusableView : UICollectionReusableView? = nil
-          
-         // Create header
-         if (kind == UICollectionElementKindSectionHeader) {
-             // Create Header
-             var headerView : PackCollectionSectionView = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: kCellheaderReuse, forIndexPath: indexPath) as PackCollectionSectionView
-              
-             reusableView = headerView
-         }
-         return reusableView!
-     }
-  
-     // MARK: UICollectionViewDelegateFlowLayout
-     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-         return CGSize(width: 90, height: 90) // The size of one cell
-     }
-  
-     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-         return CGSizeMake(self.view.frame.width, 90)  // Header size
-     }
-  
-     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-         let frame : CGRect = self.view.frame
-         let margin  = (frame.width - 90 * 3) / 6.0
-         return UIEdgeInsetsMake(10, margin, 10, margin) // margin between cells
-     }
- }
- */

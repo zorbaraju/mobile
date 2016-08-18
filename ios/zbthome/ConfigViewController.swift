@@ -44,6 +44,8 @@ class ConfigViewController: MenuViewController {
     @IBOutlet var nameText: UITextField!
     @IBOutlet var deviceIdText: UITextField!
     
+    var name:String = "";
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,6 +53,9 @@ class ConfigViewController: MenuViewController {
         deviceTypeIconMenu.setParentView1(self, p: view, menuItemNames: lightTypeMenuNames);
         dimmableBox.performButtonClicked(self, callback: "dimmableClicked:")
         // Do any additional setup after loading the view.
+        
+        print("viewDidLoad")
+        nameText.text = name;
     }
 
     func dimmableClicked(sender: CheckBoxView) {
@@ -126,5 +131,10 @@ class ConfigViewController: MenuViewController {
     }
     
     override func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
+    }
+    
+    func updateDAO(device: DeviceDAO) {
+        print("Update..........DAO  ....\(device.deviceName)")
+        self.name = device.deviceName
     }
 }

@@ -16,6 +16,7 @@ class SchedulerViewController: UIViewController {
     @IBOutlet var schedularNameText: UITextField!
     var roomName:String!
    
+    var name:String = "";
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -37,6 +38,8 @@ class SchedulerViewController: UIViewController {
         deviceView.addArrangedSubview(selectDeviceComp)
         var selectDeviceComp1 = SelectDeviceView(frame: deviceView.bounds, title:"Ra",tag:1);
         deviceView.addArrangedSubview(selectDeviceComp1)
+        
+        schedularNameText.text = name;
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,5 +57,9 @@ class SchedulerViewController: UIViewController {
         let grpDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text!,deviceId: 1);
         DBOperation.getInstance().addScheduler(roomName, light: grpDao)
     }
-
+    
+    func updateDAO(scheduler: SchedulerDAO) {
+        print("Update..........DAO  ....\(scheduler.name)")
+        name = scheduler.name
+    }
 }
