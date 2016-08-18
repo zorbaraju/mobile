@@ -10,17 +10,16 @@ import UIKit
 
 class ConfigViewController: MenuViewController {
 
+    let dbOperation: DBOperation = DBOperation.getInstance();
     @IBOutlet var deviceIdMenu: MenuUIView!
+    @IBOutlet var titleLabel: UILabel!
     @IBOutlet var deviceTypeIconMenu: IconMenu!
     @IBOutlet var dimmableBox: CheckBoxView!
     var collapseComp:CollapseView!
     var roomDeviceName:String!
     var daoType:Int!
 
-    var deviceIdMenuNames:[[String]] = [
-        ["1",""],
-        ["2",""]
-    ]
+    var deviceIdMenuNames:[[String]] = [[String]]()
     
     var lightTypeMenuNames:[[String]] = [
         ["Light","light_off.png"],
@@ -56,6 +55,15 @@ class ConfigViewController: MenuViewController {
         
         print("viewDidLoad")
         nameText.text = name;
+        if( daoType == 1) {
+            titleLabel.text = "Adding a Light"
+        } else if( daoType == 2) {
+            titleLabel.text = "Adding a Device"
+        } else if( daoType == 201) {
+            titleLabel.text = "Editing Light " + name
+        } else if( daoType == 202) {
+            titleLabel.text = "Editing Device " + name
+        }
     }
 
     func dimmableClicked(sender: CheckBoxView) {
@@ -86,6 +94,28 @@ class ConfigViewController: MenuViewController {
         self.collapseComp = collapseComp
         roomDeviceName = name
         daoType = tag
+        let roomDao:RoomDAO = dbOperation.getLastSelectedRoom();
+        var dictionary = Dictionary<Int, Int>()
+        let numDevices = roomDao.numDevices
+        for (var i: Int = 1; i <= numDevices; i++) {
+            dictionary[i] = i
+        }
+        let lights:[DeviceDAO] = dbOperation.getLights(roomDeviceName);
+        for (var i: Int = 0; i < lights.count; i++) {
+            dictionary.removeValueForKey(lights[i].deviceId)
+        }
+        let devices:[DeviceDAO] = dbOperation.getDevices(roomDeviceName);
+        for (var i: Int = 0; i < devices.count; i++) {
+            dictionary.removeValueForKey(devices[i].deviceId)
+        }
+
+        deviceIdMenuNames = [[String]]()
+        for (var key: Int = 1; key <= numDevices; key++) {
+            let keyExists = dictionary[key] != nil
+            if( keyExists ) {
+                deviceIdMenuNames.append([String(key),""])
+            }
+        }
     }
     override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
         if( identifier != "goBackFromSave") {
@@ -120,10 +150,10 @@ class ConfigViewController: MenuViewController {
             var deviceId = deviceIdMenu.getSelectedText()
             if( daoType == 1) {
                 let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!);
-                DBOperation.getInstance().addLight(roomDeviceName, light: light)
+                dbOperation.addLight(roomDeviceName, light: light)
             } else if( daoType == 2) {
                 let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!);
-                DBOperation.getInstance().addDevice(roomDeviceName, light: light)
+                dbOperation.addDevice(roomDeviceName, light: light)
            }
             
         }

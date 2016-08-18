@@ -46,6 +46,10 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBAction func plusAction(sender: UIButton) {
         print("Plus")
     }
+
+    @IBAction func editAction(sender: UIButton) {
+        print("Edit")
+    }
     
     override init(frame: CGRect) {
         // 1. setup any properties here
