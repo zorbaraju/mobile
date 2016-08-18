@@ -164,7 +164,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
                 let lt:LabelTextView = discoveredDevices[i];
                 let inputName = lt.getValue();
                 if(!inputName.isEmpty) {
-                    let newroom:RoomDAO = RoomDAO(deviceName: discoveredDeviceIds[i], roomName: inputName)
+                    let newroom:RoomDAO = RoomDAO(deviceName: discoveredDeviceIds[i], roomName: inputName, numDevices: 10)
                     DBOperation.getInstance().addRoom(newroom);
                     performSegueWithIdentifier("goBackFromRoomAdd", sender: nil)
                 }

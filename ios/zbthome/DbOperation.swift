@@ -43,7 +43,7 @@ class DBOperation {
     }
 
     func getLastSelectedRoom()->RoomDAO {
-        var room:RoomDAO = RoomDAO(deviceName: "", roomName: "No Room");
+        var room:RoomDAO = RoomDAO(deviceName: "", roomName: "No Room", numDevices: 10);
         let obj = phoneMemory.objectForKey(lastvisitedroomKey);
         if let unarchivedObject = obj as? NSData {
             room = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? RoomDAO!)!

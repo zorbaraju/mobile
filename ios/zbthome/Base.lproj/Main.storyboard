@@ -220,6 +220,7 @@
                         <outlet property="deviceTypeIconMenu" destination="Iui-PY-vYE" id="nZr-BE-LPJ"/>
                         <outlet property="dimmableBox" destination="GUl-rN-YrV" id="3Xs-Lh-dQW"/>
                         <outlet property="nameText" destination="0Sc-cY-hDb" id="G5V-UV-lIR"/>
+                        <outlet property="titleLabel" destination="r5T-ab-ck4" id="iHp-hV-toj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="khy-I1-a3q" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -491,7 +492,7 @@
                                                         <rect key="frame" x="0.0" y="191" width="245" height="34"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
-                                                                <rect key="frame" x="0.0" y="0.0" width="56" height="34"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="205" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
                                                                     <action selector="cancelButton:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="Xds-Hv-DAO"/>
@@ -499,7 +500,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
-                                                                <rect key="frame" x="56" y="0.0" width="189" height="34"/>
+                                                                <rect key="frame" x="205" y="0.0" width="40" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>
                                                                     <action selector="addRoomAction:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="0DC-W4-wY2"/>

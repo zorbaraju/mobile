@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CollapseCompData: NSObject, NSCoding {
+class CollapseCompData: NSObject {
 
     var name:String = ""
     
@@ -17,11 +17,4 @@ class CollapseCompData: NSObject, NSCoding {
         super.init()
     }
     
-    required internal init(coder decoder: NSCoder) {
-        name = decoder.decodeObjectForKey("name") as! String
-    }
-    
-    internal func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(name, forKey: "name")
-    }
 }
