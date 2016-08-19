@@ -10,14 +10,19 @@ import UIKit
 
 class SelectDeviceView: UIView {
     
-    
+    var deviceDAO:DeviceDAO!
     var view: UIView!
     
-    init(frame: CGRect,title:String, tag:Int) {
+    @IBOutlet var controllerView: UIView!
+    @IBOutlet var deviceNameText: UILabel!
+    var switchView:UISwitch!
+    var sliderDemo:UISlider!
+    
+    init(frame: CGRect,deviceDAO: DeviceDAO) {
         // 1. setup any properties here
         // 2. call super.init(frame:)
         super.init(frame: frame)
-        
+        self.deviceDAO = deviceDAO
         // 3. Setup view from .xib file
         xibSetup()
         print("init frame")
@@ -46,9 +51,20 @@ class SelectDeviceView: UIView {
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         
-    
+        deviceNameText.text = deviceDAO.deviceName
+        if( deviceDAO.isdimmable ) {
+            sliderDemo = UISlider(frame:controllerView.frame)
+            sliderDemo.minimumValue = 0
+            sliderDemo.maximumValue = 9
+            controllerView.addSubview(sliderDemo)
+        } else {
+            switchView = UISwitch(frame: controllerView.frame);
+            switchView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+            controllerView.addSubview(switchView)
+            switchView.autoresizingMask = [ .FlexibleTopMargin, .FlexibleBottomMargin,
+                                          .FlexibleLeftMargin, .FlexibleRightMargin ]
+        }
     }
-    
     func loadViewFromNib() -> UIView {
         let bundle = NSBundle(forClass: self.dynamicType)
         let nib = UINib(nibName: "SelectDeviceView", bundle: bundle)
@@ -58,6 +74,7 @@ class SelectDeviceView: UIView {
     
     
     override func layoutSubviews() {
-        
+        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+
     }
     }

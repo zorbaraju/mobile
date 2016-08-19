@@ -491,7 +491,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IXS-a5-0hi" userLabel="buttonPanel">
                                                         <rect key="frame" x="0.0" y="191" width="245" height="34"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
                                                                 <rect key="frame" x="0.0" y="0.0" width="205" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
@@ -499,7 +499,7 @@
                                                                     <segue destination="BYZ-38-t0r" kind="show" identifier="cancelIdentifier" id="3p3-ea-ADJ"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
                                                                 <rect key="frame" x="205" y="0.0" width="40" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>

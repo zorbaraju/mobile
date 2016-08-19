@@ -12,6 +12,7 @@ class DeviceDAO: NSObject, NSCoding {
 
     var deviceName:String = ""
     var deviceId:Int = -1
+    var isdimmable:Bool = true
     
     init(deviceName:String, deviceId:Int) {
         self.deviceName = deviceName

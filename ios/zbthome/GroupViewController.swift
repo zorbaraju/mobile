@@ -17,7 +17,7 @@ class GroupViewController: UIViewController {
     let cellReuseIdentifier = "cell"
     
     var name:String = ""
-    
+    let dbOperation:DBOperation = DBOperation.getInstance()
     override func viewDidLoad() {
         super.viewDidLoad()
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
@@ -33,16 +33,24 @@ class GroupViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0))
         
-        // Do any additional setup after loading the view, typically from a nib.
-        var selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, title:"Lights",tag:1);
-        deviceView.addArrangedSubview(selectDeviceComp)
-        var selectDeviceComp1 = SelectDeviceView(frame: deviceView.bounds, title:"Ra",tag:1);
-        deviceView.addArrangedSubview(selectDeviceComp1)
-
-
         groupNameText.text = name;
+        
+        populateDevices();
     }
     
+    func populateDevices() {
+        let lights:[DeviceDAO] = dbOperation.getLights(roomName);
+        print("lightcount......\(lights.count)")
+        for var i = 0; i < lights.count; i += 1 {
+            var selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, deviceDAO: lights[i]);
+            deviceView.addArrangedSubview(selectDeviceComp)
+        }
+        let devices:[DeviceDAO] = dbOperation.getDevices(roomName);
+        for var i = 0; i < devices.count; i += 1 {
+            var selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, deviceDAO: devices[i]);
+            deviceView.addArrangedSubview(selectDeviceComp)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

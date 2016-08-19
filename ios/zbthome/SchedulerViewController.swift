@@ -33,11 +33,6 @@ class SchedulerViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0))
         
-        // Do any additional setup after loading the view, typically from a nib.
-        var selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, title:"Lights",tag:1);
-        deviceView.addArrangedSubview(selectDeviceComp)
-        var selectDeviceComp1 = SelectDeviceView(frame: deviceView.bounds, title:"Ra",tag:1);
-        deviceView.addArrangedSubview(selectDeviceComp1)
         
         schedularNameText.text = name;
     }
