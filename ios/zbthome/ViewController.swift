@@ -298,7 +298,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
             if( sender.tag == 204) {
                 let selindex = schedulersComp.getSelectedIndex();
                 let schedulerDAO = dbOperation.getSchedulers(selectedRoomDeviceName)[selindex];
-                svc.updateDAO(schedulerDAO);
+                svc.updateDAO(schedulerDAO, indexAt: selindex);
             }
         }
     }
