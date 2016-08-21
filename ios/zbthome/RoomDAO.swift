@@ -21,7 +21,7 @@ class RoomDAO: NSObject, NSCoding {
         super.init()
     }
     
-    required public init(coder decoder: NSCoder) {
+    required internal init(coder decoder: NSCoder) {
         deviceName = decoder.decodeObjectForKey("deviceName") as! String
         roomName = decoder.decodeObjectForKey("roomName") as! String
         if( decoder.decodeObjectForKey("numDevices") != nil) {
@@ -29,7 +29,7 @@ class RoomDAO: NSObject, NSCoding {
         }
     }
     
-    public func encodeWithCoder(coder: NSCoder) {
+    internal func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(deviceName, forKey: "deviceName")
         coder.encodeObject(roomName, forKey: "roomName")
         coder.encodeObject(numDevices, forKey: "numDevices")

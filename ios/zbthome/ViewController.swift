@@ -79,13 +79,13 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         
         homeMenu.setImageButton(UIImage(named: "home.png")!)
         homeMenu.setParentView1(self, p: view, menuItemNames: homeMenuItemNames);
-        var lastselectedroom:RoomDAO = dbOperation.getLastSelectedRoom();
+        let lastselectedroom:RoomDAO = dbOperation.getLastSelectedRoom();
         print("Last selected room is \(lastselectedroom.roomName)")
         self.roomMenuView.setSelecteditem(lastselectedroom.roomName)
         print("going out rajuDHI")
         populateRoomPanel(lastselectedroom)
         printWifi();
-        let tap = UITapGestureRecognizer(target: self, action: Selector("handleTap"))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.handleTap))
         tap.delegate = self
         //view.addGestureRecognizer(tap)
 
@@ -109,22 +109,22 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         if( lastSelectedRoom != "") {
             let lights:[DeviceDAO] = dbOperation.getLights(lastSelectedRoom.roomName);
             print("lightcount......\(lights.count)")
-            for var i = 0; i < lights.count; i += 1 {
+            for i in 0 ..< lights.count {
                 let compData:CollapseCompData = CollapseCompData(name: lights[i].deviceName);
                 lightsComp.addComp(compData)
             }
             let devices:[DeviceDAO] = dbOperation.getDevices(lastSelectedRoom.roomName);
-            for var i = 0; i < devices.count; i += 1 {
+            for i in 0 ..< devices.count {
                 let compData:CollapseCompData = CollapseCompData(name: devices[i].deviceName);
                 devicesComp.addComp(compData)
             }
             let groups:[GroupDAO] = dbOperation.getGroups(lastSelectedRoom.roomName);
-            for var i = 0; i < groups.count; i += 1 {
+            for i in 0 ..< groups.count {
                 let compData:CollapseCompData = CollapseCompData(name: groups[i].name);
                 groupsComp.addComp(compData)
             }
             let schedulers:[SchedulerDAO] = dbOperation.getSchedulers(lastSelectedRoom.roomName);
-            for var i = 0; i < schedulers.count; i += 1 {
+            for i in 0 ..< schedulers.count {
                 let compData:CollapseCompData = CollapseCompData(name: schedulers[i].name);
                 schedulersComp.addComp(compData)
             }
@@ -147,7 +147,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         print("Checking for connection11 ")
         if( bthw.isConnected()) {
             bthw.verifyPwd()
-            var numDevices = self.bthw.getNumberOfDevices()
+            let numDevices = self.bthw.getNumberOfDevices()
             print("NUmber of devices.....\(numDevices)")
             var statuses:[UInt8] = self.bthw.getAllStatus()
              self.bthw.closeDevice()
@@ -155,9 +155,9 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
                 print("No status")
                 return;
             }
-            for var i = 3; i < statuses.count; i += 1 {
-                var deviceid = i-3;
-                var status = statuses[i];
+            for i in 3 ..< statuses.count {
+                let deviceid = i-3;
+                let status = statuses[i];
                 print("Status......\(deviceid)....\(status)")
             }
             
@@ -167,7 +167,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     }
     func constructRoomList() {
         rooms = dbOperation.getRoomList()
-        for var i = 0; i < rooms.count; i += 1 {
+        for i in 0 ..< rooms.count {
             roomNames.append([rooms[i].roomName,""])
         }
     }
@@ -183,7 +183,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
             print("interface.....")
             let interfacesArray = CFBridgingRetain(interfaces) as! NSArray
              print("interface...num..\(interfacesArray.count)")
-            for var i = 0; i < interfacesArray.count; i += 1  {
+            for i in 0 ..< interfacesArray.count  {
                 let interfaceName = interfacesArray[i] as! String
                 print("interface...name..\(interfaceName)")
                 let unsafeInterfaceData = CNCopyCurrentNetworkInfo(interfaceName)! as Dictionary
@@ -252,7 +252,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
                 performSegueWithIdentifier("DiscoverySegueId", sender: sender)
             }
         } else if( sourceMenu == roomMenuView) {
-            var lastroom = rooms[rowIndex];
+            let lastroom = rooms[rowIndex];
             dbOperation.setLastSelectedRoom(lastroom)
             populateRoomPanel(lastroom)
         }
@@ -261,10 +261,10 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
         print("Segue called from  view controller \(segue.identifier)  \(sender.tag)")
         if (segue.identifier == "HtmlSegueId") {
-            var svc = segue!.destinationViewController as! HtmlViewController;
+            let svc = segue.destinationViewController as! HtmlViewController;
             var title = "Help";
             var file = "help"
             if( sender.tag == 2) {
@@ -273,27 +273,27 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
             }
             svc.setHtmlFile(title, htmlfile: file)
         } else if ( segue.identifier == "ConfigSegueId"){
-            var svc = segue!.destinationViewController as! ConfigViewController;
+            let svc = segue.destinationViewController as! ConfigViewController;
             svc.setRoomDeviceName(lightsComp, name: selectedRoomDeviceName, tag: sender.tag)
             if( sender.tag == 201) {
                 let selindex = lightsComp.getSelectedIndex();
                 let deviceDAO = dbOperation.getLights(selectedRoomDeviceName)[selindex];
-                svc.updateDAO(deviceDAO);
+                svc.updateDAO(deviceDAO, indexAt: selindex);
             } else if( sender.tag == 202) {
                 let selindex = devicesComp.getSelectedIndex();
                 let deviceDAO = dbOperation.getDevices(selectedRoomDeviceName)[selindex];
-                svc.updateDAO(deviceDAO);
+                svc.updateDAO(deviceDAO, indexAt: selindex);
             }
         } else if ( segue.identifier == "GroupSegueId"){
-            var svc = segue!.destinationViewController as! GroupViewController;
+            let svc = segue.destinationViewController as! GroupViewController;
             svc.setRoomDeviceName(selectedRoomDeviceName)
             if( sender.tag == 203) {
                 let selindex = groupsComp.getSelectedIndex();
                 let groupDAO = dbOperation.getGroups(selectedRoomDeviceName)[selindex];
-                svc.updateDAO(groupDAO);
+                svc.updateDAO(groupDAO, indexAt: selindex);
             }
         } else if ( segue.identifier == "ShedulerSegueId"){
-            var svc = segue!.destinationViewController as! SchedulerViewController;
+            let svc = segue.destinationViewController as! SchedulerViewController;
             svc.setRoomDeviceName(selectedRoomDeviceName)
             if( sender.tag == 204) {
                 let selindex = schedulersComp.getSelectedIndex();
