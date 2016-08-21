@@ -27,8 +27,8 @@ class CheckBoxView: UIButton {
     }
     
     override func awakeFromNib() {
-        self.addTarget(self, action: "buttonClicked:", forControlEvents: UIControlEvents.TouchUpInside)
-        var lFrame = CGRectMake(0, 0, 44, 44);
+        self.addTarget(self, action: #selector(CheckBoxView.buttonClicked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        let lFrame = CGRectMake(0, 0, 44, 44);
         frame = lFrame
         self.isChecked = false
     }

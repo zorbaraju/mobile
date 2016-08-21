@@ -28,7 +28,7 @@ class DBOperation {
     
     func isRoomExist(deviceName:String)-> Bool {
          var rooms = getRoomList();
-        for var i = 0; i < rooms.count; i += 1 {
+        for i in 0 ..< rooms.count {
             let room = rooms[i];
             if( room.deviceName == deviceName) {
                 return true;
@@ -91,6 +91,14 @@ class DBOperation {
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)lights")
     }
     
+    func updateLight(roomDeviceName:String, light:DeviceDAO, indexAt:Int) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)lights...indexAt \(indexAt)")
+        var lights = getLights(roomDeviceName);
+        lights[indexAt] = light
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)lights")
+    }
+    
     func removeLight(roomDeviceName:String, indexAt:Int) {
         var lights = getLights(roomDeviceName);
         print("size of listhfff..before..\(lights.count)")
@@ -113,6 +121,14 @@ class DBOperation {
         print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
         var lights = getDevices(roomDeviceName);
         lights.append(light)
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)devices")
+    }
+    
+    func updateDevice(roomDeviceName:String, light:DeviceDAO, indexAt:Int) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
+        var lights = getDevices(roomDeviceName);
+        lights[indexAt] = light
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)devices")
     }
@@ -140,6 +156,14 @@ class DBOperation {
         var lights = getGroups(roomDeviceName);
         lights.append(light)
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)groups")
+    }
+    
+    func updateGroup(roomDeviceName:String, group:GroupDAO, indexAt:Int) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)group...indexAt \(indexAt)")
+        var groups = getGroups(roomDeviceName);
+        groups[indexAt] = group
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(groups as NSArray)
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)groups")
     }
     

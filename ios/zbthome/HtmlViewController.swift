@@ -17,7 +17,7 @@ class HtmlViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "goback")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(HtmlViewController.goback))
         view.addGestureRecognizer(tap)
         let htmlFile = NSBundle.mainBundle().pathForResource(htmlFileName, ofType: "html")
         let html = try? String(contentsOfFile: htmlFile!, encoding: NSUTF8StringEncoding)

@@ -165,7 +165,7 @@ class BtHWLayer: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                // var values = [UInt8](count:data!.length, repeatedValue:0)
                // data!.getBytes(&values, length:data!.length)
                // print("Data: \(data)")
-                var data = characteristic.value
+                let data = characteristic.value
                 var values = [UInt8](count:data!.length, repeatedValue:0)
                 print("values....\(values)")
                 print("Data: \(data)")

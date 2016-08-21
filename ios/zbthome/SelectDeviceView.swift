@@ -13,6 +13,8 @@ class SelectDeviceView: UIView {
     var deviceDAO:DeviceDAO!
     var view: UIView!
     
+    @IBOutlet var controllerStatusLabel: UILabel!
+    @IBOutlet var checkBox: CheckBoxView!
     @IBOutlet var controllerView: UIView!
     @IBOutlet var deviceNameText: UILabel!
     var switchView:UISwitch!
@@ -55,14 +57,23 @@ class SelectDeviceView: UIView {
         if( deviceDAO.isdimmable ) {
             sliderDemo = UISlider(frame:controllerView.frame)
             sliderDemo.minimumValue = 0
-            sliderDemo.maximumValue = 9
+            sliderDemo.maximumValue = 10
+            sliderDemo.sizeToFit()
+            sliderDemo.continuous = true
             controllerView.addSubview(sliderDemo)
+            sliderDemo.autoresizingMask = [ .FlexibleTopMargin, .FlexibleBottomMargin]
+            
+            sliderDemo.addTarget(self, action: "sliderValueDidChange:", forControlEvents: .ValueChanged)
+            sliderValueDidChange(sliderDemo)
+
         } else {
             switchView = UISwitch(frame: controllerView.frame);
             switchView.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
             controllerView.addSubview(switchView)
             switchView.autoresizingMask = [ .FlexibleTopMargin, .FlexibleBottomMargin,
                                           .FlexibleLeftMargin, .FlexibleRightMargin ]
+            switchView.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
+            switchValueDidChange(switchView)
         }
     }
     func loadViewFromNib() -> UIView {
@@ -75,6 +86,56 @@ class SelectDeviceView: UIView {
     
     override func layoutSubviews() {
         view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+    }
 
+    func switchValueDidChange(sender:UISwitch!)
+    {
+        if (sender.on == true){
+            controllerStatusLabel.text = "On"
+        } else {
+            controllerStatusLabel.text = "Off"
+        }
     }
+    func sliderValueDidChange(sender:UISlider!)
+    {
+        let newValue = Int(sender.value/1) * 1
+        sender.setValue(Float(newValue), animated: false)
+        var percValue = "0 %"
+        if( newValue>0) {
+            percValue = "\(newValue)0 %"
+        }
+        controllerStatusLabel.text = percValue
     }
+    
+    func selectComp(checked: Bool) {
+        checkBox.isChecked = checked
+    }
+    
+    func isCompSelected()->Bool {
+        return checkBox.isChecked
+    }
+    
+    func setControllerValue(controllerValue:Int) {
+        if( switchView == nil) {
+            sliderDemo.value = Float(controllerValue)
+            sliderValueDidChange(sliderDemo)
+        } else {
+            switchView.on = (controllerValue != 0)
+            switchValueDidChange(switchView)
+        }
+    }
+
+    
+    func getControllerValue()->Int {
+        var controllerValue:Int = 0
+        if( switchView == nil) {
+            controllerValue = Int(sliderDemo.value)
+        } else {
+            if (switchView.on == true) {
+                controllerValue = 9
+            }
+        }
+        print("Selected vdecov comp.....getvalue.....\(controllerValue)");
+        return controllerValue
+    }
+}

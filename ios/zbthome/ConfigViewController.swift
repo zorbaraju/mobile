@@ -43,7 +43,8 @@ class ConfigViewController: MenuViewController {
     @IBOutlet var nameText: UITextField!
     @IBOutlet var deviceIdText: UITextField!
     
-    var name:String = "";
+    var currentDeviceDAO:DeviceDAO!
+    var indexAt: Int = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,23 +55,29 @@ class ConfigViewController: MenuViewController {
         // Do any additional setup after loading the view.
         
         print("viewDidLoad")
-        nameText.text = name;
-        if( daoType == 1) {
-            titleLabel.text = "Adding a Light"
-        } else if( daoType == 2) {
-            titleLabel.text = "Adding a Device"
-        } else if( daoType == 201) {
-            titleLabel.text = "Editing Light " + name
-        } else if( daoType == 202) {
-            titleLabel.text = "Editing Device " + name
+        if( currentDeviceDAO != nil) {
+            if( daoType == 1) {
+                titleLabel.text = "Adding a Light"
+            } else if( daoType == 2) {
+                titleLabel.text = "Adding a Device"
+            } else if( daoType == 201) {
+                titleLabel.text = "Editing Light " + currentDeviceDAO.deviceName
+            } else if( daoType == 202) {
+                titleLabel.text = "Editing Device " + currentDeviceDAO.deviceName
+            }
+            nameText.text = currentDeviceDAO.deviceName
+            deviceIdMenu.setSelecteditem(String(currentDeviceDAO.deviceId))
+            dimmableBox.isChecked = currentDeviceDAO.isdimmable
+            dimmableClicked(dimmableBox)
+            deviceTypeIconMenu.setSelecteditem(currentDeviceDAO.deviceType)
         }
     }
 
     func dimmableClicked(sender: CheckBoxView) {
         print("dimmable clicked")
-        var isDimmable = sender.isChecked;
+        let isDimmable = sender.isChecked;
          print("dimmable clicked isdimmable...\(isDimmable) \(daoType)" )
-        if( daoType == 1) { // this is for light
+        if( daoType == 1 || daoType == 201) { // this is for light
             if( isDimmable) {
                 deviceTypeIconMenu.setMenuItems(dimmableLightTypeMenuNames);
             } else {
@@ -97,20 +104,20 @@ class ConfigViewController: MenuViewController {
         let roomDao:RoomDAO = dbOperation.getLastSelectedRoom();
         var dictionary = Dictionary<Int, Int>()
         let numDevices = roomDao.numDevices
-        for (var i: Int = 1; i <= numDevices; i++) {
+        for (var i: Int = 1; i <= numDevices; i += 1) {
             dictionary[i] = i
         }
         let lights:[DeviceDAO] = dbOperation.getLights(roomDeviceName);
-        for (var i: Int = 0; i < lights.count; i++) {
+        for (var i: Int = 0; i < lights.count; i += 1) {
             dictionary.removeValueForKey(lights[i].deviceId)
         }
         let devices:[DeviceDAO] = dbOperation.getDevices(roomDeviceName);
-        for (var i: Int = 0; i < devices.count; i++) {
+        for (var i: Int = 0; i < devices.count; i += 1) {
             dictionary.removeValueForKey(devices[i].deviceId)
         }
 
         deviceIdMenuNames = [[String]]()
-        for (var key: Int = 1; key <= numDevices; key++) {
+        for (var key: Int = 1; key <= numDevices; key += 1) {
             let keyExists = dictionary[key] != nil
             if( keyExists ) {
                 deviceIdMenuNames.append([String(key),""])
@@ -121,22 +128,32 @@ class ConfigViewController: MenuViewController {
         if( identifier != "goBackFromSave") {
             return true
         }
-        var name = nameText.text
+        let name = nameText.text
         print("Name from configname...\(name)")
         if( (name == "") ) {
             let alert = UIAlertView();
-            alert.title = "Title"
+            alert.title = "Error"
             alert.message = "Device name is empty"
             alert.addButtonWithTitle("Ok")
             alert.show()
             return false
         }
-        var deviceId = deviceIdMenu.getSelectedText()
+        let deviceId = deviceIdMenu.getSelectedText()
         print("deviceId from configname...\(deviceId)")
         if( (deviceId == "") ) {
             let alert = UIAlertView();
-            alert.title = "Title"
+            alert.title = "Error"
             alert.message = "Device id is empty"
+            alert.addButtonWithTitle("Ok")
+            alert.show()
+            return false
+        }
+        let deviceType = deviceTypeIconMenu.getSelectedText()
+        print("deviceType from configname...\(deviceType)")
+        if( (deviceType == "") ) {
+            let alert = UIAlertView();
+            alert.title = "Error"
+            alert.message = "Type is not selected"
             alert.addButtonWithTitle("Ok")
             alert.show()
             return false
@@ -146,14 +163,26 @@ class ConfigViewController: MenuViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         print("prepareForSegue.....\(segue.identifier)"+roomDeviceName+"  daotype=\(daoType)")
         if( segue.identifier == "goBackFromSave") {
-            var name = nameText.text
-            var deviceId = deviceIdMenu.getSelectedText()
-            if( daoType == 1) {
-                let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!);
-                dbOperation.addLight(roomDeviceName, light: light)
-            } else if( daoType == 2) {
-                let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!);
-                dbOperation.addDevice(roomDeviceName, light: light)
+            let name = nameText.text
+            let deviceId = deviceIdMenu.getSelectedText()
+            let isdimmable = dimmableBox.isChecked
+            let deviceType = deviceTypeIconMenu.getSelectedText()
+            print("device type.......(devicetype.....)\(deviceType)")
+            if( daoType == 1 || daoType == 201) {
+                let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!, isdimmable: isdimmable, deviceType: deviceType);
+                if( daoType == 1 ) {
+                    dbOperation.addLight(roomDeviceName, light: light)
+                } else {
+                    dbOperation.updateLight(roomDeviceName, light: light, indexAt:indexAt)
+                }
+                
+            } else if( daoType == 2 || daoType == 202) {
+                let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!,isdimmable: isdimmable, deviceType: deviceType);
+                if( daoType == 2 ) {
+                    dbOperation.addDevice(roomDeviceName, light: light)
+                } else {
+                    dbOperation.updateDevice(roomDeviceName, light: light, indexAt:indexAt)
+                }
            }
             
         }
@@ -163,8 +192,10 @@ class ConfigViewController: MenuViewController {
     override func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
     }
     
-    func updateDAO(device: DeviceDAO) {
+    func updateDAO(device: DeviceDAO, indexAt: Int) {
         print("Update..........DAO  ....\(device.deviceName)")
-        self.name = device.deviceName
+        currentDeviceDAO = device
+        self.indexAt = indexAt
+        deviceIdMenuNames.append([String(currentDeviceDAO.deviceId),""])
     }
 }

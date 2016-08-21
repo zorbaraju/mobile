@@ -68,7 +68,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
         // Dispose of any resources that can be recreated.
     }
     
-    func centralManagerDidUpdateState(central: CBCentralManager!) {
+    func centralManagerDidUpdateState(central: CBCentralManager) {
         print("checking state")
         
         if central.state == .PoweredOn {
@@ -144,7 +144,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
     @IBAction func addRoomAction(sender: UIButton) {
         if (discoveredDevices.count>0)  {
             var isNameFilled = false;
-            for var i = 0; i < discoveredDevices.count; i += 1 {
+            for i in 0 ..< discoveredDevices.count {
                 let lt:LabelTextView = discoveredDevices[i];
                 let inputName = lt.getValue();
                 if(!inputName.isEmpty) {
@@ -160,7 +160,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
                 alert.show()
                 return;
             }
-            for var i = 0; i < discoveredDevices.count; i += 1 {
+            for i in 0 ..< discoveredDevices.count {
                 let lt:LabelTextView = discoveredDevices[i];
                 let inputName = lt.getValue();
                 if(!inputName.isEmpty) {
