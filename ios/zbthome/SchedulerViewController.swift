@@ -1,5 +1,5 @@
 //
-//  SchedulerViewController.swift
+//  SchedularViewController.swift
 //  zbthome
 //
 //  Created by Mackbook on 12/08/16.
@@ -10,16 +10,20 @@ import UIKit
 
 class SchedulerViewController: UIViewController {
     
-    
-    @IBOutlet var deviceView: UIStackView!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var deviceView: UIStackView!
     @IBOutlet var schedularNameText: UITextField!
     var roomName:String!
-   
-    var name:String = "";
+    let cellReuseIdentifier = "cell"
+    
+    @IBOutlet var schedularTitleLabel: UILabel!
+    var currentScheduler:SchedulerDAO!
+    var indexAt:Int = -1
+    
+    let dbOperation:DBOperation = DBOperation.getInstance()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         scrollView.translatesAutoresizingMaskIntoConstraints = false;
         //scrollView.addSubview(view)
         scrollView.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[deviceView]|", options: NSLayoutFormatOptions(rawValue:0),metrics: nil, views: ["deviceView":deviceView]))
@@ -33,28 +37,99 @@ class SchedulerViewController: UIViewController {
                 multiplier: 1.0,
                 constant: 0))
         
+        populateDevices();
         
-        schedularNameText.text = name;
     }
-
+    
+    func populateDevices() {
+        var dictionary = Dictionary<Int, SelectDeviceView>()
+        let lights:[DeviceDAO] = dbOperation.getLights(roomName);
+        print("lightcount......\(lights.count)")
+        for i in 0 ..< lights.count {
+            let selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, deviceDAO: lights[i]);
+            deviceView.addArrangedSubview(selectDeviceComp)
+            dictionary[lights[i].deviceId] = selectDeviceComp
+        }
+        let devices:[DeviceDAO] = dbOperation.getDevices(roomName);
+        for i in 0 ..< devices.count {
+            let selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, deviceDAO: devices[i]);
+            deviceView.addArrangedSubview(selectDeviceComp)
+            dictionary[devices[i].deviceId] = selectDeviceComp
+        }
+        schedularTitleLabel.text = "Adding a new schedular";
+        if( currentScheduler != nil) {
+            
+            schedularTitleLabel.text = "Updating \(currentScheduler.name)";
+            schedularNameText.text = currentScheduler.name;
+            let devInfo:[[Int]] = currentScheduler.devicesArray
+            print(" count......\(devInfo.count)")
+            for(var i=0; i<devInfo.count; i += 1) {
+                let devId = devInfo[i][0]
+                let controllerValue = devInfo[i][1];
+                let selectComp = dictionary[devId]
+                print(" devid.........\(devId)...value...\(controllerValue)")
+                
+                selectComp?.selectComp(true)
+                selectComp?.setControllerValue(controllerValue)
+            }
+        }
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     func setRoomDeviceName(name:String) {
         roomName = name
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("From GrpupViewController seqgueid...\(segue.identifier)")
-        let grpDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text!,deviceId: 1);
-        DBOperation.getInstance().addScheduler(roomName, light: grpDao)
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if( identifier != "saveSegueId") {
+            return true
+        }
+        let name = schedularNameText.text
+        print("Name from configname...\(name)")
+        if( (name == "") ) {
+            let alert = UIAlertView();
+            alert.title = "Error"
+            alert.message = "Schedular name is empty"
+            alert.addButtonWithTitle("Ok")
+            alert.show()
+            return false
+        }
+        return true
     }
     
-    func updateDAO(scheduler: SchedulerDAO) {
-        print("Update..........DAO  ....\(scheduler.name)")
-        name = scheduler.name
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        print("From GrpupViewController seqgueid...\(segue.identifier)")
+        if( segue.identifier == "saveSegueId") {
+            let schedularDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text!);
+            
+            let numComps = deviceView.arrangedSubviews.count
+            for (var i=0; i<numComps; i += 1) {
+                let selComp = deviceView.arrangedSubviews[i] as! SelectDeviceView
+                if ( selComp.isCompSelected() ) {
+                    let devInfo:[Int] = [selComp.deviceDAO.deviceId, selComp.getControllerValue()]
+                    schedularDao.devicesArray.append(devInfo)
+                    print(" devid.....\(selComp.deviceDAO.deviceId) and cvalue...\(selComp.getControllerValue())")
+                }
+                
+            }
+            
+            if( currentScheduler == nil) {
+                dbOperation.addScheduler(roomName, light: schedularDao)
+            } else {
+                dbOperation.updateScheduler(roomName, schedular: schedularDao, indexAt: indexAt)
+            }
+        }
     }
+    
+    func updateDAO(scheduler: SchedulerDAO, indexAt:Int) {
+        print("Update..........DAO  ....\(scheduler.name)")
+        currentScheduler = scheduler
+        self.indexAt = indexAt
+    }
+    
 }

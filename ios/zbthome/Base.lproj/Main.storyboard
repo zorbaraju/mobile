@@ -262,7 +262,7 @@
                                                 <rect key="frame" x="575" y="0.0" width="25" height="25"/>
                                                 <state key="normal" image="save.png"/>
                                                 <connections>
-                                                    <segue destination="BYZ-38-t0r" kind="show" id="zaM-S5-nBZ"/>
+                                                    <segue destination="BYZ-38-t0r" kind="show" identifier="saveSegueId" id="zaM-S5-nBZ"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -316,6 +316,7 @@
                     <connections>
                         <outlet property="deviceView" destination="t3V-qu-rUM" id="Par-Qo-0wM"/>
                         <outlet property="schedularNameText" destination="Bg4-1B-1Zw" id="uPb-N5-rpk"/>
+                        <outlet property="schedularTitleLabel" destination="m8A-h7-h6s" id="AUd-ad-HDx"/>
                         <outlet property="scrollView" destination="w6S-hy-gX2" id="nGv-VO-miD"/>
                     </connections>
                 </viewController>
@@ -491,7 +492,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IXS-a5-0hi" userLabel="buttonPanel">
                                                         <rect key="frame" x="0.0" y="191" width="245" height="34"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
                                                                 <rect key="frame" x="0.0" y="0.0" width="205" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
@@ -499,7 +500,7 @@
                                                                     <segue destination="BYZ-38-t0r" kind="show" identifier="cancelIdentifier" id="3p3-ea-ADJ"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
                                                                 <rect key="frame" x="205" y="0.0" width="40" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>
@@ -657,6 +658,6 @@
         <image name="save.png" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sTH-Kt-IAP"/>
+        <segue reference="zaM-S5-nBZ"/>
     </inferredMetricsTieBreakers>
 </document>

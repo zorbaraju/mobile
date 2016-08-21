@@ -193,6 +193,14 @@ class DBOperation {
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)schedulers")
     }
     
+    func updateScheduler(roomDeviceName:String, schedular:SchedulerDAO, indexAt:Int) {
+        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers...indexAt \(indexAt)")
+        var schedulars = getSchedulers(roomDeviceName);
+        schedulars[indexAt] = schedular
+        let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(schedulars as NSArray)
+        phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)schedulers")
+    }
+    
     func removeScheduler(roomDeviceName:String, indexAt:Int) {
         var lights = getSchedulers(roomDeviceName);
         print("size of listhfff..before..\(lights.count)")
