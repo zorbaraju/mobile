@@ -56,20 +56,25 @@ class ConfigViewController: MenuViewController {
         
         print("viewDidLoad")
         if( currentDeviceDAO != nil) {
-            if( daoType == 1) {
-                titleLabel.text = "Adding a Light"
-            } else if( daoType == 2) {
-                titleLabel.text = "Adding a Device"
-            } else if( daoType == 201) {
+            if( daoType == 201) {
                 titleLabel.text = "Editing Light " + currentDeviceDAO.deviceName
             } else if( daoType == 202) {
                 titleLabel.text = "Editing Device " + currentDeviceDAO.deviceName
             }
             nameText.text = currentDeviceDAO.deviceName
-            deviceIdMenu.setSelecteditem(String(currentDeviceDAO.deviceId))
             dimmableBox.isChecked = currentDeviceDAO.isdimmable
             dimmableClicked(dimmableBox)
+            deviceIdMenu.setSelecteditem(String(currentDeviceDAO.deviceId))
             deviceTypeIconMenu.setSelecteditem(currentDeviceDAO.deviceType)
+        } else  {
+            if( daoType == 1) {
+                titleLabel.text = "Adding a Light"
+            } else if( daoType == 2) {
+                titleLabel.text = "Adding a Device"
+            }
+            dimmableClicked(dimmableBox)
+            deviceIdMenu.clearSelection()
+            deviceTypeIconMenu.clearSelection()
         }
     }
 

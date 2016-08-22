@@ -14,11 +14,10 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     var menudelegate:MenuViewController!
     var tablerowheight:CGFloat = 40;
     var maxcellwidth:CGFloat = 0;
-    var isimagemenu:Bool = false;
     var parentView:UIView!;
     var menu:MenuUIView!;
     var menuNames: [[String]]!
-    var c:String!
+    var selectedItemName:String!
     let cellReuseIdentifier = "cell"
     
     @IBOutlet var menuButton: UIButton!
@@ -69,19 +68,17 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
         let bundle = NSBundle(forClass: self.dynamicType)
         let nib = UINib(nibName: "IconMenu", bundle: bundle)
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
-        menuButton.titleLabel?.text = ""
+        menuButton.setTitle("", forState: .Normal)
         return view
     }
     
     func setMenuItems(menuItems: [[String]]) {
         self.menuNames = menuItems
         collectionMenuView.reloadData()
-        if( !isimagemenu ) {
-            menuButton.setTitle(menuNames[0][0], forState: .Normal)
-        }
+        menuButton.setTitle(menuNames[0][0], forState: .Normal)
     }
+    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("JJJJJJJJJJJJ......\(self.menuNames.count)")
         return self.menuNames.count
     }
     
@@ -91,10 +88,7 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
         return cell;
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print("You tapped cell number \(indexPath.row) \(self.menudelegate).  \(menuNames.count)")
-        if( !isimagemenu ) {
-            menuButton.setTitle(menuNames[indexPath.row][0], forState: .Normal)
-        }
+        menuButton.setTitle(menuNames[indexPath.row][0], forState: .Normal)
         collectionMenuView.hidden = true;
         self.menudelegate.menuItemClicked(self, rowIndex: indexPath.row)
     }
@@ -107,10 +101,14 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
         menuNames = menuItemNames;
     }
     
+    func clearSelection() {
+        selectedItemName = menuNames[0][0]
+        menuButton.setTitle(menuNames[0][0], forState: .Normal)
+    }
+    
     func setSelecteditem(item:String) {
-        c = item
-        menuButton.titleLabel?.text = c;
-        print( "setSelecteditem..............\(c)")
+        selectedItemName = item
+        menuButton.setTitle(selectedItemName, forState: .Normal)
     }
     
     func getSelectedText()-> String{
@@ -119,13 +117,11 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
     }
     
     @IBAction func menuButtonClicked(sender: UIButton) {
-        print("lallll\(menuButton.titleLabel?.text)")
         if( collectionMenuView.hidden) {
             collectionMenuView.hidden = false;
         } else {
             collectionMenuView.hidden = true;
         }
-        print("llllbl\(menuButton.titleLabel?.text).....\(self.menuNames.count)")
     }
     
     override func layoutSubviews() {
@@ -136,14 +132,7 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
         let tw = maxcellwidth
         self.collectionMenuView.frame = CGRectMake(frame.origin.x, frame.origin.y+frame.size.height, tw, th)
         print("lllll\(collectionMenuView.estimatedRowHeight).....\(c)")*/
-        print("setting titlelaelllll \(c)")
-        menuButton.setTitle(c, forState: .Normal)
+        menuButton.setTitle(selectedItemName, forState: .Normal)
     }
     
-    func setImageButton(image: UIImage) {
-        isimagemenu  = true
-        menuButton.setTitle("", forState: .Normal)
-        menuButton.setImage(image, forState: .Normal)
-    }
-
 }

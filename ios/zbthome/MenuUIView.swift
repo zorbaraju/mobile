@@ -17,7 +17,7 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
     var parentView:UIView!;
     var menu:MenuUIView!;
     var menuNames  = Array<Array<String>>()
-    var c:String!
+    var selectedItemName:String!
     let cellReuseIdentifier = "cell"
     
     @IBOutlet var menuTableView: UITableView!
@@ -69,7 +69,7 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         let bundle = NSBundle(forClass: self.dynamicType)
         let nib = UINib(nibName: "MenuUIView", bundle: bundle)
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
-        menuButton.titleLabel?.text = ""
+        menuButton.setTitle("", forState: .Normal)
         return view
     }
     
@@ -128,10 +128,14 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         menuNames = menuItemNames;
     }
     
+    func clearSelection() {
+        selectedItemName = menuNames[0][0]
+        menuButton.setTitle(menuNames[0][0], forState: .Normal)
+    }
+    
     func setSelecteditem(item:String) {
-        c = item
-        menuButton.titleLabel?.text = c;
-        print( "setSelecteditem..............\(c)")
+        selectedItemName = item
+        menuButton.setTitle(selectedItemName, forState: .Normal)
     }
     
     func getSelectedText()-> String{
@@ -140,13 +144,11 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
     }
     
     @IBAction func menuButtonClicked(sender: UIButton) {
-        print("lallll\(menuButton.titleLabel?.text)")
         if( menuTableView.hidden) {
             menuTableView.hidden = false;
         } else {
             menuTableView.hidden = true;
         }
-        print("llllbl\(menuButton.titleLabel?.text)")
     }
     
     override func layoutSubviews() {
@@ -156,9 +158,7 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         let th = menuTableView.estimatedRowHeight*CGFloat(menuNames.count)+2
         let tw = maxcellwidth
         self.menuTableView.frame = CGRectMake(frame.origin.x, frame.origin.y+frame.size.height, tw, th)
-        print("lllll\(menuTableView.estimatedRowHeight).....\(c)")
-        print("setting titlelaelllll \(c)")
-        menuButton.setTitle(c, forState: .Normal)
+        menuButton.setTitle(selectedItemName, forState: .Normal)
     }
     
     func setImageButton(image: UIImage) {
