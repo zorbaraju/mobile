@@ -100,7 +100,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     }
     
     func populateRoomPanel(lastSelectedRoom:RoomDAO) {
-        print("populating roompanel for the room\(lastSelectedRoom.roomName)")
+   //     print("populating roompanel for the room\(lastSelectedRoom.roomName)")
         selectedRoomDeviceName = lastSelectedRoom.roomName
         lightsComp.clearAllDevices();
         devicesComp.clearAllDevices();
@@ -133,7 +133,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         devicesComp.refresh();
         groupsComp.refresh();
         schedulersComp.refresh();
-        print("populating roompanel for the room devicename>\(lastSelectedRoom.deviceName)")
+    //    print("populating roompanel for the room devicename>\(lastSelectedRoom.deviceName)")
         
         self.bthw.initDevice(lastSelectedRoom.deviceName)
          self.refreshWithDevice()
@@ -173,22 +173,22 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     }
     
     func dummy(rName:String) {
-        print("going out Dumy\(rName)")
+    //    print("going out Dumy\(rName)")
     }
     
     func printWifi() {
         let interfaces = CNCopySupportedInterfaces()
         
         if interfaces != nil {
-            print("interface.....")
+        //    print("interface.....")
             let interfacesArray = CFBridgingRetain(interfaces) as! NSArray
-             print("interface...num..\(interfacesArray.count)")
+          //   print("interface...num..\(interfacesArray.count)")
             for i in 0 ..< interfacesArray.count  {
                 let interfaceName = interfacesArray[i] as! String
-                print("interface...name..\(interfaceName)")
+             //   print("interface...name..\(interfaceName)")
                 let unsafeInterfaceData = CNCopyCurrentNetworkInfo(interfaceName)! as Dictionary
                 let SSIDName = unsafeInterfaceData["SSID"] as! String
-                print(SSIDName)/* here print recentally used wifi name*/
+            //    print(SSIDName)/* here print recentally used wifi name*/
                 print("ssid...\(SSIDName)");
             }
         }
@@ -241,7 +241,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     }
    
     override func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
-        print("MenuClciekd...\(roomNames.count)....\(rowIndex)");
+       // print("MenuClciekd...\(roomNames.count)....\(rowIndex)");
         printWifi()
         if( sourceMenu == homeMenu) {
             let sender = UIButton();
@@ -262,7 +262,7 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
-        print("Segue called from  view controller \(segue.identifier)  \(sender.tag)")
+      //  print("Segue called from  view controller \(segue.identifier)  \(sender.tag)")
         if (segue.identifier == "HtmlSegueId") {
             let svc = segue.destinationViewController as! HtmlViewController;
             var title = "Help";

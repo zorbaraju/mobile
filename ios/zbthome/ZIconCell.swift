@@ -65,7 +65,7 @@ class ZIconCell: UICollectionViewCell {
         // Adding custom subview on top of our view (over any custom drawing > see note below)
         addSubview(view)
         setOffline();
-        imageView.layer.cornerRadius=20;
+        makeCircleImage(imageView)
     }
     
     func loadViewFromNib() -> UIView {
@@ -74,5 +74,19 @@ class ZIconCell: UICollectionViewCell {
         let nib = UINib(nibName: "ZIConCell", bundle: bundle)
         let view = nib.instantiateWithOwner(self, options: nil)[0] as! UIView
         return view
+    }
+    
+    func setIConSelect(select:Bool) {
+        if( select) {
+            imageView.layer.borderWidth = 0.15
+            imageView.layer.borderColor = UIColor.blackColor().CGColor
+        } else {
+            imageView.layer.borderWidth = 0
+            imageView.layer.borderColor = UIColor.blackColor().CGColor
+        }
+    }
+    func makeCircleImage(image:UIImageView) {
+        image.frame.size.width = image.frame.size.height
+        image.layer.cornerRadius=image.frame.height/2;
     }
 }

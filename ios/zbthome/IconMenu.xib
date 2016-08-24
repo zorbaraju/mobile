@@ -20,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="317" height="127"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e7K-K1-Bgr">
-                            <rect key="frame" x="0.0" y="0.0" width="317" height="32"/>
+                            <rect key="frame" x="0.0" y="0.0" width="317" height="34"/>
                             <color key="backgroundColor" red="0.074509803920000006" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
                             <state key="normal" title="fsdfs">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -30,7 +30,7 @@
                             </connections>
                         </button>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="drF-0H-oIF">
-                            <rect key="frame" x="0.0" y="32" width="317" height="95"/>
+                            <rect key="frame" x="0.0" y="34" width="317" height="93"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="N5S-NQ-TEv">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>

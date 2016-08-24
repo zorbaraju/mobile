@@ -12,9 +12,12 @@ class SchedulerViewController: UIViewController {
     
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var deviceView: UIStackView!
+    @IBOutlet var startTimeText: UITextField!
     @IBOutlet var schedularNameText: UITextField!
+    @IBOutlet var schedularRepeatTypeText: UITextField!
     var roomName:String!
     let cellReuseIdentifier = "cell"
+    
     
     @IBOutlet var schedularTitleLabel: UILabel!
     var currentScheduler:SchedulerDAO!
@@ -61,9 +64,11 @@ class SchedulerViewController: UIViewController {
             
             schedularTitleLabel.text = "Updating \(currentScheduler.name)";
             schedularNameText.text = currentScheduler.name;
+            schedularRepeatTypeText.text = currentScheduler.repeatType;
+            startTimeText.text = currentScheduler.startTime;
             let devInfo:[[Int]] = currentScheduler.devicesArray
             print(" count......\(devInfo.count)")
-            for(var i=0; i<devInfo.count; i += 1) {
+            for i in 0 ..< devInfo.count {
                 let devId = devInfo[i][0]
                 let controllerValue = devInfo[i][1];
                 let selectComp = dictionary[devId]
@@ -92,11 +97,7 @@ class SchedulerViewController: UIViewController {
         let name = schedularNameText.text
         print("Name from configname...\(name)")
         if( (name == "") ) {
-            let alert = UIAlertView();
-            alert.title = "Error"
-            alert.message = "Schedular name is empty"
-            alert.addButtonWithTitle("Ok")
-            alert.show()
+            dbOperation.showAlert(self, message: "Schedular name is empty")
             return false
         }
         return true
@@ -105,10 +106,10 @@ class SchedulerViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         print("From GrpupViewController seqgueid...\(segue.identifier)")
         if( segue.identifier == "saveSegueId") {
-            let schedularDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text!);
+            let schedularDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text! , repeatType: schedularRepeatTypeText.text!, startTime: startTimeText.text!);
             
             let numComps = deviceView.arrangedSubviews.count
-            for (var i=0; i<numComps; i += 1) {
+            for i in 0 ..< numComps {
                 let selComp = deviceView.arrangedSubviews[i] as! SelectDeviceView
                 if ( selComp.isCompSelected() ) {
                     let devInfo:[Int] = [selComp.deviceDAO.deviceId, selComp.getControllerValue()]

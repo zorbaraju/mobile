@@ -153,11 +153,7 @@ class DiscoveryViewController: UIViewController ,UICollectionViewDelegateFlowLay
                 }
             }
             if( !isNameFilled ) {
-                let alert = UIAlertView();
-                alert.title = "Title"
-                alert.message = "Room name is empty"
-                alert.addButtonWithTitle("Ok")
-                alert.show()
+                DBOperation.getInstance().showAlert(self, message: "Room name is empty")
                 return;
             }
             for i in 0 ..< discoveredDevices.count {

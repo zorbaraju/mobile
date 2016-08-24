@@ -123,7 +123,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     }
    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("Collection view numcomps...\(compArray.count)")
+      //  print("Collection view numcomps...\(compArray.count)")
         return compArray.count;
     }
     
@@ -136,20 +136,20 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         selectedCellIndex = indexPath.row
-        print("Selected cellindex.....\(selectedCellIndex)")
+  //      print("Selected cellindex.....\(selectedCellIndex)")
         minusButton.hidden = false;
         editButton.hidden = false;
     }
 
     func clearAllDevices() {
-          print("creaalllll...\(compArray.count)")
+       //   print("creaalllll...\(compArray.count)")
         compArray.removeAll()
-          print("creaalllll.after..\(compArray.count)")
+      //    print("creaalllll.after..\(compArray.count)")
     }
     
     func addComp(comp:CollapseCompData) {
         compArray.append(comp)
-        print("FV addcomp numcomps...\(compArray.count)")
+     //   print("FV addcomp numcomps...\(compArray.count)")
         
     }
 
@@ -165,7 +165,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     func refresh() {
-         print("FV refresh...\(compArray.count)")
+      //   print("FV refresh...\(compArray.count)")
         collectionView.reloadData()
     }
 }

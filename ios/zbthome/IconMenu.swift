@@ -100,7 +100,10 @@ class IconMenu: UIView,UICollectionViewDelegate, UICollectionViewDelegateFlowLay
         parentView.addSubview(collectionMenuView)
         menuNames = menuItemNames;
     }
-    
+    func setTitleAlignment() {
+        menuButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+    }
+
     func clearSelection() {
         selectedItemName = menuNames[0][0]
         menuButton.setTitle(menuNames[0][0], forState: .Normal)

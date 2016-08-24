@@ -76,7 +76,7 @@ class DBOperation {
     
     func getLights(roomDeviceName:String)->[DeviceDAO] {
         var lights:[DeviceDAO] = [DeviceDAO]()
-        print("kkkkkkkkkk"+"\(roomDeviceName)lights")
+  
         let temp = phoneMemory.objectForKey("\(roomDeviceName)lights")
         if let unarchivedObject = temp as? NSData {
             lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [DeviceDAO]!)!
@@ -84,7 +84,7 @@ class DBOperation {
         return lights
     }
     func addLight(roomDeviceName:String, light:DeviceDAO) {
-         print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)lights")
+  
         var lights = getLights(roomDeviceName);
         lights.append(light)
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -92,7 +92,7 @@ class DBOperation {
     }
     
     func updateLight(roomDeviceName:String, light:DeviceDAO, indexAt:Int) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)lights...indexAt \(indexAt)")
+  //      print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)lights...indexAt \(indexAt)")
         var lights = getLights(roomDeviceName);
         lights[indexAt] = light
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -101,7 +101,7 @@ class DBOperation {
     
     func removeLight(roomDeviceName:String, indexAt:Int) {
         var lights = getLights(roomDeviceName);
-        print("size of listhfff..before..\(lights.count)")
+    //    print("size of listhfff..before..\(lights.count)")
         lights.removeAtIndex(indexAt)
         print("size of listhfff....\(lights.count)")
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -110,7 +110,7 @@ class DBOperation {
     
     func getDevices(roomDeviceName:String)->[DeviceDAO] {
         var lights:[DeviceDAO] = [DeviceDAO]()
-        print("kkkkkkkkkk"+"\(roomDeviceName)devices")
+      //  print("kkkkkkkkkk"+"\(roomDeviceName)devices")
         let temp = phoneMemory.objectForKey("\(roomDeviceName)devices")
         if let unarchivedObject = temp as? NSData {
             lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [DeviceDAO]!)!
@@ -118,7 +118,7 @@ class DBOperation {
         return lights
     }
     func addDevice(roomDeviceName:String, light:DeviceDAO) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
+        //print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
         var lights = getDevices(roomDeviceName);
         lights.append(light)
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -126,7 +126,7 @@ class DBOperation {
     }
     
     func updateDevice(roomDeviceName:String, light:DeviceDAO, indexAt:Int) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
+        //print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)devices")
         var lights = getDevices(roomDeviceName);
         lights[indexAt] = light
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -135,7 +135,7 @@ class DBOperation {
     
     func removeDevice(roomDeviceName:String, indexAt:Int) {
         var lights = getDevices(roomDeviceName);
-        print("size of listhfff..before..\(lights.count)")
+        //print("size of listhfff..before..\(lights.count)")
         lights.removeAtIndex(indexAt)
         print("size of listhfff....\(lights.count)")
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -144,7 +144,7 @@ class DBOperation {
     
     func getGroups(roomDeviceName:String)->[GroupDAO] {
         var lights:[GroupDAO] = [GroupDAO]()
-        print("kkkkkkkkkk"+"\(roomDeviceName)groups")
+       // print("kkkkkkkkkk"+"\(roomDeviceName)groups")
         let temp = phoneMemory.objectForKey("\(roomDeviceName)groups")
         if let unarchivedObject = temp as? NSData {
             lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [GroupDAO]!)!
@@ -152,7 +152,7 @@ class DBOperation {
         return lights
     }
     func addGroup(roomDeviceName:String, light:GroupDAO) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)groups")
+        //print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)groups")
         var lights = getGroups(roomDeviceName);
         lights.append(light)
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -160,7 +160,7 @@ class DBOperation {
     }
     
     func updateGroup(roomDeviceName:String, group:GroupDAO, indexAt:Int) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)group...indexAt \(indexAt)")
+       // print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)group...indexAt \(indexAt)")
         var groups = getGroups(roomDeviceName);
         groups[indexAt] = group
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(groups as NSArray)
@@ -169,7 +169,7 @@ class DBOperation {
     
     func removeGroup(roomDeviceName:String, indexAt:Int) {
         var lights = getGroups(roomDeviceName);
-        print("size of listhfff..before..\(lights.count)")
+        //print("size of listhfff..before..\(lights.count)")
         lights.removeAtIndex(indexAt)
         print("size of listhfff....\(lights.count)")
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -178,7 +178,7 @@ class DBOperation {
     
     func getSchedulers(roomDeviceName:String)->[SchedulerDAO] {
         var lights:[SchedulerDAO] = [SchedulerDAO]()
-        print("kkkkkkkkkk"+"\(roomDeviceName)schedulers")
+        //print("kkkkkkkkkk"+"\(roomDeviceName)schedulers")
         let temp = phoneMemory.objectForKey("\(roomDeviceName)schedulers")
         if let unarchivedObject = temp as? NSData {
             lights = (NSKeyedUnarchiver.unarchiveObjectWithData(unarchivedObject) as? [SchedulerDAO]!)!
@@ -186,7 +186,7 @@ class DBOperation {
         return lights
     }
     func addScheduler(roomDeviceName:String, light:SchedulerDAO) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers")
+        //print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers")
         var lights = getSchedulers(roomDeviceName);
         lights.append(light)
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
@@ -194,7 +194,7 @@ class DBOperation {
     }
     
     func updateScheduler(roomDeviceName:String, schedular:SchedulerDAO, indexAt:Int) {
-        print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers...indexAt \(indexAt)")
+        //print("kkkkkkkdssfsfdsfskkk"+"\(roomDeviceName)schedulers...indexAt \(indexAt)")
         var schedulars = getSchedulers(roomDeviceName);
         schedulars[indexAt] = schedular
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(schedulars as NSArray)
@@ -203,11 +203,26 @@ class DBOperation {
     
     func removeScheduler(roomDeviceName:String, indexAt:Int) {
         var lights = getSchedulers(roomDeviceName);
-        print("size of listhfff..before..\(lights.count)")
+        //print("size of listhfff..before..\(lights.count)")
         lights.removeAtIndex(indexAt)
         print("size of listhfff....\(lights.count)")
         let archivedObject = NSKeyedArchiver.archivedDataWithRootObject(lights as NSArray)
         phoneMemory.setObject(archivedObject, forKey: "\(roomDeviceName)schedulers")
     }
-
+    
+    func showAlert(controller: UIViewController, message:String) {
+        let alertController = UIAlertController(title: "Title", message: message, preferredStyle: .Alert)
+    
+        // Create the actions
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default) {
+            UIAlertAction in
+            NSLog("OK Pressed")
+        }
+    
+        // Add the actions
+        alertController.addAction(okAction)
+    
+        // Present the controller
+        controller.presentViewController(alertController, animated: true, completion: nil)
+    }
 }
