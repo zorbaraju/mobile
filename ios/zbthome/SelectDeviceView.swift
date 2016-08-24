@@ -63,7 +63,7 @@ class SelectDeviceView: UIView {
             controllerView.addSubview(sliderDemo)
             sliderDemo.autoresizingMask = [ .FlexibleTopMargin, .FlexibleBottomMargin]
             
-            sliderDemo.addTarget(self, action: "sliderValueDidChange:", forControlEvents: .ValueChanged)
+            sliderDemo.addTarget(self, action: #selector(SelectDeviceView.sliderValueDidChange(_:)), forControlEvents: .ValueChanged)
             sliderValueDidChange(sliderDemo)
 
         } else {
@@ -72,7 +72,7 @@ class SelectDeviceView: UIView {
             controllerView.addSubview(switchView)
             switchView.autoresizingMask = [ .FlexibleTopMargin, .FlexibleBottomMargin,
                                           .FlexibleLeftMargin, .FlexibleRightMargin ]
-            switchView.addTarget(self, action: "switchValueDidChange:", forControlEvents: .ValueChanged);
+            switchView.addTarget(self, action: #selector(SelectDeviceView.switchValueDidChange(_:)), forControlEvents: .ValueChanged);
             switchValueDidChange(switchView)
         }
     }

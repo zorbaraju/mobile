@@ -49,6 +49,8 @@ class ConfigViewController: MenuViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        deviceIdMenu.setTitleAlignment()
+        deviceTypeIconMenu.setTitleAlignment()
         deviceIdMenu.setParentView1(self, p: view,menuItemNames: deviceIdMenuNames);
         deviceTypeIconMenu.setParentView1(self, p: view, menuItemNames: lightTypeMenuNames);
         dimmableBox.performButtonClicked(self, callback: "dimmableClicked:")
@@ -79,9 +81,9 @@ class ConfigViewController: MenuViewController {
     }
 
     func dimmableClicked(sender: CheckBoxView) {
-        print("dimmable clicked")
+      //  print("dimmable clicked")
         let isDimmable = sender.isChecked;
-         print("dimmable clicked isdimmable...\(isDimmable) \(daoType)" )
+      //   print("dimmable clicked isdimmable...\(isDimmable) \(daoType)" )
         if( daoType == 1 || daoType == 201) { // this is for light
             if( isDimmable) {
                 deviceTypeIconMenu.setMenuItems(dimmableLightTypeMenuNames);
@@ -109,23 +111,23 @@ class ConfigViewController: MenuViewController {
         let roomDao:RoomDAO = dbOperation.getLastSelectedRoom();
         var dictionary = Dictionary<Int, Int>()
         let numDevices = roomDao.numDevices
-        for (var i: Int = 1; i <= numDevices; i += 1) {
-            dictionary[i] = i
+        for i: Int in 0 ..< numDevices {
+            dictionary[i+1] = i+1
         }
         let lights:[DeviceDAO] = dbOperation.getLights(roomDeviceName);
-        for (var i: Int = 0; i < lights.count; i += 1) {
+        for i: Int in 0 ..< lights.count {
             dictionary.removeValueForKey(lights[i].deviceId)
         }
         let devices:[DeviceDAO] = dbOperation.getDevices(roomDeviceName);
-        for (var i: Int = 0; i < devices.count; i += 1) {
+        for i: Int in 0 ..< devices.count {
             dictionary.removeValueForKey(devices[i].deviceId)
         }
 
         deviceIdMenuNames = [[String]]()
-        for (var key: Int = 1; key <= numDevices; key += 1) {
-            let keyExists = dictionary[key] != nil
+        for key: Int in 0 ..< numDevices {
+            let keyExists = dictionary[key+1] != nil
             if( keyExists ) {
-                deviceIdMenuNames.append([String(key),""])
+                deviceIdMenuNames.append([String(key+1),""])
             }
         }
     }
@@ -134,45 +136,33 @@ class ConfigViewController: MenuViewController {
             return true
         }
         let name = nameText.text
-        print("Name from configname...\(name)")
+    //    print("Name from configname...\(name)")
         if( (name == "") ) {
-            let alert = UIAlertView();
-            alert.title = "Error"
-            alert.message = "Device name is empty"
-            alert.addButtonWithTitle("Ok")
-            alert.show()
+            dbOperation.showAlert(self, message: "Device name is empty")
             return false
         }
         let deviceId = deviceIdMenu.getSelectedText()
-        print("deviceId from configname...\(deviceId)")
+      //  print("deviceId from configname...\(deviceId)")
         if( (deviceId == "") ) {
-            let alert = UIAlertView();
-            alert.title = "Error"
-            alert.message = "Device id is empty"
-            alert.addButtonWithTitle("Ok")
-            alert.show()
+            dbOperation.showAlert(self, message: "Device id is empty")
             return false
         }
         let deviceType = deviceTypeIconMenu.getSelectedText()
-        print("deviceType from configname...\(deviceType)")
+      //  print("deviceType from configname...\(deviceType)")
         if( (deviceType == "") ) {
-            let alert = UIAlertView();
-            alert.title = "Error"
-            alert.message = "Type is not selected"
-            alert.addButtonWithTitle("Ok")
-            alert.show()
+            dbOperation.showAlert(self, message: "Type is not selected")
             return false
         }
         return true
     }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("prepareForSegue.....\(segue.identifier)"+roomDeviceName+"  daotype=\(daoType)")
+    //    print("prepareForSegue.....\(segue.identifier)"+roomDeviceName+"  daotype=\(daoType)")
         if( segue.identifier == "goBackFromSave") {
             let name = nameText.text
             let deviceId = deviceIdMenu.getSelectedText()
             let isdimmable = dimmableBox.isChecked
             let deviceType = deviceTypeIconMenu.getSelectedText()
-            print("device type.......(devicetype.....)\(deviceType)")
+        //    print("device type.......(devicetype.....)\(deviceType)")
             if( daoType == 1 || daoType == 201) {
                 let light:DeviceDAO = DeviceDAO(deviceName: name!, deviceId: Int(deviceId)!, isdimmable: isdimmable, deviceType: deviceType);
                 if( daoType == 1 ) {
@@ -198,7 +188,7 @@ class ConfigViewController: MenuViewController {
     }
     
     func updateDAO(device: DeviceDAO, indexAt: Int) {
-        print("Update..........DAO  ....\(device.deviceName)")
+       // print("Update..........DAO  ....\(device.deviceName)")
         currentDeviceDAO = device
         self.indexAt = indexAt
         deviceIdMenuNames.append([String(currentDeviceDAO.deviceId),""])

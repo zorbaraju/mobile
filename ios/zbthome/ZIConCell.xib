@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
@@ -15,15 +16,15 @@
             <rect key="frame" x="0.0" y="0.0" width="270" height="132"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="x25-ai-w2g">
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="x25-ai-w2g">
                     <rect key="frame" x="0.0" y="0.0" width="270" height="132"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="about.png" translatesAutoresizingMaskIntoConstraints="NO" id="qtJ-fA-7BR">
-                            <rect key="frame" x="0.0" y="0.0" width="270" height="25"/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about.png" translatesAutoresizingMaskIntoConstraints="NO" id="qtJ-fA-7BR">
+                            <rect key="frame" x="123" y="0.0" width="25" height="25"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Raju" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt8-Pa-kkt">
-                            <rect key="frame" x="0.0" y="25" width="270" height="107"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Raju" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt8-Pa-kkt">
+                            <rect key="frame" x="118" y="111" width="34" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -31,6 +32,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="Dt8-Pa-kkt" secondAttribute="bottom" id="27M-ba-79B"/>
+                        <constraint firstItem="qtJ-fA-7BR" firstAttribute="top" secondItem="x25-ai-w2g" secondAttribute="top" id="5vh-Tj-LQa"/>
                         <constraint firstItem="qtJ-fA-7BR" firstAttribute="top" secondItem="x25-ai-w2g" secondAttribute="top" id="8Qj-2B-AcC"/>
                     </constraints>
                 </stackView>
@@ -38,12 +40,18 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="x25-ai-w2g" secondAttribute="bottom" id="Ok8-Uj-EBb"/>
+                <constraint firstItem="x25-ai-w2g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="QTg-4M-l8T"/>
                 <constraint firstItem="x25-ai-w2g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="i4Y-pC-bwf"/>
                 <constraint firstAttribute="trailing" secondItem="x25-ai-w2g" secondAttribute="trailing" id="vZ3-U5-i6V"/>
                 <constraint firstItem="x25-ai-w2g" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yNw-Up-PIC"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="QTg-4M-l8T"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="106" y="27"/>
         </view>
     </objects>

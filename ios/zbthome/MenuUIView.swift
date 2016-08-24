@@ -111,6 +111,9 @@ class MenuUIView: UIView, UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     
+    func setTitleAlignment() {
+        menuButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+    }
     // method to run when table view cell is tapped
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         print("You tapped cell number \(indexPath.row) \(self.menudelegate).")

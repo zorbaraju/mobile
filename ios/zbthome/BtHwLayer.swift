@@ -186,7 +186,7 @@ class BtHWLayer: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         let pwd = "EZORBA1234";
         var buf = [UInt8](pwd.utf8)
         var rawArray:[UInt8] = [0x41,reqid];
-        for var i = 0; i < buf.count; i += 1 {
+        for i in 0 ..< buf.count {
             rawArray.append(buf[i]);
         }
         
@@ -198,14 +198,14 @@ class BtHWLayer: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         let data = NSData(bytes: &rawArray, length: rawArray.count)
         connectingPeripheral.writeValue(data, forCharacteristic: charr, type: CBCharacteristicWriteType.WithoutResponse)
         print("sending request for getting the number of devices")
-        var responseData:[UInt8] = getData(reqid);
+        getData(reqid);
 
     }
     
     var reqinc:UInt8 = 1;
     
     func getReqId()->UInt8 {
-        reqinc++;
+        reqinc += 1;
         return reqinc;
     }
     
@@ -239,7 +239,7 @@ class BtHWLayer: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         let data = NSData(bytes: &rawArray, length: rawArray.count)
         connectingPeripheral.writeValue(data, forCharacteristic: charr, type: CBCharacteristicWriteType.WithoutResponse)
         print("sending request for getting all staus")
-        var responseData:[UInt8] = getData(reqid);
+        let responseData:[UInt8] = getData(reqid);
         return responseData;
     }
 }

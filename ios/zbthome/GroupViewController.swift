@@ -63,7 +63,7 @@ class GroupViewController: UIViewController {
             groupNameText.text = currentGroup.name;
             let devInfo:[[Int]] = currentGroup.devicesArray
             print(" count......\(devInfo.count)")
-            for(var i=0; i<devInfo.count; i += 1) {
+            for i in 0 ..< devInfo.count {
                 let devId = devInfo[i][0]
                 let controllerValue = devInfo[i][1];
                 let selectComp = dictionary[devId]
@@ -92,11 +92,7 @@ class GroupViewController: UIViewController {
         let name = groupNameText.text
         print("Name from configname...\(name)")
         if( (name == "") ) {
-            let alert = UIAlertView();
-            alert.title = "Error"
-            alert.message = "Group name is empty"
-            alert.addButtonWithTitle("Ok")
-            alert.show()
+            dbOperation.showAlert(self, message: "Group name is empty")
             return false
         }
         return true
@@ -108,7 +104,7 @@ class GroupViewController: UIViewController {
             let grpDao:GroupDAO = GroupDAO( name: groupNameText.text!);
             
             let numComps = devicesView.arrangedSubviews.count
-            for (var i=0; i<numComps; i += 1) {
+            for i in 0 ..< numComps {
                 let selComp = devicesView.arrangedSubviews[i] as! SelectDeviceView
                 if ( selComp.isCompSelected() ) {
                     let devInfo:[Int] = [selComp.deviceDAO.deviceId, selComp.getControllerValue()]
@@ -127,7 +123,7 @@ class GroupViewController: UIViewController {
     }
     
     func updateDAO(group: GroupDAO, indexAt:Int) {
-        print("Update..........DAO  ....\(group.name)")
+      //  print("Update..........DAO  ....\(group.name)")
         currentGroup = group
         self.indexAt = indexAt
     }
