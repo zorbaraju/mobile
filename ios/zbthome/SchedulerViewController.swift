@@ -10,37 +10,31 @@ import UIKit
 
 class SchedulerViewController: MenuViewController {
     
-    @IBOutlet var scrollView: UIScrollView!
-    @IBOutlet var deviceView: UIStackView!
-    
-    @IBOutlet var day1box: CheckBoxView!
-    @IBOutlet var day2box: CheckBoxView!
     @IBOutlet var startTimeText: UITextField!
     @IBOutlet var schedularNameText: UITextField!
-    
     @IBOutlet var repeatType: MenuUIView!
     @IBOutlet var quickDaysView: UIStackView!
-    var roomName:String!
-    var types:String!
-
-    let cellReuseIdentifier = "cell"
-    
+    @IBOutlet var schedularTitleLabel: UILabel!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var deviceView: UIStackView!
+    @IBOutlet var day1box: CheckBoxView!
+    @IBOutlet var day2box: CheckBoxView!
+    @IBOutlet var day3box: CheckBoxView!
+    @IBOutlet var day4box: CheckBoxView!
+    @IBOutlet var day5box: CheckBoxView!
+    @IBOutlet var day6box: CheckBoxView!
+    @IBOutlet var day7box: CheckBoxView!
     var daysBox:[CheckBoxView] = [CheckBoxView]()
     
-    @IBOutlet var schedularTitleLabel: UILabel!
+    var roomName:String!
     var currentScheduler:SchedulerDAO!
     var indexAt:Int = -1
-    
+    let cellReuseIdentifier = "cell"
     var repeatTypeMenuNames:[[String]] = [
-        ["once","light_off.png"],
-        ["Daily","fan_off.png"],
-        ["Weekly","fan_off.png"]
-
+        ["once",""],
+        ["Daily",""],
+        ["Weekly",""]
     ]
-
-    
-    
-    
     let dbOperation:DBOperation = DBOperation.getInstance()
     
     
@@ -62,11 +56,11 @@ class SchedulerViewController: MenuViewController {
         quickDaysView.hidden = true
         daysBox.append(day1box);
         daysBox.append(day2box);
-        /*daysBox.append(day3box);
+        daysBox.append(day3box);
         daysBox.append(day4box);
         daysBox.append(day5box);
         daysBox.append(day6box);
-        daysBox.append(day7box);*/
+        daysBox.append(day7box);
         populateDevices();
         
     }
@@ -74,7 +68,6 @@ class SchedulerViewController: MenuViewController {
     func populateDevices() {
         var dictionary = Dictionary<Int, SelectDeviceView>()
         let lights:[DeviceDAO] = dbOperation.getLights(roomName);
-        print("lightcount......\(lights.count)")
         for i in 0 ..< lights.count {
             let selectDeviceComp = SelectDeviceView(frame: deviceView.bounds, deviceDAO: lights[i]);
             deviceView.addArrangedSubview(selectDeviceComp)
@@ -98,9 +91,6 @@ class SchedulerViewController: MenuViewController {
                 quickDaysView.hidden = false
              enabledaysinView()
             }
-            
-            
-            //print("types.......\(repeatType.setSelecteditem(currentScheduler.repeatType))")
             startTimeText.text = currentScheduler.startTime;
             let devInfo:[[Int]] = currentScheduler.devicesArray
             print(" count......\(devInfo.count)")
@@ -108,14 +98,13 @@ class SchedulerViewController: MenuViewController {
                 let devId = devInfo[i][0]
                 let controllerValue = devInfo[i][1];
                 let selectComp = dictionary[devId]
-                print(" devid.........\(devId)...value...\(controllerValue)")
-                
                 selectComp?.selectComp(true)
                 selectComp?.setControllerValue(controllerValue)
             }
         }
         
     }
+    
     func enabledaysinView(){
         let charOne:Character = "1"
         let isHavingDaysEnabled = (currentScheduler.repeatValue != "")
@@ -124,14 +113,12 @@ class SchedulerViewController: MenuViewController {
             for i in currentScheduler.repeatValue.characters {
                 print(i)
                 let checked = (i == charOne)
-                if( index<daysBox.count) {
-                    daysBox[index].isChecked = checked
-                }
+                daysBox[index].isChecked = checked
                 index += 1
             }
-
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -152,7 +139,6 @@ class SchedulerViewController: MenuViewController {
             return true
         }
         let name = schedularNameText.text
-        print("Name from configname...\(name)")
         if( (name == "") ) {
             dbOperation.showAlert(self, message: "Schedular name is empty")
             return false
@@ -161,11 +147,7 @@ class SchedulerViewController: MenuViewController {
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        print("From GrpupViewController seqgueid...\(segue.identifier)")
         if( segue.identifier == "saveSegueId") {
-        types = "5";
-            print("repea type............\(repeatType.getSelectedText())")
-            print("starttiem............\(startTimeText.text)")
             let schedularDao:SchedulerDAO = SchedulerDAO( name: schedularNameText.text! , repeatType: (repeatType.getSelectedText()), startTime: (startTimeText.text!), repeatValue: (repeatType.getSelectedText()));
             
             let numComps = deviceView.arrangedSubviews.count
@@ -174,7 +156,6 @@ class SchedulerViewController: MenuViewController {
                 if ( selComp.isCompSelected() ) {
                     let devInfo:[Int] = [selComp.deviceDAO.deviceId, selComp.getControllerValue()]
                     schedularDao.devicesArray.append(devInfo)
-                    print(" devid.....\(selComp.deviceDAO.deviceId) and cvalue...\(selComp.getControllerValue())")
                 }
                 
             }
@@ -196,7 +177,6 @@ class SchedulerViewController: MenuViewController {
     }
     
     func updateDAO(scheduler: SchedulerDAO, indexAt:Int) {
-        print("Update..........DAO  ....\(scheduler.name)")
         currentScheduler = scheduler
         self.indexAt = indexAt
     }
