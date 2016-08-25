@@ -396,6 +396,11 @@
                     <connections>
                         <outlet property="day1box" destination="okJ-TE-3B5" id="5b7-C4-W8w"/>
                         <outlet property="day2box" destination="XPK-b3-C5M" id="Nch-ZZ-BGF"/>
+                        <outlet property="day3box" destination="CzJ-Bb-qUX" id="LyJ-at-9Ug"/>
+                        <outlet property="day4box" destination="WA1-m6-0zY" id="nSl-Ss-FUt"/>
+                        <outlet property="day5box" destination="bEF-MC-aUf" id="glX-Jw-tIf"/>
+                        <outlet property="day6box" destination="Fdo-Xn-fsW" id="GyW-sd-vut"/>
+                        <outlet property="day7box" destination="RPt-29-2tZ" id="EJd-S2-x0N"/>
                         <outlet property="deviceView" destination="t3V-qu-rUM" id="Par-Qo-0wM"/>
                         <outlet property="quickDaysView" destination="XNq-ps-MWh" id="kW6-f1-79i"/>
                         <outlet property="repeatType" destination="unC-57-7bg" id="j4c-h8-QsL"/>
@@ -578,7 +583,7 @@
                                                         <rect key="frame" x="0.0" y="191" width="245" height="34"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
-                                                                <rect key="frame" x="0.0" y="0.0" width="56" height="34"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="205" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
                                                                     <action selector="cancelButton:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="Xds-Hv-DAO"/>
@@ -586,7 +591,7 @@
                                                                 </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
-                                                                <rect key="frame" x="56" y="0.0" width="189" height="34"/>
+                                                                <rect key="frame" x="205" y="0.0" width="40" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>
                                                                     <action selector="addRoomAction:" destination="wcV-Xl-BN4" eventType="touchUpInside" id="0DC-W4-wY2"/>
