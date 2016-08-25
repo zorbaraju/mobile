@@ -31,6 +31,8 @@ class CheckBoxView: UIButton {
         let lFrame = CGRectMake(0, 0, 44, 44);
         frame = lFrame
         self.isChecked = false
+        setTitle("junk", forState: .Normal)
+
     }
     
     func performButtonClicked(target: AnyObject, callback: String) {

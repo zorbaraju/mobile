@@ -9,7 +9,6 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="ZBtHome" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
@@ -90,6 +89,7 @@
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1wE-LY-4P9" secondAttribute="bottom" id="WHp-b6-rdH"/>
                         </constraints>
                     </view>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="homeMenu" destination="fvj-E1-L1t" id="PJJ-2h-3Ne"/>
                         <outlet property="roomMenuView" destination="8dW-S4-RRT" id="mvT-kc-Ent"/>
@@ -102,6 +102,7 @@
                         <segue destination="Vfb-Jf-ebM" kind="show" identifier="GroupSegueId" id="TTY-jV-pL4"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2343" y="-2550"/>
         </scene>
@@ -257,24 +258,24 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Itg-4h-cjD">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="o9H-im-PaV" userLabel="buttonpzanel">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="25"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="o9H-im-PaV" userLabel="buttonpzanel">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hij-l9-iFT">
-                                                <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hij-l9-iFT">
+                                                <rect key="frame" x="0.0" y="0.0" width="25" height="0.0"/>
                                                 <state key="normal" image="cancel.png"/>
                                                 <connections>
                                                     <segue destination="BYZ-38-t0r" kind="show" id="QLf-Zy-qP1"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Adding Scheduler" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8A-h7-h6s">
-                                                <rect key="frame" x="232" y="0.0" width="136" height="25"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Adding Scheduler" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m8A-h7-h6s">
+                                                <rect key="frame" x="232" y="0.0" width="136" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nAw-bW-85Z">
-                                                <rect key="frame" x="575" y="0.0" width="25" height="25"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nAw-bW-85Z">
+                                                <rect key="frame" x="575" y="0.0" width="25" height="0.0"/>
                                                 <state key="normal" image="save.png"/>
                                                 <connections>
                                                     <segue destination="BYZ-38-t0r" kind="show" identifier="saveSegueId" id="zaM-S5-nBZ"/>
@@ -283,56 +284,88 @@
                                         </subviews>
                                     </stackView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Gr-aW-cMV">
-                                        <rect key="frame" x="0.0" y="25" width="600" height="0.0"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bg4-1B-1Zw">
-                                        <rect key="frame" x="0.0" y="25" width="600" height="9"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nq0-N1-jXL">
-                                        <rect key="frame" x="0.0" y="34" width="600" height="21"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="RepeatType" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RQ-ba-Zyt">
-                                                <rect key="frame" x="0.0" y="0.0" width="91" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p2F-ax-IBH">
-                                                <rect key="frame" x="91" y="0.0" width="509" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3f6-T6-VfT">
-                                        <rect key="frame" x="0.0" y="55" width="600" height="21"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="0.0"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Start Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZn-kJ-y9s">
-                                                <rect key="frame" x="0.0" y="0.0" width="80" height="21"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="80" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lL7-3h-nK4">
-                                                <rect key="frame" x="80" y="0.0" width="520" height="21"/>
+                                                <rect key="frame" x="80" y="0.0" width="520" height="0.0"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Devices" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7F-tA-Vxx">
-                                        <rect key="frame" x="0.0" y="76" width="600" height="21"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nq0-N1-jXL">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="RepeatType" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7RQ-ba-Zyt">
+                                                <rect key="frame" x="0.0" y="0.0" width="91" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="unC-57-7bg" customClass="MenuUIView" customModule="ZBtHome">
+                                                <rect key="frame" x="91" y="0.0" width="509" height="30"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XNq-ps-MWh" userLabel="weekDaysView">
+                                        <rect key="frame" x="0.0" y="30" width="600" height="128"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="okJ-TE-3B5" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="0.0" y="0.0" width="86" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XPK-b3-C5M" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="86" y="0.0" width="85" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CzJ-Bb-qUX" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="171" y="0.0" width="86" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WA1-m6-0zY" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="257" y="0.0" width="86" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bEF-MC-aUf" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="343" y="0.0" width="86" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fdo-Xn-fsW" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="429" y="0.0" width="85" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RPt-29-2tZ" customClass="CheckBoxView" customModule="ZBtHome">
+                                                <rect key="frame" x="514" y="0.0" width="86" height="128"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Devices" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A7F-tA-Vxx">
+                                        <rect key="frame" x="0.0" y="158" width="600" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w6S-hy-gX2">
-                                        <rect key="frame" x="0.0" y="97" width="600" height="503"/>
+                                        <rect key="frame" x="0.0" y="158" width="600" height="442"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="t3V-qu-rUM">
                                                 <rect key="frame" x="0.0" y="0.0" width="0.0" height="85"/>
@@ -361,12 +394,15 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="day1box" destination="okJ-TE-3B5" id="5b7-C4-W8w"/>
+                        <outlet property="day2box" destination="XPK-b3-C5M" id="Nch-ZZ-BGF"/>
                         <outlet property="deviceView" destination="t3V-qu-rUM" id="Par-Qo-0wM"/>
+                        <outlet property="quickDaysView" destination="XNq-ps-MWh" id="kW6-f1-79i"/>
+                        <outlet property="repeatType" destination="unC-57-7bg" id="j4c-h8-QsL"/>
                         <outlet property="schedularNameText" destination="Bg4-1B-1Zw" id="uPb-N5-rpk"/>
-                        <outlet property="schedularRepeatTypeText" destination="p2F-ax-IBH" id="DrI-Dm-6tH"/>
                         <outlet property="schedularTitleLabel" destination="m8A-h7-h6s" id="AUd-ad-HDx"/>
                         <outlet property="scrollView" destination="w6S-hy-gX2" id="nGv-VO-miD"/>
-                        <outlet property="startTimeText" destination="lL7-3h-nK4" id="Saj-k6-Day"/>
+                        <outlet property="startTimeText" destination="lL7-3h-nK4" id="AOA-vC-IlW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KUA-Xu-Osj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -541,7 +577,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IXS-a5-0hi" userLabel="buttonPanel">
                                                         <rect key="frame" x="0.0" y="191" width="245" height="34"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vhp-iQ-ks0">
                                                                 <rect key="frame" x="0.0" y="0.0" width="56" height="34"/>
                                                                 <state key="normal" title="Cancel"/>
                                                                 <connections>
@@ -549,7 +585,7 @@
                                                                     <segue destination="BYZ-38-t0r" kind="show" identifier="cancelIdentifier" id="3p3-ea-ADJ"/>
                                                                 </connections>
                                                             </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
+                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K81-QF-phk">
                                                                 <rect key="frame" x="56" y="0.0" width="189" height="34"/>
                                                                 <state key="normal" title="Save"/>
                                                                 <connections>
