@@ -11,4 +11,6 @@ import UIKit
 class MenuViewController: UIViewController {
     func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
     }
+    func iconClicked(tag:Int, rowIndex: Int) {
+    }
 }

@@ -13,6 +13,9 @@ import SystemConfiguration.CaptiveNetwork
 
 class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
     
+    var lpDeviceDAO:DeviceDAO!
+    var lpSelIndex:Int!
+
     var selectedRoomDeviceName:String!;
     var lightsComp:CollapseView!;
     var devicesComp:CollapseView!;
@@ -53,17 +56,17 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
                 constant: 0))
         
         // Do any additional setup after loading the view, typically from a nib.
-        lightsComp = CollapseView(frame: verticalview.bounds, title:"Lights",tag:1);
-        lightsComp.registerListeners(self, methodName: "buttonClicked:");
+        lightsComp = CollapseView(frame: verticalview.bounds, title:"Lights",tag:1, controller: self);
+        lightsComp.registerListeners(self, methodName: "buttonClicked:" , iconTappedName: "iconTapped:");
         verticalview.addArrangedSubview(lightsComp)
-        devicesComp = CollapseView(frame: verticalview.bounds, title:"Devices",tag:2);
-        devicesComp.registerListeners(self, methodName: "buttonClicked:");
+        devicesComp = CollapseView(frame: verticalview.bounds, title:"Devices",tag:2, controller: self);
+        devicesComp.registerListeners(self, methodName: "buttonClicked:" , iconTappedName: "iconTapped:");
         verticalview.addArrangedSubview(devicesComp)
-        groupsComp = CollapseView(frame: verticalview.bounds, title:"Groups",tag:3);
-        groupsComp.registerListeners(self, methodName: "buttonClicked:");
+        groupsComp = CollapseView(frame: verticalview.bounds, title:"Groups",tag:3, controller: self);
+        groupsComp.registerListeners(self, methodName: "buttonClicked:" , iconTappedName: "iconTapped:");
         verticalview.addArrangedSubview(groupsComp)
-        schedulersComp = CollapseView(frame: verticalview.bounds, title:"Schedulers",tag:4);
-        schedulersComp.registerListeners(self, methodName: "buttonClicked:");
+        schedulersComp = CollapseView(frame: verticalview.bounds, title:"Schedulers",tag:4, controller: self);
+        schedulersComp.registerListeners(self, methodName: "buttonClicked:" , iconTappedName: "iconTapped:");
         verticalview.addArrangedSubview(schedulersComp)
         
         constructRoomList();
@@ -133,15 +136,15 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         devicesComp.refresh();
         groupsComp.refresh();
         schedulersComp.refresh();
-    //    print("populating roompanel for the room devicename>\(lastSelectedRoom.deviceName)")
-        
-        self.bthw.initDevice(lastSelectedRoom.deviceName)
-         self.refreshWithDevice()
-      
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            // do some task
+            dispatch_async(dispatch_get_main_queue(), {
+                self.bthw.initDevice(lastSelectedRoom.deviceName)
+                self.refreshWithDevice()
+            });
+        });
     }
-    
-    
+ 
     func refreshWithDevice() {
         
         print("Checking for connection11 ")
@@ -150,21 +153,30 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
             let numDevices = self.bthw.getNumberOfDevices()
             print("NUmber of devices.....\(numDevices)")
             var statuses:[UInt8] = self.bthw.getAllStatus()
-             self.bthw.closeDevice()
+            // self.bthw.closeDevice()
             if (statuses.count == 0) {
                 print("No status")
                 return;
             }
-            for i in 3 ..< statuses.count {
-                let deviceid = i-3;
-                let status = statuses[i];
+            let lights:[DeviceDAO] = dbOperation.getLights(selectedRoomDeviceName);
+            print("lightcount......\(lights.count)")
+            for i in 0 ..< lights.count {
+                print("Light name...\(lights[i].deviceName) id..\(lights[i].deviceId)")
+                let lightDAO = lights[i];
+                let deviceid = lightDAO.deviceId;
+                print("Status......\(deviceid)..")
+                let status = statuses[3+deviceid-1];
                 print("Status......\(deviceid)....\(status)")
+                lightDAO.statusValue = Int(status);
+                dbOperation.updateLight(selectedRoomDeviceName, light: lightDAO, indexAt: i)
+                print("deviceid......\(i)..\(lightsComp)")
+                lightsComp.setCellStatus(i, isOn: status != 0)
             }
-            
         } else {
             print("Not Connected ")
         }
     }
+    
     func constructRoomList() {
         rooms = dbOperation.getRoomList()
         for i in 0 ..< rooms.count {
@@ -240,6 +252,63 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         
     }
    
+    func iconTapped(gestureRecognizer : UILongPressGestureRecognizer){
+        print("hai tap in")
+
+        if (gestureRecognizer.state != UIGestureRecognizerState.Ended){
+            print("hai tap started")
+            return
+        }
+        let cv:UICollectionView = gestureRecognizer.view as! UICollectionView
+        let tag = cv.tag
+        let selindex = lightsComp.getSelectedIndex();
+        print("tag is \(tag) \(selindex)")
+        if( tag == 1) { // for lights
+            let lightDAO = dbOperation.getLights(selectedRoomDeviceName)[selindex];
+            print("tag is \(tag) lightDAO.isdimmable \(lightDAO.isdimmable)")
+            if ( lightDAO.isdimmable ) {
+                
+                lpDeviceDAO = lightDAO
+                lpSelIndex = selindex
+                let sliderDemo = SliderDialog(frame: view.bounds, delegate:self,sliderMethod:"sliderValueDidChange:", value:lightDAO.statusValue);
+                view.addSubview(sliderDemo)
+            }
+        }
+        print("hai i am here at tapped \(selindex)")
+    
+    }
+    
+    func sliderValueDidChange(sender:UISlider)
+    {
+        let newValue = Int(sender.value/1) * 1
+        sender.setValue(Float(newValue), animated: false)
+        print("value......\(newValue) tag \(sender.tag)... dd..\(lpDeviceDAO)....\(lpSelIndex)")
+        self.bthw.setDeviceStatus(sender.tag, value: newValue);
+        dbOperation.updateLight(selectedRoomDeviceName, light: lpDeviceDAO, indexAt: lpSelIndex)
+    }
+
+    
+    override func iconClicked(tag:Int, rowIndex:Int){
+        print("hai i am here at clicked tag=\(tag) rowIndex=\(rowIndex)")
+        if( tag == 1) { // for lights
+            let lightDAO = dbOperation.getLights(selectedRoomDeviceName)[rowIndex];
+            print("Selected room.....\(selectedRoomDeviceName) devid.. \(lightDAO.deviceId)devname\(lightDAO.deviceName)")
+            var revValue = lightDAO.statusValue;
+            if( revValue == 0) {
+                revValue = 9;
+            } else {
+                 revValue = 0;
+            }
+            self.bthw.setDeviceStatus(lightDAO.deviceId, value: revValue);
+            lightsComp.setCellStatus(rowIndex, isOn: revValue != 0)
+            lightDAO.statusValue = revValue;
+            dbOperation.updateLight(selectedRoomDeviceName, light: lightDAO, indexAt: rowIndex)
+        } else if( tag == 2) { // for devices
+            let deviceDAO = dbOperation.getDevices(selectedRoomDeviceName)[rowIndex];
+            print("Selected room.....\(selectedRoomDeviceName) devid.. \(deviceDAO.deviceId)devname\(deviceDAO.deviceName)")
+        }
+    }
+    
     override func menuItemClicked(sourceMenu:UIView, rowIndex: Int) {
        // print("MenuClciekd...\(roomNames.count)....\(rowIndex)");
         printWifi()
@@ -303,15 +372,5 @@ class ViewController: MenuViewController, UIGestureRecognizerDelegate  {
         }
     }
 
-    func backgroundThread(delay: Double = 0.0, background: (() -> Void)? = nil, completion: (() -> Void)? = nil) {
-        dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.rawValue), 0)) {
-            if(background != nil){ background!(); }
-            
-            let popTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC)))
-            dispatch_after(popTime, dispatch_get_main_queue()) {
-                if(completion != nil){ completion!(); }
-            }
-        }
-    }
 }
 
