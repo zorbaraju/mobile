@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource{
+class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
 
     var compArray:[CollapseCompData] = [CollapseCompData]()
     @IBOutlet var collectionView: UICollectionView!
@@ -21,7 +21,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet var contentView: UIView!
     @IBOutlet var rootView: UIStackView!
     var selectedCellIndex:Int = 0;
-    
+    var controller:MenuViewController;
     @IBAction func collapseButton(sender: UIButton) {
         if( isremoved) {
             let image = UIImage(named: "downarrow.png")
@@ -53,17 +53,16 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
     
     override init(frame: CGRect) {
         // 1. setup any properties here
-        
+        self.controller = MenuViewController()
         // 2. call super.init(frame:)
         super.init(frame: frame)
-        
         // 3. Setup view from .xib file
         xibSetup()
     }
     
     required init?(coder aDecoder: NSCoder) {
         // 1. setup any properties here
-        
+        self.controller = MenuViewController()
         // 2. call super.init(coder:)
         super.init(coder: aDecoder)
         
@@ -71,14 +70,15 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         xibSetup()
     }
     
-    init(frame: CGRect, title: String, tag: Int) {
-        
+    init(frame: CGRect, title: String, tag: Int, controller:MenuViewController) {
+        self.controller = controller
         super.init(frame: frame)
         xibSetup()
         plusButton.tag = tag
         minusButton.tag = 100+tag
         middleLabel.text = title
         editButton.tag = 200+tag
+        collectionView.tag = tag
         minusButton.hidden = true;
         editButton.hidden = true;
         
@@ -105,7 +105,7 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.delegate = self
         collectionView.registerClass(ZIconCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.backgroundColor = UIColor.whiteColor()
-
+        
         return view
     }
     
@@ -114,12 +114,14 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         middleLabel.text = title
     }
     
-    func registerListeners(delegate:AnyObject, methodName:String) {
+    func registerListeners(delegate:AnyObject, methodName:String, iconTappedName:String) {
         plusButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
         minusButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
         editButton.addTarget(delegate, action: Selector(methodName), forControlEvents: .TouchUpInside)
-
-    print("register")
+        let lpgr : UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: delegate, action: Selector(iconTappedName))
+        self.collectionView.addGestureRecognizer(lpgr)
+        
+        print("register")
     }
    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -134,11 +136,27 @@ class CollapseView: UIView ,UICollectionViewDelegate, UICollectionViewDelegateFl
         //return devicesArray[indexPath.row]
     }
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ZIconCell
         selectedCellIndex = indexPath.row
-  //      print("Selected cellindex.....\(selectedCellIndex)")
+        print("Selected cellindex.....\(selectedCellIndex)")
         minusButton.hidden = false;
         editButton.hidden = false;
+        self.controller.iconClicked(collectionView.tag, rowIndex: selectedCellIndex)
+    }
+    
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ZIconCell
+        //cell.toggleSelected()
+        print("Deselection cellindex.....\(indexPath.row)")
+        minusButton.hidden = true;
+        editButton.hidden = true;
+    }
+    
+    func setCellStatus(rowIndex:Int, isOn:Bool) {
+        var indexPath = NSIndexPath(forRow: rowIndex, inSection: 0)
+        print(" dsdsds....\(collectionView.numberOfSections()).....\(collectionView.numberOfItemsInSection(0))... rowindex...\(rowIndex)")
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ZIconCell
+        cell.setOn(isOn)
     }
 
     func clearAllDevices() {

@@ -14,6 +14,7 @@ class DeviceDAO: NSObject, NSCoding {
     var deviceId:Int = -1
     var isdimmable:Bool = true
     var deviceType:String = ""
+    var statusValue:Int = 0;
     
     init(deviceName:String, deviceId:Int, isdimmable:Bool, deviceType:String) {
         self.deviceName = deviceName
@@ -28,6 +29,7 @@ class DeviceDAO: NSObject, NSCoding {
         deviceId = decoder.decodeObjectForKey("deviceId") as! Int
         isdimmable = decoder.decodeObjectForKey("isdimmable") as! Bool
         deviceType = decoder.decodeObjectForKey("deviceType") as! String
+        statusValue = decoder.decodeObjectForKey("statusValue") as! Int
     }
     
     internal func encodeWithCoder(coder: NSCoder) {
@@ -35,5 +37,6 @@ class DeviceDAO: NSObject, NSCoding {
         coder.encodeObject(deviceId, forKey: "deviceId")
         coder.encodeObject(isdimmable, forKey: "isdimmable")
         coder.encodeObject(deviceType, forKey: "deviceType")
+        coder.encodeObject(statusValue, forKey: "statusValue")
     }
 }

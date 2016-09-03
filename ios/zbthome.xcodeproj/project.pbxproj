@@ -11,6 +11,8 @@
 		DE0B0BD11D4B82DD00522B12 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = DE0B0BD01D4B82DD00522B12 /* help.html */; };
 		DE1BD7121D5DDABC002D8162 /* GroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */; };
 		DE86CCAC1D556F6400037E3B /* DbOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE86CCAB1D556F6400037E3B /* DbOperation.swift */; };
+		DEA699211D7AF91000A00551 /* SliderDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEA699201D7AF91000A00551 /* SliderDialog.swift */; };
+		DEA699231D7AF93D00A00551 /* SliderDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = DEA699221D7AF93D00A00551 /* SliderDialog.xib */; };
 		DEAFADAC1D5DD38F0078C964 /* SchedulerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */; };
 		DEB3D5EB1D4C550700D6379A /* HtmlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */; };
 		DEB3D5ED1D4C583500D6379A /* about.html in Resources */ = {isa = PBXBuildFile; fileRef = DEB3D5EC1D4C583500D6379A /* about.html */; };
@@ -125,6 +127,8 @@
 		DE0B0BD01D4B82DD00522B12 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
 		DE1BD7111D5DDABC002D8162 /* GroupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupViewController.swift; sourceTree = "<group>"; };
 		DE86CCAB1D556F6400037E3B /* DbOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DbOperation.swift; sourceTree = "<group>"; };
+		DEA699201D7AF91000A00551 /* SliderDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderDialog.swift; sourceTree = "<group>"; };
+		DEA699221D7AF93D00A00551 /* SliderDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SliderDialog.xib; sourceTree = "<group>"; };
 		DEAFADAB1D5DD38F0078C964 /* SchedulerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchedulerViewController.swift; sourceTree = "<group>"; };
 		DEB3D5EA1D4C550700D6379A /* HtmlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HtmlViewController.swift; sourceTree = "<group>"; };
 		DEB3D5EC1D4C583500D6379A /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
@@ -266,6 +270,7 @@
 		DEBE52B91D45F02F001DE4DA /* zbthome */ = {
 			isa = PBXGroup;
 			children = (
+				DEA699221D7AF93D00A00551 /* SliderDialog.xib */,
 				DECFD6941D503B1000F193F7 /* images */,
 				DECFD6951D503B9C00F193F7 /* Main.storyboard */,
 				DEF22D191D644AD900B88E98 /* IconMenu.xib */,
@@ -304,6 +309,7 @@
 				DEBE52C61D45F02F001DE4DA /* Info.plist */,
 				DE0B0BD01D4B82DD00522B12 /* help.html */,
 				DE86CCAB1D556F6400037E3B /* DbOperation.swift */,
+				DEA699201D7AF91000A00551 /* SliderDialog.swift */,
 			);
 			path = zbthome;
 			sourceTree = "<group>";
@@ -423,6 +429,7 @@
 					DEBE52B61D45F02F001DE4DA = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 7RX6XZH94X;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -460,6 +467,7 @@
 				DECFD65F1D503AB700F193F7 /* dbulb_on.png in Resources */,
 				DECFD6711D503AB700F193F7 /* led_on.png in Resources */,
 				DECFD6591D503AB700F193F7 /* cfl_on.png in Resources */,
+				DEA699231D7AF93D00A00551 /* SliderDialog.xib in Resources */,
 				DECFD66D1D503AB700F193F7 /* group.png in Resources */,
 				DECFD6531D503AB700F193F7 /* cancel.png in Resources */,
 				DECFD6571D503AB700F193F7 /* cctvoutdoor_on.png in Resources */,
@@ -555,6 +563,7 @@
 				DEB3D5EF1D4C749C00D6379A /* DiscoveryViewController.swift in Sources */,
 				DE0227BD1D4E757A005EE857 /* ZIconCell.swift in Sources */,
 				DEB3F1461D60915D00AC1A3A /* CheckBoxView.swift in Sources */,
+				DEA699211D7AF91000A00551 /* SliderDialog.swift in Sources */,
 				DEC3C0D41D509FE30082F3E3 /* FullCollectionView.swift in Sources */,
 				DEBF0BA81D574EBB00FEE17C /* SchedulerDAO.swift in Sources */,
 				DEBF0BA61D574EAF00FEE17C /* GroupDAO.swift in Sources */,
@@ -686,6 +695,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ezorba.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -698,6 +708,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ezorba.mobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

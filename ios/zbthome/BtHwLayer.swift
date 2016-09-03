@@ -242,4 +242,13 @@ class BtHWLayer: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         let responseData:[UInt8] = getData(reqid);
         return responseData;
     }
+    
+    func setDeviceStatus(devId:Int, value:Int) {
+        let reqid = getReqId();
+        var rawArray:[UInt8] = [35,reqid,1, UInt8(devId), UInt8(value)];
+        let data = NSData(bytes: &rawArray, length: rawArray.count)
+        connectingPeripheral.writeValue(data, forCharacteristic: charr, type: CBCharacteristicWriteType.WithoutResponse)
+        print("sending request for getting the number of devices")
+        var responseData:[UInt8] = getData(reqid);
+    }
 }
