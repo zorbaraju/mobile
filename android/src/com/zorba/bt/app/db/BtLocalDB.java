@@ -253,16 +253,6 @@ public class BtLocalDB {
 		return var4;
 	}
 
-	public String getPassword() {
-		return this.dbInfo.getString("verifypasswd", CommonUtils.APPPASSWORD);
-	}
-
-	public void setPassword(String pwd) {
-		Editor var2 = this.dbInfo.edit();
-		var2.putString("verifypasswd", pwd);
-		var2.commit();
-	}
-
 	public String[] getGroups(String var1) {
 		String var2 = this.dbInfo.getString("Group" + var1, "");
 		String[] var3 = new String[0];
@@ -518,5 +508,16 @@ public class BtLocalDB {
 		Editor edit = this.dbInfo.edit();
 		edit.putBoolean(devNameplusDevId, isEnabled);
 		edit.commit();
+	}
+	
+	public void setDevicePwd(String devPwd) {
+		Editor edit = this.dbInfo.edit();
+		edit.putString("devicepwd", devPwd);
+		edit.commit();
+		System.out.println("Devicepwd..."+devPwd);
+	}
+	
+	public String getDevicePwd() {
+		return this.dbInfo.getString("devicepwd", "");
 	}
 }

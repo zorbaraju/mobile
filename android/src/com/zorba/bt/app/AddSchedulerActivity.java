@@ -172,7 +172,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
    private void repeatTypeChanged() {
       MyListMenu var2 = (MyListMenu)this.findViewById(R.id.repeattype);
       TableRow var1 = (TableRow)this.findViewById(R.id.weeklyselection);
-      if(var2.getSelectedItemPosition() == 2) {
+      if(var2.getSelectedItemPosition() != 1) {
          var1.setVisibility(0);
       } else {
          var1.setVisibility(8);
@@ -187,21 +187,25 @@ public class AddSchedulerActivity extends ZorbaActivity {
       TableRow weeklyRows = (TableRow)this.findViewById(R.id.weeklyselection);
       int repeatType = repeatMenu.getSelectedItemPosition();
       int repeatTypeValue = 0;
-      if(repeatType == 1) {
-    	  repeatTypeValue = 0x7f;
-      } else if(repeatType == 2) {
+      int daybits = 0;
+      if( repeatType == 0) {
+    	  repeatTypeValue = 1;
+      }
+      if( repeatType == 1) {
+    	  daybits = 0xfe;
+      } else {
          int numdays = weeklyRows.getChildCount();
          
-         for(int dayindex = 0; dayindex < numdays; ++dayindex) {
+         for(int dayindex = numdays-1; dayindex >=0; --dayindex) {
             if(((CustomCheckBox)weeklyRows.getChildAt(dayindex)).isDaySelected()) {
-            	repeatTypeValue |= 1;
+            	daybits |= 1;
             } else {
-            	repeatTypeValue |= 0;
+            	daybits |= 0;
             }
-            repeatTypeValue <<= 1;
+            daybits <<= 1;
          }
-         repeatTypeValue = repeatTypeValue >> 1;
       }
+      repeatTypeValue |= daybits;
       boolean isNew = editSchedulerName==null;
       
       String name = CommonUtils.isValidName(this, schedNameText.getText().toString());

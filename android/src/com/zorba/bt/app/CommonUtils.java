@@ -9,12 +9,16 @@ import android.content.DialogInterface.OnClickListener;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
 import android.widget.ListAdapter;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -35,11 +39,23 @@ public class CommonUtils {
    public static final String MENUITEM_EXIT = "Exit";
    public static final String MENUITEM_HELP = "Help";
    public static final String MENUITEM_SENDLOG = "Send Log";
-   public static final String APPPASSWORD = "EZORBA1234";
-   public static final String DEVICEPASSWORD = "EZORBA1234";
+   //public static final String APPPASSWORD = "EZORBA1234";
+   //public static final String DEVICEPASSWORD = "EZORBA1234";
    
    public static NetworkInfo networkInfo = null;
 
+   private static CommonUtils instance = null;
+   
+   private static StringBuffer logContentBuf = null;
+   private CommonUtils() {
+	   logContentBuf = new StringBuffer();
+   }
+   
+   public static CommonUtils getInstance() {
+	   if( instance == null)
+		   instance = new CommonUtils();
+	   return instance;
+   }
 	public static void AlertBox(final Activity var0, final String var1, final String var2) {
 		var0.runOnUiThread(new Runnable() {
 			public void run() {
@@ -368,5 +384,20 @@ public class CommonUtils {
 		}
 		System.out.println("Enabling network ipaddr>>"+ipaddr);
 		return ipaddr;
+	}
+	
+	public void writeLog(String mesg) {
+		 logContentBuf.append(mesg+"\n");
+		 System.out.println("mesg..."+ logContentBuf.toString());
+	}
+	
+	public String closeLog() {
+		   return logContentBuf.toString();
+		
+	}
+	
+	public void deleteLog() {
+		logContentBuf = null;
+		instance = null;
 	}
 }

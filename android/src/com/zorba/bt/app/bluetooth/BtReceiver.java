@@ -73,7 +73,7 @@ public class BtReceiver extends Thread {
 			   
 			   int cmd = readBytes[0];
 			   int reqno = readBytes[1];
-			   hwLayer.printBytes("Read..", readBytes);
+			   hwLayer.printBytes("Read", readBytes);
 			   byte []data = new byte[numRead-2];
 				for(int i=0; i<data.length; i++)
 					data[i] = readBytes[i+2];

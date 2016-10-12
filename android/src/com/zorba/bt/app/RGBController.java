@@ -296,7 +296,7 @@ public class RGBController implements ConnectionListener{
 			
 			@Override
 			public Object runTask(Object params) {
-				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getSSID(), selectedRoom.getIpAddress(), BtLocalDB.getInstance(activity).getPassword());
+				String error = btHwLayer.initDevice(selectedRoom.getAddress(), selectedRoom.getSSID(), selectedRoom.getIpAddress(), BtLocalDB.getInstance(activity).getDevicePwd());
 				if (error != null) {
 					CommonUtils.AlertBox(activity, "No connection", error);
 				}
