@@ -26,6 +26,8 @@ import java.util.UUID;
 
 public class BtHwLayer {
 
+	
+	private final static int NAMELEGTH = 12;
 	// setting ip address
 	// request>>> {: reqid ssid32 \0 pass64 \0 ipaddr \0}
 	// response>>> {: reqid }
@@ -316,8 +318,8 @@ public class BtHwLayer {
 		try {
 			byte[] response = verifyPwd(pass);
 			String respstr = new String(response).toLowerCase();
-			if( respstr.equals("fail")) {
-				return "Autherization is failed";
+			if( respstr.contains("fail")) {
+				return "Autherization is failed "+respstr;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -441,7 +443,9 @@ public class BtHwLayer {
 		for (int i = 0; i < bytes.length; i++) {
 			resp += " " + Integer.toHexString(bytes[i]);
 		}
-		System.out.println("Data:(" + tag + " " + bytes.length + "): " + resp);
+		String msg = "Data:" + tag + " \t" + String.format("%03d", bytes.length) + ": " + resp;
+		System.out.println(msg);
+		CommonUtils.getInstance().writeLog(msg);
 	}
 
 	private byte[] getData(int reqno) {
@@ -462,9 +466,9 @@ public class BtHwLayer {
 
 	}
 
-	private void writeBytes(byte[] wbytes) {
+	public void writeBytes(byte[] wbytes) {
 		if (isWifi()) {
-			long current = System.currentTimeMillis();
+			/*long current = System.currentTimeMillis();
 			if( current - lastsenttime < 1) {
 				System.out.println("Waiting for 1 ms before writing the data to wifi device");
 				try {
@@ -473,14 +477,14 @@ public class BtHwLayer {
 				}
 			} else {
 				System.out.println(" no Waiting for 1 ms");
-			}
+			}*/
 			sender.sendCmd(wbytes);
 			lastsenttime = System.currentTimeMillis();
 		} else {
 			int numBytes = wbytes.length;
 			int numSent = 0;
 			int remainingBytes = numBytes;
-			printBytes("Write Be TO SENT", wbytes);
+			printBytes("Write to be sent", wbytes);
 			while (remainingBytes > 0) {
 				int numToBeSent = 20;
 				if (remainingBytes < 20)
@@ -490,6 +494,7 @@ public class BtHwLayer {
 					sendingBytes[i] = wbytes[numSent + i];
 				charr.setValue(sendingBytes);
 				mBluetoothGatt.writeCharacteristic(charr);
+				printBytes("WriteP", sendingBytes);
 				numSent += numToBeSent;
 				remainingBytes -= numToBeSent;
 				System.out.println("Numtobesent.." + numToBeSent + " numSent=" + numSent + " remain=" + remainingBytes
@@ -518,10 +523,16 @@ public class BtHwLayer {
 		}
 		
 		if (data == null) {
-			throw new Exception("No data from device");
+			CommonUtils.getInstance().writeLog(NODATA);
+			throw new Exception(NODATA);
 		} else {
 			return data;
 		}
+	}
+	
+	public void sendRawBytes(byte writeBytes[]) throws Exception {
+		this.checkConnection();
+		processReqWithRetries(writeBytes[1], writeBytes);
 	}
 	
 	public void setWifiAPMode(boolean isAP) throws Exception {
@@ -532,7 +543,7 @@ public class BtHwLayer {
 			mode = 'A';
 		}
 		byte[] writeBytes = new byte[] { 'E', reqno, mode };
-		//byte[] data = processReqWithRetries(reqno, writeBytes);
+		byte[] data = processReqWithRetries(reqno, writeBytes);
 	}
 	
 	public int getNumberOfDevices() throws Exception {
@@ -576,7 +587,7 @@ public class BtHwLayer {
 	public byte[] setIpAddress(String ssid, String passwd, String ipaddress) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		System.out.println("ssid="+ssid+" passwd="+passwd + " ipaddress" + ipaddress);
+		System.out.println("setting ip addresse ssid="+ssid+" passwd="+passwd + " ipaddress" + ipaddress);
 		byte ipbytes[] = ipaddress.getBytes();
 		String ssidinfo = ssid + '\0' + passwd + '\0';
 		byte[] ssidinfobytes = ssidinfo.getBytes();
@@ -650,7 +661,21 @@ public class BtHwLayer {
 			processReqWithRetries(reqno, both);
 		}
 	}
-
+	
+	public byte[] getAlarm(byte schedulerindex) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { '!', reqno, schedulerindex };
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public void sendDeleteAlarmCommandToDevice(int schedid) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 45, reqno, (byte)schedid };
+		processReqWithRetries(reqno, writeBytes);
+	}
+	
 	public void sendRGBToDevice(byte i, byte r, byte g, byte b) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
@@ -676,13 +701,6 @@ public class BtHwLayer {
 		for (int i=0; i<devidandstatuses.length; i++) {
 			writeBytes[3+i] = (byte)devidandstatuses[i];
 		}
-		processReqWithRetries(reqno, writeBytes);
-	}
-
-	public void sendDeleteAlarmCommandToDevice(int schedid) throws Exception {
-		this.checkConnection();
-		byte reqno = this.getNextReqno();
-		byte[] writeBytes = new byte[] { (byte) 45, reqno, (byte)schedid };
 		processReqWithRetries(reqno, writeBytes);
 	}
 
@@ -714,11 +732,11 @@ public class BtHwLayer {
 	}
 
 	public void setDeviceType(int devid, boolean isDimmable) throws Exception {
-		/*this.checkConnection();
+		this.checkConnection();
 		byte reqno = this.getNextReqno();
 		byte type = (byte)(isDimmable?2:1);
 		byte[] writeBytes = new byte[] { (byte) 40, reqno, (byte)devid, type };
-		processReqWithRetries(reqno, writeBytes);*/
+		processReqWithRetries(reqno, writeBytes);
 	}
 
 	public boolean shouldReconnect(String ipAddressOrDevAddress) {
@@ -739,11 +757,142 @@ public class BtHwLayer {
 
 	private boolean isWifi() {
 		boolean isWifi = ipAddress != null && !ipAddress.isEmpty() && !ipAddress.equals("null");
-		System.out.println("ipaddress......." + ipAddress+"  iswifi>>>>"+isWifi);
 		return isWifi;
 	}
 
 	public void setConnectionListener(ConnectionListener connectionListener) {
 		this.connectionListener = connectionListener;
+	}
+	
+	public void setRoomName(String roomName) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		roomName = roomName.trim();
+		while( roomName.length()<NAMELEGTH)
+			roomName = roomName + " ";
+		
+		System.out.println("roomName=<"+roomName+"> length="+roomName.length());
+		
+		byte[] roomNameBytes = roomName.getBytes();
+		byte roomNameSetBytes[] = new byte[1 + 1 + roomNameBytes.length ];
+		roomNameSetBytes[0] = 0x53;
+		roomNameSetBytes[1] = reqno;
+		for (int index = 0; index < roomNameBytes.length; index++)
+			roomNameSetBytes[2 + index] = roomNameBytes[index];
+		processReqWithRetries(reqno, roomNameSetBytes);
+	}
+	
+	public byte[] getRoomName() throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 0x56, reqno };
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public void setSwitchName(byte devid, String switchName) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		switchName = switchName.trim();
+		while( switchName.length()<NAMELEGTH)
+			switchName = switchName + " ";
+		
+		System.out.println("switchName=<"+switchName+"> length="+switchName.length());
+		
+		byte[] switchNameBytes = switchName.getBytes();
+		byte switchNameSetBytes[] = new byte[1 + 1 + 1 + switchNameBytes.length ];
+		switchNameSetBytes[0] = 0x5D;
+		switchNameSetBytes[1] = reqno;
+		switchNameSetBytes[2] = devid;
+		for (int index = 0; index < switchNameBytes.length; index++)
+			switchNameSetBytes[3 + index] = switchNameBytes[index];
+		processReqWithRetries(reqno, switchNameSetBytes);
+	}
+	
+	public byte[] getSwitchName(byte devid) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 0x5E, reqno, devid };
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public void setGroupName(byte grpindex, String grpName) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		grpName = grpName.trim();
+		while( grpName.length()<NAMELEGTH)
+			grpName = grpName + " ";
+		
+		System.out.println("grpName=<"+grpName+"> length="+grpName.length());
+		
+		byte[] grpNameBytes = grpName.getBytes();
+		byte grpNameSetBytes[] = new byte[1 + 1 + 1 + grpNameBytes.length ];
+		grpNameSetBytes[0] = 0x55;
+		grpNameSetBytes[1] = reqno;
+		grpNameSetBytes[2] = grpindex;
+		for (int index = 0; index < grpNameBytes.length; index++)
+			grpNameSetBytes[3 + index] = grpNameBytes[index];
+		processReqWithRetries(reqno, grpNameSetBytes);
+	}
+	
+	public byte[] getGroupName(byte grpindex) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 0x58, reqno, grpindex };
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public void setSchedulerName(byte schedulerindex, String schedulerName) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		schedulerName = schedulerName.trim();
+		while( schedulerName.length()<NAMELEGTH)
+			schedulerName = schedulerName + " ";
+		
+		System.out.println("schedulerName=<"+schedulerName+"> length="+schedulerName.length());
+		
+		byte[] schedulerNameBytes = schedulerName.getBytes();
+		byte schedulerNameSetBytes[] = new byte[1 + 1 + 1 + schedulerNameBytes.length ];
+		schedulerNameSetBytes[0] = 0x54;
+		schedulerNameSetBytes[1] = reqno;
+		schedulerNameSetBytes[2] = schedulerindex;
+		for (int index = 0; index < schedulerNameBytes.length; index++)
+			schedulerNameSetBytes[3 + index] = schedulerNameBytes[index];
+		processReqWithRetries(reqno, schedulerNameSetBytes);
+	}
+	
+	public byte[] getSchedulerName(byte schedulerindex) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 0x57, reqno, schedulerindex };
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public void setSwitchType(byte devindex, boolean isdimmable, boolean isinv, byte devtype) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte dimvalue = (byte)(isdimmable?1:0);
+		byte invvalue = (byte)(isinv?1:0);
+		byte prop = (byte)((dimvalue<<7)| (invvalue<<6) | devtype);
+		prop = (byte)(prop&(0xff));
+		System.out.println("prop.devindex="+devindex+"  isdimmable="+isdimmable+"  isinv="+isinv+".type="+devtype+" prop..."+prop+" byte value>>"+Byte.valueOf(prop).byteValue()+"bytevalue..."+Integer.toBinaryString(prop));
+		byte bytes[] = new byte[]{(byte)0x5f, reqno, devindex, prop };
+		processReqWithRetries(reqno, bytes);
+	}
+	
+	public byte[] getSwitchTypes() throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte[] writeBytes = new byte[] { (byte) 0x60, reqno};
+		return processReqWithRetries(reqno, writeBytes);
+	}
+	
+	public static boolean isDimmableByProp(byte prop){
+		return ((prop>>7)&(0x01)) == 1;
+	}
+	public static boolean isInvByProp(byte prop){
+		return ((prop>>6)&(0x01)) == 1;
+	}
+	public static byte getDevTypeByProp(byte prop){
+		return (byte)(prop&0x3f);
 	}
 }

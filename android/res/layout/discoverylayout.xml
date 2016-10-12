@@ -3,10 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" android:background="#ff1d2832">
+    android:background="#ff1d2832"
+    android:orientation="vertical" >
 
-    <LinearLayout android:orientation="vertical" android:background="#ff131b22" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="2.0dip" android:layout_marginBottom="10.0dip">
-        <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10.0dip"
+        android:layout_marginTop="2.0dip"
+        android:background="#ff131b22"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:id="@id/textlistmenu"
@@ -14,12 +24,58 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="Configured rooms"
-                android:textAppearance="?android:textAppearanceMedium" 
+                android:textAppearance="?android:textAppearanceMedium"
                 android:textSize="23.0sp" />
 
-            <ImageButton android:layout_gravity="left" android:id="@id/deletebutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/minus" android:layout_alignParentRight="true" android:layout_centerVertical="true" />
+            <ImageButton
+                android:id="@id/deletebutton"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="left"
+                android:layout_marginRight="5.0dip"
+                android:background="@android:color/transparent"
+                android:src="@drawable/minus"
+                android:visibility="gone" />
         </RelativeLayout>
-        <com.zorba.bt.app.FlowLayout android:id="@id/roomscontent" android:layout_width="fill_parent" android:layout_height="fill_parent" android:minWidth="100.0dip" app:elementSpacing="1.0dip" app:lineSpacing="10.0dip" />
+
+        <com.zorba.bt.app.FlowLayout
+            android:id="@id/roomscontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:minWidth="100.0dip"
+            app:elementSpacing="1.0dip"
+            app:lineSpacing="10.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/devInfoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff131b22" >
+
+        <TextView
+            android:id="@+id/devPwdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device Password"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
+
+        <EditText
+            android:id="@+id/devPwdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="#000000"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -65,30 +121,29 @@
             android:layout_gravity="center"
             android:orientation="horizontal" >
 
-        <RadioButton
-            android:id="@+id/btdiscovery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:text="Bluetooth" />
+            <RadioButton
+                android:id="@+id/btdiscovery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:text="Bluetooth" />
 
-        <RadioButton
-            android:id="@+id/wifirdiscovery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:checked="false"
-            android:text="Wifi Router" />
+            <RadioButton
+                android:id="@+id/wifirdiscovery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:checked="false"
+                android:text="Wifi Router" />
 
-        <RadioButton
-            android:id="@+id/wifiapdiscovery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:checked="true"
-            android:text="Wifi AP" />
-
-</RadioGroup>
+            <RadioButton
+                android:id="@+id/wifiapdiscovery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:checked="true"
+                android:text="Wifi AP" />
+        </RadioGroup>
 
         <RelativeLayout
             android:layout_width="wrap_content"

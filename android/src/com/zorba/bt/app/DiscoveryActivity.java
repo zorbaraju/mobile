@@ -63,6 +63,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	String currentWifiSSID = null;
 	boolean isChangedToAPMode = false;
 	int currentDiscoveryType = 0;
+	TextView devPwdView = null;
 	
 	private void addRoomButton(RoomData var1) {
 		final ImageTextButton var2 = new ImageTextButton(this);
@@ -107,6 +108,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				@Override
 				public Object runTask(Object params) {
 					String ipaddress = null;
+					System.err.println("currentDiscoveryType>>>>>>>>>>>"+currentDiscoveryType);
 					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
 						if( !btHwLayer.makeWifiEnabled()) {
 							return null;
@@ -120,7 +122,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							return null;
 						}
 						try {
-							String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, CommonUtils.DEVICEPASSWORD);
+							String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, devPwdView.getText().toString());
 							if( error != null ) {
 								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 										"Not able to init connection " + droom.getRoomName()+" : "+error);
@@ -134,7 +136,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 								return null;
 							}
 							try {
-								byte [] response = btHwLayer.changePwd(BtLocalDB.getInstance(DiscoveryActivity.this).getPassword());
+								byte [] response = btHwLayer.changePwd(devPwdView.getText().toString());
 								if( response != null){
 									error = new String(response).toLowerCase();
 									if( !error.equals("ok")) {
@@ -157,15 +159,15 @@ public class DiscoveryActivity extends ZorbaActivity {
 							return null;
 						}
 					} else if ( currentDiscoveryType == DISCOVERYTYPE_BT){
-						
-						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, null, CommonUtils.DEVICEPASSWORD);
+						System.err.println("Trying for bt........");
+						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, null, devPwdView.getText().toString());
 						if( error != null ) {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName()+" : "+error);
 							return null;
 						}
 						try {
-							byte [] response = btHwLayer.changePwd(BtLocalDB.getInstance(DiscoveryActivity.this).getPassword());
+							byte [] response = btHwLayer.changePwd(devPwdView.getText().toString());
 							if( response != null){
 								error = new String(response).toLowerCase();
 								if( !error.equals("ok")) {
@@ -195,30 +197,27 @@ public class DiscoveryActivity extends ZorbaActivity {
 							System.out.println("Closing device..."+e.getMessage());
 						}
 					} else {
+						System.out.println("currentDiscoveryType.....wr");
 						NetworkInfo networkInfo = CommonUtils.getNetworkInfo();
 						if (networkInfo != null && nthDevice < networkInfo.unusedIndex.length)
 							ipaddress = networkInfo.subnet + "." + networkInfo.unusedIndex[nthDevice];
 						else {
 							ipaddress = "null";
 						}
+						System.out.println(currentWifiSSID+"currentDiscoveryType.....wr enabling network...devname..."+droom.getDeviceName()+"...."+ipaddress);
 						String ipaddr = CommonUtils.enableNetwork(DiscoveryActivity.this, droom.getDeviceName(),
 								droom.getDeviceName());
-						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, CommonUtils.DEVICEPASSWORD);
+						System.out.println("Afeter enabling the network ipaddress is "+ipaddr);
+						
+						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr, devPwdView.getText().toString());
 						if( error != null ) {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName()+" : "+error);
 							return null;
 						}
 						try {
-							btHwLayer.setWifiAPMode(false);
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-									"Not able to set station mode " + droom.getRoomName());
-							return null;
-						}
-						try {
-							byte [] response = btHwLayer.changePwd(BtLocalDB.getInstance(DiscoveryActivity.this).getPassword());
+							System.err.println("Chaning pwd");
+							byte [] response = btHwLayer.changePwd(devPwdView.getText().toString());
 							if( response != null){
 								error = new String(response).toLowerCase();
 								if( !error.equals("ok")) {
@@ -243,6 +242,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							return null;
 						}
 						try {
+							System.err.println("Chaning ipadress...."+currentWifiSSID+"  pwd="+pwd+" ipaddress..."+ipaddress);
 							if( currentWifiSSID != null) {
 								byte[] response = btHwLayer.setIpAddress(networkInfo.ssid, pwd, ipaddress);
 								if (response != null) {
@@ -261,6 +261,18 @@ public class DiscoveryActivity extends ZorbaActivity {
 							}
 						}catch(Exception e){
 							System.out.println("Closing device..."+e.getMessage());
+							CommonUtils.AlertBox(DiscoveryActivity.this, "Ip set",
+									"No response from device for ip set");
+							return null;
+						}
+						try {
+							System.err.println("Seting station mode");
+							btHwLayer.setWifiAPMode(false);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
+									"Not able to set station mode " + droom.getRoomName());
+							return null;
 						}
 						try{
 							btHwLayer.closeDevice();
@@ -289,6 +301,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 					
 					RoomData createdRoom = (RoomData)result;
 					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(createdRoom);
+					BtLocalDB.getInstance(DiscoveryActivity.this).setDevicePwd(devPwdView.getText().toString());
 					addRoomButton(createdRoom);
 					saveButton.setEnabled(false);
 				}
@@ -486,6 +499,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		} else {
 			currentWifiSSID = null;
 		}
+		System.out.println("currenct ssid..."+currentWifiSSID);
 	}
 
 	private void findFreeIp() {
@@ -549,6 +563,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 		wifiapdiscoveryBox = (RadioButton) findViewById(R.id.wifiapdiscovery);
 		wifiapdiscoveryBox.setChecked(true);
 		currentDiscoveryType = DISCOVERYTYPE_WAP;
+		
+		devPwdView = (TextView) findViewById(R.id.devPwdText);
+		devPwdView.setText(BtLocalDB.getInstance(this).getDevicePwd());
 		btdiscoveryBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -647,9 +664,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 		this.registerReceiver(this.mReceiver, intent);
 		saveButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
+				
 				String pwd = "null";
 				TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
+				
 				pwd = pwdview.getText().toString();
+				System.out.println("Pwd........"+pwd);
 				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty()) {
 					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
 					return;

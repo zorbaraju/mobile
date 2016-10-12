@@ -157,6 +157,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		arrayList.add(new ImageTextData("Help", R.drawable.help));
 		arrayList.add(new ImageTextData("About", R.drawable.about));
 		arrayList.add(new ImageTextData("Inverter Power", R.drawable.inverter));
+		arrayList.add(new ImageTextData("Send Log", R.drawable.sendemail));
 		arrayList.add(new ImageTextData("Exit", R.drawable.exit));
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new OnClickListener() {
 			public void onClick(View popupView) {
@@ -180,6 +181,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				}
 				if (i == 3) {
 					Intent intent = new Intent(MainActivity.this, InverterActivity.class);
+					MainActivity.this.startActivityForResult(intent, SENDLOG_CODE);
+					return;
+				}
+				if (i == 4) {
+					Intent intent = new Intent(MainActivity.this, SendLogActivity.class);
 					MainActivity.this.startActivityForResult(intent, INVERTER_CODE);
 					return;
 				}
@@ -537,6 +543,8 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 						btHwLayer.sendCommandToDevice(paramInt, readValue);
 						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
 						readAndUpateStatusForRoom(false);
+						testExtras();
+						
 						return null;
 					} catch (Exception paramString1) {
 						paramString1.printStackTrace();
@@ -744,7 +752,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				}
 				btHwLayer.closeDevice();
 				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
-						BtLocalDB.getInstance(MainActivity.this).getPassword());
+						BtLocalDB.getInstance(MainActivity.this).getDevicePwd());
 				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
@@ -940,5 +948,95 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			aboutButton.setImageResource(R.drawable.bt);
 		else
 			aboutButton.setImageResource(R.drawable.wifi);
+	}
+	
+	private void testExtras() {
+		try {
+			System.out.println("Setting room name ");
+			btHwLayer.setRoomName("Bed Room");
+			System.out.println("Setting room name Done");
+		} catch (Exception e) {
+			System.out.println("Setting error on roomnamme "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Getting room name ");
+			byte[] bytes = btHwLayer.getRoomName();
+			System.out.println("My roomname received is "+new String(bytes));
+		} catch (Exception e) {
+			System.out.println("Getting error on roomnamme "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Setting switch name ");
+			btHwLayer.setSwitchName((byte)0x01, "Bed Fan");
+			System.out.println("Setting switch name Done");
+		} catch (Exception e) {
+			System.out.println("Setting error on switch name "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Getting switch name ");
+			byte[] bytes = btHwLayer.getSwitchName((byte)0x01);
+			System.out.println("Switch name received is "+new String(bytes));
+		} catch (Exception e) {
+			System.out.println("Getting error on switchname "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Setting devproperty ");
+			btHwLayer.setSwitchType((byte)1, true, true, (byte)2);
+			System.out.println("Setting devproperty Done");
+		} catch (Exception e) {
+			System.out.println("Setting error on devproperty "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Getting devproperty name ");
+			byte[] bytes = btHwLayer.getSwitchTypes();
+			for( int i=0; i<bytes.length; i++) {
+				boolean isdimmable = BtHwLayer.isDimmableByProp(bytes[i]);
+				boolean isInvType = BtHwLayer.isInvByProp(bytes[i]);
+				byte devtype = BtHwLayer.getDevTypeByProp(bytes[i]);
+				System.out.println("dev property of ("+i+") is, d= "+isdimmable+ " inv= "+isInvType+ " type= "+devtype+" bytevalue:"+Integer.toBinaryString(devtype));
+			}
+		} catch (Exception e) {
+			System.out.println("Getting error on devproperty "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Setting grp name ");
+			btHwLayer.setGroupName((byte)0x01, "EveningGroup");
+			System.out.println("Setting grp name Done");
+		} catch (Exception e) {
+			System.out.println("Setting error on grp name "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Getting grp name ");
+			byte[] bytes = btHwLayer.getGroupName((byte)0x01);
+			System.out.println("My grp name received is "+new String(bytes));
+		} catch (Exception e) {
+			System.out.println("Getting error on goup name "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Setting scheduler name ");
+			btHwLayer.setSchedulerName((byte)0x01, "Alarm1");
+			System.out.println("Setting scheduler name Done");
+		} catch (Exception e) {
+			System.out.println("Setting error on scheduler name "+e.getMessage());
+		}
+		
+		try {
+			System.out.println("Getting scheduler name ");
+			byte[] bytes = btHwLayer.getSchedulerName((byte)0x01);
+			System.out.println("My scheduler name received is "+new String(bytes));
+		} catch (Exception e) {
+			System.out.println("Getting error on scheduler "+e.getMessage());
+		}
+		
+		
+		
 	}
 }
