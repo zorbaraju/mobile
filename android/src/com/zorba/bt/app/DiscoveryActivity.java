@@ -128,13 +128,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 										"Not able to init connection " + droom.getRoomName()+" : "+error);
 								return null;
 							}
-							try {
+							/*try {
 								btHwLayer.setWifiAPMode(true);
 							} catch (Exception e1) {
 								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 										"Not able to set access point mode " + droom.getRoomName());
 								return null;
-							}
+							}*/
 							try {
 								byte [] response = btHwLayer.changePwd(devPwdView.getText().toString());
 								if( response != null){
@@ -265,7 +265,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 									"No response from device for ip set");
 							return null;
 						}
-						try {
+						/*try {
 							System.err.println("Seting station mode");
 							btHwLayer.setWifiAPMode(false);
 						} catch (Exception e1) {
@@ -273,7 +273,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to set station mode " + droom.getRoomName());
 							return null;
-						}
+						}*/
 						try{
 							btHwLayer.closeDevice();
 						}catch(Exception e){

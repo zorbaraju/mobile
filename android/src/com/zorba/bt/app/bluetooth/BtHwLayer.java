@@ -317,10 +317,14 @@ public class BtHwLayer {
 		}
 		try {
 			byte[] response = verifyPwd(pass);
-			String respstr = new String(response).toLowerCase();
-			if( respstr.contains("fail")) {
-				return "Autherization is failed "+respstr;
+			if( response[0] != 48) {
+				String respstr = new String(response).substring(1);
+				return "Autherization is failed, "+response[0] +", "+respstr;
+			} else {
+				String respstr = new String(response).substring(1);
+				CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
 			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -556,7 +560,7 @@ public class BtHwLayer {
 	}
 
 	public byte[] changePwd(String pwd) throws Exception {
-		this.checkConnection();
+		/*this.checkConnection();
 		byte reqno = this.getNextReqno();
 		System.out.println("pwd="+pwd);
 		pwd = pwd + "\0\0";
@@ -567,6 +571,7 @@ public class BtHwLayer {
 		for (int index = 0; index < pwdbytes.length; index++)
 			pwdsetbytes[2 + index] = pwdbytes[index];
 		processReqWithRetries(reqno, pwdsetbytes);
+		*/
 		return "ok".getBytes();
 	}
 	
@@ -574,13 +579,13 @@ public class BtHwLayer {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
 		System.out.println("pwd="+pwd);
-		pwd = pwd + "\0\0";
 		byte[] pwdbytes = pwd.getBytes();
-		byte pwdsetbytes[] = new byte[1 + 1 + pwdbytes.length ];
+		byte pwdsetbytes[] = new byte[1 + 1 + 1 + pwdbytes.length ];
 		pwdsetbytes[0] = 'A';
 		pwdsetbytes[1] = reqno;
+		pwdsetbytes[2] = (byte)(pwdbytes.length);
 		for (int index = 0; index < pwdbytes.length; index++)
-			pwdsetbytes[2 + index] = pwdbytes[index];
+			pwdsetbytes[3 + index] = pwdbytes[index];
 		return processReqWithRetries(reqno, pwdsetbytes);
 	}
 	

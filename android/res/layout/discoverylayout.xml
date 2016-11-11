@@ -1,58 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ff1d2832"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="#ff1d2832">
 
     <LinearLayout
+        android:id="@+id/configuredroomslayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:background="#ff131b22">
+
+        <TextView
+            android:id="@id/textlistmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Configured rooms"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
+
+        <ImageButton
+            android:id="@id/deletebutton"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:layout_marginRight="5.0dip"
+            android:background="@android:color/transparent"
+            android:src="@drawable/minus"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <com.zorba.bt.app.FlowLayout
+        android:id="@id/roomscontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10.0dip"
-        android:layout_marginTop="2.0dip"
-        android:background="#ff131b22"
-        android:orientation="vertical" >
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@id/textlistmenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Configured rooms"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textSize="23.0sp" />
-
-            <ImageButton
-                android:id="@id/deletebutton"
-                android:layout_width="40.0dip"
-                android:layout_height="40.0dip"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="left"
-                android:layout_marginRight="5.0dip"
-                android:background="@android:color/transparent"
-                android:src="@drawable/minus"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <com.zorba.bt.app.FlowLayout
-            android:id="@id/roomscontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:minWidth="100.0dip"
-            app:elementSpacing="1.0dip"
-            app:lineSpacing="10.0dip" />
-    </LinearLayout>
+        android:minWidth="100.0dip"
+        app:elementSpacing="1.0dip"
+        app:lineSpacing="10.0dip" 
+        android:layout_below="@id/configuredroomslayout"/>
 
     <LinearLayout
         android:id="@+id/devInfoPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/roomscontent"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
         android:background="#ff131b22" >
@@ -79,105 +74,112 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:id="@+id/wifiInfoPanel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10.0dip"
-        android:layout_marginTop="2.0dip"
-        android:background="#ff131b22"
-        android:orientation="vertical" >
+        android:layout_below="@id/devInfoPanel"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff131b22" >
 
-        <LinearLayout
-            android:id="@+id/wifiInfoPanel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
-            android:background="#ff131b22" >
-
-            <TextView
-                android:id="@+id/wifiPwdLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Wifi Password"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textSize="23.0sp" />
-
-            <EditText
-                android:id="@+id/wifiPwdText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10.0dip"
-                android:layout_marginRight="10.0dip"
-                android:background="#000000"
-                android:ems="10"
-                android:inputType="textPassword"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textSize="23.0sp" />
-        </LinearLayout>
-
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal" >
-
-            <RadioButton
-                android:id="@+id/btdiscovery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:text="Bluetooth" />
-
-            <RadioButton
-                android:id="@+id/wifirdiscovery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:checked="false"
-                android:text="Wifi Router" />
-
-            <RadioButton
-                android:id="@+id/wifiapdiscovery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:checked="true"
-                android:text="Wifi AP" />
-        </RadioGroup>
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/wifiPwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:text="Wifi Password"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
 
-            <TextView
-                android:id="@id/controllerValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="false"
-                android:layout_toLeftOf="@id/spinnertriangle"
-                android:gravity="center"
-                android:text="Bluetooth Discovery is going on"
-                android:textAppearance="?android:textAppearanceMedium" />
+        <EditText
+            android:id="@+id/wifiPwdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="#000000"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@id/spinnertriangle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="25.0dip"
-                android:src="@drawable/discovery" />
-        </RelativeLayout>
+    <RadioGroup
+        android:id="@+id/grouppanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wifiInfoPanel"
+        android:layout_gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/btdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Bluetooth" />
+
+        <RadioButton
+            android:id="@+id/wifirdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:text="Wifi Router" />
+
+        <RadioButton
+            android:id="@+id/wifiapdiscovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:checked="true"
+            android:text="Wifi AP" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/controllerpanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grouppanel"
+        android:layout_gravity="center" >
+
+        <TextView
+            android:id="@id/controllerValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="false"
+            android:layout_toLeftOf="@id/spinnertriangle"
+            android:gravity="center"
+            android:text="Bluetooth Discovery is going on"
+            android:textAppearance="?android:textAppearanceMedium" />
 
         <ImageView
-            android:id="@id/loadingImage"
-            android:layout_width="35.0dip"
-            android:layout_height="35.0dip"
-            android:layout_gravity="center"
-            android:layout_marginBottom="5.0dip"
-            android:layout_marginTop="5.0dip"
-            android:gravity="center" />
+            android:id="@id/spinnertriangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25.0dip"
+            android:src="@drawable/discovery" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@id/loadingImage"
+        android:layout_width="35.0dip"
+        android:layout_height="35.0dip"
+        android:layout_below="@id/controllerpanel"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5.0dip"
+        android:layout_marginTop="5.0dip"
+        android:gravity="center" />
+
+    <ScrollView
+        android:background="#ff131b22"
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/savebutton"
+        android:layout_below="@id/loadingImage" >
 
         <LinearLayout
             android:id="@id/discoveryContent"
@@ -185,13 +187,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
+    </ScrollView>
 
-        <Button
-            android:id="@id/savebutton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Save" />
-    </LinearLayout>
+    <Button
+        android:id="@id/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:text="Save" />
 
-</LinearLayout>
+</RelativeLayout>
