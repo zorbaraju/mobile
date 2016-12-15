@@ -2,6 +2,7 @@ package com.zorba.bt.app.bluetooth;
 
 import java.io.OutputStream;
 
+import com.zorba.bt.app.CommonUtils;
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 
 public class BtSender {
@@ -22,7 +23,7 @@ public class BtSender {
    public boolean sendCmd(byte[] var1) {
       boolean sent = true;
       try {
-         this.hwLayer.printBytes("Write", var1);
+    	 CommonUtils.printBytes("Write", var1);
          this.outStream.write(var1);
          this.outStream.flush();
       } catch (Exception var3) {

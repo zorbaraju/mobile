@@ -16,6 +16,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
 import android.provider.Settings;
 import com.zorba.bt.app.CommonUtils;
+import com.zorba.bt.app.DiscoveryActivity;
 import com.zorba.bt.app.Logger;
 import com.zorba.bt.app.MainActivity;
 import com.zorba.bt.app.dao.DeviceData;
@@ -26,7 +27,8 @@ import java.util.UUID;
 
 public class BtHwLayer {
 
-	
+	boolean isDiscovery = false;
+	String populateMacAddress = null;
 	private final static int NAMELEGTH = 12;
 	// setting ip address
 	// request>>> {: reqid ssid32 \0 pass64 \0 ipaddr \0}
@@ -71,6 +73,8 @@ public class BtHwLayer {
 	BtReceiver receiver;
 	BtSender sender;
 
+	AwsConnection iotConnection = null;
+	
 	String devAddress = "";
 	String ipAddress = "";
 	String pwd = null;
@@ -154,7 +158,12 @@ public class BtHwLayer {
 	}
 
 	public String initDevice(String macaddress, String ssid, String ipaddr, String pass) {
-		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr);
+		return initDevice(macaddress, ssid, ipaddr, pass, true);
+	}
+	
+	public String initDevice(String macaddress, String ssid, String ipaddr, String pass, boolean isDiscovery) {
+		this.isDiscovery = isDiscovery;
+		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
 
 		if (ipaddr != null && ipaddr.equals("null")) {
@@ -171,7 +180,10 @@ public class BtHwLayer {
 		this.pwd = pass;
 		this.ssid = ssid;
 		
-		if (isWifi()) {
+		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+			iotConnection = new AwsConnection(activity,macaddress);
+		} else if (isWifi()) {
+			CommonUtils.getInstance().writeLog("Wifi mode...ipaddress is "+ipAddress);
 			try {
 				clientSocket = new Socket(ipAddress, 1336);
 				receiver = new BtReceiver(this, clientSocket.getInputStream());
@@ -192,6 +204,7 @@ public class BtHwLayer {
 				return NOCONNECTION;
 			}
 		} else {
+			CommonUtils.getInstance().writeLog("Bt  mode...macaddress is "+macaddress);
 			if(!this.mBluetoothAdapter.isEnabled()) {
 				isConnected = false;
 				return BTNOTENABLED;
@@ -251,33 +264,28 @@ public class BtHwLayer {
 				public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic,
 						int status) {
 					byte[] values = characteristic.getValue();
-					printBytes("OnWrite", values);
+					CommonUtils.printBytes("OnWrite", values);
 				}
 
 				@Override
 				public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
 					byte[] values = characteristic.getValue();
-					printBytes("OnRead", values);
+					CommonUtils.printBytes("OnRead", values);
 					if (values[0] == 36) {
-						byte reqid = values[1];
 						byte numdevs = values[2];
-						byte[] data = null;
 						byte alldevs = (byte)0xFF;
 						if( numdevs == alldevs) {
-							data = new byte[CommonUtils.getMaxNoDevices()*2];
+							byte[] data = new byte[CommonUtils.getMaxNoDevices()*2];
 							byte devindex = 1;
 							for (int i = 3; i < data.length; i++) {
 								byte status = data[i];
 								data[devindex*2] = devindex;
 								data[devindex*2+1] = status;
 							}
+							activity.notificationReceived(data);
 						} else {
-							data = new byte[values.length - 3];
-							for (int i = 0; i < data.length; i++)
-								data[i] = values[i + 3];
+							CommonUtils.processMultipleNotification(values, 0, null, activity);
 						}
-						System.out.println("bt n");
-						activity.notificationReceived(data);
 					} else {
 						synchronized (lock) {
 							byte[] data = new byte[values.length - 2];
@@ -323,6 +331,11 @@ public class BtHwLayer {
 			} else {
 				String respstr = new String(response).substring(1);
 				CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
+				byte[] macbytes = new byte[6];
+				for(int i=0; i<6; i++)
+					macbytes[i] = response[i+2];
+				populateMacAddress = getMacAddressString(macbytes);
+				CommonUtils.getInstance().writeLog("bt mac, populated : "+populateMacAddress);
 			}
 			
 		} catch (Exception e) {
@@ -330,9 +343,27 @@ public class BtHwLayer {
 			e.printStackTrace();
 			return "Authentication Error "+e.getMessage();
 		}
+		if(macaddress != null) {
+			CommonUtils.getInstance().writeLog("macaddress used is : "+macaddress);
+		}
 		return NOCONNECTIONERROR;
 	}
 
+	public String getPopulateMacAddress() {
+		return populateMacAddress;
+	}
+	public static String getMacAddressString(byte[] a) {
+	   StringBuilder sb = new StringBuilder();
+	   for(int i=0; i<6; i++) {
+		   byte b = a[i];
+	      sb.append(String.format("%02x", b & 0xff));
+	      if( i<5) {
+	    	  sb.append(":");
+	      }
+	   }
+	   return sb.toString().toUpperCase();
+	}
+	
 	public boolean isWifiEnabled() {
 		WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
 		return wifiManager.isWifiEnabled();
@@ -442,18 +473,10 @@ public class BtHwLayer {
 		Logger.e(this.activity, "BtHwLayer", msg);
 	}
 
-	public void printBytes(String tag, byte[] bytes) {
-		String resp = "";
-		for (int i = 0; i < bytes.length; i++) {
-			resp += " " + Integer.toHexString(bytes[i]);
-		}
-		String msg = "Data:" + tag + " \t" + String.format("%03d", bytes.length) + ": " + resp;
-		System.out.println(msg);
-		CommonUtils.getInstance().writeLog(msg);
-	}
-
 	private byte[] getData(int reqno) {
-		if (isWifi()) {
+		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+			return iotConnection.getData(reqno);
+		} else if (isWifi()) {
 			return receiver.getData(reqno);
 		} else {
 			byte readbytes[] = null;
@@ -471,7 +494,9 @@ public class BtHwLayer {
 	}
 
 	public void writeBytes(byte[] wbytes) {
-		if (isWifi()) {
+		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+			iotConnection.sendMessage(wbytes);
+		} else if (isWifi()) {
 			/*long current = System.currentTimeMillis();
 			if( current - lastsenttime < 1) {
 				System.out.println("Waiting for 1 ms before writing the data to wifi device");
@@ -488,7 +513,7 @@ public class BtHwLayer {
 			int numBytes = wbytes.length;
 			int numSent = 0;
 			int remainingBytes = numBytes;
-			printBytes("Write to be sent", wbytes);
+			CommonUtils.printBytes("Write to be sent", wbytes);
 			while (remainingBytes > 0) {
 				int numToBeSent = 20;
 				if (remainingBytes < 20)
@@ -498,7 +523,7 @@ public class BtHwLayer {
 					sendingBytes[i] = wbytes[numSent + i];
 				charr.setValue(sendingBytes);
 				mBluetoothGatt.writeCharacteristic(charr);
-				printBytes("WriteP", sendingBytes);
+				CommonUtils.printBytes("WriteP", sendingBytes);
 				numSent += numToBeSent;
 				remainingBytes -= numToBeSent;
 				System.out.println("Numtobesent.." + numToBeSent + " numSent=" + numSent + " remain=" + remainingBytes
@@ -735,15 +760,7 @@ public class BtHwLayer {
 			buf += data[i] +" ";
 		return buf;
 	}
-
-	public void setDeviceType(int devid, boolean isDimmable) throws Exception {
-		this.checkConnection();
-		byte reqno = this.getNextReqno();
-		byte type = (byte)(isDimmable?2:1);
-		byte[] writeBytes = new byte[] { (byte) 40, reqno, (byte)devid, type };
-		processReqWithRetries(reqno, writeBytes);
-	}
-
+	
 	public boolean shouldReconnect(String ipAddressOrDevAddress) {
 		boolean reconnect = false;
 		if (isWifi()) {
@@ -880,7 +897,7 @@ public class BtHwLayer {
 		byte prop = (byte)((dimvalue<<7)| (invvalue<<6) | devtype);
 		prop = (byte)(prop&(0xff));
 		System.out.println("prop.devindex="+devindex+"  isdimmable="+isdimmable+"  isinv="+isinv+".type="+devtype+" prop..."+prop+" byte value>>"+Byte.valueOf(prop).byteValue()+"bytevalue..."+Integer.toBinaryString(prop));
-		byte bytes[] = new byte[]{(byte)0x5f, reqno, devindex, prop };
+		byte bytes[] = new byte[]{(byte)0x5f, reqno, 1, devindex, prop };
 		processReqWithRetries(reqno, bytes);
 	}
 	
@@ -894,10 +911,18 @@ public class BtHwLayer {
 	public static boolean isDimmableByProp(byte prop){
 		return ((prop>>7)&(0x01)) == 1;
 	}
+	
 	public static boolean isInvByProp(byte prop){
 		return ((prop>>6)&(0x01)) == 1;
 	}
+	
 	public static byte getDevTypeByProp(byte prop){
 		return (byte)(prop&0x3f);
+	}
+
+	public boolean isZorbaDevice(String hostName, String pwd) {
+		String error = initDevice(null, null, hostName, pwd);
+		closeDevice();
+		return (error == null);
 	}
 }

@@ -3,6 +3,7 @@ package com.zorba.bt.app.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
 
@@ -14,7 +15,13 @@ public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Obj
 	public BackgroundTaskDialog(Activity context) {
 		if( waitDialogEnabled ) {
 			Builder builder = new Builder(context);
-			builder.setCancelable(false);
+			builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					cancelTask();
+					dialog.cancel();
+				}
+			});
+			//builder.setCancelable(true);
 			dialog = builder.create();
 			dialog.setTitle("Wait");
 			dialog.setMessage("Please wait");
@@ -45,6 +52,10 @@ public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Obj
 		}
     }
 
+	protected void cancelTask() {
+		
+	}
+	
     @Override
     protected void onPostExecute(Object result) {
     	isdismissed = true;

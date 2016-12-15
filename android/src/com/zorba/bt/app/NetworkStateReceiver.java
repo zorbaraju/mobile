@@ -18,6 +18,10 @@ public class NetworkStateReceiver extends BroadcastReceiver {
         NetworkInfo ni=(NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
         if(ni!=null && ni.getState()==NetworkInfo.State.CONNECTED) {
             String name= ni.getExtraInfo();
+            System.out.println("Name of the devive connected iss............"+name);
+            if( name == null ) {
+            	return;
+            }
             name = name.substring(1, name.length()-1);
 			
             synchronized (lock) {

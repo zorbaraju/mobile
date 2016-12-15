@@ -4,7 +4,7 @@
     <item type="id" name="cbox">false</item>
     <item type="id" name="controllerValue">false</item>
     <item type="id" name="imagebutton">false</item>
-    <item type="id" name="imageview">false</item>
+    <item type="id" name="svgimageview">false</item>
     <item type="id" name="layout_root">false</item>
     <item type="id" name="emptydevicepanel">false</item>
     <item type="id" name="scrollView">false</item>
@@ -50,10 +50,10 @@
     <item type="id" name="middleh">false</item>
     <item type="id" name="roomList">false</item>
     <item type="id" name="analyticsButton">false</item>
-    <item type="id" name="aboutButton">false</item>
+    <item type="id" name="svgview">false</item>
     <item type="id" name="helpView">false</item>
     <item type="id" name="imagetextbutton">false</item>
-    <item type="id" name="button">false</item>
+    <item type="id" name="imageview1">false</item>
     <item type="id" name="buttontext">false</item>
     <item type="id" name="top_container">false</item>
     <item type="id" name="bottom_container">false</item>

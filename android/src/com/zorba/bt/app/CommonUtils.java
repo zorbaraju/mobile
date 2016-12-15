@@ -6,6 +6,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.net.ConnectivityManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -25,7 +26,9 @@ import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.List;
 
+import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.NetworkInfo;
+import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
    private static int max_no_devices = 0;
@@ -40,13 +43,12 @@ public class CommonUtils {
    public static final String MENUITEM_HELP = "Help";
    public static final String MENUITEM_SENDLOG = "Send Log";
    //public static final String APPPASSWORD = "EZORBA1234";
-   //public static final String DEVICEPASSWORD = "EZORBA1234";
+   public static final String DEVICEPASSWORD = "           ";
    
-   public static NetworkInfo networkInfo = null;
-
    private static CommonUtils instance = null;
    
    private static StringBuffer logContentBuf = null;
+
    private CommonUtils() {
 	   logContentBuf = new StringBuffer();
    }
@@ -290,27 +292,19 @@ public class CommonUtils {
 		return max_no_devices;
 	}
    
-   public static NetworkInfo getNetworkInfo() {
-	   return networkInfo;
-   }
-   
-   public static void getUnUsedIpInfo(Activity activity, int numberOfUnUsed) {
-	    networkInfo = new NetworkInfo();
+   public static NetworkInfo getUnUsedIpInfo(Activity activity) {
+	   NetworkInfo networkInfo = new NetworkInfo();
 	   	WifiManager wifiManager = (WifiManager) activity.getSystemService (Context.WIFI_SERVICE);
 		WifiInfo info = wifiManager.getConnectionInfo ();
 		String ssid = info.getSSID ();
 		if( ssid.isEmpty()) {
-			networkInfo = null;
-			return;
+			return null;
 		}
 		ssid = ssid.substring(1, ssid.length()-1);
 		String ip = Formatter.formatIpAddress(info.getIpAddress());
 		String subnet = ip.substring(0,ip.lastIndexOf("."));
-		networkInfo.unusedIndex = new int[numberOfUnUsed];
-		int numfound = 0;
+		networkInfo.unusedIndex = -1;
 		for(int i=254; i>0; i--) {
-			if( numfound >=numberOfUnUsed)
-				break;
 			try {
 				boolean isused = InetAddress.getByName(subnet+"."+i).isReachable(1000);
 				if( isused)
@@ -320,11 +314,12 @@ public class CommonUtils {
 			} catch (IOException e) {
 				System.out.println("Unknown ..."+e.getMessage());
 			}
-			networkInfo.unusedIndex[numfound] = i;
-			numfound++;
+			networkInfo.unusedIndex = i;
+			break;
 		}
 		networkInfo.ssid = ssid;
 		networkInfo.subnet = subnet;
+		return networkInfo;
    }
    
    public static void printStackTrace() {
@@ -399,5 +394,60 @@ public class CommonUtils {
 	public void deleteLog() {
 		logContentBuf = null;
 		instance = null;
+	}
+	
+	public static void processMultipleNotification(byte[] readBytes, int noProcessedBytes, NotificationListener notificationListener, MainActivity activity) {
+		byte numdevs = readBytes[noProcessedBytes + 2];
+		byte[] data = new byte[numdevs*2];
+		for (int i = 0; i < numdevs*2; i++) {
+			int ith = noProcessedBytes+ i + 3;
+			if( ith < readBytes.length) {
+				data[i] = readBytes[ith];
+			} else {
+				printBytes("Some junk packets received: ith="+ith+" redabybytes length="+readBytes.length+" proceesed byts="+noProcessedBytes, readBytes);
+				return;
+			}
+		}
+		if( activity != null) {
+			activity.notificationReceived(data);
+		} else {
+			notificationListener.notificationReceived(data);
+		}
+		noProcessedBytes = noProcessedBytes + 3 + numdevs*2;
+		System.out.println("N>>>>>>>>>>>>>>>>>>>"+noProcessedBytes+" readbytes...."+readBytes.length);
+		if( noProcessedBytes < readBytes.length) {
+			processMultipleNotification(readBytes, noProcessedBytes, notificationListener, activity);
+		}
+	}
+
+	public static void printBytes(String tag, byte[] bytes) {
+		String resp = "";
+		for (int i = 0; i < bytes.length; i++) {
+			resp += " " + Integer.toHexString(bytes[i]);
+		}
+		String msg = "Data:" + tag + " \t" + String.format("%03d", bytes.length) + ": " + resp;
+		System.out.println(msg);
+		CommonUtils.getInstance().writeLog(msg);
+	}
+	
+	public static boolean isActiveNetwork(Context context) {
+		boolean isactive = false;
+		try {
+			ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);      
+			isactive = (cm.getActiveNetworkInfo() != null);
+		} catch(Exception e){
+			
+		}
+		return isactive;
+	}
+	
+	public static boolean isMobileDataConnection(Context context) {
+		try {
+			ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);      
+			return (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE);
+		} catch(Exception e){
+			
+		}
+		return false;
 	}
 }

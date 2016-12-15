@@ -91,6 +91,13 @@ public class MyComp extends LinearLayout {
       this.showButton(R.id.configbutton, false);
       this.showAddButton(true);
    }
+   
+   public void enableEditMode(boolean isEditMode) {
+	   this.isEditNeeded = isEditMode;
+	   this.showButton(R.id.addbutton, this.isEditNeeded);
+	   this.showButton(R.id.configbutton, false);
+	   this.showButton(R.id.deletebutton, false);
+   }
 
    private boolean isButtonShown(int buttonId) {
 	   ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
@@ -100,7 +107,9 @@ public class MyComp extends LinearLayout {
    private void showButton(int buttonId, boolean show) {
       ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
       if(show) {
-    	  imgButton.setVisibility(Button.VISIBLE);
+    	  if( isEditNeeded ) {
+    		  imgButton.setVisibility(Button.VISIBLE);
+    	  }
       } else {
     	  imgButton.setVisibility(Button.GONE);
       }
@@ -254,15 +263,14 @@ public class MyComp extends LinearLayout {
 
    public void showAddButton(boolean show) {
 	  isAddButtonShown = show;
-	  this.showButton(R.id.addbutton, show);
+	  this.showButton(R.id.addbutton, isEditNeeded&show);
 	  if( show && maxComp != -1)
-		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
+		  this.showButton(R.id.addbutton, isEditNeeded&this.compLaout.getChildCount() < maxComp);
    }
 
    public void showDeleteButton(boolean show) {
-      this.showButton(R.id.deletebutton, show);
-      if( isEditNeeded)
-    	  this.showButton(R.id.configbutton, show);
+      this.showButton(R.id.deletebutton, isEditNeeded&show);
+      this.showButton(R.id.configbutton, isEditNeeded&show);
    }
 
    public void updateButtonInPanel() {

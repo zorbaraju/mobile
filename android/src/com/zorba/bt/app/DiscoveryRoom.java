@@ -21,7 +21,7 @@ public class DiscoveryRoom extends LinearLayout {
       this.ssid = ssid;
       ((LayoutInflater)context.getSystemService("layout_inflater")).inflate(R.layout.discoveryroom, this);
       this.nameText = (TextView)this.findViewById(R.id.devicename);
-      nameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
+      //nameText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       this.nameText.setText(deviceName);
       
       this.isRGB = deviceName.endsWith("_RGB");

@@ -3,6 +3,7 @@ package com.zorba.bt.app;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.zorba.bt.app.bluetooth.AwsConnection;
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.ConnectionListener;
 import com.zorba.bt.app.bluetooth.NotificationListener;
@@ -37,6 +38,17 @@ import android.widget.TextView;
 
 public class MainActivity extends ZorbaActivity implements NotificationListener, ConnectionListener {
 
+	public static final int MENU_INDEX_DISCOVERY = 0;
+	public static final int MENU_INDEX_DEVICE_CONFIG = MENU_INDEX_DISCOVERY + 1;
+	public static final int MENU_INDEX_HELP = MENU_INDEX_DEVICE_CONFIG + 1;
+	public static final int MENU_INDEX_ABOUT = MENU_INDEX_HELP + 1;
+	public static final int MENU_INDEX_INVERTER = MENU_INDEX_ABOUT + 1;
+	public static final int MENU_INDEX_CHANGEPWD = MENU_INDEX_INVERTER + 1;
+	public static final int MENU_INDEX_SENDLOG = MENU_INDEX_CHANGEPWD + 1;
+	public static final int MENU_INDEX_SWITCHMODELOG = MENU_INDEX_SENDLOG + 1;
+	public static final int MENU_INDEX_EXIT = MENU_INDEX_SWITCHMODELOG + 1;
+	
+	
 	public static final int DISCOVERY_CODE = 1;
 	public static final int ENABLEBT_CODE = DISCOVERY_CODE + 1;
 	public static final int ENABLEWIFI_CODE = ENABLEBT_CODE + 1;
@@ -47,8 +59,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	public static final int SENDLOG_CODE = APPINFO_CODE + 1;
 	public static final int HELP_CODE = SENDLOG_CODE + 1;
 	public static final int INVERTER_CODE = HELP_CODE + 1;
+	public static final int CHANGEPWD_CODE = INVERTER_CODE + 1;
+	
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
+	
 	int _color = 0;
 	long backPressedTime = 0L;
 	MyComp devicePanel = null;
@@ -70,6 +85,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	RGBController rgbController = null;
 	BtHwLayer btHwLayer = null;
 	private boolean isInitial = true;
+	private boolean isInConfigDeviceMode = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +144,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 
 	@Override
 	public void onBackPressed() {
+		if( isInConfigDeviceMode) {
+			enableMainActivityOnDeviceConfig(false);
+			return;
+		}
+		CommonUtils.getInstance().deleteLog();
 		new AlertDialog.Builder(this).setTitle("Exit").setMessage("Do you really want to exit ?")
 				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
@@ -154,42 +175,49 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		final ListPopupWindow popupWindow = new ListPopupWindow(this);
 		ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
 		arrayList.add(new ImageTextData("Add Room", R.drawable.discovery));
+		arrayList.add(new ImageTextData("Device Configuration", R.drawable.help));
 		arrayList.add(new ImageTextData("Help", R.drawable.help));
 		arrayList.add(new ImageTextData("About", R.drawable.about));
 		arrayList.add(new ImageTextData("Inverter Power", R.drawable.inverter));
+		arrayList.add(new ImageTextData("Change Pwd", R.drawable.inverter));
 		arrayList.add(new ImageTextData("Send Log", R.drawable.sendemail));
+		arrayList.add(new ImageTextData("Go to Ap mode", R.drawable.sendemail));
 		arrayList.add(new ImageTextData("Exit", R.drawable.exit));
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new OnClickListener() {
 			public void onClick(View popupView) {
 				popupWindow.dismiss();
 				int i = ((Integer) popupView.getTag()).intValue();
-				if (i == 0) {
+				if (i == MENU_INDEX_DISCOVERY) {
 					Intent intent = new Intent(MainActivity.this, DiscoveryActivity.class);
 					MainActivity.this.startActivityForResult(intent, DISCOVERY_CODE);
-					return;
-				}
-				if (i == 2) {
-					Intent intent = new Intent(MainActivity.this, AppInfoActivity.class);
-					MainActivity.this.startActivityForResult(intent, APPINFO_CODE);
-					return;
-				}
-
-				if (i == 1) {
+				} else if (i == MENU_INDEX_DEVICE_CONFIG) {
+					System.out.println("Device config menu is clicked");
+					enableMainActivityOnDeviceConfig(true);
+				} else if (i == MENU_INDEX_HELP) {
 					Intent intent = new Intent(MainActivity.this, HelpActivity.class);
 					MainActivity.this.startActivityForResult(intent, HELP_CODE);
-					return;
-				}
-				if (i == 3) {
-					Intent intent = new Intent(MainActivity.this, InverterActivity.class);
-					MainActivity.this.startActivityForResult(intent, SENDLOG_CODE);
-					return;
-				}
-				if (i == 4) {
+				} else if (i == MENU_INDEX_ABOUT) {
+					Intent intent = new Intent(MainActivity.this, AppInfoActivity.class);
+					MainActivity.this.startActivityForResult(intent, APPINFO_CODE);
+				} else if (i == MENU_INDEX_SENDLOG) {
 					Intent intent = new Intent(MainActivity.this, SendLogActivity.class);
+					MainActivity.this.startActivityForResult(intent, SENDLOG_CODE);
+				} else if (i == MENU_INDEX_INVERTER) {
+					Intent intent = new Intent(MainActivity.this, InverterActivity.class);
 					MainActivity.this.startActivityForResult(intent, INVERTER_CODE);
-					return;
+				} else if (i == MENU_INDEX_CHANGEPWD) {
+					Intent intent = new Intent(MainActivity.this, ChangepwdActivity.class);
+					MainActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
+				} else if (i == MENU_INDEX_SWITCHMODELOG) {
+						try {
+							btHwLayer.setWifiAPMode(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+							CommonUtils.AlertBox(MainActivity.this, "Mode change", "Error:"+e.getMessage());
+						}
+				} else if (i == MENU_INDEX_EXIT) {
+					MainActivity.this.performExit();
 				}
-				MainActivity.this.performExit();
 			}
 		});
 		popupWindow.setAdapter((ListAdapter) textAdapter);
@@ -208,6 +236,9 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 		};
 		this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
+		for(RoomData rd: roomDataList){
+			System.out.println("Rodetailss..."+rd.getAddress()+":"+rd.getDeviceName()+":"+rd.getIpAddress()+":"+rd.getName()+":"+rd.getSSID());
+		}
 		TextAdapter localTextAdapter = new TextAdapter(this, this.roomDataList, listener);
 		this.roomMenuList.setAdapter(localTextAdapter);
 		this.roomMenuList.setAnchorView(roomListText);
@@ -247,7 +278,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private MyComp populateDeviceButtons(final String tabName) {
-		MyComp local16 = new MyComp(getApplicationContext(), tabName, -1, true) {
+		MyComp local16 = new MyComp(getApplicationContext(), tabName, -1, isInConfigDeviceMode ) {
 			public void doAddAction() {
 				Intent localIntent = new Intent(getBaseContext(), AddDeviceActivity.class);
 				localIntent.putExtra("deviceName", selectedRoom.getDeviceName());
@@ -307,7 +338,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private MyComp populateGroups() {
-		this.groupPanel = new MyComp(getApplicationContext(), "Groups", 8, true) {
+		this.groupPanel = new MyComp(getApplicationContext(), "Groups", 8, isInConfigDeviceMode) {
 			public void doAddAction() {
 				Intent localIntent = new Intent(MainActivity.this.getBaseContext(), AddGroupActivity.class);
 				localIntent.putExtra("deviceName", MainActivity.this.selectedRoom.getDeviceName());
@@ -350,7 +381,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	private MyComp populateSchedules() {
-		this.schedulePanel = new MyComp(getApplicationContext(), "Schedules", 8, true) {
+		this.schedulePanel = new MyComp(getApplicationContext(), "Schedules", 8, isInConfigDeviceMode) {
 			public void doAddAction() {
 				Intent localIntent = new Intent(MainActivity.this.getBaseContext(), AddSchedulerActivity.class);
 				localIntent.putExtra("deviceName", MainActivity.this.selectedRoom.getDeviceName());
@@ -446,7 +477,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		if( !isnew )
 			return;
 		final int devid = paramDeviceData.getDevId();
-		final String str1 = paramDeviceData.getType();
+		final String devtype = paramDeviceData.getType();
 		final String str2 = paramDeviceData.getName();
 		paramDeviceData.setStatus(BtLocalDB.getInstance(this).getDeviceStatus((byte)devid));
 		final ImageTextButton deviceButton = new ImageTextButton(this);
@@ -456,8 +487,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				paramMyComp.showDeleteButton(true);
 				MainActivity.this.selectedDeviceName = str2;
 				paramMyComp.selectComp(deviceButton);
-				if (DeviceData.isDimmable(str1)) {
-					MainActivity.this.controlDevice(deviceButton, str1, devid);
+				if( !isInConfigDeviceMode) {
+					if (DeviceData.isDimmable(devtype)) {
+						MainActivity.this.controlDevice(deviceButton, devtype, devid);
+					}
 				}
 				return true;
 			}
@@ -465,7 +498,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		deviceButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
 				paramMyComp.deselectAll();
-				MainActivity.this.singleClickButton(devid, str1, deviceButton);
+				MainActivity.this.singleClickButton(devid, devtype, deviceButton);
 			}
 		});
 		paramMyComp.addMyView(deviceButton);
@@ -505,7 +538,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				}
 				MainActivity.this.lightsPanel.updateButtonInPanel();
 				MainActivity.this.devicePanel.updateButtonInPanel();
-				updateDeviceCount();
+				//updateDeviceCount();
 				try {
 					if (MainActivity.this.groupPanel.isReset()) {
 						MainActivity.this.groupPanel.updateLiveButtonInPanel();
@@ -525,8 +558,10 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
 	}
 
-	private void singleClickButton(final int paramInt, String paramString, ImageTextButton paramImageTextButton) {
-		
+	private void singleClickButton(final int devid, final String devtype, ImageTextButton paramImageTextButton) {
+		if( isInConfigDeviceMode) {
+			return;
+		}
 		if( !btHwLayer.isConnected())
 			updateWithRealtime();
 		else {
@@ -535,15 +570,23 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				@Override
 				public Object runTask(Object params) {
 					try {
-						int readValue = btHwLayer.readCommandToDevice(paramInt);
+						
+						int readValue = btHwLayer.readCommandToDevice(devid);
 						if (readValue != 0)
 							readValue = 0;
-						else
+						else {
 							readValue = 9;
-						btHwLayer.sendCommandToDevice(paramInt, readValue);
-						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) paramInt, (byte) readValue);
+							if (DeviceData.isDimmable(devtype)) {
+								readValue = BtLocalDB.getInstance(MainActivity.this).getDevicePrevOnStatus((byte) devid);
+								if( readValue == -1)
+									readValue = 9;
+								System.out.println("Prev status fro  db..."+readValue);
+							}
+						}
+						btHwLayer.sendCommandToDevice(devid, readValue);
+						BtLocalDB.getInstance(MainActivity.this).updateDeviceStatus((byte) devid, (byte) readValue);
 						readAndUpateStatusForRoom(false);
-						testExtras();
+						//testExtras();
 						
 						return null;
 					} catch (Exception paramString1) {
@@ -642,14 +685,14 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		this.schedulePanel.addMyView(localImageTextButton);
 	}	
 
-	private void controlDevice(final ImageTextButton paramImageTextButton, final String paramString,
-			final int paramInt) {
+	private void controlDevice(final ImageTextButton paramImageTextButton, final String devtype,
+			final int devid) {
 		Object localObject = LayoutInflater.from(this).inflate(R.layout.devicecontroller, null);
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 		localBuilder.setView((View) localObject);
 		localObject = (SeekBar) ((View) localObject).findViewById(R.id.seekBar1);
 		try {
-			int i = btHwLayer.readCommandToDevice(paramInt);
+			int i = btHwLayer.readCommandToDevice(devid);
 			if (i != -1) {
 				((SeekBar) localObject).setProgress(i * 10);
 			}
@@ -664,8 +707,12 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 								progresValue = 9;
 							}
 							if( prevvalue != progresValue) {
-								btHwLayer.sendCommandToDevice(paramInt, progresValue);
-								paramImageTextButton.changeDeviceButtonStyle(paramString, progresValue);
+								btHwLayer.sendCommandToDevice(devid, progresValue);
+								paramImageTextButton.changeDeviceButtonStyle(devtype, progresValue);
+								if( progresValue != 0) {
+									BtLocalDB.getInstance(MainActivity.this).updateDevicePrevOnStatus((byte)devid, (byte)progresValue);
+									System.err.println("Last on status..."+progresValue);
+								}
 							}
 							prevvalue = progresValue;
 							return;
@@ -728,6 +775,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			updateWithRealtime();
 			relayout();
 		}
+		enableMainActivityOnDeviceConfig(isInConfigDeviceMode);
 	}
 
 	private void updateWithRealtime() {
@@ -740,19 +788,23 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 				String incomingssid = selectedRoom.getSSID();
 				String ipaddress = selectedRoom.getIpAddress();
 				String macaddress = selectedRoom.getAddress();
-				if( incomingssid != null && !incomingssid.isEmpty() && !incomingssid.equals("null")) {
-					macaddress = null;
-					ipaddress = CommonUtils.enableNetwork(MainActivity.this, incomingssid, incomingssid);
-					if( ipaddress == null) {
-						CommonUtils.AlertBox(MainActivity.this, "Connection", "Ipaddress is found for ssid:"+incomingssid);
-						return null;
+				if( btHwLayer.isWifiEnabled()) {
+					if( incomingssid != null && !incomingssid.isEmpty() && !incomingssid.equals("null")) {
+						macaddress = null;
+						ipaddress = CommonUtils.enableNetwork(MainActivity.this, incomingssid, incomingssid);
+						if( ipaddress == null) {
+							CommonUtils.AlertBox(MainActivity.this, "Connection", "Ipaddress is found for ssid:"+incomingssid);
+							return null;
+						}
+					} else {
+						incomingssid = null;
 					}
 				} else {
-					incomingssid = null;
+					incomingssid = null; ipaddress = null;
 				}
 				btHwLayer.closeDevice();
 				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
-						BtLocalDB.getInstance(MainActivity.this).getDevicePwd());
+						BtLocalDB.getInstance(MainActivity.this).getDevicePwd(), false);
 				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
@@ -773,6 +825,11 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			}
 
 			@Override
+			public void cancelTask() {
+				selectedRoom = null;
+				btHwLayer.closeDevice();
+			}
+			@Override
 			public void finishedTask(Object result) {
 				// TODO Auto-generated method stub
 
@@ -789,6 +846,8 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 		if( roomDataList.size() == 0)
 			return;
 		this.selectedRoom = ((RoomData) this.roomDataList.get(paramInt));
+		System.out.println("Rodetailss.selectedRoom.."+selectedRoom.getAddress()+":"+selectedRoom.getDeviceName()+":"+selectedRoom.getIpAddress()+":"+selectedRoom.getName()+":"+selectedRoom.getSSID());
+
 		paramTextView.setText(this.selectedRoom.getName());
 		BtLocalDB.getInstance(this).setLastSelectedRoom(paramInt);
 		BtLocalDB.getInstance(this).clearDeviceStatus();
@@ -941,7 +1000,7 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 	}
 
 	public void setConnectionModeIcon(int connectionType) {
-		ImageButton aboutButton = (ImageButton) findViewById(R.id.aboutButton);
+		ImageButton aboutButton = (ImageButton) findViewById(R.id.svgview);
 		if (connectionType == 0) 
 			aboutButton.setImageResource(0);
 		else if (connectionType == 1)
@@ -1036,7 +1095,14 @@ public class MainActivity extends ZorbaActivity implements NotificationListener,
 			System.out.println("Getting error on scheduler "+e.getMessage());
 		}
 		
-		
-		
+	}
+	
+	private void enableMainActivityOnDeviceConfig(boolean enableConfigMode) {
+		System.out.println("enableMainActivityOnDeviceConfig: "+enableConfigMode);
+		isInConfigDeviceMode = enableConfigMode;
+		lightsPanel.enableEditMode(isInConfigDeviceMode);
+		devicePanel.enableEditMode(isInConfigDeviceMode);
+		groupPanel.enableEditMode(isInConfigDeviceMode);
+		schedulePanel.enableEditMode(isInConfigDeviceMode);
 	}
 }

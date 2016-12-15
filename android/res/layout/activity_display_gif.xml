@@ -18,7 +18,7 @@
         android:layout_marginTop="16dp" />
 
     <ImageView
-        android:id="@+id/imageview"
+        android:id="@+id/svgimageview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imagebutton"

@@ -90,7 +90,7 @@ public class SendLogActivity extends ZorbaActivity {
 		try {
 			this.startActivity(Intent.createChooser(var2, "Send mail..."));
 			finish();
-			CommonUtils.getInstance().deleteLog();
+			//CommonUtils.getInstance().deleteLog();
 			Logger.e(this, "email", "Finished sending email...");
 
 		} catch (ActivityNotFoundException var3) {
