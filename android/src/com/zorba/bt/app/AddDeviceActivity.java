@@ -2,6 +2,7 @@ package com.zorba.bt.app;
 
 import java.util.ArrayList;
 
+import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
@@ -91,11 +92,17 @@ public class AddDeviceActivity extends ZorbaActivity {
                DeviceData var10 = new DeviceData(var1, var9, var8, var12, -1);
 
                try {
-                  com.zorba.bt.app.bluetooth.BtHwLayer.getInstance(this).setDeviceType(var1, var10.isDimmable());
+                  BtHwLayer.getInstance(this).setSwitchType((byte)var1, isdimmable.isChecked(), false, (byte)var4.getSelectedItemPosition());
                } catch (Exception var7) {
                   CommonUtils.AlertBox(this, "Setting device type", "Setting device type is failed");
                   return;
                }
+               
+               try {
+                   BtHwLayer.getInstance(this).getSwitchTypes();
+                } catch (Exception var7) {
+                   CommonUtils.AlertBox(this, "getting device type", "Getting device types is failed");
+                }
 
                com.zorba.bt.app.db.BtLocalDB.getInstance(this).updateDevice(this.deviceName, var10);
                Intent var11 = new Intent();

@@ -17,6 +17,7 @@ public class BtLocalDB {
 	private static int version = 1;
 	private SharedPreferences dbInfo = null;
 	private HashMap<Byte, Byte> deviceStatusMap = new HashMap<Byte, Byte>();
+	private HashMap<Byte, Byte> devicePrevOnStatusMap = new HashMap<Byte, Byte>();
 	boolean isStoreClean = false;
 	private String currentDeviceName = "";
 
@@ -118,6 +119,7 @@ public class BtLocalDB {
 
 	public void clearDeviceStatus() {
 		this.deviceStatusMap.clear();
+		this.devicePrevOnStatusMap.clear();
 	}
 
 	public void deleteDevice(String deviceName, String var2) {
@@ -203,6 +205,14 @@ public class BtLocalDB {
 		var9.commit();
 	}
 
+	public int getDevicePrevOnStatus(Byte devid) {
+		int status = -1;
+		if (this.devicePrevOnStatusMap.containsKey(devid)) {
+			status = this.devicePrevOnStatusMap.get(devid);
+		}
+		return status;
+	}
+	
 	public int getDeviceStatus(Byte devid) {
 		int status = -1;
 		if (this.deviceStatusMap.containsKey(devid)) {
@@ -496,6 +506,10 @@ public class BtLocalDB {
 		var7.commit();
 	}
 
+	public void updateDevicePrevOnStatus(byte devid, byte status) {
+		this.devicePrevOnStatusMap.put(devid, status);
+	}
+	
 	public void updateDeviceStatus(byte devid, byte status) {
 		this.deviceStatusMap.put(devid, status);
 	}
@@ -519,5 +533,23 @@ public class BtLocalDB {
 	
 	public String getDevicePwd() {
 		return this.dbInfo.getString("devicepwd", "");
+	}
+
+	public void setEmailId(String emailid) {
+		Editor edit = this.dbInfo.edit();
+		edit.putString("emailid", emailid);
+		edit.commit();
+		System.out.println("emailid..."+emailid);
+	}
+	
+	public void setUserType(boolean isMaster) {
+		Editor edit = this.dbInfo.edit();
+		edit.putBoolean("ismaster", isMaster);
+		edit.commit();
+		System.out.println("ismaster..."+isMaster);
+	}
+	
+	public boolean isMasterUser() {
+		return this.dbInfo.getBoolean("ismaster", false);
 	}
 }

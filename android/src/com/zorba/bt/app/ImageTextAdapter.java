@@ -30,7 +30,7 @@ public class ImageTextAdapter extends ArrayAdapter<ImageTextData> {
    public View getView(int position, View convertView, ViewGroup parent) {
       inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
       View inflatedView = inflater.inflate(R.layout.imagetextitem, parent, false);
-      ImageButton var5 = (ImageButton)inflatedView.findViewById(R.id.button);
+      ImageButton var5 = (ImageButton)inflatedView.findViewById(R.id.imageview1);
       var5.setImageResource(((ImageTextData)this.list.get(position)).getImageId().intValue());
       TextView var6 = (TextView)inflatedView.findViewById(R.id.buttontext);
       var6.setText(((ImageTextData)this.list.get(position)).getText());

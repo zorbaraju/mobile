@@ -4,5 +4,5 @@ public class NetworkInfo {
 
 	public String ssid = "";
 	public String subnet = "";
-	public int unusedIndex[] = null;
+	public int unusedIndex = -1;
 }

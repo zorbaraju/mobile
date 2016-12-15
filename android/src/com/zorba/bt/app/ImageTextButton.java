@@ -32,7 +32,7 @@ public class ImageTextButton extends LinearLayout {
       this.deviceType = "";
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.imagetextbutton, this);
       TypedArray var5 = var1.getTheme().obtainStyledAttributes(var2, R.styleable.ImageTextButton, 0, 0);
-      this.button = (ImageButton)this.findViewById(R.id.button);
+      this.button = (ImageButton)this.findViewById(R.id.imageview1);
       this.labelText = (TextView)this.findViewById(R.id.buttontext);
 
       try {
@@ -59,8 +59,8 @@ public class ImageTextButton extends LinearLayout {
 
    }
 
-   public void changeDeviceButtonStyle(String var1, int var2) {
-      this.setBackgroundImage(CommonUtils.getDeviceImage(var1, var2));
+   public void changeDeviceButtonStyle(String devtype, int var2) {
+      this.setBackgroundImage(CommonUtils.getDeviceImage(devtype, var2));
       if(var2 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
          this.labelText.setTextColor(Color.parseColor("#ffffff"));
