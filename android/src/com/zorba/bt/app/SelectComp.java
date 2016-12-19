@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -29,7 +28,7 @@ public class SelectComp extends LinearLayout {
       this.deviceType = var2.getType();
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.selectcomp, this);
       TextView var3 = (TextView)this.findViewById(R.id.deviceid);
-      ImageView var4 = (ImageView)this.findViewById(R.id.controllerImage);
+      SvgView var4 = (SvgView)this.findViewById(R.id.controllerImage);
       this.controllerValueText = (TextView)this.findViewById(R.id.controllerValue);
       var3.setText(var2.getName());
       LinearLayout var9 = (LinearLayout)this.findViewById(R.id.selectcontroller);

@@ -39,21 +39,21 @@ public class AwsConnection {
 	// IoT endpoint
 	// AWS Iot CLI describe-endpoint call returns:
 	// XXXXXXXXXX.iot.<region>.amazonaws.com
-	private static final String CUSTOMER_SPECIFIC_ENDPOINT = "az6wn08spc7nt.iot.ap-northeast-1.amazonaws.com";
+	public static final String CUSTOMER_SPECIFIC_ENDPOINT = "az6wn08spc7nt.iot.ap-northeast-1.amazonaws.com";
 	// Cognito pool ID. For this app, pool needs to be unauthenticated pool with
 	// AWS IoT permissions.
-	private static final String COGNITO_POOL_ID = "ap-northeast-1:316101d0-19ca-44d2-8534-aa63af6a5486";
+	public static final String COGNITO_POOL_ID = "ap-northeast-1:316101d0-19ca-44d2-8534-aa63af6a5486";
 	// Name of the AWS IoT policy to attach to a newly created certificate
-	private static final String AWS_IOT_POLICY_NAME = "mypolicy";
+	public static final String AWS_IOT_POLICY_NAME = "mypolicy";
 
 	// Region of AWS IoT
-	private static final Regions MY_REGION = Regions.AP_NORTHEAST_1;
+	public static final Regions MY_REGION = Regions.AP_NORTHEAST_1;
 	// Filename of KeyStore file on the filesystem
-	private static final String KEYSTORE_NAME = "ks.bks";
+	public static final String KEYSTORE_NAME = "ks.bks";
 	// Password for the private key in the KeyStore
-	private static final String KEYSTORE_PASSWORD = "rajuraju";
+	public static final String KEYSTORE_PASSWORD = "rajuraju";
 	// Certificate and key aliases in the KeyStore
-	private static final String CERTIFICATE_ID = "ks";
+	public static final String CERTIFICATE_ID = "ks";
 
 	AWSIotClient mIotAndroidClient;
 	AWSIotMqttManager mqttManager;

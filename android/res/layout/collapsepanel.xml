@@ -14,13 +14,13 @@
         android:orientation="horizontal" >
 
         <LinearLayout android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_alignParentLeft="true" android:layout_centerInParent="true">
-            <ImageView android:layout_gravity="center" android:id="@id/loadingImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" android:src="@drawable/rightarrow" />
+            <com.zorba.bt.app.SvgView android:layout_gravity="center" android:id="@id/loadingImage" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" app:svgviewsrc="@raw/rightarrow" />
             <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/name" android:paddingLeft="10.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4.0dip" android:layout_marginBottom="4.0dip" />
         </LinearLayout>
         <LinearLayout android:gravity="right" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginRight="10.0dip" android:layout_alignParentRight="true">
-            <ImageButton android:layout_gravity="center" android:id="@id/addbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="5.0dip" android:src="@drawable/plus" />
-            <ImageButton android:layout_gravity="center" android:id="@id/configbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" android:src="@drawable/edit" />
-            <ImageButton android:layout_gravity="center" android:id="@id/deletebutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" android:src="@drawable/minus" />
+            <com.zorba.bt.app.SvgButton android:layout_gravity="center" android:id="@id/addbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginRight="5.0dip" app:svgbuttonsrc="@raw/plus" />
+            <com.zorba.bt.app.SvgButton android:layout_gravity="center" android:id="@id/configbutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" app:svgbuttonsrc="@raw/edit" />
+            <com.zorba.bt.app.SvgButton android:layout_gravity="center" android:id="@id/deletebutton" android:background="@android:color/transparent" android:visibility="gone" android:layout_width="40.0dip" android:layout_height="40.0dip" android:layout_marginLeft="5.0dip" app:svgbuttonsrc="@raw/minus" />
         </LinearLayout>
     </RelativeLayout>
     <com.zorba.bt.app.FlowLayout android:gravity="center" android:orientation="vertical" android:id="@id/compfield1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="10.0dip" android:layout_marginBottom="10.0dip" app:elementSpacing="10.0dip" app:lineSpacing="10.0dip" />

@@ -18,7 +18,7 @@ import android.provider.Settings;
 import com.zorba.bt.app.CommonUtils;
 import com.zorba.bt.app.DiscoveryActivity;
 import com.zorba.bt.app.Logger;
-import com.zorba.bt.app.MainActivity;
+import com.zorba.bt.app.RoomsActivity;
 import com.zorba.bt.app.dao.DeviceData;
 
 import java.net.Socket;
@@ -61,7 +61,7 @@ public class BtHwLayer {
 	static byte reqgenerator = 0;
 	UUID service_uuid = UUID.fromString("0000ffe0-0000-1000-8000-00805f9b34fb");
 	UUID charr_uuid = UUID.fromString("0000ffe1-0000-1000-8000-00805f9b34fb");
-	MainActivity activity = null;
+	RoomsActivity activity = null;
 	BluetoothManager mBluetoothManager;
 	BluetoothAdapter mBluetoothAdapter;
 	String mBluetoothDeviceAddress;
@@ -90,7 +90,7 @@ public class BtHwLayer {
 	BroadcastReceiver mReceiver = null;
 
 	private BtHwLayer(Activity var1) {
-		this.activity = (MainActivity) var1;
+		this.activity = (RoomsActivity) var1;
 		mBluetoothManager = (BluetoothManager) this.activity.getSystemService(Context.BLUETOOTH_SERVICE);
 		if (mBluetoothManager == null) {
 			System.out.println("Unable to initialize BluetoothManager.");
@@ -165,7 +165,7 @@ public class BtHwLayer {
 		this.isDiscovery = isDiscovery;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
-
+		
 		if (ipaddr != null && ipaddr.equals("null")) {
 			ipaddr = null;
 		}
@@ -455,7 +455,7 @@ public class BtHwLayer {
 		boolean isEnabled = this.mBluetoothAdapter.isEnabled();
 		if (!isEnabled) {
 			Intent var2 = new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE");
-			this.activity.startActivityForResult(var2, MainActivity.ENABLEBT_CODE);
+			this.activity.startActivityForResult(var2, RoomsActivity.ENABLEBT_CODE);
 		}
 		return isEnabled;
 	}
@@ -464,7 +464,7 @@ public class BtHwLayer {
 		boolean isEnabled = isWifiEnabled();
 		if (!isEnabled) {
 			Intent var2 = new Intent(Settings.ACTION_WIFI_SETTINGS);
-			this.activity.startActivityForResult(var2, MainActivity.ENABLEWIFI_CODE);
+			this.activity.startActivityForResult(var2, RoomsActivity.ENABLEWIFI_CODE);
 		}
 		return isEnabled;
 	}
