@@ -10,8 +10,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,7 +17,7 @@ import android.widget.TextView;
 public class MyComp extends LinearLayout {
    FlowLayout compLaout = null;
    String compname = "";
-   ImageView image = null;
+   SvgView image = null;
    boolean isCollapsedEnabled = false;
    boolean isReset = false;
    MyComp[] siblingComps = new MyComp[0];
@@ -33,53 +31,48 @@ public class MyComp extends LinearLayout {
       this.maxComp = maxComps;
       ((LayoutInflater)context.getSystemService("layout_inflater")).inflate(R.layout.collapsepanel, this);
       TextView var4 = (TextView)this.findViewById(R.id.name);
-      this.image = (ImageView)this.findViewById(R.id.loadingImage);
-      Bitmap var3 = BitmapFactory.decodeResource(this.getResources(), R.drawable.downarrow);
-      this.image.setImageBitmap(var3);
+      this.image = (SvgView)this.findViewById(R.id.loadingImage);
+      this.image.setImageResource(R.raw.downarrow);
       var4.setText(compName);
       this.compLaout = (FlowLayout)this.findViewById(R.id.compfield1);
       ((RelativeLayout)this.findViewById(R.id.collapseheader)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
-            Bitmap var5;
             if(MyComp.this.compLaout.getVisibility() == 8) {
                MyComp.this.showAddButton(true);
                MyComp.this.compLaout.setVisibility(0);
                if(MyComp.this.siblingComps != null) {
-                  MyComp[] var4 = MyComp.this.siblingComps;
-                  int var3 = var4.length;
+                  MyComp[] myComps = MyComp.this.siblingComps;
+                  int count = myComps.length;
 
-                  for(int var2 = 0; var2 < var3; ++var2) {
-                     var4[var2].expandComp(false);
+                  for(int index = 0; index < count; ++index) {
+                	  myComps[index].expandComp(false);
                   }
                }
-
-               var5 = BitmapFactory.decodeResource(MyComp.this.getResources(), R.drawable.downarrow);
-               MyComp.this.image.setImageBitmap(var5);
+               MyComp.this.image.setImageResource(R.raw.downarrow);
             } else {
                MyComp.this.showAddButton(false);
                MyComp.this.showDeleteButton(false);
                MyComp.this.compLaout.setVisibility(8);
-               var5 = BitmapFactory.decodeResource(MyComp.this.getResources(), R.drawable.rightarrow);
-               MyComp.this.image.setImageBitmap(var5);
+               MyComp.this.image.setImageResource(R.raw.rightarrow);
             }
 
          }
       });
       this.expandComp(true);
-      ((ImageButton)this.findViewById(R.id.addbutton)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.addbutton)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             MyComp.this.deselectAll();
             MyComp.this.doAddAction();
          }
       });
-      ((ImageButton)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
           public void onClick(View var1) {
         	  MyComp.this.deselectAll();
               MyComp.this.doEditAction();
               MyComp.this.showDeleteButton(false);
           }
        });
-      ((ImageButton)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             MyComp.this.doDeleteAction();
             MyComp.this.deselectAll();
@@ -100,12 +93,12 @@ public class MyComp extends LinearLayout {
    }
 
    private boolean isButtonShown(int buttonId) {
-	   ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
+	   SvgButton imgButton = (SvgButton)this.findViewById(buttonId);
 	   return imgButton.getVisibility() == Button.VISIBLE;
    }
    
    private void showButton(int buttonId, boolean show) {
-      ImageButton imgButton = (ImageButton)this.findViewById(buttonId);
+      SvgButton imgButton = (SvgButton)this.findViewById(buttonId);
       if(show) {
     	  if( isEditNeeded ) {
     		  imgButton.setVisibility(Button.VISIBLE);
@@ -116,21 +109,21 @@ public class MyComp extends LinearLayout {
 
    }
 
-   public void addMyView(ImageTextButton var1) {
-      LayoutParams var2 = new LayoutParams(-2, -2);
-      var2.setMargins(10, 10, 10, 10);
-      var1.setLayoutParams(var2);
-      this.compLaout.addView(var1);
+   public void addMyView(ImageTextButton but) {
+      LayoutParams lp = new LayoutParams(-2, -2);
+      lp.setMargins(10, 10, 10, 10);
+      but.setLayoutParams(lp);
+      this.compLaout.addView(but);
       if( maxComp != -1 && isAddButtonShown)
 		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
       this.relayout();
    }
 
    public void deselectAll() {
-      int var2 = this.compLaout.getChildCount();
+      int count = this.compLaout.getChildCount();
 
-      for(int var1 = 0; var1 < var2; ++var1) {
-         ((ImageTextButton)this.compLaout.getChildAt(var1)).setBorderSelected(false);
+      for(int index = 0; index < count; ++index) {
+         ((ImageTextButton)this.compLaout.getChildAt(index)).setBorderSelected(false);
       }
 
    }
@@ -144,18 +137,15 @@ public class MyComp extends LinearLayout {
    public void doDeleteAction() {
    }
 
-   public void expandComp(boolean var1) {
+   public void expandComp(boolean expand) {
       if(this.isCollapsedEnabled) {
-         Bitmap var2;
-         if(var1) {
+         if(expand) {
             this.compLaout.setVisibility(0);
-            var2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.downarrow);
-            this.image.setImageBitmap(var2);
+            this.image.setImageResource(R.raw.downarrow);
             this.showAddButton(true);
          } else {
             this.compLaout.setVisibility(8);
-            var2 = BitmapFactory.decodeResource(this.getResources(), R.drawable.rightarrow);
-            this.image.setImageBitmap(var2);
+            this.image.setImageResource(R.raw.rightarrow);
             this.showAddButton(false);
             this.showDeleteButton(false);
             this.deselectAll();
@@ -173,11 +163,11 @@ public class MyComp extends LinearLayout {
    }
 
    public void recalculateMaxWidth() {
-      MyComp[] var3 = this.siblingComps;
-      int var2 = var3.length;
+      MyComp[] siblings = this.siblingComps;
+      int count = siblings.length;
 
-      for(int var1 = 0; var1 < var2; ++var1) {
-         var3[var1].compLaout.recalculateMaxWidth();
+      for(int index = 0; index < count; ++index) {
+    	  siblings[index].compLaout.recalculateMaxWidth();
       }
 
       this.compLaout.recalculateMaxWidth();
@@ -189,14 +179,14 @@ public class MyComp extends LinearLayout {
             MyComp[] sibs = MyComp.this.siblingComps;
             
             int maxwidth = 0;
-            for(int var2 = 0; var2 < sibs.length; var2++) {
-               if(sibs[var2].getChildMaxWidth() > maxwidth) {
-                  maxwidth = sibs[var2].getChildMaxWidth();
+            for(int index = 0; index < sibs.length; index++) {
+               if(sibs[index].getChildMaxWidth() > maxwidth) {
+                  maxwidth = sibs[index].getChildMaxWidth();
                }
             }
             
-            for(int var2 = 0; var2 < sibs.length; var2++) {
-            	sibs[var2].setChildMaxWidth(maxwidth);
+            for(int index = 0; index < sibs.length; index++) {
+            	sibs[index].setChildMaxWidth(maxwidth);
              }
 
             MyComp.this.setChildMaxWidth(maxwidth);
@@ -204,13 +194,13 @@ public class MyComp extends LinearLayout {
       });
    }
 
-   public void removeMyView(String var1) {
-      int var3 = this.compLaout.getChildCount();
+   public void removeMyView(String compName) {
+      int count = this.compLaout.getChildCount();
 
-      for(int var2 = 0; var2 < var3; ++var2) {
-         ImageTextButton var4 = (ImageTextButton)this.compLaout.getChildAt(var2);
-         if(var4.getText().equals(var1)) {
-            this.compLaout.removeView(var4);
+      for(int index = 0; index < count; ++index) {
+         ImageTextButton imageTextButton = (ImageTextButton)this.compLaout.getChildAt(index);
+         if(imageTextButton.getText().equals(compName)) {
+            this.compLaout.removeView(imageTextButton);
             this.recalculateMaxWidth();
             this.relayout();
             break;
@@ -221,35 +211,35 @@ public class MyComp extends LinearLayout {
 		  this.showButton(R.id.addbutton, this.compLaout.getChildCount() < maxComp);
    }
 
-   public void resetButtonInPanel(boolean var1) {
+   public void resetButtonInPanel(boolean reset) {
       this.isReset = true;
-      int var3 = this.compLaout.getChildCount();
+      int count = this.compLaout.getChildCount();
 
-      for(int var2 = 0; var2 < var3; ++var2) {
-         ImageTextButton var4 = (ImageTextButton)this.compLaout.getChildAt(var2);
-         String var5 = var4.getDeviceType();
-         if(var1) {
-            var4.changeDeviceButtonStyle(-1);
-            var4.setBackgroundImage(R.drawable.group);
+      for(int index = 0; index < count; ++index) {
+         ImageTextButton imagetextButton = (ImageTextButton)this.compLaout.getChildAt(index);
+         String devType = imagetextButton.getDeviceType();
+         if(reset) {
+        	 imagetextButton.changeDeviceButtonStyle(-1);
+        	 imagetextButton.setBackgroundImage(R.raw.group);
          } else {
-            var4.changeDeviceButtonStyle(var5, -1);
+        	 imagetextButton.changeDeviceButtonStyle(devType, -1);
          }
       }
 
    }
 
-   public void selectComp(ImageTextButton var1) {
+   public void selectComp(ImageTextButton button) {
       this.deselectAll();
-      MyComp[] var4 = this.siblingComps;
-      int var3 = var4.length;
+      MyComp[] siblings = this.siblingComps;
+      int count = siblings.length;
 
-      for(int var2 = 0; var2 < var3; ++var2) {
-         MyComp var5 = var4[var2];
-         var5.showDeleteButton(false);
-         var5.deselectAll();
+      for(int index = 0; index < count; ++index) {
+         MyComp comp = siblings[index];
+         comp.showDeleteButton(false);
+         comp.deselectAll();
       }
 
-      var1.setBorderSelected(true);
+      button.setBorderSelected(true);
    }
 
    public void setChildMaxWidth(int var1) {
@@ -274,14 +264,14 @@ public class MyComp extends LinearLayout {
    }
 
    public void updateButtonInPanel() {
-      int var2 = this.compLaout.getChildCount();
+      int count = this.compLaout.getChildCount();
 
-      for(int var1 = 0; var1 < var2; ++var1) {
-         ImageTextButton var5 = (ImageTextButton)this.compLaout.getChildAt(var1);
-         int devid = var5.getId();
-         int var3 = BtLocalDB.getInstance(this.getContext()).getDeviceStatus((byte)devid);
-         if(var3 != -1) {
-            var5.changeDeviceButtonStyle(var5.getDeviceType(), var3);
+      for(int index = 0; index < count; ++index) {
+         ImageTextButton button = (ImageTextButton)this.compLaout.getChildAt(index);
+         int devid = button.getId();
+         int status = BtLocalDB.getInstance(this.getContext()).getDeviceStatus((byte)devid);
+         if(status != -1) {
+            button.changeDeviceButtonStyle(button.getDeviceType(), status);
          }
       }
 
@@ -289,12 +279,12 @@ public class MyComp extends LinearLayout {
 
    public void updateLiveButtonInPanel() {
       this.isReset = false;
-      int var2 = this.compLaout.getChildCount();
+      int count = this.compLaout.getChildCount();
 
-      for(int var1 = 0; var1 < var2; ++var1) {
-         ImageTextButton var3 = (ImageTextButton)this.compLaout.getChildAt(var1);
-         var3.changeDeviceButtonStyle(0);
-         var3.setBackgroundImage(R.drawable.group);
+      for(int index = 0; index < count; ++index) {
+         ImageTextButton but = (ImageTextButton)this.compLaout.getChildAt(index);
+         but.changeDeviceButtonStyle(0);
+         but.setBackgroundImage(R.raw.group);
       }
 
    }

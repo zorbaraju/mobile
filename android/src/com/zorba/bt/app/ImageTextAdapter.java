@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 
@@ -23,21 +22,22 @@ public class ImageTextAdapter extends ArrayAdapter<ImageTextData> {
       this.callback = cb;
    }
 
-   public View getDropDownView(int var1, View var2, ViewGroup var3) {
-      return this.getView(var1, var2, var3);
+   public View getDropDownView(int style, View view, ViewGroup group) {
+      return this.getView(style, view, group);
    }
 
    public View getView(int position, View convertView, ViewGroup parent) {
       inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
       View inflatedView = inflater.inflate(R.layout.imagetextitem, parent, false);
-      ImageButton var5 = (ImageButton)inflatedView.findViewById(R.id.imageview1);
-      var5.setImageResource(((ImageTextData)this.list.get(position)).getImageId().intValue());
-      TextView var6 = (TextView)inflatedView.findViewById(R.id.buttontext);
-      var6.setText(((ImageTextData)this.list.get(position)).getText());
-      var6.setTag(Integer.valueOf(position));
-      var5.setTag(Integer.valueOf(position));
-      var5.setOnClickListener(this.callback);
-      var6.setOnClickListener(this.callback);
+      SvgButton button = (SvgButton)inflatedView.findViewById(R.id.imageview1);
+      button.setImageResource(((ImageTextData)this.list.get(position)).getImageId().intValue());
+      TextView textv = (TextView)inflatedView.findViewById(R.id.buttontext);
+      textv.setText(((ImageTextData)this.list.get(position)).getText());
+      textv.setTag(Integer.valueOf(position));
+      button.setTag(Integer.valueOf(position));
+      button.setOnClickListener(this.callback);
+      textv.setOnClickListener(this.callback);
       return inflatedView;
+      
    }
 }

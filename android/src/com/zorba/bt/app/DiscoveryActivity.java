@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
@@ -30,11 +29,8 @@ import android.widget.RadioButton;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
@@ -50,7 +46,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	static final int DISCOVERYTYPE_WR = DISCOVERYTYPE_BT + 1;
 	static final int DISCOVERYTYPE_WAP = DISCOVERYTYPE_WR + 1;
 	static final int ENABLE_BT = 1;
-	ImageButton deleteButton = null;
+	SvgButton deleteButton = null;
 	private String deletedRoomList = "";
 	LinearLayout discoveryContent = null;
 	GifAnimationDrawable little = null;
@@ -76,7 +72,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 	private void addRoomButton(RoomData var1) {
 		final ImageTextButton var2 = new ImageTextButton(this);
-		var2.setBackgroundImage(R.drawable.scheduler);
+		var2.setBackgroundImage(R.raw.scheduler);
 		var2.setText(var1.getName());
 		var2.setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
@@ -112,7 +108,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 			return null;
 		} else {
 			saveButton.setEnabled(false);
-
+			
 			BackgroundTaskDialog task = new BackgroundTaskDialog(this) {
 				@Override
 				public Object runTask(Object params) {
@@ -533,7 +529,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		if (!little.isRunning())
 			little.start();
 		saveButton.setEnabled(false);
-		((ImageView) findViewById(R.id.spinnertriangle)).setVisibility(View.GONE);
+		((SvgView) findViewById(R.id.spinnertriangle)).setVisibility(View.GONE);
 		((TextView) findViewById(R.id.controllerValue)).setText(getDiscoveryModeStr() + " is going on");
 		btdiscoveryBox.setEnabled(false);
 		wifirdiscoveryBox.setEnabled(false);
@@ -570,7 +566,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 			public void run() {
 				((TextView) DiscoveryActivity.this.findViewById(R.id.controllerValue))
 						.setText(getDiscoveryModeStr() + " is done");
-				((ImageView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
+				((SvgView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
 				DiscoveryActivity.this.little.stop();
 				saveButton.setEnabled(true);
 				btdiscoveryBox.setEnabled(true);
@@ -710,7 +706,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		});
 		saveButton = (Button) findViewById(R.id.savebutton);
 		saveButton.setEnabled(false);
-		((ImageView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new OnClickListener() {
+		((SvgView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
 				DiscoveryActivity.this.startDiscoveryProcess();
 			}
@@ -801,7 +797,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				nonEmptyChildren.clear();
 			}
 		});
-		this.deleteButton = (ImageButton) this.findViewById(R.id.deletebutton);
+		this.deleteButton = (SvgButton) this.findViewById(R.id.deletebutton);
 		this.roomsContent = (FlowLayout) this.findViewById(R.id.roomscontent);
 		ArrayList<RoomData> roomArrayList = BtLocalDB.getInstance(this).getRoomList();
 		roomArrayList.remove(0);
@@ -835,13 +831,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 						}).show();
 			}
 		});
-		ImageView var7 = (ImageView) this.findViewById(R.id.loadingImage);
+		SvgView var7 = (SvgView) this.findViewById(R.id.loadingImage);
 		try {
 			GifAnimationDrawable var3 = new GifAnimationDrawable(
 					this.getResources().openRawResource(R.drawable.refresh));
 			this.little = var3;
 			this.little.setOneShot(false);
-			var7.setImageDrawable(this.little);
+			var7.setSvgImageDrawable(this.little);
 		} catch (Exception var4) {
 			var4.printStackTrace();
 		}

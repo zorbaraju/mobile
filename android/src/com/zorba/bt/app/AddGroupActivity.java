@@ -11,7 +11,6 @@ import android.text.InputFilter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,12 +19,12 @@ public class AddGroupActivity extends ZorbaActivity {
    String editGroupName = null;
 
    private void initListeners() {
-      ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddGroupActivity.this.finish();
          }
       });
-      ((ImageButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddGroupActivity.this.saveGroup();
          }

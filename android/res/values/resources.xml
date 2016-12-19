@@ -7,8 +7,11 @@
         <attr name="android:galleryItemBackground" /> 
     </declare-styleable> 
     <declare-styleable name="SvgView"> 
-        <attr name="android:drawable" /> 
+        <attr name="svgviewsrc" format="reference"/>
     </declare-styleable> 
+    <declare-styleable name="SvgButton"> 
+        <attr name="svgbuttonsrc" format="reference"/>
+    </declare-styleable>
     <declare-styleable name="FlowLayout">
         <attr name="elementSpacing" format="dimension"/>
         <attr name="lineSpacing" format="dimension"/>

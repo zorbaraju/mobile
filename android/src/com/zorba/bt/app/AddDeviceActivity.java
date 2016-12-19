@@ -6,7 +6,6 @@ import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,12 +47,12 @@ public class AddDeviceActivity extends ZorbaActivity {
    }
 
    private void initListeners() {
-      ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddDeviceActivity.this.finish();
          }
       });
-      ((ImageButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddDeviceActivity.this.saveDevice();
          }
@@ -95,7 +94,7 @@ public class AddDeviceActivity extends ZorbaActivity {
                   BtHwLayer.getInstance(this).setSwitchType((byte)var1, isdimmable.isChecked(), false, (byte)var4.getSelectedItemPosition());
                } catch (Exception var7) {
                   CommonUtils.AlertBox(this, "Setting device type", "Setting device type is failed");
-                  return;
+                  //return;
                }
                
                try {

@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -77,7 +76,7 @@ public class MyPopupDialog extends LinearLayout {
       this.textlistmenu.setText(devicenames[0]);
 
       for(int var2 = 0; var2 < devicenames.length; ++var2) {
-         ImageView var6 = new ImageView(this.getContext());
+         SvgView var6 = new SvgView(this.getContext());
          LinearLayout var5 = new LinearLayout(this.getContext());
          var5.setOrientation(0);
          var5.setPadding(5, 5, 5, 5);

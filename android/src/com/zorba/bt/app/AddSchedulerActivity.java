@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,12 +32,12 @@ public class AddSchedulerActivity extends ZorbaActivity {
    String editSchedulerName = null;
 
    private void initListeners() {
-      ((ImageButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddSchedulerActivity.this.finish();
          }
       });
-      ((ImageButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
+      ((SvgButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddSchedulerActivity.this.saveScheduler();
          }

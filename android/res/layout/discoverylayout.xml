@@ -21,7 +21,7 @@
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="23.0sp" />
 
-        <ImageButton
+        <com.zorba.bt.app.SvgButton
             android:id="@id/deletebutton"
             android:layout_width="40.0dip"
             android:layout_height="40.0dip"
@@ -30,7 +30,7 @@
             android:layout_gravity="left"
             android:layout_marginRight="5.0dip"
             android:background="@android:color/transparent"
-            android:src="@drawable/minus"
+            app:svgbuttonsrc="@raw/minus"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -152,17 +152,17 @@
             android:text="Bluetooth Discovery is going on"
             android:textAppearance="?android:textAppearanceMedium" />
 
-        <ImageView
+        <com.zorba.bt.app.SvgView
             android:id="@id/spinnertriangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25.0dip"
-            android:src="@drawable/discovery" />
+            app:svgviewsrc="@raw/discovery" />
     </LinearLayout>
 
-    <ImageView
+    <com.zorba.bt.app.SvgView
         android:id="@id/loadingImage"
         android:layout_width="35.0dip"
         android:layout_height="35.0dip"

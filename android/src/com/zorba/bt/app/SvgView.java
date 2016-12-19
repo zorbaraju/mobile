@@ -2,48 +2,57 @@ package com.zorba.bt.app;
 
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
-import com.zorba.bt.app.dao.DeviceData;
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-public class SvgView extends ImageView {
+public class SvgView extends LinearLayout {
 	int svgimageid = -1;
+	ImageView iv = null;
 
-	public SvgView(Context var1) {
-		this(var1, (AttributeSet) null);
+	public SvgView(Context context) {
+		this(context, (AttributeSet) null);
 	}
 
-	public SvgView(Context context, AttributeSet var2) {
-		super(context, var2);
+	public SvgView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		((LayoutInflater) context.getSystemService("layout_inflater")).inflate(R.layout.svgview, this);
+		TypedArray typearr = context.getTheme().obtainStyledAttributes(attrs, R.styleable.SvgView, 0, 0);
+		iv = (ImageView) this.findViewById(R.id.svgimageview);
 
-	}
-
-	public void setSvgDrawable(int svgdrawable) {
-		this.svgimageid = svgdrawable;
-	}
-
-	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
-
-		if (svgimageid != -1) {
+		try {
+			this.svgimageid = typearr.getResourceId(R.styleable.SvgView_svgviewsrc, R.raw.g1);
 			SVG svg = SVGParser.getSVGFromResource(getResources(), svgimageid);
 			// Needed because of image accelaration in some devices such as
 			// samsung
-			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-			setImageDrawable(svg.createPictureDrawable());
+			iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			iv.setImageDrawable(svg.createPictureDrawable());
+		} finally {
+			typearr.recycle();
 		}
 	}
 
+	public void setSvgImageDrawable(Drawable drawable) {
+		iv.setImageDrawable(drawable);
+	}
+	
+	public void setImageBitmap(Bitmap bm) {
+		iv.setImageBitmap(bm);
+	}
+	
+	public void setImageResource(int resid) {
+		this.svgimageid = resid;
+		SVG svg = SVGParser.getSVGFromResource(getResources(), svgimageid);
+		// Needed because of image accelaration in some devices such as
+		// samsung
+		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+		iv.setImageDrawable(svg.createPictureDrawable());
+		//iv.setImageResource(resid);
+	}
 }

@@ -91,138 +91,138 @@ public class CommonUtils {
    }
 
    public static int getDeviceImage(String var0, int var1) {
-      int var2 = R.drawable.unknown;
+      int var2 = R.raw.unknown;
       if(var0.equals("Light")) {
          if(var1 <= 0) {
-            var2 = R.drawable.light_off;
+            var2 = R.raw.light_off;
          } else {
-            var2 = R.drawable.light_on;
+            var2 = R.raw.light_on;
          }
       } else if(var0.startsWith("Dimmable Light")) {
          if(var1 <= 0) {
-            var2 = R.drawable.dbulb_off;
+            var2 = R.raw.dbulb_off;
          } else {
-            var2 = R.drawable.dbulb_on;
+            var2 = R.raw.dbulb_on;
          }
       } else if(var0.startsWith("Tube Light")) {
          if(var1 <= 0) {
-            var2 = R.drawable.tubelight_off;
+            var2 = R.raw.tubelight_off;
          } else {
-            var2 = R.drawable.tubelight_on;
+            var2 = R.raw.tubelight_on;
          }
       } else if(var0.startsWith("CFL Bulb")) {
          if(var1 <= 0) {
-            var2 = R.drawable.cfl_off;
+            var2 = R.raw.cfl_off;
          } else {
-            var2 = R.drawable.cfl_on;
+            var2 = R.raw.cfl_on;
          }
       } else if(var0.startsWith("Cove light")) {
          if(var1 <= 0) {
-            var2 = R.drawable.covelight_off;
+            var2 = R.raw.covelight_off;
          } else {
-            var2 = R.drawable.covelight_on;
+            var2 = R.raw.covelight_on;
          }
       } else if(var0.startsWith("Fan")) {
          if(var1 <= 0) {
-            var2 = R.drawable.fan_off;
+            var2 = R.raw.fan_off;
          } else {
-            var2 = R.drawable.fan_on;
+            var2 = R.raw.fan_on;
          }
       } else if(var0.startsWith("Table Fan")) {
          if(var1 <= 0) {
-            var2 = R.drawable.tablefan_off;
+            var2 = R.raw.tablefan_off;
          } else {
-            var2 = R.drawable.tablefan_on;
+            var2 = R.raw.tablefan_on;
          }
       } else if(var0.startsWith("Ac")) {
          if(var1 <= 0) {
-            var2 = R.drawable.ac_off;
+            var2 = R.raw.ac_off;
          } else {
-            var2 = R.drawable.ac_on;
+            var2 = R.raw.ac_on;
          }
       } else if(var0.startsWith("Ac Split")) {
          if(var1 <= 0) {
-            var2 = R.drawable.acsplit_off;
+            var2 = R.raw.acsplit_off;
          } else {
-            var2 = R.drawable.acsplit_on;
+            var2 = R.raw.acsplit_on;
          }
       } else if(var0.startsWith("Alarm")) {
          if(var1 <= 0) {
-            var2 = R.drawable.alarm_off;
+            var2 = R.raw.alarm_off;
          } else {
-            var2 = R.drawable.alarm_on;
+            var2 = R.raw.alarm_on;
          }
       } else if(var0.startsWith("CC tv Indoor")) {
          if(var1 <= 0) {
-            var2 = R.drawable.cctvindoor_off;
+            var2 = R.raw.cctvindoor_off;
          } else {
-            var2 = R.drawable.cctvindoor_on;
+            var2 = R.raw.cctvindoor_on;
          }
       } else if(var0.startsWith("CC tv Outdoor")) {
          if(var1 <= 0) {
-            var2 = R.drawable.cctvoutdoor_off;
+            var2 = R.raw.cctvoutdoor_off;
          } else {
-            var2 = R.drawable.cctvoutdoor_on;
+            var2 = R.raw.cctvoutdoor_on;
          }
       } else if(var0.startsWith("Curtain")) {
          if(var1 <= 0) {
-            var2 = R.drawable.curtian_off;
+            var2 = R.raw.curtian_off;
          } else {
-            var2 = R.drawable.curtian_on;
+            var2 = R.raw.curtian_on;
          }
       } else if(var0.startsWith("Door Bell")) {
          if(var1 <= 0) {
-            var2 = R.drawable.doorbell_off;
+            var2 = R.raw.doorbell_off;
          } else {
-            var2 = R.drawable.doorbell_on;
+            var2 = R.raw.doorbell_on;
          }
       } else if(var0.startsWith("Door Lock")) {
          if(var1 <= 0) {
-            var2 = R.drawable.doorlock_off;
+            var2 = R.raw.doorlock_off;
          } else {
-            var2 = R.drawable.doorlock_on;
+            var2 = R.raw.doorlock_on;
          }
       } else if(var0.startsWith("Fridge")) {
          if(var1 <= 0) {
-            var2 = R.drawable.fridge_off;
+            var2 = R.raw.fridge_off;
          } else {
-            var2 = R.drawable.fridge_on;
+            var2 = R.raw.fridge_on;
          }
       } else if(var0.startsWith("Led")) {
          if(var1 <= 0) {
-            var2 = R.drawable.led_off;
+            var2 = R.raw.led_off;
          } else {
-            var2 = R.drawable.led_on;
+            var2 = R.raw.led_on;
          }
       } else if(var0.startsWith("Socket")) {
          if(var1 <= 0) {
-            var2 = R.drawable.socket_off;
+            var2 = R.raw.socket_off;
          } else {
-            var2 = R.drawable.socket_on;
+            var2 = R.raw.socket_on;
          }
       } else if(var0.startsWith("Micro Oven")) {
          if(var1 <= 0) {
-            var2 = R.drawable.microwave_off;
+            var2 = R.raw.microwave_off;
          } else {
-            var2 = R.drawable.microwave_on;
+            var2 = R.raw.microwave_on;
          }
       } else if(var0.startsWith("Settop Box")) {
          if(var1 <= 0) {
-            var2 = R.drawable.settopbox_off;
+            var2 = R.raw.settopbox_off;
          } else {
-            var2 = R.drawable.settopbox_on;
+            var2 = R.raw.settopbox_on;
          }
       } else if(var0.startsWith("Sprinkler")) {
          if(var1 <= 0) {
-            var2 = R.drawable.sprinkler_off;
+            var2 = R.raw.sprinkler_off;
          } else {
-            var2 = R.drawable.sprinkler_on;
+            var2 = R.raw.sprinkler_on;
          }
       } else if(var0.startsWith("TV")) {
          if(var1 <= 0) {
-            var2 = R.drawable.tv_off;
+            var2 = R.raw.tv_off;
          } else {
-            var2 = R.drawable.tv_on;
+            var2 = R.raw.tv_on;
          }
       }
 
@@ -396,7 +396,7 @@ public class CommonUtils {
 		instance = null;
 	}
 	
-	public static void processMultipleNotification(byte[] readBytes, int noProcessedBytes, NotificationListener notificationListener, MainActivity activity) {
+	public static void processMultipleNotification(byte[] readBytes, int noProcessedBytes, NotificationListener notificationListener, RoomsActivity activity) {
 		byte numdevs = readBytes[noProcessedBytes + 2];
 		byte[] data = new byte[numdevs*2];
 		for (int i = 0; i < numdevs*2; i++) {
@@ -420,6 +420,15 @@ public class CommonUtils {
 		}
 	}
 
+	public static String getPrintBytes(String tag, byte[] bytes) {
+		String resp = "";
+		for (int i = 0; i < bytes.length; i++) {
+			resp += " " + Integer.toHexString(bytes[i]);
+		}
+		String msg = "Data:" + tag + " \t" + String.format("%03d", bytes.length) + ": " + resp;
+		return msg;
+	}
+	
 	public static void printBytes(String tag, byte[] bytes) {
 		String resp = "";
 		for (int i = 0; i < bytes.length; i++) {
