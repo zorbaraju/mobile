@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/black"
+    android:layout_margin="10dp"
+    android:layout_marginBottom="1dp"
+    android:background="#ff131b22"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingBottom="5.0dip"
-    android:paddingLeft="5.0dip"
-    android:paddingTop="5.0dip" 
-    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app">
+    android:paddingBottom="2dp" >
 
     <com.zorba.bt.app.SvgButton
         android:id="@id/imageview1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:layout_height="match_parent"
+        android:background="#ff202e39"
         app:svgbuttonsrc="@raw/light" />
 
     <TextView
         android:id="@id/buttontext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#ff202e39"
         android:paddingLeft="10.0dip"
         android:text="Menu item"
         android:textColor="@android:color/white"
