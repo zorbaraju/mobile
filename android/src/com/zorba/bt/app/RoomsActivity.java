@@ -179,7 +179,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		arrayList.add(new ImageTextData("Help", R.raw.help));
 		arrayList.add(new ImageTextData("About", R.raw.about));
 		arrayList.add(new ImageTextData("Inverter Power", R.raw.inverter));
-		arrayList.add(new ImageTextData("Change Pwd", R.raw.inverter));
+		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepwd));
 		arrayList.add(new ImageTextData("Send Log", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Go to Ap mode", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
