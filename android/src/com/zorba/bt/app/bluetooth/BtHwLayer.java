@@ -18,6 +18,7 @@ import android.provider.Settings;
 import com.zorba.bt.app.CommonUtils;
 import com.zorba.bt.app.DiscoveryActivity;
 import com.zorba.bt.app.Logger;
+import com.zorba.bt.app.NetworkStateReceiver;
 import com.zorba.bt.app.RoomsActivity;
 import com.zorba.bt.app.dao.DeviceData;
 
@@ -88,6 +89,7 @@ public class BtHwLayer {
 	boolean isConnected = false;
 	boolean isunregistered = true;
 	BroadcastReceiver mReceiver = null;
+	NetworkStateReceiver nReceiver = null;
 
 	private BtHwLayer(Activity var1) {
 		this.activity = (RoomsActivity) var1;
@@ -103,6 +105,7 @@ public class BtHwLayer {
 			return;
 		}
 
+		nReceiver = new NetworkStateReceiver();
 		mReceiver = new BroadcastReceiver() {
 			public void onReceive(Context var1, Intent var2) {
 				if ("android.bluetooth.adapter.action.STATE_CHANGED".equals(var2.getAction())) {
@@ -415,6 +418,9 @@ public class BtHwLayer {
 			if( isunregistered ) {
 				this.activity.registerReceiver(this.mReceiver,
 						new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
+
+				this.activity.registerReceiver(this.nReceiver,
+						new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 				isunregistered = false;
 			}
 		}catch(Exception e){
@@ -426,6 +432,8 @@ public class BtHwLayer {
 		try{
 			if( !isunregistered ) {
 				this.activity.unregisterReceiver(this.mReceiver);
+				this.activity.unregisterReceiver(this.nReceiver);
+				
 				isunregistered = true;
 			}
 		}catch(Exception e){
