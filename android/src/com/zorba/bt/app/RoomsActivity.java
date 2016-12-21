@@ -139,7 +139,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		registerReceiver(new NetworkStateReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
 	}
 
 	@Override
@@ -797,6 +796,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			public Object runTask(Object params) {
 				boolean isUpdate = false;
 				btHwLayer.setConnectionListener(RoomsActivity.this);
+				if( selectedRoom == null)
+					return null;
 				String incomingssid = selectedRoom.getSSID();
 				String ipaddress = selectedRoom.getIpAddress();
 				String macaddress = selectedRoom.getAddress();
