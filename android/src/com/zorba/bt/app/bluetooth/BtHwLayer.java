@@ -121,8 +121,7 @@ public class BtHwLayer {
 			}
 		};
 		System.out.println("Registering receiver.....");
-		this.activity.registerReceiver(this.mReceiver,
-				new IntentFilter("android.bluetooth.adapter.action.STATE_CHANGED"));
+		register();
 	}
 
 	private void checkConnection() throws Exception {
@@ -333,7 +332,7 @@ public class BtHwLayer {
 				CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
 				byte[] macbytes = new byte[6];
 				for(int i=0; i<6; i++)
-					macbytes[i] = response[i+2];
+					macbytes[i] = response[i+1];
 				populateMacAddress = getMacAddressString(macbytes);
 				CommonUtils.getInstance().writeLog("bt mac, populated : "+populateMacAddress);
 			}
