@@ -174,12 +174,12 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		final ListPopupWindow popupWindow = new ListPopupWindow(this);
 		ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
 		arrayList.add(new ImageTextData("Add Room", R.raw.discovery));
-		arrayList.add(new ImageTextData("Device Configuration", R.raw.help));
+		arrayList.add(new ImageTextData("Device Configuration", R.raw.deviceconfig));
 		arrayList.add(new ImageTextData("Help", R.raw.help));
 		arrayList.add(new ImageTextData("About", R.raw.about));
 		arrayList.add(new ImageTextData("Inverter Power", R.raw.inverter));
-		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepwd));
-		arrayList.add(new ImageTextData("Send Log", R.raw.sendemail));
+		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepassword));
+		arrayList.add(new ImageTextData("Send Log", R.raw.sendlog));
 		arrayList.add(new ImageTextData("Go to Ap mode", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Exit", R.raw.exit));
