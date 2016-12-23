@@ -42,7 +42,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 	public static final int MENU_INDEX_ABOUT = MENU_INDEX_HELP + 1;
 	public static final int MENU_INDEX_INVERTER = MENU_INDEX_ABOUT + 1;
 	public static final int MENU_INDEX_CHANGEPWD = MENU_INDEX_INVERTER + 1;
-	public static final int MENU_INDEX_SENDLOG = MENU_INDEX_CHANGEPWD + 1;
+	public static final int MENU_INDEX_TIMESETTINGS = MENU_INDEX_CHANGEPWD + 1;
+	public static final int MENU_INDEX_SENDLOG = MENU_INDEX_TIMESETTINGS + 1;
 	public static final int MENU_INDEX_SWITCHMODELOG = MENU_INDEX_SENDLOG + 1;
 	public static final int MENU_INDEX_MTLOG = MENU_INDEX_SWITCHMODELOG + 1;
 	public static final int MENU_INDEX_EXIT = MENU_INDEX_MTLOG + 1;
@@ -179,6 +180,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		arrayList.add(new ImageTextData("About", R.raw.about));
 		arrayList.add(new ImageTextData("Inverter Power", R.raw.inverter));
 		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepassword));
+		arrayList.add(new ImageTextData("Time Settings", R.raw.timesettings));
 		arrayList.add(new ImageTextData("Send Log", R.raw.sendlog));
 		arrayList.add(new ImageTextData("Go to Ap mode", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
@@ -207,6 +209,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 					RoomsActivity.this.startActivityForResult(intent, INVERTER_CODE);
 				} else if (i == MENU_INDEX_CHANGEPWD) {
 					Intent intent = new Intent(RoomsActivity.this, ChangepwdActivity.class);
+					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
+				} else if (i == MENU_INDEX_TIMESETTINGS) {
+					Intent intent = new Intent(RoomsActivity.this, TimeSettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
 				} else if (i == MENU_INDEX_SWITCHMODELOG) {
 						try {
@@ -446,43 +451,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		return this.schedulePanel;
 	}
 	
-	private void constructTimePanel() {
-		LinearLayout roomContent = (LinearLayout) findViewById(R.id.roomContent);
-		
-		LinearLayout timePanel = (LinearLayout) ((LayoutInflater)getSystemService("layout_inflater")).inflate(R.layout.timepanel, null);
-		roomContent.addView(timePanel);
-		Button setButton = (Button)findViewById(R.id.setTimeButton);
-		Button getButton = (Button)findViewById(R.id.getTimeButton);
-		final TextView timeLabel = (TextView)findViewById(R.id.timeLabel);
-		setButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				try {
-					btHwLayer.setDateAndTime();
-					timeLabel.setText("Setting Time cmd is sent");
-				} catch (Exception e) {
-					timeLabel.setText("Error:"+e.getMessage());
-				}
-				
-			}
-		});
-		
-		getButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				try {
-					timeLabel.setText("Get time cmd is being sent");
-					String date = btHwLayer.getDateAndTime();
-					timeLabel.setText(date);
-				} catch (Exception e) {
-					timeLabel.setText("Error:"+e.getMessage());
-				}
-				
-			}
-		});
-	}
+	
 
 	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData, boolean isnew) {
 		if( !isnew )
@@ -770,7 +739,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		this.devicePanel.setSiblings(new MyComp[] { this.lightsPanel, this.groupPanel, this.schedulePanel });
 		this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
 		this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
-		constructTimePanel();
 		//isInitial = false;
 		System.err.println("IsInitial....."+isInitial);
 		if( isInitial  ) {
