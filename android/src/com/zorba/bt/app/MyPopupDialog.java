@@ -35,8 +35,8 @@ public class MyPopupDialog extends LinearLayout {
       this.dialog.setContentView(R.layout.devicelist);
       this.dialog.setTitle("Choose device type");
       this.dialog.setCanceledOnTouchOutside(true);
-      this.setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      this.setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             MyPopupDialog.this.dialog.show();
          }
       });
@@ -85,8 +85,8 @@ public class MyPopupDialog extends LinearLayout {
          var5.addView(var6);
          var4.addView(var5);
          final String settext  = devicenames[var2];
-         var6.setOnClickListener(new OnClickListener() {
-            public void onClick(View var1) {
+         var6.setOnClickListener(new ZorbaOnClickListener() {
+             public void zonClick(View var1) {
                MyPopupDialog.this.textlistmenu.setText(settext);
                MyPopupDialog.this.dialog.dismiss();
             }

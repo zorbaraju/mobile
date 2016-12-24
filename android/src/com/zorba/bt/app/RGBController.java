@@ -259,10 +259,8 @@ public class RGBController implements ConnectionListener{
 			      var4.setTextSize(20.0F);
 			      var4.setTag(Integer.valueOf(var1));
 			      var4.setText(remotestrt[var1]);
-			      var4.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
+			      var4.setOnClickListener(new ZorbaOnClickListener() {
+			          public void zonClick(View v) {
 							BackgroundTaskDialog dialog = new BackgroundTaskDialog(activity) {
 								
 								@Override

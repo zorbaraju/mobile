@@ -4,23 +4,15 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.math.BigInteger;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
-import com.zorba.bt.app.utils.BackgroundTask;
 
 public class SendLogActivity extends ZorbaActivity {
 	TextView logView = null;
@@ -37,19 +29,15 @@ public class SendLogActivity extends ZorbaActivity {
 		logView.setText(content);
 		scrlv.fullScroll(View.FOCUS_DOWN);
 		Button sendLogButton = (Button) findViewById(R.id.sendLog);
-		sendLogButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
+		sendLogButton.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View v) {
 				sendEmail();
 
 			}
 		});
 		Button writeButton = (Button) findViewById(R.id.writeButton);
-		writeButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
+		writeButton.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View v) {
 				TextView writeView = (TextView) findViewById(R.id.writeTextView);
 				String str = writeView.getText().toString();
 				if (str.length() % 2 == 1) {

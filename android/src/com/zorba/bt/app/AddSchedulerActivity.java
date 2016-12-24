@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,13 +31,13 @@ public class AddSchedulerActivity extends ZorbaActivity {
    String editSchedulerName = null;
 
    private void initListeners() {
-      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             AddSchedulerActivity.this.finish();
          }
       });
-      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             AddSchedulerActivity.this.saveScheduler();
          }
       });
@@ -76,10 +75,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
            }
     	};
     	
-      localObject1.setOnClickListener(new OnClickListener()
-      {
-
-    	  public void onClick(View paramAnonymousView)
+      localObject1.setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View paramAnonymousView)
           {
             new DatePickerDialog(AddSchedulerActivity.this, myDateListener, AddSchedulerActivity.this.mYear, AddSchedulerActivity.this.mMonth, AddSchedulerActivity.this.mDay).show();
           }
@@ -95,10 +92,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
 	}
    	};
    	
-   	localObject2.setOnClickListener(new OnClickListener()
-    {
-
-  	  public void onClick(View paramAnonymousView)
+   	localObject2.setOnClickListener(new ZorbaOnClickListener() {
+        public void zonClick(View paramAnonymousView)
         {
           new TimePickerDialog(AddSchedulerActivity.this, myTimeListener, AddSchedulerActivity.this.mHour, AddSchedulerActivity.this.mMinute, false).show();
         }

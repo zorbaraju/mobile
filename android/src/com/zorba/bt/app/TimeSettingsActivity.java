@@ -2,13 +2,9 @@ package com.zorba.bt.app;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,10 +26,8 @@ public class TimeSettingsActivity extends ZorbaActivity {
 		Button setButton = (Button)findViewById(R.id.setTimeButton);
 		Button getButton = (Button)findViewById(R.id.getTimeButton);
 		final TextView timeLabel = (TextView)findViewById(R.id.timeLabel);
-		setButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
+		setButton.setOnClickListener(new ZorbaOnClickListener() {
+            public void zonClick(View v) {
 				try {
 					BtHwLayer.getInstance(TimeSettingsActivity.this).setDateAndTime();
 					timeLabel.setText("Setting Time cmd is sent");
@@ -44,10 +38,8 @@ public class TimeSettingsActivity extends ZorbaActivity {
 			}
 		});
 		
-		getButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
+		getButton.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View v) {
 				try {
 					timeLabel.setText("Get time cmd is being sent");
 					String date = BtHwLayer.getInstance(TimeSettingsActivity.this).getDateAndTime();

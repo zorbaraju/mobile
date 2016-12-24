@@ -11,6 +11,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.os.Handler;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;

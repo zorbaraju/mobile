@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,13 +18,13 @@ public class AddGroupActivity extends ZorbaActivity {
    String editGroupName = null;
 
    private void initListeners() {
-      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             AddGroupActivity.this.finish();
          }
       });
-      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             AddGroupActivity.this.saveGroup();
          }
       });
