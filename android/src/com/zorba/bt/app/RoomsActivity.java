@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,17 +99,15 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			rgbController = new RGBController(this);
 			final ListPopupWindow homeMenu = prepareHomeMenu();
 			SvgView homeButton = (SvgView) findViewById(R.id.homeButton);
-			homeButton.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
+			homeButton.setOnClickListener(new ZorbaOnClickListener() {
+		         public void zonClick(View v) {
 					homeMenu.show();
 				}
 			});
 			this.roomMenuList = new ListPopupWindow(this);
 			TextView roomText = (TextView) findViewById(R.id.roomList);
-			roomText.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View paramAnonymousView) {
+			roomText.setOnClickListener(new ZorbaOnClickListener() {
+		         public void zonClick(View paramAnonymousView) {
 					RoomsActivity.this.roomMenuList.show();
 				}
 			});
@@ -185,8 +184,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		arrayList.add(new ImageTextData("Go to Ap mode", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Exit", R.raw.exit));
-		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new OnClickListener() {
-			public void onClick(View popupView) {
+		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
+	         public void zonClick(View popupView) {
 				popupWindow.dismiss();
 				int i = ((Integer) popupView.getTag()).intValue();
 				if (i == MENU_INDEX_DISCOVERY) {
@@ -1086,4 +1085,5 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		groupPanel.enableEditMode(isInConfigDeviceMode);
 		schedulePanel.enableEditMode(isInConfigDeviceMode);
 	}
+
 }

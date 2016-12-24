@@ -1,6 +1,7 @@
 package com.zorba.bt.app.bluetooth;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -67,7 +68,7 @@ public class AwsConnection {
 
 	CognitoCachingCredentialsProvider credentialsProvider;
 
-	public AwsConnection(Activity activity, String macaddress) {
+	public AwsConnection(Context activity, String macaddress) {
 
 		this.macAddress = macaddress;
 		// MQTT client IDs are required to be unique per AWS IoT account.

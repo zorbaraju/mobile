@@ -35,8 +35,8 @@ public class MyComp extends LinearLayout {
       this.image.setImageResource(R.raw.downarrow);
       var4.setText(compName);
       this.compLaout = (FlowLayout)this.findViewById(R.id.compfield1);
-      ((RelativeLayout)this.findViewById(R.id.collapseheader)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((RelativeLayout)this.findViewById(R.id.collapseheader)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             if(MyComp.this.compLaout.getVisibility() == 8) {
                MyComp.this.showAddButton(true);
                MyComp.this.compLaout.setVisibility(0);
@@ -59,21 +59,21 @@ public class MyComp extends LinearLayout {
          }
       });
       this.expandComp(true);
-      ((SvgView)this.findViewById(R.id.addbutton)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.addbutton)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             MyComp.this.deselectAll();
             MyComp.this.doAddAction();
          }
       });
-      ((SvgView)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
-          public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.configbutton)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
         	  MyComp.this.deselectAll();
               MyComp.this.doEditAction();
               MyComp.this.showDeleteButton(false);
           }
        });
-      ((SvgView)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.deletebutton)).setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             MyComp.this.doDeleteAction();
             MyComp.this.deselectAll();
             MyComp.this.showDeleteButton(false);

@@ -47,8 +47,8 @@ public class MyListMenu extends LinearLayout {
 
          }
       });
-      this.setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      this.setOnClickListener(new ZorbaOnClickListener() {
+          public void zonClick(View var1) {
             MyListMenu.this.listPopup.show();
          }
       });

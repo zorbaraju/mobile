@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 import android.provider.Settings;
 import com.zorba.bt.app.CommonUtils;
 import com.zorba.bt.app.DiscoveryActivity;
@@ -28,6 +29,9 @@ import java.util.UUID;
 
 public class BtHwLayer {
 
+	private int idletimeout = 1000 * 60 * 2;
+	private long activedTime = 0;
+	
 	boolean isDiscovery = false;
 	String populateMacAddress = null;
 	private final static int NAMELEGTH = 12;
@@ -931,5 +935,27 @@ public class BtHwLayer {
 		String error = initDevice(null, null, hostName, pwd);
 		closeDevice();
 		return (error == null);
+	}
+	
+	public void timeout() {
+		activedTime = System.currentTimeMillis();
+
+		System.out.println("closingraju tioeout");
+		new Handler().postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				long currentTime = System.currentTimeMillis();
+				long diffTime = currentTime - activedTime;
+				if (diffTime >= idletimeout) {
+					System.out.println("closingraju by idletimeout "+diffTime+" "+idletimeout);
+					closeDevice();
+				} else {
+					System.out.println("closingraju Ignored");
+				}
+
+			}
+		}, 1000 * 30);
+
 	}
 }

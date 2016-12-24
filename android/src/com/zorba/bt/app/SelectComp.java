@@ -57,8 +57,8 @@ public class SelectComp extends LinearLayout {
                return false;
             }
          });
-         var5.setOnClickListener(new OnClickListener() {
-            public void onClick(View var1) {
+         var5.setOnClickListener(new ZorbaOnClickListener() {
+             public void zonClick(View var1) {
                SelectComp var2 = SelectComp.this;
                String var3;
                if(var5.isChecked()) {

@@ -47,13 +47,13 @@ public class AddDeviceActivity extends ZorbaActivity {
    }
 
    private void initListeners() {
-      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new ZorbaOnClickListener() {
+         public void zonClick(View var1) {
             AddDeviceActivity.this.finish();
          }
       });
-      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
-         public void onClick(View var1) {
+      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new ZorbaOnClickListener() {
+         public void zonClick(View var1) {
             AddDeviceActivity.this.saveDevice();
          }
       });

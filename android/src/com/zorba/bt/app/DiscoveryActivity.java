@@ -16,12 +16,10 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
@@ -74,8 +72,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		final ImageTextButton var2 = new ImageTextButton(this);
 		var2.changeDeviceButtonStyle("Unknown", 0);
 		var2.setText(var1.getName());
-		var2.setOnClickListener(new OnClickListener() {
-			public void onClick(View var1) {
+		var2.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View var1) {
 				DiscoveryActivity.this.deleteButton.setVisibility(View.GONE);
 				int var3 = DiscoveryActivity.this.roomsContent.getChildCount();
 
@@ -706,8 +704,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		});
 		saveButton = (Button) findViewById(R.id.savebutton);
 		saveButton.setEnabled(false);
-		((SvgView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new OnClickListener() {
-			public void onClick(View var1) {
+		((SvgView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View var1) {
 				DiscoveryActivity.this.startDiscoveryProcess();
 			}
 		});
@@ -764,8 +762,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		};
 		IntentFilter intent = new IntentFilter("android.bluetooth.device.action.FOUND");
 		this.registerReceiver(this.mReceiver, intent);
-		saveButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View var1) {
+		saveButton.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View var1) {
 
 				String pwd = "null";
 				TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
@@ -804,8 +802,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		for (int var2 = 0; var2 < roomArrayList.size(); ++var2) {
 			this.addRoomButton(roomArrayList.get(var2));
 		}
-		this.deleteButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View var1) {
+		this.deleteButton.setOnClickListener(new ZorbaOnClickListener() {
+	         public void zonClick(View var1) {
 				(new Builder(DiscoveryActivity.this)).setTitle("Delete").setMessage("Do you really want to delete ?")
 						.setPositiveButton("Yes", new android.content.DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface var1, int var2) {
