@@ -11,7 +11,7 @@
     android:paddingBottom="8.0dip"
     android:paddingTop="8.0dip" >
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@id/homeButton"
         android:layout_width="40.0dip"
         android:layout_height="40.0dip"
@@ -19,9 +19,9 @@
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
         android:gravity="center"
-        app:svgbuttonsrc="@raw/home" />
+        app:svgviewsrc="@raw/home" />
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@id/overlay"
         android:layout_width="35.0dip"
         android:layout_height="35.0dip"
@@ -32,7 +32,7 @@
         android:layout_toRightOf="@id/homeButton"
         android:background="@android:color/transparent"
         android:visibility="gone"
-        app:svgbuttonsrc="@raw/refresh" />
+        app:svgviewsrc="@raw/refresh" />
 
     <RelativeLayout
         android:id="@id/middleh"
@@ -67,7 +67,7 @@
             app:svgviewsrc="@raw/spinnertriangle" />
     </RelativeLayout>
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@id/analyticsButton"
         android:layout_width="40.0dip"
         android:layout_height="40.0dip"
@@ -76,9 +76,9 @@
         android:gravity="center"
         android:text="Analytics"
         android:visibility="gone"
-        app:svgbuttonsrc="@raw/analytics" />
+        app:svgviewsrc="@raw/analytics" />
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@+id/aboutButton"
         android:layout_width="40.0dip"
         android:layout_height="40.0dip"
@@ -87,6 +87,6 @@
         android:gravity="center"
         android:text="Analytics"
         android:visibility="visible"
-        app:svgbuttonsrc="@raw/about" />
+        app:svgviewsrc="@raw/about" />
 
 </RelativeLayout>

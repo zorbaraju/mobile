@@ -21,7 +21,7 @@
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="23.0sp" />
 
-        <com.zorba.bt.app.SvgButton
+        <com.zorba.bt.app.SvgView
             android:id="@id/deletebutton"
             android:layout_width="40.0dip"
             android:layout_height="40.0dip"
@@ -30,7 +30,7 @@
             android:layout_gravity="left"
             android:layout_marginRight="5.0dip"
             android:background="@android:color/transparent"
-            app:svgbuttonsrc="@raw/minus"
+            app:svgviewsrc="@raw/minus"
             android:visibility="gone" />
     </LinearLayout>
 

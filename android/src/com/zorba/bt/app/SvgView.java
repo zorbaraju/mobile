@@ -48,11 +48,15 @@ public class SvgView extends LinearLayout {
 	
 	public void setImageResource(int resid) {
 		this.svgimageid = resid;
-		SVG svg = SVGParser.getSVGFromResource(getResources(), svgimageid);
-		// Needed because of image accelaration in some devices such as
-		// samsung
-		iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		iv.setImageDrawable(svg.createPictureDrawable());
-		//iv.setImageResource(resid);
+		if( resid != 0 ) {
+			SVG svg = SVGParser.getSVGFromResource(getResources(), svgimageid);
+			// Needed because of image accelaration in some devices such as
+			// samsung
+			iv.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+			iv.setImageDrawable(svg.createPictureDrawable());
+			//iv.setImageResource(resid);
+		} else {
+			iv.setImageDrawable(null);
+		}
 	}
 }

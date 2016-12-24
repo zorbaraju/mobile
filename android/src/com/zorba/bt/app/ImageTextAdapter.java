@@ -29,7 +29,7 @@ public class ImageTextAdapter extends ArrayAdapter<ImageTextData> {
    public View getView(int position, View convertView, ViewGroup parent) {
       inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
       View inflatedView = inflater.inflate(R.layout.imagetextitem, parent, false);
-      SvgButton button = (SvgButton)inflatedView.findViewById(R.id.imageview1);
+      SvgView button = (SvgView)inflatedView.findViewById(R.id.imageview1);
       button.setImageResource(((ImageTextData)this.list.get(position)).getImageId().intValue());
       TextView textv = (TextView)inflatedView.findViewById(R.id.buttontext);
       textv.setText(((ImageTextData)this.list.get(position)).getText());

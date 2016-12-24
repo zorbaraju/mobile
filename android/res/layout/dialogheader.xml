@@ -2,20 +2,20 @@
 <RelativeLayout android:background="#ff131b22" android:padding="5.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content"
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app">
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:background="@android:color/transparent"
-        app:svgbuttonsrc="@raw/cancel" />
+        app:svgviewsrc="@raw/cancel" />
 
-    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Group" android:layout_centerInParent="true" /><com.zorba.bt.app.SvgButton
+    <TextView android:textSize="20.0sp" android:textColor="#ffffffff" android:id="@id/title" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Group" android:layout_centerInParent="true" /><com.zorba.bt.app.SvgView
         android:id="@id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
-        app:svgbuttonsrc="@raw/save" />
+        app:svgviewsrc="@raw/save" />
 
 </RelativeLayout>
