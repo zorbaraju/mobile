@@ -59,20 +59,20 @@ public class MyComp extends LinearLayout {
          }
       });
       this.expandComp(true);
-      ((SvgButton)this.findViewById(R.id.addbutton)).setOnClickListener(new OnClickListener() {
+      ((SvgView)this.findViewById(R.id.addbutton)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             MyComp.this.deselectAll();
             MyComp.this.doAddAction();
          }
       });
-      ((SvgButton)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
+      ((SvgView)this.findViewById(R.id.configbutton)).setOnClickListener(new OnClickListener() {
           public void onClick(View var1) {
         	  MyComp.this.deselectAll();
               MyComp.this.doEditAction();
               MyComp.this.showDeleteButton(false);
           }
        });
-      ((SvgButton)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
+      ((SvgView)this.findViewById(R.id.deletebutton)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             MyComp.this.doDeleteAction();
             MyComp.this.deselectAll();
@@ -93,12 +93,12 @@ public class MyComp extends LinearLayout {
    }
 
    private boolean isButtonShown(int buttonId) {
-	   SvgButton imgButton = (SvgButton)this.findViewById(buttonId);
+	   SvgView imgButton = (SvgView)this.findViewById(buttonId);
 	   return imgButton.getVisibility() == Button.VISIBLE;
    }
    
    private void showButton(int buttonId, boolean show) {
-      SvgButton imgButton = (SvgButton)this.findViewById(buttonId);
+      SvgView imgButton = (SvgView)this.findViewById(buttonId);
       if(show) {
     	  if( isEditNeeded ) {
     		  imgButton.setVisibility(Button.VISIBLE);

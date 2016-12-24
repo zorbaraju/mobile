@@ -97,7 +97,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			BtLocalDB.getInstance(this).cleanDB();
 			rgbController = new RGBController(this);
 			final ListPopupWindow homeMenu = prepareHomeMenu();
-			SvgButton homeButton = (SvgButton) findViewById(R.id.homeButton);
+			SvgView homeButton = (SvgView) findViewById(R.id.homeButton);
 			homeButton.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -121,7 +121,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			 * MainActivity.this.startActivityForResult(paramAnonymousView,
 			 * APPINFO_CODE); } });
 			 */
-			SvgButton db = (SvgButton) findViewById(R.id.discoverbutton);
+			SvgView db = (SvgView) findViewById(R.id.discoverbutton);
 			if (db != null) {
 				db.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View paramAnonymousView1) {
@@ -857,7 +857,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 	}
 
 	public void relayout() {
-		((SvgButton) findViewById(R.id.overlay)).post(new Runnable() {
+		((SvgView) findViewById(R.id.overlay)).post(new Runnable() {
 			public void run() {
 				RoomsActivity.this.schedulePanel.relayout();
 				RoomsActivity.this.groupPanel.relayout();
@@ -981,7 +981,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 	}
 
 	public void setConnectionModeIcon(int connectionType) {
-		SvgButton aboutButton = (SvgButton) findViewById(R.id.aboutButton);
+		SvgView aboutButton = (SvgView) findViewById(R.id.aboutButton);
 		if (connectionType == 0) 
 			aboutButton.setImageResource(0);
 		else if (connectionType == 1)

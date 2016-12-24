@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ImageTextButton extends LinearLayout {
-	SvgButton button;
+	SvgView button;
    String deviceType;
    TextView labelText;
    boolean mShowText;
@@ -32,7 +32,7 @@ public class ImageTextButton extends LinearLayout {
       this.deviceType = "";
       ((LayoutInflater)var1.getSystemService("layout_inflater")).inflate(R.layout.imagetextbutton, this);
       TypedArray var5 = var1.getTheme().obtainStyledAttributes(var2, R.styleable.ImageTextButton, 0, 0);
-      this.button = (SvgButton)this.findViewById(R.id.imageview1);
+      this.button = (SvgView)this.findViewById(R.id.imageview1);
       this.labelText = (TextView)this.findViewById(R.id.buttontext);
 
       try {

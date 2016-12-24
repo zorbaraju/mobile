@@ -10,12 +10,12 @@
     android:orientation="horizontal"
     android:paddingBottom="2dp" >
 
-    <com.zorba.bt.app.SvgButton
+    <com.zorba.bt.app.SvgView
         android:id="@id/imageview1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="#ff202e39"
-        app:svgbuttonsrc="@raw/light" />
+        app:svgviewsrc="@raw/light" />
 
     <TextView
         android:id="@id/buttontext"

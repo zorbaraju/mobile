@@ -46,7 +46,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	static final int DISCOVERYTYPE_WR = DISCOVERYTYPE_BT + 1;
 	static final int DISCOVERYTYPE_WAP = DISCOVERYTYPE_WR + 1;
 	static final int ENABLE_BT = 1;
-	SvgButton deleteButton = null;
+	SvgView deleteButton = null;
 	private String deletedRoomList = "";
 	LinearLayout discoveryContent = null;
 	GifAnimationDrawable little = null;
@@ -72,7 +72,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 	private void addRoomButton(RoomData var1) {
 		final ImageTextButton var2 = new ImageTextButton(this);
-		var2.setBackgroundImage(R.raw.scheduler);
+		var2.changeDeviceButtonStyle("Unknown", 0);
 		var2.setText(var1.getName());
 		var2.setOnClickListener(new OnClickListener() {
 			public void onClick(View var1) {
@@ -797,7 +797,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				nonEmptyChildren.clear();
 			}
 		});
-		this.deleteButton = (SvgButton) this.findViewById(R.id.deletebutton);
+		this.deleteButton = (SvgView) this.findViewById(R.id.deletebutton);
 		this.roomsContent = (FlowLayout) this.findViewById(R.id.roomscontent);
 		ArrayList<RoomData> roomArrayList = BtLocalDB.getInstance(this).getRoomList();
 		roomArrayList.remove(0);

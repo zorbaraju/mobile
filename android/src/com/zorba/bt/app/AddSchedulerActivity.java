@@ -32,12 +32,12 @@ public class AddSchedulerActivity extends ZorbaActivity {
    String editSchedulerName = null;
 
    private void initListeners() {
-      ((SvgButton)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
+      ((SvgView)this.findViewById(R.id.cancel)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddSchedulerActivity.this.finish();
          }
       });
-      ((SvgButton)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
+      ((SvgView)this.findViewById(R.id.save)).setOnClickListener(new OnClickListener() {
          public void onClick(View var1) {
             AddSchedulerActivity.this.saveScheduler();
          }
