@@ -58,20 +58,11 @@ public class MyPopupDialog extends LinearLayout {
    public String getText() {
       return this.textlistmenu.getText().toString();
    }
-
-   public void setMenuForLight(int deviceTypeWithDimmable) {
+   
+   public void setMenu(String devicenames[], int imageResIds[]) {
       FlowLayout var4 = (FlowLayout)this.dialog.findViewById(R.id.devicetypecontent);
       var4.removeAllViews();
-      String[] devicenames = DeviceData.nonlightdeviceTypes;
-      if( deviceTypeWithDimmable == 0)
-    	  devicenames = DeviceData.lightdeviceTypes;
-      else if( deviceTypeWithDimmable == 1)
-    	  devicenames = DeviceData.dimmablelightdeviceTypes;
-      else if( deviceTypeWithDimmable == 2)
-    	  devicenames = DeviceData.nonlightdeviceTypes;
-      else if( deviceTypeWithDimmable == 3)
-    	  devicenames = DeviceData.dimmablenonlightdeviceTypes;
-
+      
       this.textlistmenu = (TextView)this.findViewById(R.id.textlistmenu);
       this.textlistmenu.setText(devicenames[0]);
 
@@ -81,7 +72,13 @@ public class MyPopupDialog extends LinearLayout {
          var5.setOrientation(0);
          var5.setPadding(5, 5, 5, 5);
          var6.setBackgroundColor(Color.parseColor("#1d2832"));
-         var6.setImageResource(CommonUtils.getDeviceImage(devicenames[var2], 1));
+         int resid = 0;
+         if( imageResIds!= null) {
+        	 resid = imageResIds[var2];
+         } else {
+        	 resid = CommonUtils.getDeviceImage(devicenames[var2], 1);
+         }
+         var6.setImageResource(resid);
          var5.addView(var6);
          var4.addView(var5);
          final String settext  = devicenames[var2];

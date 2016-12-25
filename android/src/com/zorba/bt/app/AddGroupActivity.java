@@ -3,6 +3,7 @@ package com.zorba.bt.app;
 import java.util.ArrayList;
 
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.GroupData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 import android.content.Intent;
@@ -74,6 +75,8 @@ public class AddGroupActivity extends ZorbaActivity {
       EditText var3 = (EditText)this.findViewById(R.id.groupNameText);
       LinearLayout var6 = (LinearLayout)this.findViewById(R.id.groupdevices);
       String grpName = CommonUtils.isValidName(this, var3.getText().toString());
+      MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+      String groupType = listDialog.getText();
       boolean isNew = editGroupName==null;
       if(grpName != null) {
          if(isNew && BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceName, grpName)) {
@@ -102,6 +105,7 @@ public class AddGroupActivity extends ZorbaActivity {
                Intent var9 = new Intent();
                var9.putExtra("name", grpName);
                var9.putExtra("isnew", isNew);
+               var9.putExtra("type", groupType);
                this.setResult(1, var9);
                this.finish();
             }
@@ -117,6 +121,8 @@ public class AddGroupActivity extends ZorbaActivity {
       var3.setFilters(new InputFilter[] {new InputFilter.LengthFilter(12)});
       ((TextView)this.findViewById(R.id.title)).setText("New Group");
       this.deviceName = this.getIntent().getExtras().getString("deviceName");
+      MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+      listDialog.setMenu(GroupData.groupTypes, GroupData.imageResIds);
       this.populateDevices();
    }
 

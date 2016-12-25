@@ -18,6 +18,7 @@ import java.util.Calendar;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.GroupData;
 import com.zorba.bt.app.dao.SchedulerData;
 import com.zorba.bt.app.db.BtLocalDB;
 
@@ -179,6 +180,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
       LinearLayout layout = (LinearLayout)this.findViewById(R.id.scheduledevices);
       MyListMenu repeatMenu = (MyListMenu)this.findViewById(R.id.repeattype);
       TableRow weeklyRows = (TableRow)this.findViewById(R.id.weeklyselection);
+      MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+      String schedulerType = listDialog.getText();
       int repeatType = repeatMenu.getSelectedItemPosition();
       int repeatTypeValue = 0;
       int daybits = 0;
@@ -242,7 +245,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
                   this.finish(); 
                   return;
                }
-               BtLocalDB.getInstance(this).saveSchedule(this.deviceName, isNew, schedid, repeatType, repeatTypeValue, name, this.mHour, this.mMinute, devData);
+               BtLocalDB.getInstance(this).saveSchedule(this.deviceName, schedulerType, isNew, schedid, repeatType, repeatTypeValue, name, this.mHour, this.mMinute, devData);
                intent.putExtra("isnew", isNew);
                this.setResult(1, intent);
                this.finish();
@@ -274,6 +277,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
          }
       });
       var2.setMenuItems(new String[]{"Once", "Daily", "Weekly"});
+      MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+      listDialog.setMenu(SchedulerData.schedulerTypes, SchedulerData.imageResIds);
       this.populateSchedulers();
    }
 
