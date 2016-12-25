@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.dao.GroupData;
+import com.zorba.bt.app.dao.SchedulerData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 import android.content.Intent;
@@ -49,6 +50,10 @@ public class AddGroupActivity extends ZorbaActivity {
       if( editGroupName != null) {
     	  ((TextView)this.findViewById(R.id.title)).setText("Group "+editGroupName);
     	  EditText gNameText = (EditText)this.findViewById(R.id.groupNameText);
+    	  ArrayList<GroupData> grpArr = BtLocalDB.getInstance(this).getGroups(deviceName, editGroupName);
+    	  if( grpArr.size() == 0)
+    		  return;
+    	  GroupData groupData = grpArr.get(0);
     	  gNameText.setEnabled(false);
     	  gNameText.setText(editGroupName);
     	  int devidAndStatus[] = BtLocalDB.getInstance(this).getGroupDevices(deviceName, editGroupName);
@@ -56,7 +61,9 @@ public class AddGroupActivity extends ZorbaActivity {
         	  SelectComp comp = getSelectComp(devidAndStatus[dindex*2]);
         	  comp.setSelected(true);
         	  comp.setDeviceValue(devidAndStatus[dindex*2+1]);
-          }        
+          }     
+    	  MyPopupDialog deviceTypeText = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+    	  deviceTypeText.setText(groupData.getType());
       }
    }
 
@@ -101,7 +108,7 @@ public class AddGroupActivity extends ZorbaActivity {
             if(!isSelectedAny) {
                CommonUtils.AlertBox(this, "Save group", "No devices are selected");
             } else {
-               BtLocalDB.getInstance(this).saveGroup(this.deviceName, grpName, devdetails, isNew);
+               BtLocalDB.getInstance(this).saveGroup(this.deviceName, grpName, groupType, devdetails, isNew);
                Intent var9 = new Intent();
                var9.putExtra("name", grpName);
                var9.putExtra("isnew", isNew);

@@ -18,10 +18,11 @@ public class SchedulerData {
 		   R.raw.evening, R.raw.morning
    };
 
-   public SchedulerData(String schedid, String name, int devData[],
+   public SchedulerData(String schedid, String name, String type, int devData[],
 		   int repeatType, int repeatValue, int hr, int min ) {
       this.schedid = schedid;
       this.name = name;
+      schedulerType = type;
       devidandstatus = devData;
       this.repeatType = repeatType;
       this.repeatValue = repeatValue;
@@ -35,6 +36,10 @@ public class SchedulerData {
 
    public String getSchedulerId() {
       return this.schedid;
+   }
+   
+   public String getType() {
+	   return schedulerType;
    }
 
    public String toString() {
@@ -57,6 +62,15 @@ public class SchedulerData {
 	public int getMin() {
 	      return this.min;
 	   }
-	
+	public int getImageResId() {
+		int index = 0;
+		for(String t:schedulerTypes) {
+			if( t.equals(schedulerTypes[index])) {
+				return imageResIds[index];
+			}
+			index++;
+		}
+		return -1;
+	}
 	
 }

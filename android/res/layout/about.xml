@@ -11,7 +11,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="50.0dip"
-            android:text="Version bw 9.7"
+            android:text="Version bw 1.1"
             android:textAppearance="?android:textAppearanceMedium" />
 
     </LinearLayout>

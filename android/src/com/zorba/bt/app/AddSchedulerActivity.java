@@ -149,7 +149,9 @@ public class AddSchedulerActivity extends ZorbaActivity {
         	  SelectComp comp = getSelectComp(devidAndStatus[dindex*2]);
         	  comp.setSelected(true);
         	  comp.setDeviceValue(devidAndStatus[dindex*2+1]);
-          }        
+          }
+    	  MyPopupDialog deviceTypeText = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
+    	  deviceTypeText.setText(schedData.getType());
       }
    }
    
