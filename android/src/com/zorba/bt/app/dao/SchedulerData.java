@@ -1,5 +1,7 @@
 package com.zorba.bt.app.dao;
 
+import com.zorba.bt.app.R;
+
 public class SchedulerData {
    private String name = "";
    private String schedid = "";
@@ -8,6 +10,13 @@ public class SchedulerData {
    int repeatValue = 0;
    int hr = 0;
    int min = 0;
+   String schedulerType = "";
+   public static String schedulerTypes[] = {
+		   "Night", "Morning"
+   };
+   public static int imageResIds[] = {
+		   R.raw.evening, R.raw.morning
+   };
 
    public SchedulerData(String schedid, String name, int devData[],
 		   int repeatType, int repeatValue, int hr, int min ) {

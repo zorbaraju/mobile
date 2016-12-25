@@ -451,7 +451,7 @@ public class BtLocalDB {
 		System.out.println("Save Groups.detail.."+deviceName+grpName+">>"+grpdetail);
 	}
 
-	public void saveSchedule(String deviceName, boolean isNew, int schedid, int repeatType, int repeatValue, String schedname, int hr, int min,
+	public void saveSchedule(String deviceName, String type, boolean isNew, int schedid, int repeatType, int repeatValue, String schedname, int hr, int min,
 			DeviceData[] devData) {
 		String schediddetail = this.dbInfo.getString("Schedule" + deviceName, "");
 		if (schediddetail.indexOf(schedname) == -1) {

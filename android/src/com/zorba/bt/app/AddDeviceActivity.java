@@ -181,7 +181,8 @@ public class AddDeviceActivity extends ZorbaActivity {
     	  } else
     		  deviceTypeWithDimmable = 2;
       }
-      var3.setMenuForLight(deviceTypeWithDimmable);
+      String devicenames[] = DeviceData.getDeviceNames(deviceTypeWithDimmable);
+      var3.setMenu(devicenames, null);
    }
    
    public void onDestroy() {

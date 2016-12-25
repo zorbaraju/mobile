@@ -95,4 +95,17 @@ public class DeviceData {
    public String toString() {
       return "deviid=" + this.devid + " name=" + this.name + " type=" + this.type + " power=" + this.powerinwatts + " status=" + this.status;
    }
+
+	public static String[] getDeviceNames(int deviceTypeWithDimmable) {
+		String[] devicenames = DeviceData.nonlightdeviceTypes;
+	    if( deviceTypeWithDimmable == 0)
+	  	  devicenames = DeviceData.lightdeviceTypes;
+	    else if( deviceTypeWithDimmable == 1)
+	  	  devicenames = DeviceData.dimmablelightdeviceTypes;
+	    else if( deviceTypeWithDimmable == 2)
+	  	  devicenames = DeviceData.nonlightdeviceTypes;
+	    else if( deviceTypeWithDimmable == 3)
+	  	  devicenames = DeviceData.dimmablenonlightdeviceTypes;
+	    return devicenames;
+	}
 }
