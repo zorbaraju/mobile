@@ -29,7 +29,7 @@ import java.util.UUID;
 
 public class BtHwLayer {
 
-	private int idletimeout = 1000 * 60 * 2;
+	private int idletimeout = 1000 * 60 * 3;
 	private long activedTime = 0;
 	
 	boolean isDiscovery = false;
