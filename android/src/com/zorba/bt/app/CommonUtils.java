@@ -384,7 +384,6 @@ public class CommonUtils {
 	
 	public void writeLog(String mesg) {
 		 logContentBuf.append(mesg+"\n");
-		 System.out.println("mesg..."+ logContentBuf.toString());
 	}
 	
 	public String closeLog() {
