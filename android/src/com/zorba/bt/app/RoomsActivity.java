@@ -702,6 +702,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 									BtLocalDB.getInstance(RoomsActivity.this).updateDevicePrevOnStatus((byte)devid, (byte)progresValue);
 									System.err.println("Last on status..."+progresValue);
 								}
+								BtLocalDB.getInstance(RoomsActivity.this).updateDeviceStatus((byte) devid, (byte) progresValue);
 							}
 							prevvalue = progresValue;
 							return;
