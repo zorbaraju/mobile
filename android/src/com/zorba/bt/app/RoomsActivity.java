@@ -2,11 +2,13 @@ package com.zorba.bt.app;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.ConnectionListener;
 import com.zorba.bt.app.bluetooth.NotificationListener;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.GroupData;
 import com.zorba.bt.app.dao.RoomData;
 import com.zorba.bt.app.dao.SchedulerData;
 import com.zorba.bt.app.db.BtLocalDB;
@@ -388,9 +390,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			}
 		};
 		((LinearLayout) findViewById(R.id.roomContent)).addView(this.groupPanel);
-		String[] arrayOfString = BtLocalDB.getInstance(this).getGroups(this.selectedRoom.getDeviceName());
-		for (int gindex=0; gindex<arrayOfString.length; gindex++) {
-			addGroupButton(arrayOfString[gindex], true);
+		List<GroupData>groupList = BtLocalDB.getInstance(this).getGroups(this.selectedRoom.getDeviceName(),null);
+		for (int gindex=0; gindex<groupList.size(); gindex++) {
+			addGroupButton(groupList.get(gindex).getName(), true);
 		}
 		return this.groupPanel;
 	}
@@ -590,9 +592,13 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		if( !isnew )
 			return;
 		final ImageTextButton localImageTextButton = new ImageTextButton(this);
+		ArrayList<GroupData> grpArr = BtLocalDB.getInstance(this).getGroups(RoomsActivity.this.selectedRoom.getDeviceName(), groupName);
+  	  	if( grpArr.size() == 0)
+  	  		return;
+  	  	GroupData groupData = grpArr.get(0);
 		localImageTextButton.setText(groupName);
 		localImageTextButton.changeDeviceButtonStyle(0);
-		localImageTextButton.setBackgroundImage(R.raw.group);
+		localImageTextButton.setBackgroundImage(groupData.getImageResId());
 		localImageTextButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
 				RoomsActivity.this.groupPanel.deselectAll();
@@ -640,12 +646,16 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		this.groupPanel.addMyView(localImageTextButton);
 	}
 
-	private void addScheduleButton(final int paramInt, final String paramString, boolean isnew) {
+	private void addScheduleButton(final int paramInt, final String scheduleName, boolean isnew) {
 		if( !isnew )
 			return;
 		final ImageTextButton localImageTextButton = new ImageTextButton(this);
-		localImageTextButton.setBackgroundImage(R.raw.scheduler);
-		localImageTextButton.setText(paramString);
+		ArrayList<SchedulerData> schArr = BtLocalDB.getInstance(this).getSchedules(RoomsActivity.this.selectedRoom.getDeviceName(), scheduleName);
+  	  	if( schArr.size() == 0)
+  	  		return;
+  	  SchedulerData scheduleData = schArr.get(0);
+		localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
+		localImageTextButton.setText(scheduleName);
 		localImageTextButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View paramAnonymousView) {
 				RoomsActivity.this.schedulePanel.deselectAll();
@@ -655,7 +665,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			public boolean onLongClick(View paramAnonymousView) {
 				RoomsActivity.this.schedulePanel.showDeleteButton(true);
 				RoomsActivity.this.selectedSchedulerId = paramInt;
-				RoomsActivity.this.selectedScheduleName = paramString;
+				RoomsActivity.this.selectedScheduleName = scheduleName;
 				RoomsActivity.this.selectedScheduleButton = localImageTextButton;
 				RoomsActivity.this.schedulePanel.selectComp(localImageTextButton);
 				return true;
@@ -806,7 +816,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 
 			@Override
 			public void cancelTask() {
-				selectedRoom = null;
 				btHwLayer.closeDevice();
 			}
 			@Override

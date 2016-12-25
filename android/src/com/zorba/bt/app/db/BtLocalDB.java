@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import com.zorba.bt.app.CommonUtils;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.GroupData;
 import com.zorba.bt.app.dao.RoomData;
 import com.zorba.bt.app.dao.SchedulerData;
 
@@ -263,14 +264,23 @@ public class BtLocalDB {
 		return var4;
 	}
 
-	public String[] getGroups(String var1) {
-		String var2 = this.dbInfo.getString("Group" + var1, "");
-		String[] var3 = new String[0];
-		if (!var2.isEmpty()) {
-			var3 = var2.split("#");
+	public ArrayList<GroupData> getGroups(String deviceName, String groupName) {
+		String var3 = this.dbInfo.getString("Group" + deviceName, "");
+		System.out.println("group..."+deviceName+"..."+var3 +" groupName="+groupName);
+		ArrayList<GroupData> var4 = new ArrayList<GroupData>();
+		if (!var3.isEmpty()) {
+			String[] var5 = var3.split("#");
+
+			for (int index = 0; index < var5.length; index += 2) {
+				String name = var5[index];
+				String type = var5[index+1];
+				if( groupName == null || groupName.equals(name)) {
+					var4.add(new GroupData(name, type));
+				}
+			}
 		}
-		System.out.println("Groups..."+var1+">>"+var2);
-		return var3;
+
+		return var4;
 	}
 
 	public int getLastSelectedRoom() {
@@ -286,7 +296,7 @@ public class BtLocalDB {
 			HashMap<String, String> var6 = new HashMap<String, String>();
 
 			int var2;
-			for (var2 = 0; var2 < var5.length; var2 += 2) {
+			for (var2 = 0; var2 < var5.length; var2 += 3) {
 				var6.put(var5[var2], var5[var2 + 1]);
 			}
 
@@ -326,9 +336,10 @@ public class BtLocalDB {
 		if (!var3.isEmpty()) {
 			String[] var5 = var3.split("#");
 
-			for (int index = 0; index < var5.length; index += 2) {
+			for (int index = 0; index < var5.length; index += 3) {
 				String schedid = var5[index];
 				String name = var5[index+1];
+				String type = var5[index+2];
 				if( schedulerName == null || schedulerName.equals(name)) {
 					String detail = this.dbInfo.getString("Schedule" + deviceName+name, "");
 					String scheddetailarr[] = detail.split("#");
@@ -349,7 +360,7 @@ public class BtLocalDB {
 						System.out.println("..2..."+devidstatus.length);
 						devidstatus[dindex+1] = Integer.parseInt(scheddetailarr[arrindex++]);
 					}
-					var4.add(new SchedulerData(schedid, name, devidstatus,repeatType, repeatValue, hr, min));
+					var4.add(new SchedulerData(schedid, name, type, devidstatus,repeatType, repeatValue, hr, min));
 				}
 			}
 		}
@@ -373,18 +384,8 @@ public class BtLocalDB {
 	}
 
 	public boolean isGroupNameExist(String var1, String var2) {
-		boolean var5 = false;
-		String[] var6 = this.getGroups(var1);
-		int var4 = var6.length;
-
-		for (int var3 = 0; var3 < var4; ++var3) {
-			if (var2.equals(var6[var3])) {
-				var5 = true;
-				break;
-			}
-		}
-
-		return var5;
+		ArrayList<GroupData> list = this.getGroups(var1,var2);
+		return list.size()!=0;
 	}
 
 	public boolean isRoomExists(String devicename) {
@@ -434,7 +435,7 @@ public class BtLocalDB {
 		return var4;
 	}
 
-	public void saveGroup(String deviceName, String grpName, String grpdetail, boolean isNew) {
+	public void saveGroup(String deviceName, String grpName, String type, String grpdetail, boolean isNew) {
 		String groups = this.dbInfo.getString("Group" + deviceName, "");
 		if (groups.indexOf(grpName) == -1) {
 			if (groups.isEmpty()) {
@@ -443,6 +444,7 @@ public class BtLocalDB {
 				groups += "#" + grpName;
 			}
 		}
+		groups += "#" + type;
 		Editor editor = this.dbInfo.edit();
 		editor.putString("Group" + deviceName, groups);
 		editor.putString("Group" + deviceName + grpName, grpdetail);
@@ -461,6 +463,7 @@ public class BtLocalDB {
 				schediddetail += "#" + schedid + "#" + schedname;
 			}
 		}
+		schediddetail += "#" + type;
 
 		String detail = repeatType + "#" + repeatValue + "#" + hr + "#" + min;
 
