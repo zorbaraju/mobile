@@ -63,20 +63,16 @@ public class SendLogActivity extends ZorbaActivity {
 
 	protected void sendEmail() {
 		Logger.e(this, "email", "Send email");
-		Intent var2 = new Intent("android.intent.action.SEND");
-		var2.setData(Uri.parse("mailto:"));
-		var2.setType("text/plain");
-		var2.putExtra("android.intent.extra.EMAIL", new String[] { "uniraju@gmail.com" });
-		var2.putExtra("android.intent.extra.CC", new String[] { "" });
-		var2.putExtra("android.intent.extra.SUBJECT", "Bt Home Log");
-		var2.putExtra("android.intent.extra.TEXT", logView.getText());
-		// File var1 = new File(Environment.getExternalStorageDirectory(),
-		// "bthome.log");
-		// var2.putExtra("android.intent.extra.STREAM", Uri.parse("file://" +
-		// var1));
-
+		Intent emailIntent = new Intent(Intent.ACTION_SEND);
+		emailIntent.setData(Uri.parse("mailto:"));
+		emailIntent.setType("text/plain");
+		emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "zorbasupp@gmail.com" });
+		emailIntent.putExtra(Intent.EXTRA_CC, new String[] { "" });
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Bt Home Log");
+		emailIntent.putExtra(Intent.EXTRA_TEXT, logView.getText());
+		emailIntent.setType("message/rfc822");
 		try {
-			this.startActivity(Intent.createChooser(var2, "Send mail..."));
+			this.startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 			finish();
 			//CommonUtils.getInstance().deleteLog();
 			Logger.e(this, "email", "Finished sending email...");

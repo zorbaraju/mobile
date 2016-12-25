@@ -132,7 +132,6 @@ public class BtHwLayer {
 	}
 
 	private void checkConnection() throws Exception {
-		
 		if (isWifi() && isWifiEnabled()) {
 			System.out.println("checkConnection for wifi");
 			if ( this.shouldReconnect(this.ipAddress)) {
@@ -171,6 +170,9 @@ public class BtHwLayer {
 		this.isDiscovery = isDiscovery;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
+		if( CommonUtils.isMobileDataConnection(activity)) {
+			return "Please disbale data connection";
+		}
 		
 		if (ipaddr != null && ipaddr.equals("null")) {
 			ipaddr = null;
