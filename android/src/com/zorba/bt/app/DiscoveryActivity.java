@@ -65,7 +65,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 	String currentWifiSSID = null;
 	boolean isChangedToAPMode = false;
 	int currentDiscoveryType = 0;
-	TextView devPwdView = null;
 	private boolean isMaster = false;
 
 	private void addRoomButton(RoomData var1) {
@@ -125,37 +124,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 							return null;
 						}
 						try {
-							String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr,
-									devPwdView.getText().toString());
+							String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, ipaddr);
 							if (error != null) {
 								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 										"Not able to init connection " + droom.getRoomName() + " : " + error);
 								return null;
 							}
-							/*
-							 * try { btHwLayer.setWifiAPMode(true); } catch
-							 * (Exception e1) {
-							 * CommonUtils.AlertBox(DiscoveryActivity.this,
-							 * "Discovery", "Not able to set access point mode "
-							 * + droom.getRoomName()); return null; }
-							 */
-							try {
-								byte[] response = btHwLayer.changePwd(devPwdView.getText().toString());
-								if (response != null) {
-									error = new String(response).toLowerCase();
-									if (!error.equals("ok")) {
-										CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-												"Not able to change the password " + droom.getRoomName() + " : "
-														+ error);
-										return null;
-									}
-								}
-							} catch (Exception e1) {
-								e1.printStackTrace();
-								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-										"Not able to change the password " + droom.getRoomName());
-								return null;
-							}
+							
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
 							// btHwLayer.setDateAndTime();
@@ -165,27 +140,10 @@ public class DiscoveryActivity extends ZorbaActivity {
 						}
 					} else if (currentDiscoveryType == DISCOVERYTYPE_BT) {
 						System.err.println("Trying for bt........");
-						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, null,
-								devPwdView.getText().toString());
+						String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, null);
 						if (error != null) {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName() + " : " + error);
-							return null;
-						}
-						try {
-							byte[] response = btHwLayer.changePwd(devPwdView.getText().toString());
-							if (response != null) {
-								error = new String(response).toLowerCase();
-								if (!error.equals("ok")) {
-									CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-											"Not able to change the password " + droom.getRoomName() + " : " + error);
-									return null;
-								}
-							}
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-									"Not able to change the password " + droom.getRoomName());
 							return null;
 						}
 						try {
@@ -224,30 +182,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 							ipaddr = droom.getDeviceName();
 							ipaddress = droom.getDeviceName();
 						}
-						String error = btHwLayer.initDevice(droom.getDeviceAddress(), null, ipaddr,
-								devPwdView.getText().toString());
+						String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, ipaddr);
 						if (error != null) {
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName() + " : " + error);
 							return null;
 						}
-						try {
-							System.err.println("Chaning pwd");
-							byte[] response = btHwLayer.changePwd(devPwdView.getText().toString());
-							if (response != null) {
-								error = new String(response).toLowerCase();
-								if (!error.equals("ok")) {
-									CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-											"Not able to change the password " + droom.getRoomName() + " : " + error);
-									return null;
-								}
-							}
-						} catch (Exception e1) {
-							e1.printStackTrace();
-							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
-									"Not able to change the password " + droom.getRoomName());
-							return null;
-						}
+						
 						try {
 							int numberOfDevices = btHwLayer.getNumberOfDevices();
 							CommonUtils.setMaxNoDevices(numberOfDevices);
@@ -337,7 +278,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 					RoomData createdRoom = (RoomData) result;
 					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(createdRoom);
-					BtLocalDB.getInstance(DiscoveryActivity.this).setDevicePwd(devPwdView.getText().toString());
 					System.out.println("Added room in configured panel");
 					addRoomButton(createdRoom);
 					saveButton.setEnabled(false);
@@ -624,7 +564,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 					continue;
 				} else {
 					System.out.println("Address..." + addr.getHostAddress() + " " + addr.getHostName());
-					if(btHwLayer.isZorbaDevice(addr.getHostName(), devPwdView.getText().toString()))
+					if(btHwLayer.isZorbaDevice(addr.getHostName()))
 						ipaddressList.add(addr.getHostName());
 					else {
 						System.out.println("Address..." + addr.getHostAddress() + " " + addr.getHostName()+" is not zorba ip device");
@@ -653,12 +593,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 		wifiapdiscoveryBox.setChecked(true);
 		currentDiscoveryType = DISCOVERYTYPE_WAP;
 
-		devPwdView = (TextView) findViewById(R.id.devPwdText);
-		String pwd = BtLocalDB.getInstance(this).getDevicePwd();
-		if( pwd.isEmpty()){
-			pwd = CommonUtils.DEVICEPASSWORD;
-		}
-		devPwdView.setText(pwd);
 		TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
 		pwdview.setText("owyoe82486");
 		if( !isMaster) {

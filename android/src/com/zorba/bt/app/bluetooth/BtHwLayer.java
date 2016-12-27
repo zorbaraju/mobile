@@ -22,6 +22,7 @@ import com.zorba.bt.app.Logger;
 import com.zorba.bt.app.NetworkStateReceiver;
 import com.zorba.bt.app.RoomsActivity;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.db.BtLocalDB;
 
 import java.net.Socket;
 import java.util.HashMap;
@@ -80,6 +81,7 @@ public class BtHwLayer {
 
 	AwsConnection iotConnection = null;
 	
+	String roomname = "";
 	String devAddress = "";
 	String ipAddress = "";
 	String pwd = null;
@@ -136,7 +138,7 @@ public class BtHwLayer {
 			System.out.println("checkConnection for wifi");
 			if ( this.shouldReconnect(this.ipAddress)) {
 				System.out.println("In checkConnection reinit wifi");
-				String error = this.initDevice(this.devAddress, this.ssid, this.ipAddress, this.pwd);
+				String error = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress);
 				if (error != null) {
 					System.out.println("In checkConnection reinit wifi error="+error);
 					throw new Exception(error);
@@ -146,7 +148,7 @@ public class BtHwLayer {
 			System.out.println("checkConnection for bt");
 			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
 				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
-				String var1 = this.initDevice(this.devAddress, this.ssid, this.ipAddress, this.pwd);
+				String var1 = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress);
 				if (var1 != null) {
 					System.out.println("In checkConnection reinit bt error="+var1);
 					throw new Exception(var1);
@@ -162,11 +164,11 @@ public class BtHwLayer {
 		return instance;
 	}
 
-	public String initDevice(String macaddress, String ssid, String ipaddr, String pass) {
-		return initDevice(macaddress, ssid, ipaddr, pass, true);
+	public String initDevice(String roomname, String macaddress, String ssid, String ipaddr) {
+		return initDevice(roomname, macaddress, ssid, ipaddr, true);
 	}
 	
-	public String initDevice(String macaddress, String ssid, String ipaddr, String pass, boolean isDiscovery) {
+	public String initDevice(String roomname, String macaddress, String ssid, String ipaddr, boolean isDiscovery) {
 		this.isDiscovery = isDiscovery;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
@@ -183,9 +185,9 @@ public class BtHwLayer {
 			System.out.println("Wifi is not on , goiing to use BT");
 		}
 		System.out.println("The ipaddress going to be used for init device is " + ipaddr);
+		this.roomname = roomname;
 		ipAddress = ipaddr;
 		this.devAddress = macaddress;
-		this.pwd = pass;
 		this.ssid = ssid;
 		
 		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
@@ -332,20 +334,29 @@ public class BtHwLayer {
 			}
 		}
 		try {
-			byte[] response = verifyPwd(pass);
-			if( response[0] != 48) {
-				String respstr = new String(response).substring(1);
-				return "Autherization is failed, "+response[0] +", "+respstr;
+			String devpwd = "";
+			if( roomname != null)
+				devpwd = BtLocalDB.getInstance(activity).getDevPwd(roomname);
+			if( devpwd.isEmpty()) {
+				devpwd = CommonUtils.DEVICEPASSWORD;
+				String error = verifyAuth(devpwd);
+				if( error == null) {
+					// change pwd
+				} else {
+					devpwd = BtLocalDB.getInstance(activity).getDevicePwd();
+					error = verifyAuth(devpwd);
+					if( error == null && roomname != null) {
+						BtLocalDB.getInstance(activity).setDevPwd(roomname, devpwd);
+					} else {
+						return error;
+					}
+				}
 			} else {
-				String respstr = new String(response).substring(1);
-				CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
-				byte[] macbytes = new byte[6];
-				for(int i=0; i<6; i++)
-					macbytes[i] = response[i+1];
-				populateMacAddress = getMacAddressString(macbytes);
-				CommonUtils.getInstance().writeLog("bt mac, populated : "+populateMacAddress);
+				error = verifyAuth(devpwd);
+				if( error != null) {
+					return error;
+				}
 			}
-			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -357,6 +368,24 @@ public class BtHwLayer {
 		return NOCONNECTIONERROR;
 	}
 
+	private String verifyAuth(String devpwd) throws Exception{
+		String error = null;
+		byte[] response = verifyPwd(devpwd);
+		if( response[0] != 48) {
+			String respstr = new String(response).substring(1);
+			error = "Autherization is failed, "+response[0] +", "+respstr;
+		} else {
+			String respstr = new String(response).substring(1);
+			CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
+			byte[] macbytes = new byte[6];
+			for(int i=0; i<6; i++)
+				macbytes[i] = response[i+1];
+			populateMacAddress = getMacAddressString(macbytes);
+			CommonUtils.getInstance().writeLog("bt mac, populated : "+populateMacAddress);
+		}
+		return error;
+	}
+	
 	public String getPopulateMacAddress() {
 		return populateMacAddress;
 	}
@@ -613,7 +642,7 @@ public class BtHwLayer {
 		return "ok".getBytes();
 	}
 	
-	public byte[] verifyPwd(String pwd) throws Exception {
+	private byte[] verifyPwd(String pwd) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
 		System.out.println("pwd="+pwd);
@@ -933,8 +962,8 @@ public class BtHwLayer {
 		return (byte)(prop&0x3f);
 	}
 
-	public boolean isZorbaDevice(String hostName, String pwd) {
-		String error = initDevice(null, null, hostName, pwd);
+	public boolean isZorbaDevice(String hostName) {
+		String error = initDevice(null, null, null, hostName);
 		closeDevice();
 		return (error == null);
 	}
