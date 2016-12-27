@@ -3,15 +3,19 @@ package com.zorba.bt.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.Formatter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +28,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
@@ -459,4 +465,27 @@ public class CommonUtils {
 		}
 		return false;
 	}
+	
+	public  void addNotification(Activity context, String roomname, String switchname, byte status) {
+		String statusstr = "On";
+		if( status == 0)
+			statusstr = "Off";
+		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+		String currentDateandTime = sdf.format(new Date());
+		  NotificationCompat.Builder builder =
+	         new NotificationCompat.Builder(context)
+	         .setSmallIcon(R.drawable.oohicon)
+	         .setContentTitle("Zorba notification")
+	         .setContentText(roomname+"/"+switchname+" "+statusstr+" at "+currentDateandTime);
+
+	      Intent notificationIntent = new Intent(context, RoomsActivity.class);
+	      PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
+	         PendingIntent.FLAG_UPDATE_CURRENT);
+	      builder.setContentIntent(contentIntent);
+
+	      // Add as notification
+	      NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+	      manager.notify(0, builder.build());
+	   }
+
 }
