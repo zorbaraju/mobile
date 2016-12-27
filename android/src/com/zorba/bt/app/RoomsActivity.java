@@ -595,7 +595,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		ArrayList<GroupData> grpArr = BtLocalDB.getInstance(this).getGroups(RoomsActivity.this.selectedRoom.getDeviceName(), groupName);
   	  	if( grpArr.size() == 0)
   	  		return;
-  	  	GroupData groupData = grpArr.get(0);
+  	  	final GroupData groupData = grpArr.get(0);
 		localImageTextButton.setText(groupName);
 		localImageTextButton.changeDeviceButtonStyle(0);
 		localImageTextButton.setBackgroundImage(groupData.getImageResId());
@@ -615,11 +615,11 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 					if (!groupClicked) {
 						RoomsActivity.this.groupStatusMap.put(groupName, Boolean.valueOf(true));
 						localImageTextButton.changeDeviceButtonStyle(1);
-						localImageTextButton.setBackgroundImage(R.raw.group);
+						localImageTextButton.setBackgroundImage(groupData.getImageResId());
 					} else {
 						RoomsActivity.this.groupStatusMap.remove(groupName);
 						localImageTextButton.changeDeviceButtonStyle(0);
-						localImageTextButton.setBackgroundImage(R.raw.group);
+						localImageTextButton.setBackgroundImage(groupData.getImageResId());
 					}
 					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
 						BtLocalDB.getInstance(RoomsActivity.this).updateDeviceStatus((byte) groudIds[dindex],
@@ -629,7 +629,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 				} catch (Exception e) {
 					RoomsActivity.this.groupStatusMap.remove(groupName);
 					localImageTextButton.changeDeviceButtonStyle(-1);
-					localImageTextButton.setBackgroundImage(R.raw.group);
+					localImageTextButton.setBackgroundImage(groupData.getImageResId());
 					CommonUtils.AlertBox(RoomsActivity.this, "Read Error", e.getMessage());
 				}
 			}
@@ -793,9 +793,10 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 				} else {
 					incomingssid = null; ipaddress = null;
 				}
+				
 				btHwLayer.closeDevice();
-				String error = btHwLayer.initDevice(macaddress, incomingssid, ipaddress,
-						BtLocalDB.getInstance(RoomsActivity.this).getDevicePwd(), false);
+				String error = btHwLayer.initDevice(selectedRoom.getName(), macaddress, incomingssid, ipaddress,
+						false);
 				if (error == null) {
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();

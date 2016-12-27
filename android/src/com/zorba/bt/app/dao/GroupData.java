@@ -23,13 +23,13 @@ public class GroupData {
 	}
 	
 	public String getType() {
-		return name;
+		return groupType;
 	}
 	
 	public int getImageResId() {
 		int index = 0;
 		for(String t:groupTypes) {
-			if( t.equals(groupTypes[index])) {
+			if( t.equals(groupType)) {
 				return imageResIds[index];
 			}
 			index++;

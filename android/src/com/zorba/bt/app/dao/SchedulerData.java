@@ -65,7 +65,7 @@ public class SchedulerData {
 	public int getImageResId() {
 		int index = 0;
 		for(String t:schedulerTypes) {
-			if( t.equals(schedulerTypes[index])) {
+			if( t.equals(schedulerType)) {
 				return imageResIds[index];
 			}
 			index++;
