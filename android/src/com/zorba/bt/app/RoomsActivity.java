@@ -94,7 +94,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		try {
 			setContentView(R.layout.rooms);
 			BtLocalDB.getInstance(this).cleanDB();
@@ -963,6 +962,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			byte status = paramArrayOfByte[index+ 1];
 			BtLocalDB.getInstance(this).updateDeviceStatus(devid, status);
 			readAndUpateStatusForRoom(false);
+			CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), ""+devid, status);
 		}
 	}
 

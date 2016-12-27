@@ -484,6 +484,15 @@ public class BtLocalDB {
 		var2.putInt("lastVisitedRoom", var1);
 		var2.commit();
 	}
+	
+	public String getDevPwd(String roomname) {
+		return this.dbInfo.getString("pwd"+roomname, "");
+	}
+	public void setDevPwd(String roomname, String pwd) {
+		Editor var2 = this.dbInfo.edit();
+		var2.putString("pwd"+roomname, pwd);
+		var2.commit();
+	}
 
 	public void updateDevice(String deviceName, DeviceData var2) {
 		deleteDevice(deviceName, var2.getName());
