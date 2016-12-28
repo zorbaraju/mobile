@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.ConnectionListener;
+import com.zorba.bt.app.bluetooth.IOTMessageListener;
 import com.zorba.bt.app.bluetooth.NotificationListener;
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.dao.GroupData;
@@ -25,7 +26,6 @@ import android.os.Process;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,7 +37,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class RoomsActivity  
-extends ZorbaActivity implements NotificationListener, ConnectionListener {
+extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMessageListener {
 
 	public static final int MENU_INDEX_DISCOVERY = 0;
 	public static final int MENU_INDEX_DEVICE_CONFIG = MENU_INDEX_DISCOVERY + 1;
@@ -115,7 +115,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			/*
 			 * ((ImageButton)
 			 * findViewById(R.id.aboutButton)).setOnClickListener(new
-			 * View.OnClickListener() { public void onClick(View
+			 * ZorbaOnClickListener() { public void onClick(View
 			 * paramAnonymousView1) { Intent paramAnonymousView = new
 			 * Intent(MainActivity.this, AppInfoActivity.class);
 			 * MainActivity.this.startActivityForResult(paramAnonymousView,
@@ -123,8 +123,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			 */
 			SvgView db = (SvgView) findViewById(R.id.discoverbutton);
 			if (db != null) {
-				db.setOnClickListener(new View.OnClickListener() {
-					public void onClick(View paramAnonymousView1) {
+				db.setOnClickListener(new ZorbaOnClickListener() {
+					public void zonClick(View paramAnonymousView1) {
 						btHwLayer.unregister();
 						Intent paramAnonymousView = new Intent(RoomsActivity.this, DiscoveryActivity.class);
 						RoomsActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
@@ -245,8 +245,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 
 	private void prepareRoomListMenu(String newRoomName, boolean paramBoolean) {
 		final TextView roomListText = (TextView) findViewById(R.id.roomList);
-		OnClickListener listener = new View.OnClickListener() {
-			public void onClick(View view) {
+		ZorbaOnClickListener listener = new ZorbaOnClickListener() {
+			public void zonClick(View view) {
 				RoomsActivity.this.roomMenuList.dismiss();
 				RoomsActivity.this.roomChanged(false, roomListText, ((Integer) view.getTag()).intValue(), true);
 			}
@@ -475,8 +475,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 				return true;
 			}
 		});
-		deviceButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View paramAnonymousView) {
+		deviceButton.setOnClickListener(new ZorbaOnClickListener() {
+			public void zonClick(View paramAnonymousView) {
 				paramMyComp.deselectAll();
 				RoomsActivity.this.singleClickButton(devid, devtype, deviceButton);
 			}
@@ -598,8 +598,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		localImageTextButton.setText(groupName);
 		localImageTextButton.changeDeviceButtonStyle(0);
 		localImageTextButton.setBackgroundImage(groupData.getImageResId());
-		localImageTextButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View paramAnonymousView) {
+		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
+			public void zonClick(View paramAnonymousView) {
 				RoomsActivity.this.groupPanel.deselectAll();
 				int groudIds[] = BtLocalDB.getInstance(RoomsActivity.this)
 						.getGroupDevices(RoomsActivity.this.selectedRoom.getDeviceName(), groupName);
@@ -655,8 +655,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
   	  SchedulerData scheduleData = schArr.get(0);
 		localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
 		localImageTextButton.setText(scheduleName);
-		localImageTextButton.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View paramAnonymousView) {
+		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
+			public void zonClick(View paramAnonymousView) {
 				RoomsActivity.this.schedulePanel.deselectAll();
 			}
 		});
@@ -962,10 +962,10 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 			byte status = paramArrayOfByte[index+ 1];
 			BtLocalDB.getInstance(this).updateDeviceStatus(devid, status);
 			readAndUpateStatusForRoom(false);
-			CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), ""+devid, status);
 		}
 	}
-
+	
+	
 	public void connectionStarted(final boolean isWifi) {
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -1095,6 +1095,24 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener {
 		devicePanel.enableEditMode(isInConfigDeviceMode);
 		groupPanel.enableEditMode(isInConfigDeviceMode);
 		schedulePanel.enableEditMode(isInConfigDeviceMode);
+	}
+	
+	private void enableOOH(boolean enable) {
+		boolean enabled = btHwLayer.isOOH();
+		if( enabled) {
+			enabled = btHwLayer.enableOOH(enable);
+			if( enabled) {
+				this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
+				for(RoomData rd: roomDataList){
+					btHwLayer.enableNotificationForRooms(this, this.roomDataList);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void mesgReceveid(String roomname, byte devid, byte status) {
+		CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), ""+devid, status);
 	}
 
 }
