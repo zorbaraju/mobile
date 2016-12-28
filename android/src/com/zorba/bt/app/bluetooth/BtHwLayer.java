@@ -22,16 +22,20 @@ import com.zorba.bt.app.Logger;
 import com.zorba.bt.app.NetworkStateReceiver;
 import com.zorba.bt.app.RoomsActivity;
 import com.zorba.bt.app.dao.DeviceData;
+import com.zorba.bt.app.dao.RoomData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class BtHwLayer {
-
+	
+	boolean _isOOH = false;
+	
 	private int idletimeout = 1000 * 60 * 3;
-	private long activedTime = 0;
+	private long activedTime = -1;
 	
 	boolean isDiscovery = false;
 	String populateMacAddress = null;
@@ -164,6 +168,17 @@ public class BtHwLayer {
 		return instance;
 	}
 
+	public boolean enableOOH(boolean enable){
+		if( CommonUtils.isMobileDataConnection(activity) ){
+			_isOOH = enable;
+		}
+		return _isOOH;
+	}
+	
+	public boolean isOOH() {
+		return _isOOH;
+	}
+	
 	public String initDevice(String roomname, String macaddress, String ssid, String ipaddr) {
 		return initDevice(roomname, macaddress, ssid, ipaddr, true);
 	}
@@ -172,7 +187,7 @@ public class BtHwLayer {
 		this.isDiscovery = isDiscovery;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
-		if( CommonUtils.isMobileDataConnection(activity)) {
+		if( !_isOOH && CommonUtils.isMobileDataConnection(activity)) {
 			return "Please disbale data connection";
 		}
 		
@@ -242,7 +257,6 @@ public class BtHwLayer {
 						mConnectionState = STATE_DISCONNECTED;
 						System.out.println("Disconnected from GATT server.");
 						closeDevice();
-						connectionListener.connectionLost();
 					}
 				}
 
@@ -446,6 +460,7 @@ public class BtHwLayer {
 		}
 		isConnected = false;
 		System.out.println("Connection to device is closed");
+		connectionListener.connectionLost();
 	}
 	
 	public void register() {
@@ -976,17 +991,27 @@ public class BtHwLayer {
 
 			@Override
 			public void run() {
+				if( activedTime == -1){
+					System.out.println("closingraju by idletimeout already timedout");
+					return;
+				}
 				long currentTime = System.currentTimeMillis();
 				long diffTime = currentTime - activedTime;
 				if (diffTime >= idletimeout) {
 					System.out.println("closingraju by idletimeout "+diffTime+" "+idletimeout);
 					closeDevice();
+					activedTime = -1;
 				} else {
 					System.out.println("closingraju Ignored");
 				}
 
 			}
-		}, 1000 * 30);
+		}, idletimeout);
 
+	}
+	public void enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
+		for(RoomData rd: roomDataList){
+			iotConnection.enableNotificationForRoom(listener, rd);
+		}
 	}
 }

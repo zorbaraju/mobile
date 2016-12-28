@@ -24,6 +24,8 @@ import com.amazonaws.services.iot.AWSIotClient;
 import com.amazonaws.services.iot.model.AttachPrincipalPolicyRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateRequest;
 import com.amazonaws.services.iot.model.CreateKeysAndCertificateResult;
+import com.zorba.bt.app.CommonUtils;
+import com.zorba.bt.app.dao.RoomData;
 
 import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
@@ -51,7 +53,7 @@ public class AwsConnection {
 	public static final Regions MY_REGION = Regions.AP_NORTHEAST_1;
 	// Filename of KeyStore file on the filesystem
 	public static final String KEYSTORE_NAME = "ks.bks";
-	// Password for the private key in the KeyStore
+	// Password for the private key in the KeyStoreT
 	public static final String KEYSTORE_PASSWORD = "rajuraju";
 	// Certificate and key aliases in the KeyStore
 	public static final String CERTIFICATE_ID = "ks";
@@ -157,6 +159,25 @@ public class AwsConnection {
 	
 	public byte[] getData(int reqno) {
 		return receiver.getData(reqno);
+	}
+
+	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
+		try {
+            mqttManager.subscribeToTopic(rd.getAddress()+"/subscriber", AWSIotMqttQos.QOS0,
+                    new AWSIotMqttNewMessageCallback() {
+                        @Override
+                        public void onMessageArrived(final String topic, final byte[] data) {
+                    		byte cmd = data[0];
+                    		byte reqno = data[1];
+                    		byte num = data[2];
+                    		byte devid = data[3];
+                    		byte status = data[4];
+                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
+                        }
+                    });
+        } catch (Exception e) {
+            Log.e(LOG_TAG, "Subscription error.", e);
+        }
 	}
 
 }
