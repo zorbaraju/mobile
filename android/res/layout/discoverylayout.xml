@@ -162,7 +162,7 @@
             app:svgviewsrc="@raw/discovery" />
     </LinearLayout>
 
-    <com.zorba.bt.app.SvgView
+    <ImageView
         android:id="@id/loadingImage"
         android:layout_width="35.0dip"
         android:layout_height="35.0dip"
