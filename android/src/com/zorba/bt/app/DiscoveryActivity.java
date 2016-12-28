@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -763,13 +764,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 						}).show();
 			}
 		});
-		SvgView var7 = (SvgView) this.findViewById(R.id.loadingImage);
+		ImageView var7 = (ImageView) this.findViewById(R.id.loadingImage);
 		try {
 			GifAnimationDrawable var3 = new GifAnimationDrawable(
 					this.getResources().openRawResource(R.drawable.refresh));
 			this.little = var3;
 			this.little.setOneShot(false);
-			var7.setSvgImageDrawable(this.little);
+			var7.setImageDrawable(this.little);
 		} catch (Exception var4) {
 			var4.printStackTrace();
 		}

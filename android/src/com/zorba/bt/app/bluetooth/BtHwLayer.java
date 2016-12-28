@@ -460,7 +460,9 @@ public class BtHwLayer {
 		}
 		isConnected = false;
 		System.out.println("Connection to device is closed");
-		connectionListener.connectionLost();
+		if( connectionListener != null) {
+			connectionListener.connectionLost();
+		}
 	}
 	
 	public void register() {
