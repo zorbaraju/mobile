@@ -60,7 +60,9 @@
             android:layout_weight="5"
             android:ems="10"
             android:gravity="center_vertical"
-            android:hint="Publish Topic" />
+            android:hint="Publish Topic"
+            android:text="publish" />
+
         <EditText
             android:id="@+id/receiver"
             android:layout_width="0dp"
@@ -68,7 +70,9 @@
             android:layout_weight="5"
             android:ems="10"
             android:gravity="center_vertical"
-            android:hint="Subcribe Topic" />
+            android:hint="Subcribe Topic"
+            android:text="subscribe" />
+
     </LinearLayout>
 <LinearLayout
         android:layout_width="match_parent"

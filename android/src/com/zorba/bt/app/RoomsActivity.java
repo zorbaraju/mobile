@@ -64,6 +64,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	public static final int HELP_CODE = SENDLOG_CODE + 1;
 	public static final int INVERTER_CODE = HELP_CODE + 1;
 	public static final int CHANGEPWD_CODE = INVERTER_CODE + 1;
+	public static final int AWSIOT_CODE = CHANGEPWD_CODE + 1;
 	
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
@@ -227,7 +228,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 						macaddress = selectedRoom.getAddress();
 					}
 					intent.putExtra("deviceName", macaddress);
-					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
+					RoomsActivity.this.startActivityForResult(intent, AWSIOT_CODE);
 				} else if (i == MENU_INDEX_EXIT) {
 					RoomsActivity.this.performExit();
 				}
@@ -904,8 +905,12 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
-		Logger.e(this, "onActivityResult", "requestcode=" + requestCode + " resultCode=" + resultCode);
-		if (requestCode == DISCOVERY_CODE) {
+		Logger.e(this, "onActivityResult", "requestcode=" + requestCode + " resultCode=" + resultCode+" "+AWSIOT_CODE);
+		if (requestCode == AWSIOT_CODE) {
+			btHwLayer.enableOOH(true);
+			enableOOH(true);
+			return;
+		} else if (requestCode == DISCOVERY_CODE) {
 			btHwLayer.register();
 			fromDiscoveryActivity(resultIntent);
 		} else if (requestCode == ENABLEBT_CODE) {
@@ -935,6 +940,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			addScheduleButton(requestCode, name, resultIntent.getExtras().getBoolean("isnew"));
 			updateDeviceCount();
 		}
+		System.out.println("Re..."+requestCode+" awsiot="+AWSIOT_CODE);
 	}
 
 	public Dialog onCreateDialog() {
