@@ -1012,6 +1012,9 @@ public class BtHwLayer {
 
 	}
 	public void enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
+		if( iotConnection == null) {
+			iotConnection = new AwsConnection(activity,this.devAddress);
+		}
 		for(RoomData rd: roomDataList){
 			iotConnection.enableNotificationForRoom(listener, rd);
 		}

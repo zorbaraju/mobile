@@ -143,7 +143,7 @@ public class AwsConnection {
 					System.out.println("status....." + arg0 + " aa>>" + arg1 + ".." + mqttManager.isAutoReconnect());
 					if (arg0.equals(AWSIotMqttClientStatus.Connected)) {
 						receiver = new BtIotReceiver();
-						mqttManager.subscribeToTopic(macAddress+"/subscriber", AWSIotMqttQos.QOS0, receiver);
+						mqttManager.subscribeToTopic(macAddress+"/subscribe", AWSIotMqttQos.QOS0, receiver);
 					}
 				}
 			});
@@ -163,7 +163,7 @@ public class AwsConnection {
 
 	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
 		try {
-            mqttManager.subscribeToTopic(rd.getAddress()+"/subscriber", AWSIotMqttQos.QOS0,
+            mqttManager.subscribeToTopic(rd.getAddress()+"/subscribe", AWSIotMqttQos.QOS0,
                     new AWSIotMqttNewMessageCallback() {
                         @Override
                         public void onMessageArrived(final String topic, final byte[] data) {
@@ -175,9 +175,13 @@ public class AwsConnection {
                     		messgeListener.mesgReceveid(rd.getName(), devid, status);
                         }
                     });
+            System.out.println("Subscribed to "+rd.getAddress()+"/subscribe");
         } catch (Exception e) {
+        	 System.out.println("Subscribed to "+rd.getAddress()+"/subscribe"+" Error="+e.getMessage());
+        	e.printStackTrace();
             Log.e(LOG_TAG, "Subscription error.", e);
         }
+		
 	}
 
 }
