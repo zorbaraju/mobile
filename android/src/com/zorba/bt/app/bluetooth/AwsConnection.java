@@ -36,6 +36,7 @@ public class AwsConnection {
 	String macAddress = null;
 	static final String LOG_TAG = AwsConnection.class.getCanonicalName();
 
+	private boolean isConnected = false;
 	private BtIotReceiver receiver = null;
 	// --- Constants to modify per your configuration ---
 
@@ -142,6 +143,7 @@ public class AwsConnection {
 				public void onStatusChanged(AWSIotMqttClientStatus arg0, Throwable arg1) {
 					System.out.println("status....." + arg0 + " aa>>" + arg1 + ".." + mqttManager.isAutoReconnect());
 					if (arg0.equals(AWSIotMqttClientStatus.Connected)) {
+						isConnected = true;
 						receiver = new BtIotReceiver();
 						mqttManager.subscribeToTopic(macAddress+"/subscribe", AWSIotMqttQos.QOS0, receiver);
 					}
@@ -151,6 +153,10 @@ public class AwsConnection {
 		} catch (Exception e) {
 			Log.e(LOG_TAG, "Subscription error.", e);
 		}
+	}
+	
+	public boolean isConnected() {
+		return isConnected;
 	}
 
 	public void sendMessage(byte[] bytes) {
@@ -163,6 +169,7 @@ public class AwsConnection {
 
 	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
 		String mac = rd.getAddress();
+		//mac = "88:4A:EA:2E:1D:7B";
 		try {
             mqttManager.subscribeToTopic(mac+"/subscribe", AWSIotMqttQos.QOS0,
                     new AWSIotMqttNewMessageCallback() {

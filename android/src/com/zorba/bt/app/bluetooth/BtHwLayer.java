@@ -169,11 +169,9 @@ public class BtHwLayer {
 	}
 
 	public boolean enableOOH(boolean enable){
+		_isOOH = true;
 		if( CommonUtils.isMobileDataConnection(activity) ){
 			_isOOH = enable;
-		}
-		if( _isOOH) {
-			connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
 		}
 		return _isOOH;
 	}
@@ -1014,17 +1012,31 @@ public class BtHwLayer {
 		}, idletimeout);
 
 	}
-	public void enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
+	public boolean enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
+		boolean enabled = false;
 		if( iotConnection == null) {
 			iotConnection = new AwsConnection(activity,this.devAddress);
-			try{
-				Thread.sleep(3000);
-			}catch(Exception e){
-				
+			int timeout = 0;
+			while( timeout<10) {
+				if( iotConnection.isConnected())
+					break;
+				try{
+					Thread.sleep(3000);
+					timeout += 3;
+				}catch(Exception e){
+					
+				}
 			}
 		}
-		for(RoomData rd: roomDataList){
-			iotConnection.enableNotificationForRoom(listener, rd);
+		if( iotConnection.isConnected()) {
+			if( _isOOH) {
+				connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
+			}
+			for(RoomData rd: roomDataList){
+				iotConnection.enableNotificationForRoom(listener, rd);
+			}
+			enabled = true;
 		}
+		return enabled;
 	}
 }
