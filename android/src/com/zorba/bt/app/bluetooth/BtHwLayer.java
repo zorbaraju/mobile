@@ -172,6 +172,9 @@ public class BtHwLayer {
 		if( CommonUtils.isMobileDataConnection(activity) ){
 			_isOOH = enable;
 		}
+		if( _isOOH) {
+			connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
+		}
 		return _isOOH;
 	}
 	
@@ -216,7 +219,7 @@ public class BtHwLayer {
 				receiver.setConnectionListener(connectionListener);
 				sender = new BtSender(this, clientSocket.getOutputStream());
 				if( connectionListener != null)
-					connectionListener.connectionStarted(true);
+					connectionListener.connectionStarted(CommonUtils.CONNECTION_WIFI);
 				System.out.println("Device is connected in wifi and waiting for 1 sec");
 				Thread.sleep(1 * 1000);
 				System.out.println("wait is released for 1 sec");
@@ -277,7 +280,7 @@ public class BtHwLayer {
 								lock.notifyAll();
 								isConnected = true;
 								if(connectionListener != null)
-									connectionListener.connectionStarted(false);
+									connectionListener.connectionStarted(CommonUtils.CONNECTION_BT);
 							}
 							System.out.println("Notified for service found");
 						}
@@ -1014,6 +1017,11 @@ public class BtHwLayer {
 	public void enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
 		if( iotConnection == null) {
 			iotConnection = new AwsConnection(activity,this.devAddress);
+			try{
+				Thread.sleep(3000);
+			}catch(Exception e){
+				
+			}
 		}
 		for(RoomData rd: roomDataList){
 			iotConnection.enableNotificationForRoom(listener, rd);

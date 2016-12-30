@@ -106,7 +106,7 @@ public class AwsConnection {
 		mIotAndroidClient = new AWSIotClient(credentialsProvider);
 		mIotAndroidClient.setRegion(region);
 
-		keystorePath = Environment.getExternalStorageDirectory().getAbsolutePath();// activity.getFilesDir().getPath();
+		keystorePath = activity.getFilesDir().getPath();
 		keystoreName = KEYSTORE_NAME;
 		keystorePassword = KEYSTORE_PASSWORD;
 		certificateId = CERTIFICATE_ID;
@@ -162,11 +162,13 @@ public class AwsConnection {
 	}
 
 	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
+		String mac = rd.getAddress();
 		try {
-            mqttManager.subscribeToTopic(rd.getAddress()+"/subscribe", AWSIotMqttQos.QOS0,
+            mqttManager.subscribeToTopic(mac+"/subscribe", AWSIotMqttQos.QOS0,
                     new AWSIotMqttNewMessageCallback() {
                         @Override
                         public void onMessageArrived(final String topic, final byte[] data) {
+                        	System.out.println("Hai...."+topic+"data>>>"+data);
                     		byte cmd = data[0];
                     		byte reqno = data[1];
                     		byte num = data[2];
@@ -175,9 +177,9 @@ public class AwsConnection {
                     		messgeListener.mesgReceveid(rd.getName(), devid, status);
                         }
                     });
-            System.out.println("Subscribed to "+rd.getAddress()+"/subscribe");
+            System.out.println("Subscribed to "+mac+"/subscribe");
         } catch (Exception e) {
-        	 System.out.println("Subscribed to "+rd.getAddress()+"/subscribe"+" Error="+e.getMessage());
+        	 System.out.println("Subscribed to "+mac+"/subscribe"+" Error="+e.getMessage());
         	e.printStackTrace();
             Log.e(LOG_TAG, "Subscription error.", e);
         }
