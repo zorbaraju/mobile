@@ -3,6 +3,7 @@ package com.zorba.bt.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -488,6 +489,11 @@ public class CommonUtils {
 	         new NotificationCompat.Builder(context)
 	         .setSmallIcon(R.drawable.oohicon)
 	         .setContentTitle("Zorba notification")
+	         .setDefaults(Notification.DEFAULT_ALL)
+	         .setPriority(NotificationCompat.PRIORITY_HIGH)
+	         .setAutoCancel(true)
+	         .setWhen(System.currentTimeMillis())
+	         .setTicker("Zorba notification")
 	         .setContentText(roomname+"/"+switchname+" "+statusstr+" at "+currentDateandTime);
 
 	      Intent notificationIntent = new Intent(context, RoomsActivity.class);
