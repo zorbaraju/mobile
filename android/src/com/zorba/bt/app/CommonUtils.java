@@ -491,7 +491,7 @@ public class CommonUtils {
 
 	      // Add as notification
 	      NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-	      manager.notify(0, builder.build());
+	      manager.notify((int)(System.currentTimeMillis()/100), builder.build());
 	   }
 
 }
