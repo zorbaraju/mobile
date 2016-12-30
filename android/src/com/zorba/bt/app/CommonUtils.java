@@ -38,6 +38,12 @@ import com.zorba.bt.app.bluetooth.NetworkInfo;
 import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
+	public static final int CONNECTION_OFFLINE = 0;
+	public static final int CONNECTION_BT = CONNECTION_OFFLINE+1;
+	public static final int CONNECTION_WIFI = CONNECTION_BT+1;
+	public static final int CONNECTION_DATA = CONNECTION_WIFI+1;
+	
+	
    private static int max_no_devices = 0;
    public static final int MENUITEMINDEX_ABOUT = 3;
    public static final int MENUITEMINDEX_DISCOVERY = 0;

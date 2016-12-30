@@ -309,8 +309,8 @@ public class RGBController implements ConnectionListener{
 		};
 	}
 	
-	public void connectionStarted(boolean isWifi) {
-		putOffLine(false);
+	public void connectionStarted(int connectionType) {
+		putOffLine(connectionType == CommonUtils.CONNECTION_OFFLINE);
 	}
 	public void connectionLost() {
 		putOffLine(true);

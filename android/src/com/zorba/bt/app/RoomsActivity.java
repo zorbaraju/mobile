@@ -47,8 +47,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	public static final int MENU_INDEX_CHANGEPWD = MENU_INDEX_INVERTER + 1;
 	public static final int MENU_INDEX_TIMESETTINGS = MENU_INDEX_CHANGEPWD + 1;
 	public static final int MENU_INDEX_SENDLOG = MENU_INDEX_TIMESETTINGS + 1;
-	public static final int MENU_INDEX_SWITCHMODELOG = MENU_INDEX_SENDLOG + 1;
-	public static final int MENU_INDEX_MTLOG = MENU_INDEX_SWITCHMODELOG + 1;
+	public static final int MENU_INDEX_OOHLOG = MENU_INDEX_SENDLOG + 1;
+	public static final int MENU_INDEX_MTLOG = MENU_INDEX_OOHLOG + 1;
 	public static final int MENU_INDEX_EXIT = MENU_INDEX_MTLOG + 1;
 	
 	
@@ -137,7 +137,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			if (this.roomDataList.size() == 0) {
 				startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
 			}
-			setConnectionModeIcon(0);
+			setConnectionModeIcon(CommonUtils.CONNECTION_OFFLINE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,7 +183,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepassword));
 		arrayList.add(new ImageTextData("Time Settings", R.raw.timesettings));
 		arrayList.add(new ImageTextData("Send Log", R.raw.sendlog));
-		arrayList.add(new ImageTextData("Go to Ap mode", R.raw.sendemail));
+		arrayList.add(new ImageTextData("Enable OOH", R.raw.data));
 		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
 		arrayList.add(new ImageTextData("Exit", R.raw.exit));
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
@@ -214,13 +214,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				} else if (i == MENU_INDEX_TIMESETTINGS) {
 					Intent intent = new Intent(RoomsActivity.this, TimeSettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
-				} else if (i == MENU_INDEX_SWITCHMODELOG) {
-						try {
-							btHwLayer.setWifiAPMode(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-							CommonUtils.AlertBox(RoomsActivity.this, "Mode change", "Error:"+e.getMessage());
-						}
+				} else if (i == MENU_INDEX_OOHLOG) {
+					btHwLayer.enableOOH(true);
+					enableOOH(true);
 				} else if (i == MENU_INDEX_MTLOG) {
 					Intent intent = new Intent(RoomsActivity.this, AwsIotActivity.class);
 					String macaddress = "zorbadummy";
@@ -907,8 +903,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	public void onActivityResult(int requestCode, int resultCode, Intent resultIntent) {
 		Logger.e(this, "onActivityResult", "requestcode=" + requestCode + " resultCode=" + resultCode+" "+AWSIOT_CODE);
 		if (requestCode == AWSIOT_CODE) {
-			btHwLayer.enableOOH(true);
-			enableOOH(true);
 			return;
 		} else if (requestCode == DISCOVERY_CODE) {
 			btHwLayer.register();
@@ -972,11 +966,11 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 	
 	
-	public void connectionStarted(final boolean isWifi) {
+	public void connectionStarted(final int connectionType) {
 		runOnUiThread(new Runnable() {
 			public void run() {
 				if (RoomsActivity.this.lightsPanel != null) {
-					setConnectionModeIcon(isWifi?2:1);
+					setConnectionModeIcon(connectionType);
 					System.out.println("AJJGJHFHFHGFHJGGGGGGggcdfdfdsf");
 				}
 			}
@@ -990,7 +984,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 					RoomsActivity.this.lightsPanel.resetButtonInPanel(false);
 					RoomsActivity.this.devicePanel.resetButtonInPanel(false);
 					RoomsActivity.this.groupPanel.resetButtonInPanel(true);
-					setConnectionModeIcon(0);
+					setConnectionModeIcon(CommonUtils.CONNECTION_OFFLINE);
 				}
 			}
 		});
@@ -998,12 +992,14 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 
 	public void setConnectionModeIcon(int connectionType) {
 		SvgView aboutButton = (SvgView) findViewById(R.id.aboutButton);
-		if (connectionType == 0) 
+		if (connectionType == CommonUtils.CONNECTION_OFFLINE) 
 			aboutButton.setImageResource(0);
-		else if (connectionType == 1)
+		else if (connectionType == CommonUtils.CONNECTION_BT)
 			aboutButton.setImageResource(R.raw.bt);
-		else
+		else if (connectionType == CommonUtils.CONNECTION_WIFI)
 			aboutButton.setImageResource(R.raw.wifi);
+		else if (connectionType == CommonUtils.CONNECTION_DATA)
+			aboutButton.setImageResource(R.raw.data);
 	}
 	
 	private void testExtras() {
