@@ -472,6 +472,12 @@ public class CommonUtils {
 		return false;
 	}
 	
+	int notificationId = 0;
+	private int getNextNotificationNo() {
+		notificationId++;
+		return notificationId;
+	}
+	
 	public  void addNotification(Activity context, String roomname, String switchname, byte status) {
 		String statusstr = "On";
 		if( status == 0)
@@ -491,7 +497,7 @@ public class CommonUtils {
 
 	      // Add as notification
 	      NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-	      manager.notify((int)(System.currentTimeMillis()/100), builder.build());
+	      manager.notify(getNextNotificationNo(), builder.build());
 	   }
 
 }
