@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -20,7 +19,8 @@ import android.widget.TextView;
 
 public class AddDeviceActivity extends ZorbaActivity {
    String deviceName = null;
-   String tabName = "Lights";
+   
+   String tabName = CommonUtils.TABSWITCH;
    CheckBox isdimmable = null;
    String editDeviceName = null;
    
@@ -133,7 +133,7 @@ public class AddDeviceActivity extends ZorbaActivity {
       ((RelativeLayout)findViewById(R.id.powerLayout)).setVisibility(View.GONE);
       MyListMenu deviceIdMenu = (MyListMenu)this.findViewById(R.id.deviceid);
       deviceIdMenu.setMenuItems(this.getUnusedDeviceIds());
-      if(tabName.equals("Lights")) {
+      if(tabName.equals(CommonUtils.TABSWITCH)) {
     	  titleText.setText("New Light");
          var6.setText("Light Name");
          deviceTypeLabel.setText("Light Type");
@@ -147,7 +147,7 @@ public class AddDeviceActivity extends ZorbaActivity {
       editDeviceName = this.getIntent().getExtras().getString("entityName");
       if( editDeviceName != null) {
     	  String title = "Device "+ editDeviceName;
-    	  if(tabName.equals("Lights")) {
+    	  if(tabName.equals(CommonUtils.TABSWITCH)) {
     		  title = "Light "+ editDeviceName;
     	  }
     	  titleText.setText(title);
@@ -171,7 +171,7 @@ public class AddDeviceActivity extends ZorbaActivity {
 	   int deviceTypeWithDimmable = 0;
 	   MyPopupDialog var3 = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
 	      
-      if (tabName.equals("Lights")) {
+      if (tabName.equals(CommonUtils.TABSWITCH)) {
     	  if( isdimmable.isChecked()) {
     		  deviceTypeWithDimmable = 1;
     	  }

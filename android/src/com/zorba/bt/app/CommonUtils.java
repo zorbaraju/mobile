@@ -39,6 +39,10 @@ import com.zorba.bt.app.bluetooth.NetworkInfo;
 import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
+	
+	public static final String TABSWITCH = "Switches";
+	public static final String TABDIMMABLES = "Dimmables";
+	
 	public static final int CONNECTION_OFFLINE = 0;
 	public static final int CONNECTION_BT = CONNECTION_OFFLINE+1;
 	public static final int CONNECTION_WIFI = CONNECTION_BT+1;
@@ -464,13 +468,13 @@ public class CommonUtils {
 	}
 	
 	public static boolean isMobileDataConnection(Context context) {
+		boolean isdata = false;
 		try {
 			ConnectivityManager cm = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);      
-			return (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE);
+			isdata = (cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_MOBILE);
 		} catch(Exception e){
-			
 		}
-		return false;
+		return isdata;
 	}
 	
 	int notificationId = 0;
@@ -488,14 +492,13 @@ public class CommonUtils {
 		  NotificationCompat.Builder builder =
 	         new NotificationCompat.Builder(context)
 	         .setSmallIcon(R.drawable.oohicon)
-	         .setContentTitle("Zorba notification")
+	         .setContentTitle("Zorba")
 	         .setDefaults(Notification.DEFAULT_ALL)
 	         .setPriority(NotificationCompat.PRIORITY_HIGH)
 	         .setAutoCancel(true)
 	         .setWhen(System.currentTimeMillis())
 	         .setTicker("Zorba notification")
 	         .setContentText(roomname+"/"+switchname+" "+statusstr+" at "+currentDateandTime);
-
 	      Intent notificationIntent = new Intent(context, RoomsActivity.class);
 	      PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
 	         PendingIntent.FLAG_UPDATE_CURRENT);

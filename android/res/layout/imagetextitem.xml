@@ -5,26 +5,29 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:layout_marginBottom="1dp"
-    android:background="#ff131b22"
+    android:background="#ff403c3a"
     android:gravity="center"
     android:orientation="horizontal"
-    android:paddingBottom="2dp" >
+    android:paddingBottom="15.0dp" >
 
     <com.zorba.bt.app.SvgView
         android:id="@id/imageview1"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="#ff202e39"
+        android:layout_marginLeft="15dp"
+        android:background="#ff403c3a"
         app:svgviewsrc="@raw/light" />
 
     <TextView
         android:id="@id/buttontext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#ff202e39"
+        android:layout_marginLeft="12dp"
+        android:background="#ff403c3a"
         android:paddingLeft="10.0dip"
+        android:paddingRight="30.0dip"
         android:text="Menu item"
-        android:textColor="@android:color/white"
+        android:textColor="#fff7f2ed"
         android:textSize="20.0sp" />
 
 </LinearLayout>

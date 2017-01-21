@@ -81,7 +81,7 @@ public class AwsIotActivity extends ZorbaActivity {
         txtMessage = (EditText) findViewById(R.id.txtMessage);
 
         Bundle bundle = this.getIntent().getExtras();
-        String deviceName = bundle.getString("deviceName");
+        String deviceName = bundle.getString("deviceName")+"/";
         //deviceName = "88:4A:EA:2E:1D:7B";
         txtSubcribe.setText(deviceName);
         tvLastMessage = (TextView) findViewById(R.id.tvLastMessage);

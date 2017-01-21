@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="#ff1d2832">
+    android:background="#ff1e1e1e"
+    android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/configuredroomslayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:background="#ff131b22">
+        android:layout_height="wrap_content"
+        android:background="#ff403c3a" >
 
         <TextView
             android:id="@id/textlistmenu"
@@ -30,18 +30,18 @@
             android:layout_gravity="left"
             android:layout_marginRight="5.0dip"
             android:background="@android:color/transparent"
-            app:svgviewsrc="@raw/minus"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:svgviewsrc="@raw/minus" />
     </LinearLayout>
 
     <com.zorba.bt.app.FlowLayout
         android:id="@id/roomscontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/configuredroomslayout"
         android:minWidth="100.0dip"
         app:elementSpacing="1.0dip"
-        app:lineSpacing="10.0dip" 
-        android:layout_below="@id/configuredroomslayout"/>
+        app:lineSpacing="10.0dip" />
 
     <LinearLayout
         android:id="@+id/devInfoPanel"
@@ -50,7 +50,7 @@
         android:layout_below="@id/roomscontent"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
-        android:background="#ff131b22" >
+        android:background="#ff1e1e1e" >
 
         <TextView
             android:id="@+id/devPwdLabel"
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
             android:layout_marginRight="10.0dip"
-            android:background="#000000"
+            android:background="#ff3d3d3d"
             android:ems="10"
             android:inputType="textPassword"
             android:textAppearance="?android:textAppearanceMedium"
@@ -80,7 +80,7 @@
         android:layout_below="@id/devInfoPanel"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="5dp"
-        android:background="#ff131b22" >
+        android:background="#ff1e1e1e" >
 
         <TextView
             android:id="@+id/wifiPwdLabel"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
             android:layout_marginRight="10.0dip"
-            android:background="#000000"
+            android:background="#ff3d3d3d"
             android:ems="10"
             android:inputType="textPassword"
             android:textAppearance="?android:textAppearanceMedium"
@@ -116,23 +116,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="Bluetooth" />
+            android:button="@drawable/checkbox_custom_01"
+            android:text="   Bluetooth  " />
 
         <RadioButton
             android:id="@+id/wifirdiscovery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:button="@drawable/checkbox_custom_01"
             android:checked="false"
-            android:text="Wifi Router" />
+            android:text="   Wifi Router  " />
 
         <RadioButton
             android:id="@+id/wifiapdiscovery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:button="@drawable/checkbox_custom_01"
             android:checked="true"
-            android:text="Wifi AP" />
+            android:text="   Wifi AP  " />
     </RadioGroup>
 
     <LinearLayout
@@ -149,7 +152,7 @@
             android:layout_centerInParent="false"
             android:layout_toLeftOf="@id/spinnertriangle"
             android:gravity="center"
-            android:text="Bluetooth Discovery is going on"
+            android:text="Bluetooth Discovery is in process"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <com.zorba.bt.app.SvgView
@@ -158,7 +161,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="25.0dip"
+            android:layout_marginRight="20.0dip"
             app:svgviewsrc="@raw/discovery" />
     </LinearLayout>
 
@@ -174,12 +177,12 @@
         android:gravity="center" />
 
     <ScrollView
-        android:background="#ff131b22"
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/savebutton"
-        android:layout_below="@id/loadingImage" >
+        android:layout_below="@id/loadingImage"
+        android:background="#ff1e1e1e" >
 
         <LinearLayout
             android:id="@id/discoveryContent"
@@ -191,11 +194,13 @@
 
     <Button
         android:id="@id/savebutton"
-        android:layout_width="wrap_content"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:text="Save" />
+        android:text="Save"
+        android:textSize="18.0sp" />
 
 </RelativeLayout>

@@ -27,7 +27,6 @@
             android:gravity="center_vertical" />
     </LinearLayout>
 
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +38,7 @@
             android:layout_weight="2"
             android:gravity="center_vertical"
             android:text="Topic Name:" />
+
         <EditText
             android:id="@+id/txtSubcribe"
             android:layout_width="0dp"
@@ -48,6 +48,7 @@
             android:gravity="center_vertical"
             android:hint="Topic name" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
             android:ems="10"
             android:gravity="center_vertical"
             android:hint="Publish Topic"
-            android:text="publish" />
+            android:text="subscribe" />
 
         <EditText
             android:id="@+id/receiver"
@@ -71,10 +72,10 @@
             android:ems="10"
             android:gravity="center_vertical"
             android:hint="Subcribe Topic"
-            android:text="subscribe" />
-
+            android:text="publish" />
     </LinearLayout>
-<LinearLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
@@ -94,7 +95,7 @@
             android:gravity="center_vertical"
             android:text="Disconnected" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,9 +103,9 @@
 
         <Button
             android:id="@+id/btnConnect"
-            android:layout_gravity="left"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:layout_weight="6"
             android:text="Connect" />
 
@@ -112,8 +113,8 @@
             android:id="@+id/btnDisconnect"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
             android:layout_gravity="right"
+            android:layout_weight="4"
             android:text="Disconnect" />
     </LinearLayout>
 
@@ -133,7 +134,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical" />
-
     </LinearLayout>
 
     <Button
@@ -143,11 +143,11 @@
         android:layout_gravity="left"
         android:text="Publish" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2"
-    android:orientation="horizontal" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal" >
 
         <TextView
             android:layout_width="0dp"
@@ -164,4 +164,5 @@
             android:gravity="center_vertical|top"
             android:text="N/A" />
     </LinearLayout>
+
 </LinearLayout>

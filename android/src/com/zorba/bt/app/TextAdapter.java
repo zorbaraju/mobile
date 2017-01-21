@@ -30,7 +30,7 @@ public class TextAdapter extends ArrayAdapter {
    public View getView(int var1, View var2, ViewGroup var3) {
       TextView var4 = new TextView(this.context);
       var4.setTextColor(Color.parseColor("#ffffff"));
-      var4.setBackgroundColor(Color.parseColor("#000000"));
+      var4.setBackgroundColor(Color.parseColor("#1e1e1e"));
       var4.setTextSize(20.0F);
       var4.setPadding(4, 6, 0, 6);
       var4.setTag(Integer.valueOf(var1));

@@ -138,11 +138,12 @@ public class BtHwLayer {
 	}
 
 	private void checkConnection() throws Exception {
-		if (isWifi() && isWifiEnabled()) {
+		if( CommonUtils.isMobileDataConnection(activity) ){
+		} else if (isWifi() && isWifiEnabled()) {
 			System.out.println("checkConnection for wifi");
 			if ( this.shouldReconnect(this.ipAddress)) {
 				System.out.println("In checkConnection reinit wifi");
-				String error = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress);
+				String error = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress, false);
 				if (error != null) {
 					System.out.println("In checkConnection reinit wifi error="+error);
 					throw new Exception(error);
@@ -152,7 +153,7 @@ public class BtHwLayer {
 			System.out.println("checkConnection for bt");
 			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
 				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
-				String var1 = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress);
+				String var1 = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress, false);
 				if (var1 != null) {
 					System.out.println("In checkConnection reinit bt error="+var1);
 					throw new Exception(var1);
@@ -186,6 +187,7 @@ public class BtHwLayer {
 	
 	public String initDevice(String roomname, String macaddress, String ssid, String ipaddr, boolean isDiscovery) {
 		this.isDiscovery = isDiscovery;
+		this.devAddress = macaddress;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
 		if( !_isOOH && CommonUtils.isMobileDataConnection(activity)) {
@@ -203,11 +205,10 @@ public class BtHwLayer {
 		System.out.println("The ipaddress going to be used for init device is " + ipaddr);
 		this.roomname = roomname;
 		ipAddress = ipaddr;
-		this.devAddress = macaddress;
 		this.ssid = ssid;
 		
 		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
-			iotConnection = new AwsConnection(activity,macaddress);
+			System.out.println("Iot connection is to be used");
 		} else if (isWifi()) {
 			CommonUtils.getInstance().writeLog("Wifi mode...ipaddress is "+ipAddress);
 			try {
@@ -602,7 +603,7 @@ public class BtHwLayer {
 			data = this.getData(reqno);
 			if( data == null) {
 				try {
-					Thread.sleep(numRetries*100);
+					Thread.sleep(numRetries*3000);
 				}catch(Exception e){
 					System.out.println("Error in sleeping ..."+e.getMessage());
 				}
@@ -1033,8 +1034,12 @@ public class BtHwLayer {
 				connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
 			}
 			for(RoomData rd: roomDataList){
-				iotConnection.enableNotificationForRoom(listener, rd);
+				if( !rd.getAddress().equals(devAddress)) {
+					iotConnection.enableNotificationForRoom(listener, rd);
+				}
 			}
+
+			isConnected = true;
 			enabled = true;
 		}
 		return enabled;

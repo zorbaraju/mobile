@@ -217,12 +217,11 @@ public class MyComp extends LinearLayout {
 
       for(int index = 0; index < count; ++index) {
          ImageTextButton imagetextButton = (ImageTextButton)this.compLaout.getChildAt(index);
-         String devType = imagetextButton.getDeviceType();
          if(reset) {
         	 imagetextButton.changeDeviceButtonStyle(-1);
-        	 imagetextButton.setBackgroundImage(R.raw.group);
+        	 imagetextButton.setBackgroundImage(imagetextButton.getImageResId());
          } else {
-        	 imagetextButton.changeDeviceButtonStyle(devType, -1);
+        	 imagetextButton.changeDeviceButtonStyle(imagetextButton.getDeviceType(), -1);
          }
       }
 
@@ -284,7 +283,7 @@ public class MyComp extends LinearLayout {
       for(int index = 0; index < count; ++index) {
          ImageTextButton but = (ImageTextButton)this.compLaout.getChildAt(index);
          but.changeDeviceButtonStyle(0);
-         but.setBackgroundImage(R.raw.group);
+         but.setBackgroundImage(but.getImageResId());
       }
 
    }

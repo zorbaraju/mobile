@@ -5,19 +5,96 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include android:id="@id/emptydevicepanel" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" layout="@layout/dialogheader" />
-    <ScrollView android:id="@id/scrollView" android:background="#ff1d2832" android:layout_width="fill_parent" android:layout_height="fill_parent">
-        <LinearLayout android:orientation="vertical" android:background="#ff1d2832" android:layout_width="fill_parent" android:layout_height="fill_parent">
-            <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:id="@id/devicename" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip" android:layout_marginBottom="1.0dip" android:text="Device Name" />
-            <EditText android:id="@id/deviceNameInput" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip">
+    <include
+        android:id="@id/emptydevicepanel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/dialogheader" />
+
+    <ScrollView
+        android:id="@id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ff1e1e1e" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ff1e1e1e"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@id/devicename"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginTop="20.0dip"
+                android:background="#ff1e1e1e"
+                android:paddingBottom="4.0dip"
+                android:paddingTop="4.0dip"
+                android:text="Device Name"
+                android:textColor="#ffeca538"
+                android:textSize="20.0sp" />
+
+            <EditText
+                android:id="@id/deviceNameInput"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:background="#ff131b22"
+                android:paddingBottom="4.0dip"
+                android:paddingTop="4.0dip" >
+
                 <requestFocus />
             </EditText>
-            <RelativeLayout android:background="#ff131b22" android:layout_width="fill_parent" android:layout_height="wrap_content">
-                <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:text="Switch Number" />
-                <com.zorba.bt.app.MyListMenu android:textSize="20.0sp" android:layout_gravity="right" android:id="@id/deviceid" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_marginBottom="1.0dip" android:layout_weight="1.0" android:layout_alignParentRight="true" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff1e1e1e" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Switch Number"
+                    android:textColor="#ffeca538"
+                    android:textSize="20.0sp" />
+
+                <com.zorba.bt.app.MyListMenu
+                    android:id="@id/deviceid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:textSize="20.0sp" />
             </RelativeLayout>
-            <RelativeLayout android:background="#ff131b22" android:layout_width="fill_parent" android:layout_height="wrap_content">
-                <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:text="Is Dimmable" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff1e1e1e" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Is Dimmable"
+                    android:textColor="#ffeca538"
+                    android:textSize="20.0sp" />
 
                 <CheckBox
                     android:id="@+id/isdimmable"
@@ -26,13 +103,41 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:background="#ff131b22"
+                    android:button="@drawable/custom_checkbox_orange"
                     android:textColor="#ffffffff" />
-
             </RelativeLayout>
-            <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content">
-                <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:id="@id/devicetype" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:text="Device Type" />
-                <LinearLayout android:background="#ff131b22" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:layout_alignParentRight="true">
-                    <com.zorba.bt.app.MyPopupDialog android:textSize="20.0sp" android:id="@id/deviceTypeList" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@id/devicetype"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Device Type"
+                    android:textColor="#ffeca538"
+                    android:textSize="20.0sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10.0dip"
+                    android:background="#ff1e1e1e" >
+
+                    <com.zorba.bt.app.MyPopupDialog
+                        android:id="@id/deviceTypeList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#ff1e1e1e"
+                        android:paddingBottom="4.0dip"
+                        android:paddingTop="4.0dip"
+                        android:textSize="20.0sp" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -40,12 +145,33 @@
                 android:id="@+id/powerLayout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#ff131b22" >
+                android:background="#ff1e1e1e" >
 
-                <TextView android:textSize="20.0sp" android:textColor="#ffeca538" android:background="#ff131b22" android:paddingTop="4.0dip" android:paddingBottom="4.0dip" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="1.0dip" android:text="Power in Watts" />
-                <EditText android:textSize="20.0sp" android:textColor="#ffffffff" android:id="@id/powerinwatts" android:background="#ff131b22" android:layout_width="50.0dip" android:layout_height="wrap_content" android:layout_marginRight="10.0dip" android:text="10" android:maxLength="4" android:layout_alignParentRight="true" android:inputType="number" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Power in Watts"
+                    android:textColor="#ffeca538"
+                    android:textSize="20.0sp" />
+
+                <EditText
+                    android:id="@id/powerinwatts"
+                    android:layout_width="50.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10.0dip"
+                    android:background="#ff1e1e1e"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:text="10"
+                    android:textColor="#ffffffff"
+                    android:textSize="20.0sp" />
             </RelativeLayout>
-            
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

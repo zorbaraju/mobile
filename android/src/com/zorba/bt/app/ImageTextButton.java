@@ -15,6 +15,7 @@ import android.widget.TextView;
 public class ImageTextButton extends LinearLayout {
 	SvgView button;
    String deviceType;
+   int imageResId;
    TextView labelText;
    boolean mShowText;
    int mTextPos;
@@ -48,13 +49,13 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(this.deviceType, var1));
       if(var1 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else if(var1 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#eca538"));
+         this.labelText.setTextColor(Color.parseColor("#ffffff"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
       }
 
    }
@@ -63,19 +64,27 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(devtype, var2));
       if(var2 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else if(var2 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#eca538"));
+         this.labelText.setTextColor(Color.parseColor("#ffffff"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
       }
 
    }
 
    public String getDeviceType() {
       return this.deviceType;
+   }
+   
+   public int getImageResId() {
+	   return this.imageResId;
+   }
+   
+   public void setImageResId(int imageResId) {
+	   this.imageResId = imageResId;
    }
 
    public String getText() {

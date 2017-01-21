@@ -58,8 +58,8 @@
 
         <com.zorba.bt.app.SvgView
             android:id="@id/loadingImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10.0dip"
+            android:layout_height="10.0dip"
             android:layout_alignBottom="@id/roomList"
             android:layout_alignRight="@id/roomList"
             android:layout_marginBottom="1.0dip"

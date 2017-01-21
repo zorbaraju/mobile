@@ -1,6 +1,7 @@
 package com.zorba.bt.app;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,16 +20,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Process;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
@@ -173,19 +168,23 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 
 	private ListPopupWindow prepareHomeMenu() {
+		
+		//-spb 170117 for adding settings menu
 		final ListPopupWindow popupWindow = new ListPopupWindow(this);
+		
 		ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
-		arrayList.add(new ImageTextData("Add Room", R.raw.discovery));
+		arrayList.add(new ImageTextData("Add Room", R.raw.addroom));
 		arrayList.add(new ImageTextData("Device Configuration", R.raw.deviceconfig));
 		arrayList.add(new ImageTextData("Help", R.raw.help));
 		arrayList.add(new ImageTextData("About", R.raw.about));
-		arrayList.add(new ImageTextData("Inverter Power", R.raw.inverter));
+		arrayList.add(new ImageTextData("Admin Settings", R.raw.settings));
 		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepassword));
 		arrayList.add(new ImageTextData("Time Settings", R.raw.timesettings));
 		arrayList.add(new ImageTextData("Send Log", R.raw.sendlog));
-		arrayList.add(new ImageTextData("Enable OOH", R.raw.data));
-		arrayList.add(new ImageTextData("Mt Log", R.raw.sendemail));
+		arrayList.add(new ImageTextData("Enable OOH", R.raw.outofhome));
+		arrayList.add(new ImageTextData("Mt Log", R.raw.mtlog));
 		arrayList.add(new ImageTextData("Exit", R.raw.exit));
+		
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
 	         public void zonClick(View popupView) {
 				popupWindow.dismiss();
@@ -230,14 +229,21 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				}
 			}
 		});
-		popupWindow.setHorizontalOffset( -200 );
-		popupWindow.setVerticalOffset( -100 );
+		//-spb 110117 for shifting popup menu little right popupWindow.setHorizontalOffset( -200 );
+		popupWindow.setHorizontalOffset(25 ); 
+		//-spb 110117 for shifting popup menu little down popupWindow.setVerticalOffset( -100 );
+		popupWindow.setVerticalOffset( -90 );
 		popupWindow.setAdapter((ListAdapter) textAdapter);
 		popupWindow.setAnchorView(findViewById(R.id.homeButton));
 		popupWindow
 				.setWidth(CommonUtils.measureContentWidth(popupWindow.getListView(), (ListAdapter) textAdapter) + 60);
-		popupWindow.setHeight(popupWindow.MATCH_PARENT);
+		popupWindow.setHeight(popupWindow.WRAP_CONTENT);
 		return popupWindow;
+	}
+
+	private void setImageDrawable(int alarm) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void prepareRoomListMenu(String newRoomName, boolean paramBoolean) {
@@ -331,7 +337,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		((LinearLayout) findViewById(R.id.roomContent)).addView(local16);
 		ArrayList<DeviceData> deviceList = BtLocalDB.getInstance(this).getDevices(this.selectedRoom.getDeviceName(), null);
 		local16.expandComp(true);
-		if (tabName.equals("Lights"))
+		if (tabName.equals(CommonUtils.TABSWITCH))
 			this.lightsPanel = local16;
 		else
 			this.devicePanel = local16;
@@ -339,9 +345,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		for (int ddindex=0; ddindex<numdevices; ddindex++) {
 			DeviceData device = deviceList.get(ddindex);
 			if (!device.isUnknownType()) {
-				if ((tabName.equals("Lights")) && (DeviceData.isLightType(device.getType()))) {
+				if ((tabName.equals(CommonUtils.TABSWITCH)) && (DeviceData.isLightType(device.getType()))) {
 					addButtonPanel(local16, device, true);
-				} else if ((tabName.equals("Devices"))
+				} else if ((tabName.equals(CommonUtils.TABDIMMABLES))
 						&& (!DeviceData.isLightType(device.getType()))) {
 					addButtonPanel(local16, device, true);
 				}
@@ -536,9 +542,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 
 	private void singleClickButton(final int devid, final String devtype, ImageTextButton paramImageTextButton) {
-		if( isInConfigDeviceMode) {
-			return;
-		}
 		if( !btHwLayer.isConnected())
 			updateWithRealtime();
 		else {
@@ -595,6 +598,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		localImageTextButton.setText(groupName);
 		localImageTextButton.changeDeviceButtonStyle(0);
 		localImageTextButton.setBackgroundImage(groupData.getImageResId());
+		localImageTextButton.setImageResId(groupData.getImageResId());
 		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
 			public void zonClick(View paramAnonymousView) {
 				RoomsActivity.this.groupPanel.deselectAll();
@@ -736,8 +740,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			return;
 		}
 		((LinearLayout) findViewById(R.id.roomContent)).removeAllViews();
-		lightsPanel = populateDeviceButtons("Lights");
-		devicePanel = populateDeviceButtons("Devices");
+		lightsPanel = populateDeviceButtons(CommonUtils.TABSWITCH);
+		devicePanel = populateDeviceButtons(CommonUtils.TABDIMMABLES);
 		groupPanel = populateGroups();
 		schedulePanel = populateSchedules();
 		
@@ -999,7 +1003,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		else if (connectionType == CommonUtils.CONNECTION_WIFI)
 			aboutButton.setImageResource(R.raw.wifi);
 		else if (connectionType == CommonUtils.CONNECTION_DATA)
-			aboutButton.setImageResource(R.raw.data);
+			aboutButton.setImageResource(R.raw.sendlog);
 	}
 	
 	private void testExtras() {

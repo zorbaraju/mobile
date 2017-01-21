@@ -145,7 +145,7 @@ public class AwsConnection {
 					if (arg0.equals(AWSIotMqttClientStatus.Connected)) {
 						isConnected = true;
 						receiver = new BtIotReceiver();
-						mqttManager.subscribeToTopic(macAddress+"/subscribe", AWSIotMqttQos.QOS0, receiver);
+						mqttManager.subscribeToTopic(macAddress+"/publish", AWSIotMqttQos.QOS0, receiver);
 					}
 				}
 			});
@@ -160,7 +160,7 @@ public class AwsConnection {
 	}
 
 	public void sendMessage(byte[] bytes) {
-		mqttManager.publishData(bytes, macAddress+"/publisher", AWSIotMqttQos.QOS0);
+		mqttManager.publishData(bytes, macAddress+"/subscribe", AWSIotMqttQos.QOS0);
 	}
 	
 	public byte[] getData(int reqno) {
@@ -169,9 +169,8 @@ public class AwsConnection {
 
 	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
 		String mac = rd.getAddress();
-		//mac = "88:4A:EA:2E:1D:7B";
 		try {
-            mqttManager.subscribeToTopic(mac+"/subscribe", AWSIotMqttQos.QOS0,
+            mqttManager.subscribeToTopic(mac+"/publish", AWSIotMqttQos.QOS0,
                     new AWSIotMqttNewMessageCallback() {
                         @Override
                         public void onMessageArrived(final String topic, final byte[] data) {
