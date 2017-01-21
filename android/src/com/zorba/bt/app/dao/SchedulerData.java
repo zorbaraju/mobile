@@ -15,7 +15,7 @@ public class SchedulerData {
 		   "Night", "Morning"
    };
    public static int imageResIds[] = {
-		   R.raw.evening, R.raw.morning
+		   R.raw.dinner, R.raw.heart
    };
 
    public SchedulerData(String schedid, String name, String type, int devData[],

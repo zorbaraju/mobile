@@ -10,7 +10,7 @@ public class GroupData {
 			   "Happy", "Tired"
 	   };
 	public static int imageResIds[] = {
-			   R.raw.happy, R.raw.tired
+			   R.raw.dinner, R.raw.heart
 	   };
 	
 	public GroupData(String name, String type) {
