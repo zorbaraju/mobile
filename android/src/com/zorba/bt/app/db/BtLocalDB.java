@@ -423,7 +423,7 @@ public class BtLocalDB {
 		if (!var1.isEmpty()) {
 			String[] var5 = var1.split("#");
 
-			for (int var3 = 0; var3 < var5.length; var3 += 2) {
+			for (int var3 = 0; var3 < var5.length; var3 += 3) {
 				if (var5[var3 + 1].equals(var2)) {
 					var4 = true;
 					return var4;
