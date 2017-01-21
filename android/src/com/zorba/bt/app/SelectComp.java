@@ -4,6 +4,7 @@ import com.zorba.bt.app.dao.DeviceData;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +33,8 @@ public class SelectComp extends LinearLayout {
       this.controllerValueText = (TextView)this.findViewById(R.id.controllerValue);
       var3.setText(var2.getName());
       LinearLayout var9 = (LinearLayout)this.findViewById(R.id.selectcontroller);
-      var4.setBackgroundResource(CommonUtils.getDeviceImage(this.deviceType, 1));
+      var4.setImageResource(CommonUtils.getDeviceImage(this.deviceType, 1));
+      //-spb 200117 for changing device icons in sch and group menu var4.setBackgroundResource(CommonUtils.getDeviceImage(this.deviceType, 1));
       LayoutParams var8;
       if(!var2.isDimmable()) {
          final Switch var5 = new Switch(var1);
@@ -82,10 +84,15 @@ public class SelectComp extends LinearLayout {
       } else {
          SeekBar var7 = new SeekBar(var1);
          var7.setMax(100);
-         var8 = new LayoutParams(-1, -2);
-         var8.gravity = 17;
+         //-spb 200117 for seek bar cut
+        // var8 = new LayoutParams(-1, -2);
+         //var8.gravity = 17;
+         //-spb 200117 for seek bar cut  
+         var8 = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+         var8.gravity = Gravity.CENTER;
+         
          var7.setLayoutParams(var8);
-         var7.setMinimumHeight(40);
+         //var7.setMinimumHeight(40);
          this.view = var7;
          var7.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar var1, int var2, boolean var3) {
@@ -101,9 +108,12 @@ public class SelectComp extends LinearLayout {
          });
          this.controllerValue = var7.getProgress() + " %";
       }
-
-      var8 = new LayoutParams(-1, -2);
-      var8.gravity = 17;
+//-spb 200117 for seek bar cut 
+//      var8 = new LayoutParams(-1, -2);
+//      var8.gravity = 17;
+    //-spb 200117 for seek bar cut      
+      var8 = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+    var8.gravity = Gravity.CENTER;
       var9.addView(this.view, var8);
       this.updateValue();
    }

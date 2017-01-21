@@ -43,6 +43,7 @@
         android:layout_centerInParent="true"
         android:layout_centerVertical="true" >
 
+        <!-- spb 200117 for all capital room name: caps added and font size changed from 20 to 18 -->
         <TextView
             android:id="@id/roomList"
             android:layout_width="wrap_content"
@@ -53,8 +54,12 @@
             android:drawSelectorOnTop="true"
             android:gravity="center"
             android:text="No rooms"
+            android:textAllCaps="true"
             android:textColor="#ffffffff"
-            android:textSize="20.0sp" />
+            android:textSize="18.0sp" />
+        
+
+      
 
         <com.zorba.bt.app.SvgView
             android:id="@id/loadingImage"

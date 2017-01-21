@@ -10,7 +10,7 @@
     <string name="title_changepwd">Change password</string>
     <string name="title_sendlog">Send Log</string>
     <string name="title_inverter">Inverter Power</string>
-    <string name="title_activity_welcome">Welcome</string>
+    <string name="title_activity_welcome">Zorba</string>
     <string name="title_activity_time_settings">TimeSettingsActivity</string>
 
 </resources>

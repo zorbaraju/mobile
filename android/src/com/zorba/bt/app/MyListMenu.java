@@ -111,7 +111,8 @@ public class MyListMenu extends LinearLayout {
          TextView var4 = new TextView(this.getContext());
          var4.setTextColor(Color.parseColor("#ffffff"));
          var4.setBackgroundColor(Color.parseColor("#1e1e1e"));
-         var4.setTextSize(20.0F);
+        // var4.setTextSize(20.0F);
+         var4.setTextSize(CommonUtils.DROP_MENU_TEXT_SIZE);
          var4.setTag(Integer.valueOf(var1));
          var4.setText((CharSequence)this.list.get(var1));
          var4.setPadding(10, 4, 0, 4);

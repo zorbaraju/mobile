@@ -12,6 +12,7 @@
         android:layout_width="70.0dip"
         android:layout_height="70.0dip"
         android:layout_gravity="center"
+        android:layout_marginTop="5.0dip"
         android:layout_weight="1.0"
         android:background="@layout/roundwhitecorner"
         app:svgviewsrc="@raw/light" />

@@ -50,6 +50,7 @@ public class CommonUtils {
 	
 	
    private static int max_no_devices = 0;
+   public static final float DROP_MENU_TEXT_SIZE= 20.0f;//+spb 200117 for common text size 
    public static final int MENUITEMINDEX_ABOUT = 3;
    public static final int MENUITEMINDEX_DISCOVERY = 0;
    public static final int MENUITEMINDEX_EXIT = 4;

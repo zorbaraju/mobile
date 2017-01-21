@@ -1,113 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+  <!-- spb 110117 align discovery page and ui 
+  1) Relative layout bckgnd color:#ff1d2832" changed to "#ff403c3a"
+  2) Linear :changing configured rooms bckgnd #ff131b22 changed to "#ff403c3a"
+  3) LinearLayout   android:id="@+id/devInfoPanel" android:background="#ff131b22" to 1e1e1e
+  4) LinearLayout   android:id="@+id/wifiInfoPanel" android:background="#ff131b22" to 1e1e1e
+  5) Editable text bckgnd  android:background="#000000" changed to ff1e1e1e
+  6) Save button changed
+  
+    <Button
+        android:id="@id/savebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:text="Save" />
+  -->
+  
+  
+  
+  
+  
+  
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff1e1e1e"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#ff1e1e1e">
 
+    
+ <!-- spb 210117 for add room -->   
     <LinearLayout
-        android:id="@+id/configuredroomslayout"
+        android:id="@+id/addroom"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ff403c3a" >
+        android:layout_height="wrap_content" 
+        android:background="#ff403c3a">
 
         <TextView
-            android:id="@id/textlistmenu"
+           
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Configured rooms"
+            android:text="Add Rooms"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="23.0sp" />
-
-        <com.zorba.bt.app.SvgView
-            android:id="@id/deletebutton"
-            android:layout_width="40.0dip"
-            android:layout_height="40.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="left"
-            android:layout_marginRight="5.0dip"
-            android:background="@android:color/transparent"
-            android:visibility="gone"
-            app:svgviewsrc="@raw/minus" />
-    </LinearLayout>
-
-    <com.zorba.bt.app.FlowLayout
-        android:id="@id/roomscontent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/configuredroomslayout"
-        android:minWidth="100.0dip"
-        app:elementSpacing="1.0dip"
-        app:lineSpacing="10.0dip" />
-
-    <LinearLayout
-        android:id="@+id/devInfoPanel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/roomscontent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:background="#ff1e1e1e" >
-
-        <TextView
-            android:id="@+id/devPwdLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Device Password"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="23.0sp" />
-
-        <EditText
-            android:id="@+id/devPwdText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
-            android:background="#ff3d3d3d"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="23.0sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/wifiInfoPanel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/devInfoPanel"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:background="#ff1e1e1e" >
-
-        <TextView
-            android:id="@+id/wifiPwdLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wifi Password"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="23.0sp" />
-
-        <EditText
-            android:id="@+id/wifiPwdText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
-            android:layout_marginRight="10.0dip"
-            android:background="#ff3d3d3d"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textSize="23.0sp" />
-    </LinearLayout>
-
-    <RadioGroup
+    
+        </LinearLayout>
+        
+       <RadioGroup
         android:id="@+id/grouppanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wifiInfoPanel"
+        android:paddingTop="10.0dip"
+        android:paddingBottom="10.0dip"
+        android:layout_below="@id/addroom"
         android:layout_gravity="center"
         android:orientation="horizontal" >
 
@@ -124,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:button="@drawable/checkbox_custom_01"
             android:checked="false"
+            android:button="@drawable/checkbox_custom_01"
             android:text="   Wifi Router  " />
 
         <RadioButton
@@ -133,11 +81,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:button="@drawable/checkbox_custom_01"
             android:checked="true"
+            android:button="@drawable/checkbox_custom_01"
             android:text="   Wifi AP  " />
     </RadioGroup>
-
+    
+   
     <LinearLayout
         android:id="@+id/controllerpanel"
         android:layout_width="wrap_content"
@@ -157,12 +106,12 @@
 
         <com.zorba.bt.app.SvgView
             android:id="@id/spinnertriangle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20.0dip"
-            app:svgviewsrc="@raw/discovery" />
+            app:svgviewsrc="@raw/save" />
     </LinearLayout>
 
     <ImageView
@@ -176,13 +125,17 @@
         android:layout_marginTop="5.0dip"
         android:gravity="center" />
 
-    <ScrollView
+    <!-- spb 110117 for removing black background
+android:background="#ff131b22"
+ -->
+ 
+ 
+ <ScrollView
+        android:background="#ff1e1e1e"
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/savebutton"
-        android:layout_below="@id/loadingImage"
-        android:background="#ff1e1e1e" >
+        android:layout_height="wrap_content"     
+        android:layout_below="@id/loadingImage" >
 
         <LinearLayout
             android:id="@id/discoveryContent"
@@ -191,16 +144,129 @@
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
+   
+     <LinearLayout
+        android:id="@+id/devInfoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scrollView1"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff1e1e1e" >
 
+        <TextView    
+            android:id="@+id/devPwdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Device Password"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="20.0sp" />
+
+        <EditText
+            android:id="@+id/devPwdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="#ff3d3d3d"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="20.0sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/wifiInfoPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/devInfoPanel"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="#ff1e1e1e" >
+
+        <TextView
+            android:id="@+id/wifiPwdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wifi Password     "
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="20.0sp" />
+
+        <EditText
+            android:id="@+id/wifiPwdText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="#ff3d3d3d"
+            android:ems="10"
+            android:inputType="textPassword"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="20.0sp" />
+    </LinearLayout>
+ 
     <Button
         android:id="@id/savebutton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/wifiInfoPanel"     
+        android:textSize="18.0sp"
         android:layout_gravity="center"
-        android:text="Save"
-        android:textSize="18.0sp" />
+        android:text="Save" />
 
+    
+    
+    
+    
+      <LinearLayout
+        android:id="@+id/configuredroomslayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/savebutton"
+        android:background="#ff403c3a">
+
+        <TextView
+            android:id="@id/textlistmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Available rooms"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="23.0sp" />
+
+        <com.zorba.bt.app.SvgView
+            android:id="@id/deletebutton"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:layout_marginRight="5.0dip"
+            android:background="@android:color/transparent"
+            app:svgviewsrc="@raw/minus"
+            android:visibility="gone" />
+    </LinearLayout>
+    
+ 
+
+    <com.zorba.bt.app.FlowLayout
+        android:id="@id/roomscontent"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="100.0dip"
+        app:elementSpacing="1.0dip"
+        app:lineSpacing="10.0dip" 
+        android:paddingTop="10.0dip"
+        android:layout_below="@id/configuredroomslayout"/>
+
+
+    
+        <!-- spb 100117 for custom radio button orange : 
+    added  android:button="@drawable/checkbox_custom_01"
+    added 3 spaces before and 2 spaces after the names for alignment
+     -->
+
+    
+    
 </RelativeLayout>

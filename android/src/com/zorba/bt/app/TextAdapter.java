@@ -32,7 +32,7 @@ public class TextAdapter extends ArrayAdapter {
       var4.setTextColor(Color.parseColor("#ffffff"));
       var4.setBackgroundColor(Color.parseColor("#1e1e1e"));
       var4.setTextSize(20.0F);
-      var4.setPadding(4, 6, 0, 6);
+      var4.setPadding(4, 6, 30, 6);
       var4.setTag(Integer.valueOf(var1));
       var4.setText(((RoomData)this.list.get(var1)).getName());
       var4.setOnClickListener(this.callback);
