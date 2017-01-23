@@ -603,7 +603,7 @@ public class BtHwLayer {
 			data = this.getData(reqno);
 			if( data == null) {
 				try {
-					Thread.sleep(numRetries*3000);
+					//Thread.sleep(numRetries*5000);
 				}catch(Exception e){
 					System.out.println("Error in sleeping ..."+e.getMessage());
 				}
@@ -822,6 +822,53 @@ public class BtHwLayer {
 		return buf;
 	}
 	
+	public void enableOOHCmd(boolean enable) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte writeBytes[] = new byte[3];
+		writeBytes[0] = 0x74;
+		writeBytes[1] = reqno;
+		writeBytes[2] = (byte) (enable?1:0);
+		processReqWithRetries(reqno, writeBytes);
+		Thread.sleep(10000);
+	}
+	
+	public boolean readOOHStatus() throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte writeBytes[] = new byte[2];
+		writeBytes[0] = 0x76;
+		writeBytes[1] = reqno;
+		byte[] data = processReqWithRetries(reqno, writeBytes);
+		return data[0] == 1;
+	}
+	
+	public void resetESBCmd() throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		byte writeBytes[] = new byte[2];
+		writeBytes[0] = 0x79;
+		writeBytes[1] = reqno;
+		processReqWithRetries(reqno, writeBytes);
+		Thread.sleep(10000);
+	}
+	
+	public void setGatewayIPCmd(String ipaddress) throws Exception {
+		this.checkConnection();
+		byte reqno = this.getNextReqno();
+		System.out.println("setting ip addresse " + ipaddress);
+		String[] ipchars = ipaddress.split(".");
+		byte[] ipsetbytes = new byte[2 + ipchars.length];
+		int index = 0;
+		ipsetbytes[0] = 0x73;
+		ipsetbytes[1] = reqno;
+		for (String b : ipchars) {
+			ipsetbytes[2 + index++] = (byte) Integer.parseInt(b);
+		}
+		processReqWithRetries(reqno, ipsetbytes);
+		Thread.sleep(10000);
+	}
+	
 	public boolean shouldReconnect(String ipAddressOrDevAddress) {
 		boolean reconnect = false;
 		if (isWifi()) {
@@ -1038,7 +1085,7 @@ public class BtHwLayer {
 					iotConnection.enableNotificationForRoom(listener, rd);
 				}
 			}
-
+			iotConnection.setNotificationListener(activity,listener);
 			isConnected = true;
 			enabled = true;
 		}

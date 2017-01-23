@@ -484,12 +484,17 @@ public class CommonUtils {
 		return notificationId;
 	}
 	
-	public  void addNotification(Activity context, String roomname, String switchname, byte status) {
-		String statusstr = "On";
-		if( status == 0)
-			statusstr = "Off";
-		SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss");
+	public  void addNotification(Activity context, String roomname, byte[] switchnamees, byte[] statuses) {
+		
+		String switchesstr = "";
+		int index = 0;
+		for(byte switchname:switchnamees){
+			switchesstr += switchname+"/"+((statuses[index] == 0)?"Off":"On");
+			index++;
+		}
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		String currentDateandTime = sdf.format(new Date());
+		String mesg = roomname+":"+switchesstr+" at "+currentDateandTime;
 		  NotificationCompat.Builder builder =
 	         new NotificationCompat.Builder(context)
 	         .setSmallIcon(R.drawable.oohicon)
@@ -499,7 +504,7 @@ public class CommonUtils {
 	         .setAutoCancel(true)
 	         .setWhen(System.currentTimeMillis())
 	         .setTicker("Zorba notification")
-	         .setContentText(roomname+"/"+switchname+" "+statusstr+" at "+currentDateandTime);
+	         .setContentText(mesg);
 	      Intent notificationIntent = new Intent(context, RoomsActivity.class);
 	      PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent,
 	         PendingIntent.FLAG_UPDATE_CURRENT);

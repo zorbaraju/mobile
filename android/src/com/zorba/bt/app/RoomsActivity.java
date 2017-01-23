@@ -20,13 +20,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -34,19 +39,16 @@ import android.widget.TextView;
 public class RoomsActivity  
 extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMessageListener {
 
-	public static final int MENU_INDEX_DISCOVERY = 0;
-	public static final int MENU_INDEX_DEVICE_CONFIG = MENU_INDEX_DISCOVERY + 1;
-	public static final int MENU_INDEX_HELP = MENU_INDEX_DEVICE_CONFIG + 1;
-	public static final int MENU_INDEX_ABOUT = MENU_INDEX_HELP + 1;
-	public static final int MENU_INDEX_INVERTER = MENU_INDEX_ABOUT + 1;
-	public static final int MENU_INDEX_CHANGEPWD = MENU_INDEX_INVERTER + 1;
-	public static final int MENU_INDEX_TIMESETTINGS = MENU_INDEX_CHANGEPWD + 1;
-	public static final int MENU_INDEX_SENDLOG = MENU_INDEX_TIMESETTINGS + 1;
-	public static final int MENU_INDEX_OOHLOG = MENU_INDEX_SENDLOG + 1;
-	public static final int MENU_INDEX_MTLOG = MENU_INDEX_OOHLOG + 1;
-	public static final int MENU_INDEX_EXIT = MENU_INDEX_MTLOG + 1;
-	
-	
+	String MENUNAME_ADDROOM = "Add Room";
+	String MENUNAME_DEVICECONFIG = "Device Configuration";
+	String MENUNAME_HELP = "Help";
+	String MENUNAME_ABOUT = "About";
+	String MENUNAME_INVERTOR = "Invertor Settings";
+	String MENUNAME_CHANGEPWD = "Change Pwd";
+	String MENUNAME_SETTINGS = "Admin Settings";
+	String MENUNAME_SENDLOG = "Send Log";
+	String MENUNAME_MTLOG = "Mt Log";
+	String MENUNAME_EXIT = "Exit";
 	
 	public static final int DISCOVERY_CODE = 1;
 	public static final int ENABLEBT_CODE = DISCOVERY_CODE + 1;
@@ -88,54 +90,94 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	private boolean isInConfigDeviceMode = false;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
-			setContentView(R.layout.rooms);
-			BtLocalDB.getInstance(this).cleanDB();
-			rgbController = new RGBController(this);
-			final ListPopupWindow homeMenu = prepareHomeMenu();
-			SvgView homeButton = (SvgView) findViewById(R.id.homeButton);
-			homeButton.setOnClickListener(new ZorbaOnClickListener() {
-		         public void zonClick(View v) {
-					homeMenu.show();
-				}
-			});
-			this.roomMenuList = new ListPopupWindow(this);
-			TextView roomText = (TextView) findViewById(R.id.roomList);
-			roomText.setOnClickListener(new ZorbaOnClickListener() {
-		         public void zonClick(View paramAnonymousView) {
-					RoomsActivity.this.roomMenuList.show();
-				}
-			});
-			/*
-			 * ((ImageButton)
-			 * findViewById(R.id.aboutButton)).setOnClickListener(new
-			 * ZorbaOnClickListener() { public void onClick(View
-			 * paramAnonymousView1) { Intent paramAnonymousView = new
-			 * Intent(MainActivity.this, AppInfoActivity.class);
-			 * MainActivity.this.startActivityForResult(paramAnonymousView,
-			 * APPINFO_CODE); } });
-			 */
-			SvgView db = (SvgView) findViewById(R.id.discoverbutton);
-			if (db != null) {
-				db.setOnClickListener(new ZorbaOnClickListener() {
-					public void zonClick(View paramAnonymousView1) {
-						btHwLayer.unregister();
-						Intent paramAnonymousView = new Intent(RoomsActivity.this, DiscoveryActivity.class);
-						RoomsActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
+		showMainScreen(savedInstanceState);
+	}
+	
+	private void showMainScreen(final Bundle savedInstanceState) {
+		if(!BtLocalDB.getInstance(this).getEmailId().equals("")){
+			
+			
+			try {
+				setContentView(R.layout.rooms);
+				BtLocalDB.getInstance(this).cleanDB();
+				rgbController = new RGBController(this);
+				final ListPopupWindow homeMenu = prepareHomeMenu();
+				SvgView homeButton = (SvgView) findViewById(R.id.homeButton);
+				homeButton.setOnClickListener(new ZorbaOnClickListener() {
+			         public void zonClick(View v) {
+						homeMenu.show();
 					}
 				});
+				this.roomMenuList = new ListPopupWindow(this);
+				TextView roomText = (TextView) findViewById(R.id.roomList);
+				roomText.setOnClickListener(new ZorbaOnClickListener() {
+			         public void zonClick(View paramAnonymousView) {
+						RoomsActivity.this.roomMenuList.show();
+					}
+				});
+				SvgView enableOOHButton = (SvgView) findViewById(R.id.enableOOH);
+				enableOOHButton.setOnClickListener(new ZorbaOnClickListener() {
+			         public void zonClick(View v) {
+			        	 System.out.println("Enabling ooh");
+			        	 enableOOH(true);
+					}
+				});
+				
+				SvgView db = (SvgView) findViewById(R.id.discoverbutton);
+				if (db != null) {
+					db.setOnClickListener(new ZorbaOnClickListener() {
+						public void zonClick(View paramAnonymousView1) {
+							btHwLayer.unregister();
+							Intent paramAnonymousView = new Intent(RoomsActivity.this, DiscoveryActivity.class);
+							RoomsActivity.this.startActivityForResult(paramAnonymousView, DISCOVERY_CODE);
+						}
+					});
+				}
+				btHwLayer = BtHwLayer.getInstance(this);
+				prepareRoomListMenu("", false);
+				if (this.roomDataList.size() == 0) {
+					startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
+				}
+				setConnectionModeIcon(CommonUtils.CONNECTION_OFFLINE);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			btHwLayer = BtHwLayer.getInstance(this);
-			prepareRoomListMenu("", false);
-			if (this.roomDataList.size() == 0) {
-				startActivityForResult(new Intent(this, DiscoveryActivity.class), DISCOVERY_CODE);
-			}
-			setConnectionModeIcon(CommonUtils.CONNECTION_OFFLINE);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			setContentView(R.layout.activity_welcome);
+			RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+			masterbox.setChecked(true);
+			Button gotoButton = (Button)findViewById(R.id.gotobutton);
+			gotoButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View paramAnonymousView1) {
+					
+					String emailid = getValidEmailId();
+					if( emailid == null) {
+						CommonUtils.AlertBox(RoomsActivity.this, "Error", "Enter valid email id");
+						return;
+					}
+					RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+					saveEmailIdAndUserType(emailid, masterbox.isChecked());
+					showMainScreen(savedInstanceState);
+				}
+			});
+			EditText emailfield = (EditText)findViewById(R.id.emailfield);
+			emailfield.requestFocus();
 		}
+	}
+	private String getValidEmailId() {
+		EditText emailfield = (EditText)findViewById(R.id.emailfield);
+		String emailid = emailfield.getText().toString();
+		emailid = emailid.trim();
+		if( emailid.isEmpty())
+			return null;
+		return emailid;
+	}
+	
+	private void saveEmailIdAndUserType(String emailid, boolean isMaster) {
+		BtLocalDB.getInstance(this).setEmailId(emailid);
+		BtLocalDB.getInstance(this).setUserType(isMaster);
 	}
 
 	@Override
@@ -158,8 +200,10 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 
 	private void performExit() {
-		btHwLayer.unregister();
-		btHwLayer.closeDevice();
+		if( btHwLayer != null) {
+			btHwLayer.unregister();
+			btHwLayer.closeDevice();
+		}
 		Logger.e(this, "main", "App is closed.....");
 		finish();
 		Process.killProcess(Process.myPid());
@@ -172,51 +216,52 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		//-spb 170117 for adding settings menu
 		final ListPopupWindow popupWindow = new ListPopupWindow(this);
 		
-		ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
-		arrayList.add(new ImageTextData("Add Room", R.raw.addroom));
-		arrayList.add(new ImageTextData("Device Configuration", R.raw.deviceconfig));
-		arrayList.add(new ImageTextData("Help", R.raw.help));
-		arrayList.add(new ImageTextData("About", R.raw.about));
-		arrayList.add(new ImageTextData("Admin Settings", R.raw.settings));
-		arrayList.add(new ImageTextData("Change Pwd", R.raw.changepassword));
-		arrayList.add(new ImageTextData("Time Settings", R.raw.timesettings));
-		arrayList.add(new ImageTextData("Send Log", R.raw.sendlog));
-		arrayList.add(new ImageTextData("Enable OOH", R.raw.outofhome));
-		arrayList.add(new ImageTextData("Mt Log", R.raw.mtlog));
-		arrayList.add(new ImageTextData("Exit", R.raw.exit));
+		
+		final ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
+		arrayList.add(new ImageTextData(MENUNAME_ADDROOM, R.raw.addroom));
+		arrayList.add(new ImageTextData(MENUNAME_DEVICECONFIG, R.raw.deviceconfig));
+		arrayList.add(new ImageTextData(MENUNAME_HELP, R.raw.help));
+		//arrayList.add(new ImageTextData(MENUNAME_ABOUT, R.raw.about));
+		arrayList.add(new ImageTextData(MENUNAME_INVERTOR, R.raw.settings));
+		arrayList.add(new ImageTextData(MENUNAME_CHANGEPWD, R.raw.changepassword));
+		System.out.println("Ïs master user..RoomsActivity.ADDDEVICE_CODE"+BtLocalDB.getInstance(RoomsActivity.this).isMasterUser());
+		if( BtLocalDB.getInstance(RoomsActivity.this).isMasterUser()) {
+			arrayList.add(new ImageTextData(MENUNAME_SETTINGS, R.raw.timesettings));
+		}
+		arrayList.add(new ImageTextData(MENUNAME_SENDLOG, R.raw.sendlog));
+		arrayList.add(new ImageTextData(MENUNAME_MTLOG, R.raw.mtlog));
+		arrayList.add(new ImageTextData(MENUNAME_EXIT, R.raw.exit));
 		
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
 	         public void zonClick(View popupView) {
 				popupWindow.dismiss();
-				int i = ((Integer) popupView.getTag()).intValue();
-				if (i == MENU_INDEX_DISCOVERY) {
+				int menuIndex = ((Integer) popupView.getTag()).intValue();
+				String selectedMenuName = arrayList.get(menuIndex).getText();
+				if (selectedMenuName.equals(MENUNAME_ADDROOM)) {
 					Intent intent = new Intent(RoomsActivity.this, DiscoveryActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, DISCOVERY_CODE);
-				} else if (i == MENU_INDEX_DEVICE_CONFIG) {
+				} else if (selectedMenuName.equals(MENUNAME_DEVICECONFIG)) {
 					System.out.println("Device config menu is clicked");
 					enableMainActivityOnDeviceConfig(true);
-				} else if (i == MENU_INDEX_HELP) {
+				} else if (selectedMenuName.equals(MENUNAME_HELP)) {
 					Intent intent = new Intent(RoomsActivity.this, HelpActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, HELP_CODE);
-				} else if (i == MENU_INDEX_ABOUT) {
+				} else if (selectedMenuName.equals(MENUNAME_ABOUT)) {
 					Intent intent = new Intent(RoomsActivity.this, AppInfoActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, APPINFO_CODE);
-				} else if (i == MENU_INDEX_SENDLOG) {
+				} else if (selectedMenuName.equals(MENUNAME_SENDLOG)) {
 					Intent intent = new Intent(RoomsActivity.this, SendLogActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, SENDLOG_CODE);
-				} else if (i == MENU_INDEX_INVERTER) {
+				} else if (selectedMenuName.equals(MENUNAME_INVERTOR)) {
 					Intent intent = new Intent(RoomsActivity.this, InverterActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, INVERTER_CODE);
-				} else if (i == MENU_INDEX_CHANGEPWD) {
+				} else if (selectedMenuName.equals(MENUNAME_CHANGEPWD)) {
 					Intent intent = new Intent(RoomsActivity.this, ChangepwdActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
-				} else if (i == MENU_INDEX_TIMESETTINGS) {
+				} else if (selectedMenuName.equals(MENUNAME_SETTINGS)) {
 					Intent intent = new Intent(RoomsActivity.this, TimeSettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
-				} else if (i == MENU_INDEX_OOHLOG) {
-					btHwLayer.enableOOH(true);
-					enableOOH(true);
-				} else if (i == MENU_INDEX_MTLOG) {
+				} else if (selectedMenuName.equals(MENUNAME_MTLOG)) {
 					Intent intent = new Intent(RoomsActivity.this, AwsIotActivity.class);
 					String macaddress = "zorbadummy";
 					if( selectedRoom != null && selectedRoom.getAddress() != null) {
@@ -224,7 +269,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 					}
 					intent.putExtra("deviceName", macaddress);
 					RoomsActivity.this.startActivityForResult(intent, AWSIOT_CODE);
-				} else if (i == MENU_INDEX_EXIT) {
+				} else if (selectedMenuName.equals(MENUNAME_EXIT)) {
 					RoomsActivity.this.performExit();
 				}
 			}
@@ -654,7 +699,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
   	  	if( schArr.size() == 0)
   	  		return;
   	  SchedulerData scheduleData = schArr.get(0);
-		localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
+		//localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
 		localImageTextButton.setText(scheduleName);
 		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
 			public void zonClick(View paramAnonymousView) {
@@ -739,16 +784,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			System.out.println("pbt is not enableds");
 			return;
 		}
-		((LinearLayout) findViewById(R.id.roomContent)).removeAllViews();
-		lightsPanel = populateDeviceButtons(CommonUtils.TABSWITCH);
-		devicePanel = populateDeviceButtons(CommonUtils.TABDIMMABLES);
-		groupPanel = populateGroups();
-		schedulePanel = populateSchedules();
 		
-		this.lightsPanel.setSiblings(new MyComp[] { this.devicePanel, this.groupPanel, this.schedulePanel });
-		this.devicePanel.setSiblings(new MyComp[] { this.lightsPanel, this.groupPanel, this.schedulePanel });
-		this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
-		this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
 		//isInitial = false;
 		System.err.println("IsInitial....."+isInitial);
 		if( isInitial  ) {
@@ -761,6 +797,18 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				}
 			});
 		} else {
+			((LinearLayout) findViewById(R.id.roomContent)).removeAllViews();
+			lightsPanel = populateDeviceButtons(CommonUtils.TABSWITCH);
+			devicePanel = populateDeviceButtons(CommonUtils.TABDIMMABLES);
+			groupPanel = populateGroups();
+			schedulePanel = populateSchedules();
+			
+			this.lightsPanel.setSiblings(new MyComp[] { this.devicePanel, this.groupPanel, this.schedulePanel });
+			this.devicePanel.setSiblings(new MyComp[] { this.lightsPanel, this.groupPanel, this.schedulePanel });
+			this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
+			this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
+			((RelativeLayout) findViewById(R.id.rootView)).setBackgroundColor(Color.parseColor("#ff403c3a"));
+			((ScrollView) findViewById(R.id.scrollView)).setBackgroundColor(Color.parseColor("#ff1e1e1e"));
 			updateWithRealtime();
 			relayout();
 		}
@@ -1104,10 +1152,18 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 	
 	private void enableOOH(boolean enable) {
+		btHwLayer.enableOOH(true);
+		
 		boolean enabled = btHwLayer.isOOH();
 		if( enabled) {
 			enabled = btHwLayer.enableOOH(enable);
 			if( enabled) {
+				try {
+					int numberOfDevices = btHwLayer.getNumberOfDevices();
+					CommonUtils.setMaxNoDevices(numberOfDevices);
+				} catch (Exception e) {
+					CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
+				}
 				this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
 				for(RoomData rd: roomDataList){
 					btHwLayer.enableNotificationForRooms(this, this.roomDataList);
@@ -1117,8 +1173,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	}
 
 	@Override
-	public void mesgReceveid(String roomname, byte devid, byte status) {
-		CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), ""+devid, status);
+	public void mesgReceveid(String roomname, byte devids[], byte statuses[]) {
+		CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), devids, statuses);
 	}
 
 }

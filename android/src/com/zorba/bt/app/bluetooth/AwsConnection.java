@@ -175,12 +175,31 @@ public class AwsConnection {
                         @Override
                         public void onMessageArrived(final String topic, final byte[] data) {
                         	System.out.println("Hai...."+topic+"data>>>"+data);
+                        	CommonUtils.printBytes("Read", data);
                     		byte cmd = data[0];
-                    		byte reqno = data[1];
-                    		byte num = data[2];
-                    		byte devid = data[3];
-                    		byte status = data[4];
-                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
+                    		if (cmd == 36) {
+	                    		byte reqno = data[1];
+	                    		byte num = data[2];
+	                    		byte alldevs = (byte) 0xFF;
+	                			System.out.println("numdevs...."+num+" alldevs="+alldevs);
+	                			if (num == alldevs) {
+	                				System.out.println("numdevs...."+num+" alldevs="+alldevs);
+	                				int maxdev = data.length-3;
+	                				System.out.println("maxdev...."+maxdev);
+	                				byte[] devids = new byte[maxdev];
+	                				byte[] statuses = new byte[maxdev];
+	                				for (int i = 0; i < maxdev; i++) {
+	                					statuses[i] = data[i+3];
+	                					devids[i] = (byte)(i+1);
+	                				}
+	                				messgeListener.mesgReceveid(rd.getName(), devids, statuses);
+	                				
+	                			} else {
+		                    		byte[] devid = {data[3]};
+		                    		byte[] status = {data[4]};
+		                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
+	                			}
+                    		}
                         }
                     });
             System.out.println("Subscribed to "+mac+"/subscribe");
@@ -190,6 +209,10 @@ public class AwsConnection {
             Log.e(LOG_TAG, "Subscription error.", e);
         }
 		
+	}
+	
+	public void setNotificationListener(NotificationListener l, IOTMessageListener listener) {
+		receiver.setNotificationListener(l, listener);
 	}
 
 }

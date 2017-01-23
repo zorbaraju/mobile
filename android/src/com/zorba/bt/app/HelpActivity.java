@@ -15,15 +15,19 @@ public class HelpActivity extends ZorbaActivity {
 		super.onCreate(var1);
 		this.setContentView(R.layout.help);
 		try {
+			WebView engine = ((WebView) this.findViewById(R.id.helpView));
+			engine.getSettings().setJavaScriptEnabled(true);
 			String deviceConfig = BtLocalDB.getInstance(this).getConfiguration();
 			final String mimeType = "text/html";
-			final String encoding = "UTF-8";
+			final String encoding = "utf-8";
 			InputStream in = getAssets().open("help.html");
 			byte[] buffer = new byte[in.available()];
 			in.read(buffer);
 			in.close();
-			((WebView) this.findViewById(R.id.helpView)).loadData(new String(buffer) + " <br/><br/>" + deviceConfig,
-					mimeType, encoding);
+			String data = new String(buffer) ;
+			data = data.replace("ReplaceConfig",deviceConfig);
+			//data = "<html><body>Youtube video .. <br> <iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/bIPcobKMB94\" frameborder=\"0\"></body></html>";
+			engine.loadDataWithBaseURL("", data, mimeType, encoding, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -10,6 +10,12 @@
         android:layout_height="fill_parent"
         android:background="@drawable/new_welcome_back_check2" />
 
+    <ExpandableListView
+        android:id="@+id/exp_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ExpandableListView>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

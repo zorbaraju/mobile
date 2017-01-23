@@ -14,6 +14,7 @@ import android.util.Log;
 public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 	String error = null;
 	NotificationListener notificationListener = null;
+	IOTMessageListener iotListener = null;
 	ConnectionListener connectionListener = null;
 
 	Object lock = new Object();
@@ -33,7 +34,7 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 		byte readbytes[] = null;
 		synchronized (lock) {
 			try {
-				lock.wait(1000);
+				lock.wait(10000);
 				readbytes = responseQueue.remove(reqno);
 				return readbytes;
 			} catch (InterruptedException e) {
@@ -50,8 +51,9 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 
 	
 
-	public void setNotificationListener(NotificationListener l) {
+	public void setNotificationListener(NotificationListener l, IOTMessageListener iotl) {
 		notificationListener = l;
+		iotListener = iotl;
 	}
 
 	public void setConnectionListener(ConnectionListener cl) {
@@ -63,6 +65,7 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 		String message = new String(readBytes);
 		System.out.println("Message arrived:");
 		System.out.println("   Topic: " + topic);
+		String roomname = topic.split("/")[0];
 		System.out.println(" Message: " + message);
 		int cmd = readBytes[0];
 		int reqno = readBytes[1];
@@ -77,12 +80,23 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 			if (numdevs == alldevs) {
 				int maxdev = CommonUtils.getMaxNoDevices();
 				data = new byte[ maxdev * 2];
+				byte[] devids = new byte[maxdev];
+				byte[] statuses = new byte[maxdev];
+				
 				for (int i = 0; i < maxdev; i++) {
 					byte status = readBytes[i+3];
 					data[i * 2] = (byte)(i+1);
 					data[i * 2 + 1] = status;
+					devids[i] = data[i * 2];
+					statuses[i] = data[i * 2 + 1];
+					System.out.println("devid...."+data[i * 2]+" status="+data[i * 2 + 1]);
 				}
-				notificationListener.notificationReceived(data);
+				if( notificationListener == null){
+					System.out.println("Notification list is null");
+				} else {
+					notificationListener.notificationReceived(data);
+					iotListener.mesgReceveid(roomname, devids, statuses);
+				}
 			} else {
 				CommonUtils.processMultipleNotification(readBytes, 0, notificationListener, null);
 			}

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-  <!-- spb 110117 align discovery page and ui 
+<!--
+  spb 110117 align discovery page and ui 
   1) Relative layout bckgnd color:#ff1d2832" changed to "#ff403c3a"
   2) Linear :changing configured rooms bckgnd #ff131b22 changed to "#ff403c3a"
   3) LinearLayout   android:id="@+id/devInfoPanel" android:background="#ff131b22" to 1e1e1e
@@ -16,48 +17,41 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:text="Save" />
-  -->
-  
-  
-  
-  
-  
-  
+-->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="#ff1e1e1e">
+    android:background="#ff1e1e1e"
+    android:orientation="vertical" >
 
-    
- <!-- spb 210117 for add room -->   
+    <!-- spb 210117 for add room -->
+
     <LinearLayout
         android:id="@+id/addroom"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-        android:background="#ff403c3a">
+        android:layout_height="wrap_content"
+        android:background="#ff403c3a" >
 
         <TextView
-           
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="Add Rooms"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="23.0sp" />
-    
-        </LinearLayout>
-        
-       <RadioGroup
+    </LinearLayout>
+
+    <RadioGroup
         android:id="@+id/grouppanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10.0dip"
-        android:paddingBottom="10.0dip"
         android:layout_below="@id/addroom"
         android:layout_gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="10.0dip" >
 
         <RadioButton
             android:id="@+id/btdiscovery"
@@ -72,8 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:checked="false"
             android:button="@drawable/checkbox_custom_01"
+            android:checked="false"
             android:text="   Wifi Router  " />
 
         <RadioButton
@@ -81,17 +75,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:checked="true"
             android:button="@drawable/checkbox_custom_01"
+            android:checked="true"
             android:text="   Wifi AP  " />
     </RadioGroup>
-    
-   
+
+    <CheckBox
+        android:id="@+id/isfirstdiscovery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grouppanel"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="is First time Discovery?"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/controllerpanel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/grouppanel"
+        android:layout_below="@id/isfirstdiscovery"
         android:layout_gravity="center" >
 
         <TextView
@@ -99,6 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="false"
+            android:layout_gravity="center"
             android:layout_toLeftOf="@id/spinnertriangle"
             android:gravity="center"
             android:text="Bluetooth Discovery is in process"
@@ -110,6 +116,7 @@
             android:layout_height="60.0dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:layout_marginRight="20.0dip"
             app:svgviewsrc="@raw/save" />
     </LinearLayout>
@@ -125,17 +132,17 @@
         android:layout_marginTop="5.0dip"
         android:gravity="center" />
 
-    <!-- spb 110117 for removing black background
+    <!--
+spb 110117 for removing black background
 android:background="#ff131b22"
- -->
- 
- 
- <ScrollView
-        android:background="#ff1e1e1e"
+    -->
+
+    <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"     
-        android:layout_below="@id/loadingImage" >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/loadingImage"
+        android:background="#ff1e1e1e" >
 
         <LinearLayout
             android:id="@id/discoveryContent"
@@ -144,8 +151,8 @@ android:background="#ff131b22"
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
-   
-     <LinearLayout
+
+    <LinearLayout
         android:id="@+id/devInfoPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -154,7 +161,7 @@ android:background="#ff131b22"
         android:layout_marginTop="5dp"
         android:background="#ff1e1e1e" >
 
-        <TextView    
+        <TextView
             android:id="@+id/devPwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -204,27 +211,23 @@ android:background="#ff131b22"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
     </LinearLayout>
- 
+
     <Button
         android:id="@id/savebutton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/wifiInfoPanel"     
-        android:textSize="18.0sp"
+        android:layout_below="@id/wifiInfoPanel"
         android:layout_gravity="center"
-        android:text="Save" />
+        android:text="Save"
+        android:textSize="18.0sp" />
 
-    
-    
-    
-    
-      <LinearLayout
+    <LinearLayout
         android:id="@+id/configuredroomslayout"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:layout_below="@id/savebutton"
-        android:background="#ff403c3a">
+        android:background="#ff403c3a" >
 
         <TextView
             android:id="@id/textlistmenu"
@@ -244,29 +247,24 @@ android:background="#ff131b22"
             android:layout_gravity="left"
             android:layout_marginRight="5.0dip"
             android:background="@android:color/transparent"
-            app:svgviewsrc="@raw/minus"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:svgviewsrc="@raw/minus" />
     </LinearLayout>
-    
- 
 
     <com.zorba.bt.app.FlowLayout
         android:id="@id/roomscontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/configuredroomslayout"
         android:minWidth="100.0dip"
-        app:elementSpacing="1.0dip"
-        app:lineSpacing="10.0dip" 
         android:paddingTop="10.0dip"
-        android:layout_below="@id/configuredroomslayout"/>
+        app:elementSpacing="1.0dip"
+        app:lineSpacing="10.0dip" />
 
-
-    
-        <!-- spb 100117 for custom radio button orange : 
+    <!--
+    spb 100117 for custom radio button orange : 
     added  android:button="@drawable/checkbox_custom_01"
     added 3 spaces before and 2 spaces after the names for alignment
-     -->
+    -->
 
-    
-    
 </RelativeLayout>

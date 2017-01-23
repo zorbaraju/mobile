@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.MaskFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -16,8 +17,10 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -41,6 +44,8 @@ import com.zorba.bt.app.utils.BackgroundTaskDialog;
 
 public class DiscoveryActivity extends ZorbaActivity {
 
+	boolean isLastDiscoveryBt = false;
+	
 	static final int DISCOVERYTYPE_BT = 0;
 	static final int DISCOVERYTYPE_WR = DISCOVERYTYPE_BT + 1;
 	static final int DISCOVERYTYPE_WAP = DISCOVERYTYPE_WR + 1;
@@ -165,7 +170,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 						String ipaddr = null;
 						System.out.println("currentDiscoveryType.....wr");
 						NetworkInfo networkInfo = null;
-						if (isMaster) {
+						
+						if (isStationModeMasterDiscovery()) {
 							networkInfo = CommonUtils.getUnUsedIpInfo(DiscoveryActivity.this);
 							if (networkInfo != null && networkInfo.unusedIndex != -1) {
 								ipaddress = networkInfo.subnet + "." + networkInfo.unusedIndex;
@@ -202,7 +208,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 						try {
 							System.err.println("Chaning ipadress...." + currentWifiSSID + "  pwd=" + pwd
 									+ " ipaddress..." + ipaddress);
-							if (currentWifiSSID != null && isMaster) {
+							if (currentWifiSSID != null && isStationModeMasterDiscovery()) {
 								byte[] response = btHwLayer.setIpAddress(networkInfo.ssid, pwd, ipaddress);
 								if (response != null) {
 									if (response[0] != 48) {
@@ -226,7 +232,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 									"No response from device for ip set");
 							return null;
 						}
-						if (isMaster) {
+						if (isStationModeMasterDiscovery()) {
 							try {
 								System.err.println("Seting station mode");
 								btHwLayer.setWifiAPMode(false);
@@ -365,7 +371,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 					BackgroundTask task = new BackgroundTask() {
 						protected void onPreExecute() {
-							if (isMaster) {
+							if (isStationModeMasterDiscovery()) {
 								try {
 									Thread.sleep(5000);
 								} catch (InterruptedException var2) {
@@ -377,7 +383,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 						@Override
 						public Object runTask(Object params) {
 							ArrayList<String> list = null;
-							if (!isMaster) {
+							if (!isStationModeMasterDiscovery()) {
 								list = performIpDiscovery();
 							}
 							return list;
@@ -385,7 +391,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 						@Override
 						public void finishedTask(Object result) {
-							if (!isMaster) {
+							if (!isStationModeMasterDiscovery()) {
 								if (result != null) {
 									ArrayList<String> list = (ArrayList<String>) result;
 									for (String ipaddress : list) {
@@ -533,7 +539,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				e.printStackTrace();
 			}
 		}
-		if( !CommonUtils.isActiveNetwork(this)) {
+		if( !isLastDiscoveryBt && !CommonUtils.isActiveNetwork(this)) {
 			CommonUtils.AlertBox(this, "Network", "Please enable network");
 			return;
 		}
@@ -619,8 +625,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					currentDiscoveryType = DISCOVERYTYPE_WR;
+				currentDiscoveryType = DISCOVERYTYPE_WR;
+				if( isMaster) {
+					CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+					if( isChecked)
+						firsttimecheck.setVisibility(View.VISIBLE);
+					else
+						firsttimecheck.setVisibility(View.GONE);
+				} else {
 					populateCurrentSSID();
 					startDiscoveryProcess();
 				}
@@ -705,7 +717,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 				pwd = pwdview.getText().toString();
 				System.out.println("Pwd........" + pwd);
-				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty() && isMaster) {
+				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty() && isStationModeMasterDiscovery()) {
 					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
 					return;
 				}
@@ -728,6 +740,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 				}
 				nonEmptyChildren.clear();
+				isLastDiscoveryBt = currentDiscoveryType == DISCOVERYTYPE_BT;
 			}
 		});
 		this.deleteButton = (SvgView) this.findViewById(R.id.deletebutton);
@@ -774,6 +787,22 @@ public class DiscoveryActivity extends ZorbaActivity {
 		} catch (Exception var4) {
 			var4.printStackTrace();
 		}
+		if( isMaster) {
+			CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+			if( wifirdiscoveryBox.isChecked())
+				firsttimecheck.setVisibility(View.VISIBLE);
+			else
+				firsttimecheck.setVisibility(View.GONE);
+			firsttimecheck.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					currentDiscoveryType = DISCOVERYTYPE_WR;
+					populateCurrentSSID();
+					startDiscoveryProcess();
+				}
+			});
+		}
 		
 		CommonUtils.getInstance().writeLog("Discovery started");
 		Logger.e(this, "Discovery", "Discvoery started");
@@ -799,6 +828,11 @@ public class DiscoveryActivity extends ZorbaActivity {
 		super.onDestroy();
 	}
 
+	private boolean isStationModeMasterDiscovery() {
+		CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+		return (isMaster && firsttimecheck.isChecked());
+	}
+	
 	private class WifiScanReceiver extends BroadcastReceiver {
 		public void onReceive(Context c, Intent intent) {
 			sr = wifiManager.getScanResults();

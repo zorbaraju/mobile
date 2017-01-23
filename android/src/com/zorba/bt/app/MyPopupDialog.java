@@ -66,6 +66,7 @@ public class MyPopupDialog extends LinearLayout {
       this.textlistmenu = (TextView)this.findViewById(R.id.textlistmenu);
       this.textlistmenu.setText(devicenames[0]);
 
+      int maxchars = 0;
       for(int var2 = 0; var2 < devicenames.length; ++var2) {
          SvgView var6 = new SvgView(this.getContext());
          LinearLayout var5 = new LinearLayout(this.getContext());
@@ -88,7 +89,10 @@ public class MyPopupDialog extends LinearLayout {
                MyPopupDialog.this.dialog.dismiss();
             }
          });
+         if( maxchars<devicenames.length)
+        	 maxchars = devicenames.length;
       }
-
+      int width = maxchars*100+30;
+      this.textlistmenu.setWidth(width);
    }
 }

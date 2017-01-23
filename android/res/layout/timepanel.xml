@@ -5,6 +5,7 @@
     android:layout_gravity="right"
     android:orientation="vertical" >
 
+   
     <Button
         android:id="@+id/getTimeButton"
         style="?android:attr/buttonStyleSmall"
@@ -25,4 +26,90 @@
         android:layout_height="wrap_content"
         android:hint="          Zorba System Time        " />
 
+    <TextView
+        android:id="@+id/oohHeaderLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="OOH"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <Button
+            android:id="@+id/readOOHStatusButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Read Status" />
+
+        <TextView
+            android:id="@+id/oohStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/readOOHStatusButton"
+            android:text="Status is ON" />
+
+        <Button
+            android:id="@+id/enableOOHButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/oohStatusLabel"
+            android:text="Disable" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset ESB"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <Button
+            android:id="@+id/resetESBButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Reset ESB" />
+       
+    </RelativeLayout>
+
+     <TextView
+         android:id="@+id/TextView02"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Gateway IP Address"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <EditText
+            android:id="@+id/gatewaylabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="true"
+            android:hint="Gate IP 192.168.0.1" />
+
+        <Button
+            android:id="@+id/setGatewayIPButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gatewaylabel"
+            android:text="Set Gateway IP" />
+       
+    </RelativeLayout>
 </LinearLayout>

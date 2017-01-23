@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:id="@+id/rootView"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ff403c3a" >
+    android:background="@drawable/new_welcome_back_check2" >
 
     <include
         android:id="@id/top_container"
@@ -27,7 +28,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/bottom_container"
         android:layout_below="@id/top_container"
-        android:background="#ff1e1e1e"
         android:fillViewport="false"
         android:orientation="vertical"
         android:visibility="gone" >
@@ -46,7 +46,7 @@
         android:layout_above="@id/bottom_container"
         android:layout_below="@id/top_container"
         android:layout_centerInParent="false"
-        android:background="#ff1e1e1e"
+        android:background="@drawable/new_welcome_back_check2"
         android:gravity="center"
         android:orientation="vertical" >
 

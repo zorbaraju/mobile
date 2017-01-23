@@ -44,6 +44,7 @@
         android:layout_centerVertical="true" >
 
         <!-- spb 200117 for all capital room name: caps added and font size changed from 20 to 18 -->
+
         <TextView
             android:id="@id/roomList"
             android:layout_width="wrap_content"
@@ -57,9 +58,6 @@
             android:textAllCaps="true"
             android:textColor="#ffffffff"
             android:textSize="18.0sp" />
-        
-
-      
 
         <com.zorba.bt.app.SvgView
             android:id="@id/loadingImage"
@@ -72,26 +70,50 @@
             app:svgviewsrc="@raw/spinnertriangle" />
     </RelativeLayout>
 
-    <com.zorba.bt.app.SvgView
-        android:id="@id/analyticsButton"
-        android:layout_width="40.0dip"
-        android:layout_height="40.0dip"
+    <RelativeLayout
+        android:id="@+id/righth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
         android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="Analytics"
-        android:visibility="gone"
-        app:svgviewsrc="@raw/analytics" />
+        android:layout_alignParentTop="false"
+        android:layout_toRightOf="@id/middleh" >
 
-    <com.zorba.bt.app.SvgView
-        android:id="@+id/aboutButton"
-        android:layout_width="40.0dip"
-        android:layout_height="40.0dip"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="Analytics"
-        android:visibility="visible"
-        app:svgviewsrc="@raw/about" />
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/enableOOH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="4dp"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="Enable OOH"
+            android:visibility="gone"
+            app:svgviewsrc="@raw/outofhome" >
+        </com.zorba.bt.app.SvgView>
+
+        <com.zorba.bt.app.SvgView
+            android:id="@id/analyticsButton"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="Analytics"
+            android:visibility="gone"
+            app:svgviewsrc="@raw/analytics" />
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/aboutButton"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="Analytics"
+            android:visibility="visible"
+            app:svgviewsrc="@raw/about" />
+    </RelativeLayout>
 
 </RelativeLayout>

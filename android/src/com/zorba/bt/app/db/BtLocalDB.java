@@ -564,4 +564,7 @@ public class BtLocalDB {
 	public boolean isMasterUser() {
 		return this.dbInfo.getBoolean("ismaster", false);
 	}
+	public String getEmailId() {
+		return this.dbInfo.getString("emailid", "");
+	}
 }
