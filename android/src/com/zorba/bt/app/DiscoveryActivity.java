@@ -396,6 +396,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 									ArrayList<String> list = (ArrayList<String>) result;
 									for (String ipaddress : list) {
 
+										String roomname = BtLocalDB.getInstance(DiscoveryActivity.this).findRoomExistsByIp(ipaddress);
+										if( roomname != null) {
+											Logger.e(DiscoveryActivity.this, "Discovery",
+													"Device with " + ipaddress + " is already in List , roomname is "+roomname);
+											continue;
+										}
 										DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(),
 												null, ipaddress, currentWifiSSID);
 										DiscoveryActivity.this.discoveryContent.addView(var7);
@@ -601,7 +607,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		currentDiscoveryType = DISCOVERYTYPE_WAP;
 
 		TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
-		pwdview.setText("owyoe82486");
+		pwdview.setText("");// "8GE5R3N5J4");//"owyoe82486");
 		if( !isMaster) {
 			pwdview.setEnabled(false);
 			wifirdiscoveryBox.setChecked(true);
@@ -741,6 +747,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}
 				nonEmptyChildren.clear();
 				isLastDiscoveryBt = currentDiscoveryType == DISCOVERYTYPE_BT;
+				if( currentDiscoveryType == DISCOVERYTYPE_WR){
+					try {
+						Thread.sleep(15000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 		this.deleteButton = (SvgView) this.findViewById(R.id.deletebutton);
@@ -829,8 +843,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	private boolean isStationModeMasterDiscovery() {
-		CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
-		return (isMaster && firsttimecheck.isChecked());
+		if( currentDiscoveryType == DISCOVERYTYPE_WR) {
+			CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+			return (isMaster && firsttimecheck.isChecked());
+		} else {
+			return isMaster;
+		}
 	}
 	
 	private class WifiScanReceiver extends BroadcastReceiver {

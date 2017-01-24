@@ -22,9 +22,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -92,9 +94,51 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		/*String ipaddr = CommonUtils.enableNetwork(RoomsActivity.this,"ZORWB_504",
+				"ZORWB_504");
+		System.out.println("afterenable netwew..."+"ZORWB_504"+".."+ipaddr);*/
 		showMainScreen(savedInstanceState);
+		TextView countview = (TextView) findViewById(R.id.onDeviceCount);
+		countview.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				CommonUtils.increateCount(v);
+				System.out.println("Tocuhcount..."+CommonUtils.getTouchCount(v));
+				if( CommonUtils.getTouchCount(v)>5) {
+					invokeSendLog();
+				}
+			}
+		});
+		
+		TextView countlabel = (TextView) findViewById(R.id.countlabel);
+		countlabel.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				CommonUtils.increateCount(v);
+				System.out.println("Tocuhcount..."+CommonUtils.getTouchCount(v));
+				if( CommonUtils.getTouchCount(v)>5) {
+					invokeMTLOG();
+				}
+			}
+		});
+	       
 	}
 	
+	private void invokeSendLog() {
+		Intent intent = new Intent(RoomsActivity.this, SendLogActivity.class);
+		RoomsActivity.this.startActivityForResult(intent, SENDLOG_CODE);
+	}
+	private void invokeMTLOG() {
+		Intent intent = new Intent(RoomsActivity.this, AwsIotActivity.class);
+		String macaddress = "zorbadummy";
+		if( selectedRoom != null && selectedRoom.getAddress() != null) {
+			macaddress = selectedRoom.getAddress();
+		}
+		intent.putExtra("deviceName", macaddress);
+		RoomsActivity.this.startActivityForResult(intent, AWSIOT_CODE);
+	}
 	private void showMainScreen(final Bundle savedInstanceState) {
 		if(!BtLocalDB.getInstance(this).getEmailId().equals("")){
 			
@@ -228,8 +272,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		if( BtLocalDB.getInstance(RoomsActivity.this).isMasterUser()) {
 			arrayList.add(new ImageTextData(MENUNAME_SETTINGS, R.raw.timesettings));
 		}
-		arrayList.add(new ImageTextData(MENUNAME_SENDLOG, R.raw.sendlog));
-		arrayList.add(new ImageTextData(MENUNAME_MTLOG, R.raw.mtlog));
+		//arrayList.add(new ImageTextData(MENUNAME_SENDLOG, R.raw.sendlog));
+		//arrayList.add(new ImageTextData(MENUNAME_MTLOG, R.raw.mtlog));
 		arrayList.add(new ImageTextData(MENUNAME_EXIT, R.raw.exit));
 		
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
@@ -566,7 +610,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				}
 				RoomsActivity.this.lightsPanel.updateButtonInPanel();
 				RoomsActivity.this.devicePanel.updateButtonInPanel();
-				//updateDeviceCount();
+				updateDeviceCount();
 				try {
 					if (RoomsActivity.this.groupPanel.isReset()) {
 						RoomsActivity.this.groupPanel.updateLiveButtonInPanel();

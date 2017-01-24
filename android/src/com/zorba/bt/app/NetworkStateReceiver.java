@@ -14,8 +14,11 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 	static Object lock = new Object();
 	   
     public void onReceive(Context context, Intent intent) {
+    	System.out.println("Name of the devive connected iss............"+intent);
      if(intent.getExtras()!=null) {
+    	 System.out.println("Name of the devive connected iss............"+intent.getExtras());
         NetworkInfo ni=(NetworkInfo) intent.getExtras().get(ConnectivityManager.EXTRA_NETWORK_INFO);
+        System.out.println("Name of the devive connected iss............"+ni.getState());
         if(ni!=null && ni.getState()==NetworkInfo.State.CONNECTED) {
             String name= ni.getExtraInfo();
             System.out.println("Name of the devive connected iss............"+name);
