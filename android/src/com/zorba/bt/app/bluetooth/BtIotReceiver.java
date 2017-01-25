@@ -95,6 +95,11 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 					System.out.println("Notification list is null");
 				} else {
 					notificationListener.notificationReceived(data);
+					/*String switchName = BtLocalDB.getInstance(this).getSwitchName(roomDeviceName, switchId);
+    				if( switchName == null){
+    					switchName = "No match";
+    				}
+    				*/
 					iotListener.mesgReceveid(roomname, devids, statuses);
 				}
 			} else {

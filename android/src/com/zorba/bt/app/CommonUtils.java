@@ -32,6 +32,7 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
@@ -67,7 +68,7 @@ public class CommonUtils {
    private static CommonUtils instance = null;
    
    private static StringBuffer logContentBuf = null;
-
+   private static HashMap<View, Integer> hiddenCountMap= new HashMap<View, Integer>();
    private CommonUtils() {
 	   logContentBuf = new StringBuffer();
    }
@@ -383,6 +384,7 @@ public class CommonUtils {
 				System.out.println("Not able to get ip");
 				return null;
 			}
+			BtHwLayer.getInstance(activity).register();
 			wifiManager.enableNetwork(netId, true);
 			boolean isconnected = wifiManager.reconnect();
 			if (isconnected) {
@@ -514,5 +516,19 @@ public class CommonUtils {
 	      NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 	      manager.notify(getNextNotificationNo(), builder.build());
 	   }
+
+	public static int getTouchCount(View v) {
+		return hiddenCountMap.get(v);
+	}
+	public static void increateCount(View v) {
+		if( hiddenCountMap.containsKey(v)){
+			hiddenCountMap.put(v, hiddenCountMap.get(v).intValue()+1);
+		} else {
+			hiddenCountMap.put(v, new Integer(0));
+		}
+	}
+	public static void resetCount() {
+		hiddenCountMap.clear();
+	}
 
 }

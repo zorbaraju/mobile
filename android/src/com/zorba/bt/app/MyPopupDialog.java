@@ -92,7 +92,6 @@ public class MyPopupDialog extends LinearLayout {
          if( maxchars<devicenames.length)
         	 maxchars = devicenames.length;
       }
-      int width = maxchars*100+30;
-      this.textlistmenu.setWidth(width);
+    
    }
 }

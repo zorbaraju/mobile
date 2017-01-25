@@ -4,6 +4,7 @@ import com.zorba.bt.app.dao.DeviceData;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -38,7 +39,8 @@ public class SelectComp extends LinearLayout {
       LayoutParams var8;
       if(!var2.isDimmable()) {
          final Switch var5 = new Switch(var1);
-         var5.setChecked(true);
+         var5.getThumbDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+         var5.getTrackDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
          var5.setGravity(17);
          this.view = var5;
          var5.setOnTouchListener(new OnTouchListener() {

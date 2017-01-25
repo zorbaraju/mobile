@@ -388,6 +388,22 @@ public class BtLocalDB {
 		return list.size()!=0;
 	}
 
+	public String findRoomExistsByIp(String ip) {
+		String roomname = null;
+		String roomstr = this.dbInfo.getString("BtList", "");
+		if( roomstr.isEmpty())
+			return roomname;
+		String[] roomstrarr = roomstr.split("#");
+		for(int index=0; index<roomstrarr.length; index+=6) {
+			String dname = roomstrarr[index+3];
+			if (dname.equals(ip)) {
+				roomname = dname;
+				break;
+			}
+		}
+		return roomname;
+	}
+	
 	public boolean isRoomExists(String devicename) {
 		String roomstr = this.dbInfo.getString("BtList", "");
 		if( roomstr.isEmpty())
@@ -566,5 +582,15 @@ public class BtLocalDB {
 	}
 	public String getEmailId() {
 		return this.dbInfo.getString("emailid", "");
+	}
+	
+	public String getSwitchName(String roomDeviceName, byte switchId) {
+		String[] var3 = this.dbInfo.getString("Room" + roomDeviceName, "").split("#");
+		for (int var2 = 0; var2 < var3.length / 3; ++var2) {
+			DeviceData deviceData = new DeviceData(var2 + 1, var3[var2 * 3], var3[var2 * 3 + 1], var3[var2 * 3 + 2], -1);
+			if( switchId == deviceData.getDevId())
+				return deviceData.getName();
+		}
+		return null;
 	}
 }

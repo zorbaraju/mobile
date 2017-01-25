@@ -5,8 +5,12 @@
     android:layout_gravity="right"
     android:orientation="vertical" >
 
-   
-    <Button
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" >
+
+         <Button
         android:id="@+id/getTimeButton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -18,12 +22,16 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:text="Set Time" />
 
+        </RelativeLayout>
+   
     <TextView
         android:id="@+id/timeLabel"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="          Zorba System Time        " />
 
     <TextView

@@ -192,9 +192,17 @@ public class AwsConnection {
 	                					statuses[i] = data[i+3];
 	                					devids[i] = (byte)(i+1);
 	                				}
+	                				/*String switchName = BtLocalDB.getInstance(this).getSwitchName(roomDeviceName, switchId);
+	                				if( switchName == null){
+	                					switchName = "No match";
+	                				}*/
 	                				messgeListener.mesgReceveid(rd.getName(), devids, statuses);
 	                				
 	                			} else {
+	                				/*String switchName = BtLocalDB.getInstance(this).getSwitchName(roomDeviceName, switchId);
+	                				if( switchName == null){
+	                					switchName = "No match";
+	                				}*/
 		                    		byte[] devid = {data[3]};
 		                    		byte[] status = {data[4]};
 		                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
