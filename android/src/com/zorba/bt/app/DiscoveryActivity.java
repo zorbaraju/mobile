@@ -481,7 +481,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 			little.start();
 		saveButton.setEnabled(false);
 		((SvgView) findViewById(R.id.spinnertriangle)).setVisibility(View.GONE);
-		((TextView) findViewById(R.id.controllerValue)).setText(getDiscoveryModeStr() + " is in process");
+		((TextView) findViewById(R.id.controllerValue)).setText("Please Wait...");
 		btdiscoveryBox.setEnabled(false);
 		wifirdiscoveryBox.setEnabled(false);
 		wifiapdiscoveryBox.setEnabled(false);
@@ -516,7 +516,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
 				((TextView) DiscoveryActivity.this.findViewById(R.id.controllerValue))
-						.setText(getDiscoveryModeStr() + " is done   ");
+				.setText("Search Complete     ");
 				((SvgView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
 				DiscoveryActivity.this.little.stop();
 				saveButton.setEnabled(true);

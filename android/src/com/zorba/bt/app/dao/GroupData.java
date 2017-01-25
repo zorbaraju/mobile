@@ -7,12 +7,12 @@ public class GroupData {
 	String name = "";
 	String groupType = "";
 	public static String groupTypes[] = {
-			   "Happy", "Tired"
+			   "Master", "Dinner", "Party", "Relax", "Romantic"
 	   };
 	public static int imageResIds[] = {
-			   R.raw.dinner, R.raw.heart
+			   R.raw.master, R.raw.dinner, R.raw.party, R.raw.relax, R.raw.romantic
 	   };
-	
+
 	public GroupData(String name, String type) {
 		this.name = name;
 		groupType = type;

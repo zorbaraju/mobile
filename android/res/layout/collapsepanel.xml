@@ -40,7 +40,7 @@
                 android:layout_marginBottom="4.0dip"
                 android:layout_marginTop="4.0dip"
                 android:paddingLeft="10.0dip"
-                android:textColor="#ffffffff"
+                android:textColor="#fff7f2ed"
                 android:textSize="20.0sp" />
         </LinearLayout>
 

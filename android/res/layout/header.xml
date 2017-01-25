@@ -56,8 +56,8 @@
             android:gravity="center"
             android:text="No rooms"
             android:textAllCaps="true"
-            android:textColor="#ffffffff"
-            android:textSize="18.0sp" />
+            android:textColor="#fff7f2ed"
+            android:textSize="19.0sp" />
 
         <com.zorba.bt.app.SvgView
             android:id="@id/loadingImage"

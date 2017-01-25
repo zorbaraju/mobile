@@ -39,8 +39,8 @@ public class SelectComp extends LinearLayout {
       LayoutParams var8;
       if(!var2.isDimmable()) {
          final Switch var5 = new Switch(var1);
-         var5.getThumbDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-         var5.getTrackDrawable().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
+         var5.getThumbDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.MULTIPLY);
+         var5.getTrackDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.MULTIPLY);
          var5.setGravity(17);
          this.view = var5;
          var5.setOnTouchListener(new OnTouchListener() {
@@ -84,23 +84,17 @@ public class SelectComp extends LinearLayout {
 
          this.controllerValue = var6;
       } else {
-         SeekBar var7 = new SeekBar(var1);
-         var7.setMax(100);
-         //-spb 200117 for seek bar cut
-        // var8 = new LayoutParams(-1, -2);
-         //var8.gravity = 17;
-         //-spb 200117 for seek bar cut  
-         var8 = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-         var8.gravity = Gravity.CENTER;
-         
-         var7.setLayoutParams(var8);
-         //var7.setMinimumHeight(40);
-         this.view = var7;
-         var7.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar var1, int var2, boolean var3) {
-               SelectComp.this.controllerValue = var1.getProgress() + " %";
-               SelectComp.this.updateValue();
-            }
+          SeekBar var7 = new SeekBar(var1);
+          var7.getProgressDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+          var7.getThumb().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+          var7.setMax(100);
+          this.view = var7;
+          var7.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+             public void onProgressChanged(SeekBar var1, int var2, boolean var3) {
+                SelectComp.this.controllerValue = var1.getProgress() + " %";
+                SelectComp.this.updateValue();
+             }
+
 
             public void onStartTrackingTouch(SeekBar var1) {
             }
@@ -110,13 +104,8 @@ public class SelectComp extends LinearLayout {
          });
          this.controllerValue = var7.getProgress() + " %";
       }
-//-spb 200117 for seek bar cut 
-//      var8 = new LayoutParams(-1, -2);
-//      var8.gravity = 17;
-    //-spb 200117 for seek bar cut      
-      var8 = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
-    var8.gravity = Gravity.CENTER;
-      var9.addView(this.view, var8);
+      var9.addView(this.view);
+
       this.updateValue();
    }
 

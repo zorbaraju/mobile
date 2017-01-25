@@ -41,6 +41,8 @@ import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
 	
+	
+	public static final String SEEKBAR_COLOR = "#FF9400";
 	public static final String TABSWITCH = "Switches";
 	public static final String TABDIMMABLES = "Dimmables";
 	

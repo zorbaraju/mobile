@@ -12,10 +12,10 @@ public class SchedulerData {
    int min = 0;
    String schedulerType = "";
    public static String schedulerTypes[] = {
-		   "Night", "Morning"
+		   "Alarm", "Dinner", "Party", "Relax", "Romantic"
    };
    public static int imageResIds[] = {
-		   R.raw.dinner, R.raw.heart
+		   R.raw.master, R.raw.dinner, R.raw.party, R.raw.relax, R.raw.romantic
    };
 
    public SchedulerData(String schedid, String name, String type, int devData[],

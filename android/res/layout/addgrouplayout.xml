@@ -34,7 +34,7 @@
                 android:paddingBottom="4.0dip"
                 android:paddingTop="4.0dip"
                 android:text="Group Name"
-                android:textColor="#ffeca538"
+                android:textColor="#ffa8a6a3"
                 android:textSize="20.0sp" />
 
             <EditText
@@ -42,7 +42,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1.0dip"
-                android:background="#ff131b22"
+                android:background="#ff403c3a"
                 android:paddingBottom="4.0dip"
                 android:paddingTop="4.0dip" />
 
@@ -62,7 +62,7 @@
                     android:background="#ff1e1e1e"
                     android:paddingBottom="4.0dip"
                     android:paddingTop="4.0dip"
-                    android:text="Group type"
+                    android:text="Group Icon"
                     android:textColor="#ffa8a6a3"
                     android:textSize="20.0sp" />
 
@@ -89,7 +89,7 @@
                 android:paddingBottom="4.0dip"
                 android:paddingTop="4.0dip"
                 android:text="Switches and Dimmables"
-                android:textColor="#ffeca538"
+                android:textColor="#ffa8a6a3"
                 android:textSize="20.0sp" />
 
             <LinearLayout

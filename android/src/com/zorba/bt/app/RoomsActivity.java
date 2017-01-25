@@ -21,6 +21,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
@@ -28,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -41,15 +43,15 @@ import android.widget.TextView;
 public class RoomsActivity  
 extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMessageListener {
 
-	String MENUNAME_ADDROOM = "Add Room";
-	String MENUNAME_DEVICECONFIG = "Device Configuration";
-	String MENUNAME_HELP = "Help";
+	String MENUNAME_ADDROOM = "Add Zorba";
+	String MENUNAME_DEVICECONFIG = "Configure Zorba          ";
 	String MENUNAME_ABOUT = "About";
-	String MENUNAME_INVERTOR = "Invertor Settings";
+//-spb 250117 for removing inverter from menu	String MENUNAME_INVERTOR = "Invertor Settings";
 	String MENUNAME_CHANGEPWD = "Change Pwd";
 	String MENUNAME_SETTINGS = "Admin Settings";
 	String MENUNAME_SENDLOG = "Send Log";
 	String MENUNAME_MTLOG = "Mt Log";
+	String MENUNAME_HELP = "Help";
 	String MENUNAME_EXIT = "Exit";
 	
 	public static final int DISCOVERY_CODE = 1;
@@ -61,8 +63,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	public static final int APPINFO_CODE = ADDSCHEDULER_CODE + 1;
 	public static final int SENDLOG_CODE = APPINFO_CODE + 1;
 	public static final int HELP_CODE = SENDLOG_CODE + 1;
-	public static final int INVERTER_CODE = HELP_CODE + 1;
-	public static final int CHANGEPWD_CODE = INVERTER_CODE + 1;
+	//-spb 250117 for removing inverter from menu public static final int INVERTER_CODE = HELP_CODE + 1;
+	//-spb 250117 for removing inverter from menu public static final int CHANGEPWD_CODE = INVERTER_CODE + 1;
+	public static final int CHANGEPWD_CODE = HELP_CODE + 1;
 	public static final int AWSIOT_CODE = CHANGEPWD_CODE + 1;
 	
 	public static final int RUSULTCODE_CANCEL = 0;
@@ -191,7 +194,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			
 		} else {
 			setContentView(R.layout.activity_welcome);
-			RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+			//-spb 250117 RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+			CheckBox masterbox = (CheckBox)findViewById(R.id.master);
 			masterbox.setChecked(true);
 			Button gotoButton = (Button)findViewById(R.id.gotobutton);
 			gotoButton.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +206,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 						CommonUtils.AlertBox(RoomsActivity.this, "Error", "Enter valid email id");
 						return;
 					}
-					RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+					//-spb 250117 RadioButton masterbox = (RadioButton)findViewById(R.id.master);
+					CheckBox masterbox = (CheckBox)findViewById(R.id.master);
 					saveEmailIdAndUserType(emailid, masterbox.isChecked());
 					showMainScreen(savedInstanceState);
 				}
@@ -265,16 +270,16 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		final ArrayList<ImageTextData> arrayList = new ArrayList<ImageTextData>();
 		arrayList.add(new ImageTextData(MENUNAME_ADDROOM, R.raw.addroom));
 		arrayList.add(new ImageTextData(MENUNAME_DEVICECONFIG, R.raw.deviceconfig));
-		arrayList.add(new ImageTextData(MENUNAME_HELP, R.raw.help));
 		//arrayList.add(new ImageTextData(MENUNAME_ABOUT, R.raw.about));
-		arrayList.add(new ImageTextData(MENUNAME_INVERTOR, R.raw.settings));
+		//-spb 250117 for removing inverter from menu		arrayList.add(new ImageTextData(MENUNAME_INVERTOR, R.raw.settings));
 		arrayList.add(new ImageTextData(MENUNAME_CHANGEPWD, R.raw.changepassword));
 		System.out.println("�s master user..RoomsActivity.ADDDEVICE_CODE"+BtLocalDB.getInstance(RoomsActivity.this).isMasterUser());
 		if( BtLocalDB.getInstance(RoomsActivity.this).isMasterUser()) {
-			arrayList.add(new ImageTextData(MENUNAME_SETTINGS, R.raw.timesettings));
+			arrayList.add(new ImageTextData(MENUNAME_SETTINGS, R.raw.settings));
 		}
 		//arrayList.add(new ImageTextData(MENUNAME_SENDLOG, R.raw.sendlog));
 		//arrayList.add(new ImageTextData(MENUNAME_MTLOG, R.raw.mtlog));
+		arrayList.add(new ImageTextData(MENUNAME_HELP, R.raw.help));
 		arrayList.add(new ImageTextData(MENUNAME_EXIT, R.raw.exit));
 		
 		ImageTextAdapter textAdapter = new ImageTextAdapter(this, arrayList, new ZorbaOnClickListener() {
@@ -297,9 +302,11 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				} else if (selectedMenuName.equals(MENUNAME_SENDLOG)) {
 					Intent intent = new Intent(RoomsActivity.this, SendLogActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, SENDLOG_CODE);
-				} else if (selectedMenuName.equals(MENUNAME_INVERTOR)) {
-					Intent intent = new Intent(RoomsActivity.this, InverterActivity.class);
-					RoomsActivity.this.startActivityForResult(intent, INVERTER_CODE);
+			//-spb 250117 for removing inverter from menu
+				//} else if (selectedMenuName.equals(MENUNAME_INVERTOR)) {
+					//Intent intent = new Intent(RoomsActivity.this, InverterActivity.class);
+					//RoomsActivity.this.startActivityForResult(intent, INVERTER_CODE);
+			//-spb 250117 for removing inverter from menu
 				} else if (selectedMenuName.equals(MENUNAME_CHANGEPWD)) {
 					Intent intent = new Intent(RoomsActivity.this, ChangepwdActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
@@ -320,9 +327,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			}
 		});
 		//-spb 110117 for shifting popup menu little right popupWindow.setHorizontalOffset( -200 );
-		popupWindow.setHorizontalOffset(25 ); 
+		popupWindow.setHorizontalOffset(0 ); 
 		//-spb 110117 for shifting popup menu little down popupWindow.setVerticalOffset( -100 );
-		popupWindow.setVerticalOffset( -90 );
+		popupWindow.setVerticalOffset( -102 );
 		popupWindow.setAdapter((ListAdapter) textAdapter);
 		popupWindow.setAnchorView(findViewById(R.id.homeButton));
 		popupWindow
@@ -766,10 +773,12 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 
 	private void controlDevice(final ImageTextButton paramImageTextButton, final String devtype,
 			final int devid) {
-		Object localObject = LayoutInflater.from(this).inflate(R.layout.devicecontroller, null);
+		Object obj = LayoutInflater.from(this).inflate(R.layout.devicecontroller, null);
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
-		localBuilder.setView((View) localObject);
-		localObject = (SeekBar) ((View) localObject).findViewById(R.id.seekBar1);
+		localBuilder.setView((View) obj);
+		SeekBar localObject = (SeekBar) ((View) obj).findViewById(R.id.seekBar1);
+		localObject.getProgressDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+        localObject.getThumb().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
 		try {
 			int i = btHwLayer.readCommandToDevice(devid);
 			if (i != -1) {
@@ -1090,14 +1099,15 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	public void setConnectionModeIcon(int connectionType) {
 		SvgView aboutButton = (SvgView) findViewById(R.id.aboutButton);
 		if (connectionType == CommonUtils.CONNECTION_OFFLINE) 
-			aboutButton.setImageResource(0);
+			aboutButton.setImageResource(R.raw.noconnection);
 		else if (connectionType == CommonUtils.CONNECTION_BT)
 			aboutButton.setImageResource(R.raw.bt);
 		else if (connectionType == CommonUtils.CONNECTION_WIFI)
 			aboutButton.setImageResource(R.raw.wifi);
 		else if (connectionType == CommonUtils.CONNECTION_DATA)
-			aboutButton.setImageResource(R.raw.sendlog);
+			aboutButton.setImageResource(R.raw.oho);
 	}
+
 	
 	private void testExtras() {
 		try {

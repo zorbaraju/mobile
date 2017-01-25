@@ -134,13 +134,13 @@ public class AddDeviceActivity extends ZorbaActivity {
       MyListMenu deviceIdMenu = (MyListMenu)this.findViewById(R.id.deviceid);
       deviceIdMenu.setMenuItems(this.getUnusedDeviceIds());
       if(tabName.equals(CommonUtils.TABSWITCH)) {
-    	  titleText.setText("New Light");
-         var6.setText("Light Name");
-         deviceTypeLabel.setText("Light Type");
+    	  titleText.setText("New Switch");
+         var6.setText("Switch Name");
+         deviceTypeLabel.setText("Switch Icon");
       } else {
-    	  titleText.setText("New Device");
-         var6.setText("Device Name");
-         deviceTypeLabel.setText("Device Type");
+    	  titleText.setText("New Dimmable");
+         var6.setText("Dimmable Name");
+         deviceTypeLabel.setText("Dimmable Icon");
       }
       changeDevicePopup();
       this.initListeners();

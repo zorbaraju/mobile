@@ -28,6 +28,9 @@ public class HelpActivity extends ZorbaActivity {
 			data = data.replace("ReplaceConfig",deviceConfig);
 			//data = "<html><body>Youtube video .. <br> <iframe class=\"youtube-player\" type=\"text/html\" width=\"640\" height=\"385\" src=\"http://www.youtube.com/embed/bIPcobKMB94\" frameborder=\"0\"></body></html>";
 			engine.loadDataWithBaseURL("", data, mimeType, encoding, null);
+		
+			//-spb 250117 for video link engine.loadUrl("https://www.youtube.com/watch?v=hYMpMt0lwUY");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

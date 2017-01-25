@@ -48,23 +48,26 @@
             </EditText>
         </LinearLayout>
 
+      <!-- spb 240117 for user admin selection 
         <RadioGroup
             android:id="@+id/userTypeGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:button="@drawable/checkbox_custom_01"
+            android:button="@drawable/checkbox_custom_1"
             android:focusable="false"
+          
             android:focusableInTouchMode="false"
-            android:orientation="horizontal" >
+            android:orientation="vertical" >
 
             <RadioButton
                 android:id="@+id/slave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:button="@drawable/checkbox_custom_01"
+                android:button="@drawable/checkbox_custom_1"
                 android:focusable="false"
+                 
                 android:focusableInTouchMode="false"
                 android:text="  User     " />
 
@@ -73,12 +76,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:button="@drawable/checkbox_custom_01"
+                android:button="@drawable/checkbox_custom_1"
                 android:checked="true"
                 android:focusable="false"
+                 
                 android:focusableInTouchMode="false"
                 android:text="  Admin" />
         </RadioGroup>
+       
+         
+          -->
+         <LinearLayout
+         
+             android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+   >
+            
+              <CheckBox
+        android:id="@+id/master"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+     
+        android:button="@drawable/checkbox_custom_2" />
+    
+    
+             </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"

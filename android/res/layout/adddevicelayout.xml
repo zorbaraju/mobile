@@ -33,8 +33,8 @@
                 android:background="#ff1e1e1e"
                 android:paddingBottom="4.0dip"
                 android:paddingTop="4.0dip"
-                android:text="Device Name"
-                android:textColor="#ffeca538"
+                android:text="Dimmable Name"
+                android:textColor="#ffa8a6a3"
                 android:textSize="20.0sp" />
 
             <EditText
@@ -42,7 +42,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1.0dip"
-                android:background="#ff131b22"
+                android:background="#ff403c3a"
                 android:paddingBottom="4.0dip"
                 android:paddingTop="4.0dip" >
 
@@ -62,7 +62,7 @@
                     android:paddingBottom="4.0dip"
                     android:paddingTop="4.0dip"
                     android:text="Switch Number"
-                    android:textColor="#ffeca538"
+                    android:textColor="#ffa8a6a3"
                     android:textSize="20.0sp" />
 
                 <com.zorba.bt.app.MyListMenu
@@ -92,8 +92,8 @@
                     android:background="#ff1e1e1e"
                     android:paddingBottom="4.0dip"
                     android:paddingTop="4.0dip"
-                    android:text="Is Dimmable"
-                    android:textColor="#ffeca538"
+                    android:text="Confirm device is dimmable"
+                    android:textColor="#ffa8a6a3"
                     android:textSize="20.0sp" />
 
                 <CheckBox
@@ -119,8 +119,8 @@
                     android:background="#ff1e1e1e"
                     android:paddingBottom="4.0dip"
                     android:paddingTop="4.0dip"
-                    android:text="Device Type"
-                    android:textColor="#ffeca538"
+                    android:text="Dimmable Icon"
+                    android:textColor="#ffa8a6a3"
                     android:textSize="20.0sp" />
 
                 <LinearLayout
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10.0dip"
-                    android:background="#ff1e1e1e"
+                    android:background="#ff403c3a"
                     android:inputType="number"
                     android:maxLength="4"
                     android:text="10"
