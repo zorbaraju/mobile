@@ -10,7 +10,6 @@ public abstract class ZorbaOnClickListener implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		CommonUtils.resetCount();
 		BtHwLayer.getInstance(null).timeout();
 		zonClick(v);
 	}

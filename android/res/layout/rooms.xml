@@ -56,9 +56,9 @@
             android:layout_gravity="center"
             android:layout_margin="10.0dip"
             android:layout_marginTop="50.0dip"
-            android:text="No rooms configured yet, Click on the discover button to add new rooms"
-            android:textColor="#ffffffff"
-            android:textSize="15.0sp" />
+            android:text="Click to Add new Zorba"
+            android:textColor="#fff7f2ed"
+            android:textSize="20.0sp" />
 
         <com.zorba.bt.app.SvgView
             android:id="@id/discoverbutton"
@@ -66,7 +66,7 @@
             android:layout_height="40.0dip"
             android:layout_gravity="center"
             android:text="Discover new device"
-            app:svgviewsrc="@raw/discovery" />
+            app:svgviewsrc="@raw/addroom" />
     </LinearLayout>
 
     <LinearLayout

@@ -388,22 +388,6 @@ public class BtLocalDB {
 		return list.size()!=0;
 	}
 
-	public String findRoomExistsByIp(String ip) {
-		String roomname = null;
-		String roomstr = this.dbInfo.getString("BtList", "");
-		if( roomstr.isEmpty())
-			return roomname;
-		String[] roomstrarr = roomstr.split("#");
-		for(int index=0; index<roomstrarr.length; index+=6) {
-			String dname = roomstrarr[index+3];
-			if (dname.equals(ip)) {
-				roomname = dname;
-				break;
-			}
-		}
-		return roomname;
-	}
-	
 	public boolean isRoomExists(String devicename) {
 		String roomstr = this.dbInfo.getString("BtList", "");
 		if( roomstr.isEmpty())

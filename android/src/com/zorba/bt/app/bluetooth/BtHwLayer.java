@@ -487,6 +487,7 @@ public class BtHwLayer {
 			if( !isunregistered ) {
 				this.activity.unregisterReceiver(this.mReceiver);
 				this.activity.unregisterReceiver(this.nReceiver);
+				
 				isunregistered = true;
 			}
 		}catch(Exception e){
@@ -807,7 +808,7 @@ public class BtHwLayer {
 		Thread.sleep(2000);
 	}
 	
-	public byte[] getDateAndTime() throws Exception {
+	public String getDateAndTime() throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
 		byte writeBytes[] = new byte[2];
@@ -815,7 +816,10 @@ public class BtHwLayer {
 		writeBytes[1] = reqno;
 		
 		byte[] data = processReqWithRetries(reqno, writeBytes);
-		return data;
+		String buf = "";
+		for(int i=0; i<data.length; i++)
+			buf += data[i] +" ";
+		return buf;
 	}
 	
 	public void enableOOHCmd(boolean enable) throws Exception {

@@ -1,9 +1,5 @@
 package com.zorba.bt.app;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 
 import android.os.Bundle;
@@ -48,18 +44,8 @@ public class TimeSettingsActivity extends ZorbaActivity {
 	         public void zonClick(View v) {
 				try {
 					timeLabel.setText("Get time cmd is being sent");
-					byte datedata[] = BtHwLayer.getInstance(TimeSettingsActivity.this).getDateAndTime();
-					Calendar cal = Calendar.getInstance();
-					cal.set(Calendar.DAY_OF_MONTH, datedata[0]);
-					cal.set(Calendar.MONTH, datedata[1]-1);
-					cal.set(Calendar.YEAR, 2000+datedata[2]);
-					cal.set(Calendar.HOUR_OF_DAY, datedata[4]);
-					cal.set(Calendar.MINUTE, datedata[5]);
-					cal.set(Calendar.SECOND, datedata[6]);
-					System.out.println("cal..."+cal);
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-					String currentDateandTime = sdf.format(cal.getTime());
-					timeLabel.setText(currentDateandTime);
+					String date = BtHwLayer.getInstance(TimeSettingsActivity.this).getDateAndTime();
+					timeLabel.setText(date);
 				} catch (Exception e) {
 					timeLabel.setText("Error:"+e.getMessage());
 				}

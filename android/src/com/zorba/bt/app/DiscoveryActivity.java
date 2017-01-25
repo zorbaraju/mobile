@@ -396,12 +396,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 									ArrayList<String> list = (ArrayList<String>) result;
 									for (String ipaddress : list) {
 
-										String roomname = BtLocalDB.getInstance(DiscoveryActivity.this).findRoomExistsByIp(ipaddress);
-										if( roomname != null) {
-											Logger.e(DiscoveryActivity.this, "Discovery",
-													"Device with " + ipaddress + " is already in List , roomname is "+roomname);
-											continue;
-										}
 										DiscoveryRoom var7 = new DiscoveryRoom(DiscoveryActivity.this.getApplication(),
 												null, ipaddress, currentWifiSSID);
 										DiscoveryActivity.this.discoveryContent.addView(var7);
@@ -481,14 +475,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 			little.start();
 		saveButton.setEnabled(false);
 		((SvgView) findViewById(R.id.spinnertriangle)).setVisibility(View.GONE);
-		((TextView) findViewById(R.id.controllerValue)).setText(getDiscoveryModeStr() + " is in process");
+		((TextView) findViewById(R.id.controllerValue)).setText("Please Wait...");
 		btdiscoveryBox.setEnabled(false);
 		wifirdiscoveryBox.setEnabled(false);
 		wifiapdiscoveryBox.setEnabled(false);
 	}
 
 	private String getDiscoveryModeStr() {
-		String modeStr = "Bluetooth Discovery";
+		String modeStr = "Please Wait";
 		if (currentDiscoveryType == DISCOVERYTYPE_WR) {
 			modeStr = "Station Discovery";
 		} else if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
@@ -516,7 +510,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
 				((TextView) DiscoveryActivity.this.findViewById(R.id.controllerValue))
-						.setText(getDiscoveryModeStr() + " is done   ");
+						.setText("Search Complete     ");
 				((SvgView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
 				DiscoveryActivity.this.little.stop();
 				saveButton.setEnabled(true);
@@ -607,7 +601,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		currentDiscoveryType = DISCOVERYTYPE_WAP;
 
 		TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
-		pwdview.setText("");// "8GE5R3N5J4");//"owyoe82486");
+		pwdview.setText("owyoe82486");
 		if( !isMaster) {
 			pwdview.setEnabled(false);
 			wifirdiscoveryBox.setChecked(true);
@@ -747,14 +741,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}
 				nonEmptyChildren.clear();
 				isLastDiscoveryBt = currentDiscoveryType == DISCOVERYTYPE_BT;
-				if( currentDiscoveryType == DISCOVERYTYPE_WR){
-					try {
-						Thread.sleep(15000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 			}
 		});
 		this.deleteButton = (SvgView) this.findViewById(R.id.deletebutton);
@@ -843,12 +829,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	private boolean isStationModeMasterDiscovery() {
-		if( currentDiscoveryType == DISCOVERYTYPE_WR) {
-			CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
-			return (isMaster && firsttimecheck.isChecked());
-		} else {
-			return isMaster;
-		}
+		CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+		return (isMaster && firsttimecheck.isChecked());
 	}
 	
 	private class WifiScanReceiver extends BroadcastReceiver {
