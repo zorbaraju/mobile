@@ -311,7 +311,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 					Intent intent = new Intent(RoomsActivity.this, ChangepwdActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
 				} else if (selectedMenuName.equals(MENUNAME_SETTINGS)) {
-					Intent intent = new Intent(RoomsActivity.this, TimeSettingsActivity.class);
+					Intent intent = new Intent(RoomsActivity.this, SettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
 				} else if (selectedMenuName.equals(MENUNAME_MTLOG)) {
 					Intent intent = new Intent(RoomsActivity.this, AwsIotActivity.class);

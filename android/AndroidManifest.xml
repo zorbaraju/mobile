@@ -38,6 +38,10 @@
             android:label="@string/title_discovery" >
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_discovery" >
+        </activity>
+        <activity
             android:name=".HelpActivity"
             android:label="@string/title_help" >
         </activity>
