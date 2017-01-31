@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 <item 
    android:state_checked="true"   
-   android:drawable="@drawable/useradminon" />
+   android:drawable="@drawable/adminon" />
   <item 
    android:state_checked="false" 
-   android:drawable="@drawable/useradminoff" />
+   android:drawable="@drawable/adminoff" />
 </selector>
 
 

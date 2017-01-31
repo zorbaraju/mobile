@@ -29,11 +29,14 @@
             app:svgviewsrc="@raw/zorbaicon_tag_tm_350_120_final" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="50dp" >
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="90dp" 
+            android:layout_marginLeft="50.0dip"
+            android:layout_marginRight="48.0dip"
+            >
 
             <EditText
                 android:id="@+id/emailfield"
@@ -42,13 +45,15 @@
                 android:layout_gravity="center"
                 android:background="@layout/textedit"
                 android:hint="          Enter your email          "
+                android:textSize="21.0sp"
                 android:text="r" >
 
                 <requestFocus />
             </EditText>
         </LinearLayout>
 
-      <!-- spb 240117 for user admin selection 
+        <!--
+        spb 240117 for user admin selection 
         <RadioGroup
             android:id="@+id/userTypeGroup"
             android:layout_width="wrap_content"
@@ -83,25 +88,21 @@
                 android:focusableInTouchMode="false"
                 android:text="  Admin" />
         </RadioGroup>
-       
-         
-          -->
-         <LinearLayout
-         
-             android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-   >
-            
-              <CheckBox
-        android:id="@+id/master"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-     
-        android:button="@drawable/checkbox_custom_2" />
-    
-    
-             </LinearLayout>
+
+        -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="40.0dip">
+
+            <CheckBox
+                android:id="@+id/master"
+                android:layout_width="250.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center"         
+                android:button="@drawable/checkbox_custom_2" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -109,6 +110,7 @@
             android:layout_gravity="center"
             android:paddingTop="100.0dip" >
 
+            <!-- spb 300117 for login svg button
             <Button
                 android:id="@+id/gotobutton"
                 style="?android:attr/buttonStyleSmall"
@@ -117,7 +119,17 @@
                 android:background="@android:color/transparent"
                 android:text="Login"
                 android:textColor="#ffffffff"
-                android:textSize="22.0sp" />
+                android:textSize="22.0sp" /> 
+                 -->
+              <com.zorba.bt.app.SvgView
+            android:id="@+id/gotobutton"
+            android:layout_width="250.0dip"
+            android:layout_height="40.0dip"
+            app:svgviewsrc="@raw/loginbtnfinal" />
+        
+          
+               
+                 
         </LinearLayout>
     </LinearLayout>
 
