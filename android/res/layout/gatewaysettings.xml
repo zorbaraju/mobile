@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:layout_gravity="right"
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:layout_marginLeft="25.0dip"
+        android:layout_marginRight="25.0dip"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="10.0dip" >
 
         <EditText
             android:id="@+id/gatewaylabel"
@@ -16,14 +20,18 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="false"
             android:layout_centerVertical="true"
-            android:hint="Gate IP 192.168.0.1" />
+            android:hint="Enter IP eg: 192.168.0.1" />
 
         <Button
             android:id="@+id/setGatewayIPButton"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/gatewaylabel"
-            android:text="Set Gateway IP" />
+            android:background="#ff9400"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="Set IP Gateway" />
     </RelativeLayout>
 
 </LinearLayout>

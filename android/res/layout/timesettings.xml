@@ -8,29 +8,47 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        android:layout_gravity="center"
+        android:layout_marginLeft="25.0dip"
+        android:layout_marginRight="25.0dip"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="10.0dip" >
 
         <Button
             android:id="@+id/getTimeButton"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Get Time" />
+            android:background="#ff9400"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="25.0dip"
+            android:text="Get Time"
+            android:textSize="18.0sp" />
 
         <Button
             android:id="@+id/setTimeButton"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Set Time" />
-    </RelativeLayout>
+            android:background="#ff9400"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="25.0dip"
+            android:text="Set Time"
+            android:textSize="18.0sp" />
 
-    <TextView
-        android:id="@+id/timeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:hint="          Zorba System Time        " />
+        <TextView
+            android:id="@+id/timeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_below="@id/setTimeButton"
+            android:hint="Zorba System Time"
+            android:paddingLeft="10dp"
+            android:paddingTop="15.0dip"
+            android:textColor="#ffffff"
+            android:textSize="15.0sp" />
+    </RelativeLayout>
 
 </LinearLayout>

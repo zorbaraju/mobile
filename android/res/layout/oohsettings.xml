@@ -8,29 +8,57 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
+        android:layout_marginLeft="25.0dip"
+        android:layout_marginRight="25.0dip"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="10.0dip" >
 
         <Button
             android:id="@+id/readOOHStatusButton"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#ff9400"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:text="Read Status" />
 
         <TextView
             android:id="@+id/oohStatusLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/resetESBButton"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/readOOHStatusButton"
-            android:text="Status is ON" />
+            android:layout_gravity="center"
+            android:text="Status is ON"
+            android:textColor="#ffffff"
+            android:textSize="18.0sp" />
 
         <Button
             android:id="@+id/enableOOHButton"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/oohStatusLabel"
-            android:text="Disable" />
+            android:layout_alignParentRight="true"
+            android:background="#ff9400"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:text="Disable OOH" />
+
+        <Button
+            android:id="@+id/resetESBButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/enableOOHButton"
+            android:layout_centerInParent="true"
+            android:background="#ff9400"
+            android:paddingLeft="6.0dp"
+            android:paddingRight="6.0dp"
+            android:text="Reset ESB" />
+
+        <!-- spb 290117 for shifting ecb to ooh page -->
     </RelativeLayout>
 
 </LinearLayout>

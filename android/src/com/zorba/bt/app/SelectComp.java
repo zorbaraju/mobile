@@ -39,8 +39,8 @@ public class SelectComp extends LinearLayout {
       LayoutParams var8;
       if(!var2.isDimmable()) {
          final Switch var5 = new Switch(var1);
-         var5.getThumbDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.MULTIPLY);
-         var5.getTrackDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.MULTIPLY);
+         var5.getThumbDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+         var5.getTrackDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
          var5.setGravity(17);
          this.view = var5;
          var5.setOnTouchListener(new OnTouchListener() {

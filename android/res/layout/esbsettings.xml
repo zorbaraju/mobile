@@ -17,6 +17,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+             android:background="#ff403c3a"
+              android:paddingLeft="4dp"
+            android:paddingRight="4dp"
             android:text="Reset ESB" />
     </RelativeLayout>
 

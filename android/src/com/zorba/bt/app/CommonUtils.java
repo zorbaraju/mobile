@@ -42,7 +42,9 @@ import com.zorba.bt.app.bluetooth.NotificationListener;
 public class CommonUtils {
 	
 	
-	public static final String SEEKBAR_COLOR = "#FF9400";
+	public static final String SEEKBAR_COLOR = "#ff9400";
+	public static final String DIMMER_DIALOG_COLOR = "#67615e";//+spb 2700117 for dimmer dialog color
+	public static final String DIMMER_SEEKBAR_COLOR = "#f7f2ed";//+spb 2700117 for seekbar color in room page
 	public static final String TABSWITCH = "Switches";
 	public static final String TABDIMMABLES = "Dimmables";
 	
@@ -122,9 +124,9 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("Dimmable Light")) {
          if(var1 <= 0) {
-            var2 = R.raw.dbulb_off;
+            var2 = R.raw.chandelier_off;
          } else {
-            var2 = R.raw.dbulb_on;
+            var2 = R.raw.chandelier_on;
          }
       } else if(var0.startsWith("Tube Light")) {
          if(var1 <= 0) {
@@ -132,17 +134,17 @@ public class CommonUtils {
          } else {
             var2 = R.raw.tubelight_on;
          }
-      } else if(var0.startsWith("CFL Bulb")) {
+      } else if(var0.startsWith("Chandlier")) {
          if(var1 <= 0) {
-            var2 = R.raw.cfl_off;
+            var2 = R.raw.chandelier_off;
          } else {
-            var2 = R.raw.cfl_on;
+            var2 = R.raw.chandelier_on;
          }
-      } else if(var0.startsWith("Cove light")) {
+      } else if(var0.startsWith("Deco Light")) {
          if(var1 <= 0) {
-            var2 = R.raw.covelight_off;
+            var2 = R.raw.table_off;
          } else {
-            var2 = R.raw.covelight_on;
+            var2 = R.raw.table_on;
          }
       } else if(var0.startsWith("Fan")) {
          if(var1 <= 0) {
@@ -150,11 +152,11 @@ public class CommonUtils {
          } else {
             var2 = R.raw.fan_on;
          }
-      } else if(var0.startsWith("Table Fan")) {
+      } else if(var0.startsWith("Table Lamp")) {
          if(var1 <= 0) {
-            var2 = R.raw.tablefan_off;
+            var2 = R.raw.tablelamp_off;
          } else {
-            var2 = R.raw.tablefan_on;
+            var2 = R.raw.tablelamp_on;
          }
       } else if(var0.startsWith("Ac")) {
          if(var1 <= 0) {
@@ -164,9 +166,9 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("Ac Split")) {
          if(var1 <= 0) {
-            var2 = R.raw.acsplit_off;
+            var2 = R.raw.ac_off;
          } else {
-            var2 = R.raw.acsplit_on;
+            var2 = R.raw.ac_on;
          }
       } else if(var0.startsWith("Alarm")) {
          if(var1 <= 0) {
@@ -182,21 +184,21 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("CC tv Outdoor")) {
          if(var1 <= 0) {
-            var2 = R.raw.cctvoutdoor_off;
+            var2 = R.raw.cctvindoor_off;
          } else {
-            var2 = R.raw.cctvoutdoor_on;
+            var2 = R.raw.cctvindoor_on;
          }
-      } else if(var0.startsWith("Curtain")) {
+      } else if(var0.startsWith("Curtain Open")) {
          if(var1 <= 0) {
-            var2 = R.raw.curtian_off;
+            var2 = R.raw.curtianopen_off;
          } else {
-            var2 = R.raw.curtian_on;
+            var2 = R.raw.curtianopen_on;
          }
-      } else if(var0.startsWith("Door Bell")) {
+      } else if(var0.startsWith("Curtain Close")) {
          if(var1 <= 0) {
-            var2 = R.raw.doorbell_off;
+            var2 = R.raw.curtianclose_off;
          } else {
-            var2 = R.raw.doorbell_on;
+            var2 = R.raw.curtianclose_on;
          }
       } else if(var0.startsWith("Door Lock")) {
          if(var1 <= 0) {
@@ -234,11 +236,11 @@ public class CommonUtils {
          } else {
             var2 = R.raw.settopbox_on;
          }
-      } else if(var0.startsWith("Sprinkler")) {
+      } else if(var0.startsWith("Water Pump")) {
          if(var1 <= 0) {
-            var2 = R.raw.sprinkler_off;
+            var2 = R.raw.water_pump_off;
          } else {
-            var2 = R.raw.sprinkler_on;
+            var2 = R.raw.water_pump_on;
          }
       } else if(var0.startsWith("TV")) {
          if(var1 <= 0) {

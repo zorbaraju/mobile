@@ -101,7 +101,7 @@ public class ImageTextButton extends LinearLayout {
 
    public void setBorderSelected(boolean var1) {
       if(var1) {
-         this.labelText.setBackgroundColor(Color.parseColor("#202e3b"));
+         this.labelText.setBackgroundColor(Color.parseColor("#1e1e1e")); //-spb 270117 for changing selected icon background text color original-->202e3b
          this.labelText.setTypeface(this.labelText.getTypeface(), 3);
       } else {
          this.labelText.setBackgroundColor(0);

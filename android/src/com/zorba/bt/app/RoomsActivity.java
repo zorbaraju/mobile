@@ -794,7 +794,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		AlertDialog.Builder localBuilder = new AlertDialog.Builder(this);
 		localBuilder.setView((View) obj);
 		SeekBar localObject = (SeekBar) ((View) obj).findViewById(R.id.seekBar1);
-		localObject.getProgressDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+   	   localObject.getProgressDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
         localObject.getThumb().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
 		try {
 			int i = btHwLayer.readCommandToDevice(devid);
@@ -823,8 +823,8 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 							prevvalue = progresValue;
 							return;
 						} catch (Exception paramAnonymousSeekBare) {
-							CommonUtils.AlertBox(RoomsActivity.this, "Error",
-									"Sending cmd to Device:" + paramAnonymousSeekBare.getMessage());
+								CommonUtils.AlertBox(RoomsActivity.this, "Error",
+								"Sending cmd to Device:" + paramAnonymousSeekBare.getMessage());
 						}
 						
 					}
@@ -838,11 +838,11 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 					
 				}
 			});
-			localBuilder.setCancelable(false).setNegativeButton("Close", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
-					paramAnonymousDialogInterface.cancel();
-				}
-			});
+			//-spb 270117 for room page seekbar close popup	localBuilder.setCancelable(false).setNegativeButton("Close", new DialogInterface.OnClickListener() {
+			//-spb 270117 for room page seekbar close popup public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt) {
+			//-spb 270117 for room page seekbar close popup paramAnonymousDialogInterface.cancel();
+			//-spb 270117 for room page seekbar close popup }
+			//-spb 270117 for room page seekbar close popup });
 			localBuilder.create().show();
 			return;
 		} catch (Exception paramImageTextButtone) {
@@ -878,7 +878,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			this.devicePanel.setSiblings(new MyComp[] { this.lightsPanel, this.groupPanel, this.schedulePanel });
 			this.groupPanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.schedulePanel });
 			this.schedulePanel.setSiblings(new MyComp[] { this.lightsPanel, this.devicePanel, this.groupPanel });
-			((RelativeLayout) findViewById(R.id.rootView)).setBackgroundColor(Color.parseColor("#ff403c3a"));
+			((RelativeLayout) findViewById(R.id.rootView)).setBackgroundColor(Color.parseColor("#ff403c3a"));//403c3a
 			((ScrollView) findViewById(R.id.scrollView)).setBackgroundColor(Color.parseColor("#ff1e1e1e"));
 			updateWithRealtime();
 			relayout();
@@ -1217,6 +1217,11 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	private void enableMainActivityOnDeviceConfig(boolean enableConfigMode) {
 		System.out.println("enableMainActivityOnDeviceConfig: "+enableConfigMode);
 		isInConfigDeviceMode = enableConfigMode;
+		
+		//+spb 270117 for alert box
+		 if(isInConfigDeviceMode) 
+			    CommonUtils.AlertBox(this, "You are in config mode", "Press back to exit this menu");
+		//+spb 270117 for alert box 
 		lightsPanel.enableEditMode(isInConfigDeviceMode);
 		devicePanel.enableEditMode(isInConfigDeviceMode);
 		groupPanel.enableEditMode(isInConfigDeviceMode);
