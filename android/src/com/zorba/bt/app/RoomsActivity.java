@@ -768,8 +768,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
   	  	if( schArr.size() == 0)
   	  		return;
   	  SchedulerData scheduleData = schArr.get(0);
-		//localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
-		localImageTextButton.setText(scheduleName);
+  	localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
+	localImageTextButton.setImageResId(scheduleData.getImageResId());
+	localImageTextButton.setText(scheduleName);
 		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
 			public void zonClick(View paramAnonymousView) {
 				RoomsActivity.this.schedulePanel.deselectAll();
