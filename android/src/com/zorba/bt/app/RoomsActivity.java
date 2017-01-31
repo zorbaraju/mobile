@@ -343,7 +343,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 		
 	}
 
-	private void prepareRoomListMenu(String newRoomName, boolean paramBoolean) {
+	private void prepareRoomListMenu(String newRoomName, boolean isNewRoom) {
 		final TextView roomListText = (TextView) findViewById(R.id.roomList);
 		ZorbaOnClickListener listener = new ZorbaOnClickListener() {
 			public void zonClick(View view) {
@@ -352,9 +352,6 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			}
 		};
 		this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
-		for(RoomData rd: roomDataList){
-			System.out.println("Rodetailss..."+rd.getAddress()+":"+rd.getDeviceName()+":"+rd.getIpAddress()+":"+rd.getName()+":"+rd.getSSID());
-		}
 		TextAdapter localTextAdapter = new TextAdapter(this, this.roomDataList, listener);
 		this.roomMenuList.setAdapter(localTextAdapter);
 		this.roomMenuList.setAnchorView(roomListText);
@@ -365,7 +362,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 			this.roomDataList.remove(0);
 			localTextAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			this.roomMenuList.setAdapter(localTextAdapter);
-			if (!paramBoolean) {
+			if (!isNewRoom) {
 				int selectedRoomIndex = BtLocalDB.getInstance(this).getLastSelectedRoom();
 				int selectIndex = selectedRoomIndex;
 				if (!newRoomName.isEmpty()) {
@@ -380,11 +377,31 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 				}
 				roomChanged(false, roomListText, selectIndex, true);
 			} else {
+				roomDataList = BtLocalDB.getInstance(this).getRoomList();
+				roomDataList.remove(0);
 				if (this.roomDataList.size() == 0) {
 					((ScrollView) findViewById(R.id.scrollView)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.rgbPanel)).setVisibility(View.GONE);
 					((LinearLayout) findViewById(R.id.emptydevicepanel)).setVisibility(View.VISIBLE);
 					roomListText.setText("No rooms");
+				} else {
+					int selectIndex = BtLocalDB.getInstance(this).getLastSelectedRoom()-1;
+					if( newRoomName.isEmpty()){
+						if( selectIndex<0)
+							selectIndex = 0;
+						roomChanged(false, roomListText, selectIndex, false);
+						return;
+					}
+					for(int index=0; index< roomDataList.size(); index++){
+						RoomData rd = roomDataList.get(index);
+						System.out.println("Number of rooms...."+roomDataList.size()+" newroom:"+newRoomName+" rd.."+rd.getName());
+						if( rd.getName().equals(newRoomName)){
+							selectIndex = index;
+							System.out.println("Number of rooms...."+roomDataList.size()+" newroom:"+newRoomName+" selectIndex.."+selectIndex);
+									roomChanged(false, roomListText, selectIndex, false);
+							break;
+						}
+					}
 				}
 				return;
 			}
@@ -982,9 +999,9 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 	private void fromDiscoveryActivity(Intent resultIntent) {
 		String newRoom;
 		try {
-			newRoom = resultIntent.getExtras().getString("newroomname");
+			newRoom = resultIntent.getExtras().getString("newroomname").toUpperCase();
 			if (!newRoom.isEmpty()) {
-				prepareRoomListMenu(newRoom, false);
+				prepareRoomListMenu(newRoom, true);
 				return;
 			}
 			String deletedRoomStr = resultIntent.getExtras().getString("deletedrooms");
@@ -1220,6 +1237,7 @@ extends ZorbaActivity implements NotificationListener, ConnectionListener, IOTMe
 					CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
 				}
 				this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
+				this.roomDataList.remove(0);
 				for(RoomData rd: roomDataList){
 					btHwLayer.enableNotificationForRooms(this, this.roomDataList);
 				}
