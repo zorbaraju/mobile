@@ -41,7 +41,7 @@ import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
 	
-	
+	public static final String SWITCHTEXT_COLOR = "#00ff00";
 	public static final String SEEKBAR_COLOR = "#ff9400";
 	public static final String DIMMER_DIALOG_COLOR = "#67615e";//+spb 2700117 for dimmer dialog color
 	public static final String DIMMER_SEEKBAR_COLOR = "#f7f2ed";//+spb 2700117 for seekbar color in room page
