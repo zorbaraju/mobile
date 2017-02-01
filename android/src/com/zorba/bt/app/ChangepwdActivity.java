@@ -33,15 +33,18 @@ public class ChangepwdActivity extends ZorbaActivity {
 				EditText confirmPwdText = (EditText)findViewById(R.id.confirmPwdText);
 				String currPwdStr = currPwdText.getText().toString();
 				if( !currPwdStr.equals(BtLocalDB.getInstance(ChangepwdActivity.this).getDevicePwd()) ){
-					CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Current pwd is not matched");
+					//-spb 010217 for error msg chg CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Current pwd is not matched");
+					CommonUtils.AlertBox(ChangepwdActivity.this, "Incorrect password", "Kindly enter correct password");
 					return;
 				}
 				if( newPwdText.getText().toString().isEmpty()){
-					CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Please enter new pwd");
+					//-spb 010217 for error msg chg CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Please enter new pwd");
+					CommonUtils.AlertBox(ChangepwdActivity.this, "Incorrect password", "Kindly enter new password");
 					return;
 				}
 				if( !newPwdText.getText().toString().equals(confirmPwdText.getText().toString()) ) {
-					CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Confirm pwd is not matched");
+					//-spb 010217 for error msg chg  CommonUtils.AlertBox(ChangepwdActivity.this, "Pwd Error", "Confirm pwd is not matched");
+					CommonUtils.AlertBox(ChangepwdActivity.this, "Password mismatch", "Confirm password is not matched");
 					return;
 				}
 				BtLocalDB.getInstance(ChangepwdActivity.this).setDevicePwd(newPwdText.getText().toString());

@@ -87,7 +87,8 @@ public class AddGroupActivity extends ZorbaActivity {
       boolean isNew = editGroupName==null;
       if(grpName != null) {
          if(isNew && BtLocalDB.getInstance(this.getApplication()).isGroupNameExist(this.deviceName, grpName)) {
-            CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
+        	 //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
+        	 CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
          } else {
             int deviceCount = var6.getChildCount();
             String devdetails = "";
@@ -106,7 +107,8 @@ public class AddGroupActivity extends ZorbaActivity {
             }
 
             if(!isSelectedAny) {
-               CommonUtils.AlertBox(this, "Save group", "No devices are selected");
+            	//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Save group", "No devices are selected");
+            	 CommonUtils.AlertBox(this, "Can't save group", "Kindly select switches and state in group");
             } else {
                BtLocalDB.getInstance(this).saveGroup(this.deviceName, grpName, groupType, devdetails, isNew);
                Intent var9 = new Intent();

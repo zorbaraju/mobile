@@ -41,7 +41,7 @@ import com.zorba.bt.app.bluetooth.NotificationListener;
 
 public class CommonUtils {
 	
-	public static final String SWITCHTEXT_COLOR = "#00ff00";
+	public static final String SWITCHTEXT_COLOR ="#ffffff"; //-spb 010217 try white col "#00ff00";
 	public static final String SEEKBAR_COLOR = "#ff9400";
 	public static final String DIMMER_DIALOG_COLOR = "#67615e";//+spb 2700117 for dimmer dialog color
 	public static final String DIMMER_SEEKBAR_COLOR = "#f7f2ed";//+spb 2700117 for seekbar color in room page
@@ -257,11 +257,14 @@ public class CommonUtils {
       String validName = null;
       name = name.trim();
       if(name.isEmpty()) {
-    	 AlertBox(var0, "Name", "Name is empty");
+    	//-spb 010217 for error msg chg  AlertBox(var0, "Name", "Name is empty");
+    	  AlertBox(var0, "Can't add name ", "Kindly enter name"); 
       } else if(name.length() > 12) {
-         AlertBox(var0, "Name", "Name should not be more than 12 chars");
+    	//-spb 010217 for error msg chg AlertBox(var0, "Name", "Name should not be more than 12 chars");
+    	  AlertBox(var0, "Maximum limit reached !", "Name should not be more than 12 chars");
       } else if(name.contains("#")) {
-         AlertBox(var0, "Name", "Name should not contain # letter in the name");
+    	//-spb 010217 for error msg chg AlertBox(var0, "Name", "Name should not contain # letter in the name");
+    	  AlertBox(var0, "Special characters not allowed", "Name characters should be in A-Z and 0-9");
       } else {
     	  validName = Character.toString(name.charAt(0)).toUpperCase() + name.substring(1);
       }

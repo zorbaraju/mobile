@@ -502,7 +502,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			WifiInfo currentWifi = wifiManager.getConnectionInfo();
 			if (currentWifi == null || currentWifi.getSSID() == null || currentWifi.getSSID().isEmpty()) {
-				CommonUtils.AlertBox(this, "Discovery", "Wifi connection is not enabled");
+				//-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Discovery", "Wifi connection is not enabled");
+				CommonUtils.AlertBox(this, "Discovery", "Kindly start Wifi on phone and try again");
 				return;
 			}
 			currentWifiSSID = currentWifi.getSSID().substring(1, currentWifi.getSSID().length() - 1);
@@ -546,7 +547,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			}
 		}
 		if( !isLastDiscoveryBt && !CommonUtils.isActiveNetwork(this)) {
-			CommonUtils.AlertBox(this, "Network", "Please enable network");
+			//-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Network", "Please enable network");
+			CommonUtils.AlertBox(this, "Network", "Please enable Wifi network");
 			return;
 		}
 		Intent intent = new Intent();
@@ -665,7 +667,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		if (mBluetoothManager == null) {
 			mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 			if (mBluetoothManager == null) {
-				CommonUtils.AlertBox(this, "Bt Manager", "Unable to initialize BluetoothManager.");
+				//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Bt Manager", "Unable to initialize BluetoothManager.");
+				CommonUtils.AlertBox(this, "Bluetooth setting", "Unable to initialize Bluetooth Manager.");
 				return;
 			}
 		}
@@ -724,7 +727,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 				pwd = pwdview.getText().toString();
 				System.out.println("Pwd........" + pwd);
 				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty() && isStationModeMasterDiscovery()) {
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
+					//-spb 010217 for error msg chg  CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Kindly enter valid Wifi password for selected network");
 					return;
 				}
 				int numdiscovered = DiscoveryActivity.this.discoveryContent.getChildCount();
@@ -736,7 +740,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 					}
 				}
 				if (nonEmptyChildren.size() == 0) {
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Name is empty");
+					//-spb 010217 for error msg chg   CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Name is empty");
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Kindly enter room name");
 					return;
 				}
 				numdiscovered = nonEmptyChildren.size();

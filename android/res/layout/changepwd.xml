@@ -18,13 +18,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Password" />
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:text="Current Password  " />
 
             <EditText
                 android:id="@+id/currentPwdText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:hint="Enter current password" />
         </LinearLayout>
 
         <LinearLayout
@@ -35,28 +39,38 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Password" />
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:text="New Password       " />
 
             <EditText
                 android:id="@+id/newPwdText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content" 
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:hint="Enter a new password"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm Password" />
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:text="Confirm Password " />
 
             <EditText
                 android:id="@+id/confirmPwdText"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16.0sp"
+                android:textColor="#ffffff"
+                android:hint="Confirm new password" />
         </LinearLayout>
     </LinearLayout>
 
@@ -66,23 +80,23 @@
 
         <Button
             android:id="@+id/saveButton"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#ff403c3a"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
+            android:layout_below="@+id/confirmPwdText"
+            android:background="#ff9400"
+            android:layout_marginLeft="10.0dip"
+          android:layout_alignParentLeft="true"
             android:text="Save" />
 
         <Button
             android:id="@+id/cancelButton"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyleInset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-          
-            android:background="#ff403c3a"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="200.0dip"
+            android:background="#ff9400"
             android:text="Cancel" />
 
     </LinearLayout>

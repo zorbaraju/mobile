@@ -48,7 +48,8 @@ public class RoomsActivity extends ZorbaActivity
 	String MENUNAME_ABOUT = "About";
 	// -spb 250117 for removing inverter from menu String MENUNAME_INVERTOR =
 	// "Invertor Settings";
-	String MENUNAME_CHANGEPWD = "Change Pwd";
+	// -spb 010217 for removing change password from menu String
+	// MENUNAME_CHANGEPWD = "Change Pwd";
 	String MENUNAME_SETTINGS = "Admin Settings";
 	String MENUNAME_SENDLOG = "Send Log";
 	String MENUNAME_MTLOG = "Mt Log";
@@ -70,7 +71,6 @@ public class RoomsActivity extends ZorbaActivity
 	// CHANGEPWD_CODE = INVERTER_CODE + 1;
 	public static final int CHANGEPWD_CODE = HELP_CODE + 1;
 	public static final int AWSIOT_CODE = CHANGEPWD_CODE + 1;
-
 	public static final int RUSULTCODE_CANCEL = 0;
 	public static final int RUSULTCODE_SAVE = 1;
 
@@ -287,7 +287,8 @@ public class RoomsActivity extends ZorbaActivity
 		// arrayList.add(new ImageTextData(MENUNAME_ABOUT, R.raw.about));
 		// -spb 250117 for removing inverter from menu arrayList.add(new
 		// ImageTextData(MENUNAME_INVERTOR, R.raw.settings));
-		arrayList.add(new ImageTextData(MENUNAME_CHANGEPWD, R.raw.changepassword));
+		// -spb 010217 for removing change password from menu arrayList.add(new
+		// ImageTextData(MENUNAME_CHANGEPWD, R.raw.changepassword));
 		System.out.println("�s master user..RoomsActivity.ADDDEVICE_CODE"
 				+ BtLocalDB.getInstance(RoomsActivity.this).isMasterUser());
 		if (BtLocalDB.getInstance(RoomsActivity.this).isMasterUser()) {
@@ -325,9 +326,14 @@ public class RoomsActivity extends ZorbaActivity
 					// RoomsActivity.this.startActivityForResult(intent,
 					// INVERTER_CODE);
 					// -spb 250117 for removing inverter from menu
-				} else if (selectedMenuName.equals(MENUNAME_CHANGEPWD)) {
-					Intent intent = new Intent(RoomsActivity.this, ChangepwdActivity.class);
-					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
+
+					// -spb 010217 for removing change password from menu
+					// } else if (selectedMenuName.equals(MENUNAME_CHANGEPWD)) {
+					// Intent intent = new Intent(RoomsActivity.this,
+					// ChangepwdActivity.class);
+					// RoomsActivity.this.startActivityForResult(intent,
+					// CHANGEPWD_CODE);
+					// -spb 010217 for removing change password from menu
 				} else if (selectedMenuName.equals(MENUNAME_SETTINGS)) {
 					Intent intent = new Intent(RoomsActivity.this, SettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
@@ -630,7 +636,9 @@ public class RoomsActivity extends ZorbaActivity
 			try {
 				byte allStatus[] = btHwLayer.readAllStatus();
 				if (allStatus == null) {
-					CommonUtils.AlertBox(this, "Device count", "No data from device");
+					// -spb 010217 for error msg chg CommonUtils.AlertBox(this,
+					// "Device count", "No data from device");
+					CommonUtils.AlertBox(this, "Device count", "No communication with the device");
 					return;
 				}
 				for (byte ind = 1; ind < allStatus.length; ind++) {
@@ -794,7 +802,10 @@ public class RoomsActivity extends ZorbaActivity
 			return;
 		SchedulerData scheduleData = schArr.get(0);
 
-		localImageTextButton.changeDeviceButtonStyle(0);// +spb 310117 for schedular image with black background on room page
+		localImageTextButton.changeDeviceButtonStyle(0);// +spb 310117 for
+														// schedular image with
+														// black background on
+														// room page
 		localImageTextButton.setBackgroundImage(scheduleData.getImageResId());
 		localImageTextButton.setImageResId(scheduleData.getImageResId());
 		localImageTextButton.setText(scheduleName);
@@ -882,6 +893,9 @@ public class RoomsActivity extends ZorbaActivity
 			localBuilder.create().show();
 			return;
 		} catch (Exception paramImageTextButtone) {
+			// -spb 010217 for error msg chg CommonUtils.AlertBox(this, "Read
+			// Error", "Error in reading command:" +
+			// paramImageTextButtone.getMessage());
 			CommonUtils.AlertBox(this, "Read Error", "Error in reading command:" + paramImageTextButtone.getMessage());
 		}
 	}

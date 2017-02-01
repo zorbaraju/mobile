@@ -76,16 +76,18 @@ public class AddDeviceActivity extends ZorbaActivity {
       if(var9 != null) {
     	 boolean isNew = editDeviceName==null;
          if(editDeviceName == null && com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceName, var9)) {
-            CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
+            //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
+        	 CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
          } else {
         	 ArrayList<DeviceData> deviceList = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
             if(var4.getText().isEmpty()) {
-               CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + deviceList.size() + " devices can only be added");
+            	//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + deviceList.size() + " devices can only be added");
+              CommonUtils.AlertBox(this, "Maximum limit reached!!", "You have already added " + deviceList.size() + " switches");
             } else {
                String var12 = var5.getText().toString().trim();
                if(var12.isEmpty()) {
-                  CommonUtils.AlertBox(this, "No power mentioned", "You may not be able to see power consumption used by this device");
-               }
+            	     CommonUtils.AlertBox(this, "No power mentioned", "You may not be able to see power consumption used by this device");
+            	 }
 
                int var1 = Integer.parseInt(var4.getText());
                DeviceData var10 = new DeviceData(var1, var9, var8, var12, -1);
@@ -93,7 +95,8 @@ public class AddDeviceActivity extends ZorbaActivity {
                try {
                   BtHwLayer.getInstance(this).setSwitchType((byte)var1, isdimmable.isChecked(), false, (byte)var4.getSelectedItemPosition());
                } catch (Exception var7) {
-                  CommonUtils.AlertBox(this, "Setting device type", "Setting device type is failed");
+            	 //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Setting device type", "Setting device type is failed");
+            	   CommonUtils.AlertBox(this, "Can't add switch", "Kindly check connectivity");
                   //return;
                }
                
