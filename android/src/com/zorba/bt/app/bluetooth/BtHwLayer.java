@@ -387,10 +387,7 @@ public class BtHwLayer {
 	private String verifyAuth(String devpwd) throws Exception{
 		String error = null;
 		byte[] response = verifyPwd(devpwd);
-		if( response[0] != 48) {
-			String respstr = new String(response).substring(1);
-			error = "Autherization is failed, "+response[0] +", "+respstr;
-		} else {
+		if( response[0] == '0') {
 			String respstr = new String(response).substring(1);
 			CommonUtils.getInstance().writeLog("bt mac, firmware: "+respstr);
 			byte[] macbytes = new byte[6];
@@ -398,6 +395,9 @@ public class BtHwLayer {
 				macbytes[i] = response[i+1];
 			populateMacAddress = getMacAddressString(macbytes);
 			CommonUtils.getInstance().writeLog("bt mac, populated : "+populateMacAddress);
+		} else {
+			String respstr = new String(response).substring(1);
+			error = "Autherization is failed, "+response[0] +", "+respstr;
 		}
 		return error;
 	}
