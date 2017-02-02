@@ -49,6 +49,8 @@ public class SelectComp extends LinearLayout {
             public boolean onTouch(View var1, MotionEvent var2) {
                if(var2.getAction() == 1) {
                   SelectComp var4 = SelectComp.this;
+                  //-spb 010217 for on/off value remove since on/off bar present
+                  /*
                   String var3;
                   if(!var5.isChecked()) {
                      var3 = "On";
@@ -57,6 +59,8 @@ public class SelectComp extends LinearLayout {
                   }
 
                   var4.controllerValue = var3;
+                  */
+                //-spb 010217 for on/off value remove since on/off bar present
                   SelectComp.this.updateValue();
                }
 
@@ -66,6 +70,8 @@ public class SelectComp extends LinearLayout {
          var5.setOnClickListener(new ZorbaOnClickListener() {
              public void zonClick(View var1) {
                SelectComp var2 = SelectComp.this;
+               //-spb 010217 for on/off value remove since on/off bar present
+               /*
                String var3;
                if(var5.isChecked()) {
                   var3 = "On";
@@ -74,9 +80,13 @@ public class SelectComp extends LinearLayout {
                }
 
                var2.controllerValue = var3;
+               */
+               //-spb 010217 for on/off value remove since on/off bar present
                SelectComp.this.updateValue();
             }
          });
+         //-spb 010217 for on/off value remove since on/off bar present
+         /*
          String var6;
          if(var5.isChecked()) {
             var6 = "On";
@@ -85,6 +95,7 @@ public class SelectComp extends LinearLayout {
          }
 
          this.controllerValue = var6;
+         *///-spb 010217 for on/off value remove since on/off bar present
       } else {
           SeekBar var7 = new SeekBar(var1);
           var7.getProgressDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
