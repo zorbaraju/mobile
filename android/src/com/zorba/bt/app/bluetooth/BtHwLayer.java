@@ -191,7 +191,7 @@ public class BtHwLayer {
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
 		if( !_isOOH && CommonUtils.isMobileDataConnection(activity)) {
-			return "Please disbale data connection";
+			//return "Please disbale data connection";
 		}
 		
 		if (ipaddr != null && ipaddr.equals("null")) {
