@@ -287,6 +287,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 					BtLocalDB.getInstance(DiscoveryActivity.this).addRoom(createdRoom);
 					System.out.println("Added room in configured panel");
 					addRoomButton(createdRoom);
+					//+spb 020217 for popup msg after room addition
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Room Added Successfully", "Kindly close and re-open the app");
+					//+spb 020217 for popup msg after room addition
 					saveButton.setEnabled(false);
 				}
 			};

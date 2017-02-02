@@ -35,18 +35,18 @@ public class BtLocalDB {
 	}
 	
 	public String getConfiguration() {
-		StringBuffer buf = new StringBuffer("Rooms configuration<br/>");
+		StringBuffer buf = new StringBuffer("<b>Rooms Details</b><br/><br/>");
 		ArrayList<RoomData> roomList = getRoomList();
 		roomList.remove(0);
 		for(RoomData room: roomList) {
-			buf.append("Room : "+room.getName()+"<br/>Device List<br/>");
+			buf.append("<b><u>Room </b></u>: "+room.getName()+"<br/><b><u>Device List</b></u><br/>");
 			ArrayList<DeviceData> deviceList = getDevices(room.getDeviceName(), null);
 			for(DeviceData deviceData: deviceList) {
 				if( deviceData.getName().startsWith("Unknown "))
 					continue;
-				buf.append("Id:"+deviceData.getDevId()+" Name:"+deviceData.getName()+"<br/>");
+				buf.append("Switch No: "+deviceData.getDevId()+"     Name: "+deviceData.getName()+"<br/>");
 			}
-			buf.append("<br/>");
+			buf.append("<br/><hr/>");
 		}
 		return buf.toString();
 	}

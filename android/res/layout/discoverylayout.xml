@@ -38,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10.0dip"
             android:text="ADD DEVICE"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
@@ -50,7 +51,7 @@
         android:layout_below="@id/addroom"
         android:layout_gravity="center"
         android:orientation="horizontal"
-        android:layout_marginLeft="4.0dip"
+        android:layout_marginLeft="10.0dip"
         android:paddingBottom="15.0dip"
         android:paddingTop="15.0dip" >
 
@@ -167,6 +168,7 @@ android:background="#ff131b22"
             android:id="@id/discoveryContent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
             android:orientation="vertical" >
         </LinearLayout>
     </ScrollView>
@@ -185,7 +187,7 @@ android:background="#ff131b22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Device Password"
-             android:layout_marginLeft="5.0dip"
+             android:layout_marginLeft="10.0dip"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
 
@@ -215,7 +217,7 @@ android:background="#ff131b22"
             android:id="@+id/wifiPwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_marginLeft="5.0dip"
+             android:layout_marginLeft="10.0dip"
             android:text="Wifi Password     "
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
@@ -258,6 +260,7 @@ android:background="#ff131b22"
             android:id="@id/textlistmenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
             android:layout_centerVertical="true"
             android:text="AVAILABLE DEVICES"
             android:textAppearance="?android:textAppearanceMedium"
@@ -280,6 +283,7 @@ android:background="#ff131b22"
         android:id="@id/roomscontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10.0dip"
         android:layout_below="@id/configuredroomslayout"
         android:minWidth="100.0dip"
         android:paddingTop="10.0dip"
