@@ -17,7 +17,7 @@ public class BtReceiver extends Thread {
 
 	OutputStream outStream = null;
 	Object lock = new Object();
-	HashMap<Integer, byte[]> responseQueue = new HashMap<Integer, byte[]>();
+	HashMap<String, byte[]> responseQueue = new HashMap<String, byte[]>();
 	boolean shouldStop = false;
 
 	public BtReceiver(BtHwLayer hwLayer, InputStream is) {
@@ -34,12 +34,12 @@ public class BtReceiver extends Thread {
 		this.inStream = null;
 	}
 
-	public byte[] getData(int reqno) {
+	public byte[] getData(String cmdNoAndReqNo) {
 		byte readbytes[] = null;
 		synchronized (lock) {
 			try {
 				lock.wait(1000);
-				readbytes = responseQueue.remove(reqno);
+				readbytes = responseQueue.remove(cmdNoAndReqNo);
 				return readbytes;
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -70,13 +70,14 @@ public class BtReceiver extends Thread {
 				for (int i = 0; i < numRead; i++)
 					readBytes[i] = recvBytes[i];
 
-				int cmd = readBytes[0];
+				int cmdno = readBytes[0];
 				int reqno = readBytes[1];
+				String cmdNoAndReqNo = cmdno+""+reqno;
 				CommonUtils.printBytes("Read", readBytes);
 				byte[] data = new byte[numRead - 2];
 				for (int i = 0; i < data.length; i++)
 					data[i] = readBytes[i + 2];
-				if (cmd == 36) {
+				if (cmdno == 36) {
 					byte numdevs = readBytes[2];
 					byte alldevs = (byte) 0xFF;
 					if (numdevs == alldevs) {
@@ -92,12 +93,12 @@ public class BtReceiver extends Thread {
 						CommonUtils.processMultipleNotification(readBytes, 0, notificationListener, null);
 					}
 					synchronized (lock) {
-						responseQueue.put(reqno, data);
+						responseQueue.put(cmdNoAndReqNo, data);
 						lock.notifyAll();
 					}
 				} else {
 					synchronized (lock) {
-						responseQueue.put(reqno, data);
+						responseQueue.put(cmdNoAndReqNo, data);
 						lock.notifyAll();
 					}
 				}

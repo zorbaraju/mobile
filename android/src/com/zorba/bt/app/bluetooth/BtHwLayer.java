@@ -95,7 +95,7 @@ public class BtHwLayer {
 	NotificationListener notificationListener = null;
 	boolean isBtTurnedOffManually = false;
 	Object lock = new Object();
-	HashMap<Integer, byte[]> responseQueue = new HashMap<Integer, byte[]>();
+	HashMap<String, byte[]> responseQueue = new HashMap<String, byte[]>();
 	boolean isConnected = false;
 	boolean isunregistered = true;
 	BroadcastReceiver mReceiver = null;
@@ -317,8 +317,9 @@ public class BtHwLayer {
 							byte[] data = new byte[values.length - 2];
 							for (int i = 0; i < data.length; i++)
 								data[i] = values[i + 2];
+							int cmd = values[0];
 							int reqno = values[1];
-							responseQueue.put(reqno, data);
+							responseQueue.put(cmd+""+reqno, data);
 							lock.notify();
 						}
 					}
@@ -533,17 +534,17 @@ public class BtHwLayer {
 		Logger.e(this.activity, "BtHwLayer", msg);
 	}
 
-	private byte[] getData(int reqno) {
+	private byte[] getData(String cmdNoAndReqNo) {
 		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
-			return iotConnection.getData(reqno);
+			return iotConnection.getData(cmdNoAndReqNo);
 		} else if (isWifi()) {
-			return receiver.getData(reqno);
+			return receiver.getData(cmdNoAndReqNo);
 		} else {
 			byte readbytes[] = null;
 			synchronized (lock) {
 				try {
 					lock.wait(5000);
-					readbytes = responseQueue.remove(reqno);
+					readbytes = responseQueue.remove(cmdNoAndReqNo);
 				} catch (InterruptedException e) {
 					System.out.println("Not able to get the readbytes from queue>"+e.getMessage());
 				}
@@ -596,10 +597,11 @@ public class BtHwLayer {
 		byte[] data = null;
 		int numRetries = 0;
 		while(numRetries<3){
+			byte cmdno = writeBytes[0];
+			String cmdNoAndReqNo = cmdno+""+reqno;
 			numRetries++;
-			System.err.println("retry count ... "+numRetries+ "   wating for "+(numRetries*20)+"ms");
 			this.writeBytes(writeBytes);
-			data = this.getData(reqno);
+			data = this.getData(cmdNoAndReqNo);
 			if( data == null) {
 				try {
 					//Thread.sleep(numRetries*5000);

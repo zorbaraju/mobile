@@ -163,8 +163,8 @@ public class AwsConnection {
 		mqttManager.publishData(bytes, macAddress+"/subscribe", AWSIotMqttQos.QOS0);
 	}
 	
-	public byte[] getData(int reqno) {
-		return receiver.getData(reqno);
+	public byte[] getData(String cmdNoAndReqNo) {
+		return receiver.getData(cmdNoAndReqNo);
 	}
 
 	public void enableNotificationForRoom(final IOTMessageListener messgeListener, final RoomData rd) {
