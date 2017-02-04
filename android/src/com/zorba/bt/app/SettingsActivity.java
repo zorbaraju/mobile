@@ -21,29 +21,34 @@ public class SettingsActivity extends ZorbaActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settingspanel);
 		TabView tabView = (TabView) findViewById(R.id.tabView1);
-		tabView.addTab("CHANGE TIME", R.layout.timesettings);
-		tabView.addTab("OUT OF HOME SETTINGS", R.layout.oohsettings);
+		tabView.addTab("TIME", R.layout.timesettings);
+		tabView.addTab("OOHO", R.layout.oohsettings);
 		//+spb 290117 for adding password page to settings page	tabView.addTab("ESB", R.layout.esbsettings);
-		tabView.addTab("GATEWAY SETTINGS", R.layout.gatewaysettings);
-		tabView.addTab("PASSWORD", R.layout.changepwd);//+spb 290117 for adding password page to settings page
-		tabView.selectTab("CHANGE TIME");
+		tabView.addTab("GATEWAY", R.layout.gatewaysettings);
+		tabView.addTab("SECURITY", R.layout.changepwd);//+spb 290117 for adding password page to settings page
+		//-spb 030217 for change time selected but time buttons not working  tabView.selectTab("CHANGE TIME");
+		//+spb 030217 for change time selected but time buttons not working 
+		tabView.selectTab("TIME");
+		timeSettings();
+		//+spb 030217 for change time selected but time buttons not working 
+		
 		OnClickListener listener = new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				String tn = ((Button) v).getText().toString();
-				if (tn.equals("CHANGE TIME"))
+				if (tn.equals("TIME"))
 					timeSettings();
-				else if (tn.equals("OUT OF HOME SETTINGS"))
+				else if (tn.equals("OOHO"))
 					oohSettings();
 				//+spb 290117 for adding password page to settings page
 				//else if (tn.equals("ESB"))
 					//esbSettings();
 				//+spb 290117 for adding password page to settings page
-				else if (tn.equals("GATEWAY SETTINGS"))
+				else if (tn.equals("GATEWAY"))
 					gatewaySettings();
 				//+spb 290117 for adding password page to settings page
-				else if (tn.equals("PASSWORD"))
+				else if (tn.equals("SECURITY"))
 					changepwdSettings();
 				//+spb 290117 for adding password page to settings page
 			}
@@ -52,21 +57,26 @@ public class SettingsActivity extends ZorbaActivity {
 	}
 
 	private void timeSettings() {
-		Button setButton = (Button) findViewById(R.id.setTimeButton);
-		Button getButton = (Button) findViewById(R.id.getTimeButton);
+		//-spb 030217 for check Button 		Button setButton = (Button) findViewById(R.id.setTimeButton);
+//-spb 030217 for check Button getButton = (Button) findViewById(R.id.getTimeButton);
 		final TextView timeLabel = (TextView) findViewById(R.id.timeLabel);
-		setButton.setOnClickListener(new ZorbaOnClickListener() {
+	//-spb 030217	setButton.setOnClickListener(new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.setTimeButton)).setOnClickListener(new ZorbaOnClickListener() {
+			
 			public void zonClick(View v) {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).setDateAndTime();
-					timeLabel.setText("Zorba Time is updated Successfully");
+					timeLabel.setText("Time updated successfully");
 				} catch (Exception e) {
 					timeLabel.setText("Error:" + e.getMessage());
 				}
 
 			}
 		});
-		getButton.setOnClickListener(new ZorbaOnClickListener() {
+	//-spb 030217 for check 	getButton.setOnClickListener(new ZorbaOnClickListener() {
+		//getButton.setOnClickListener(new ZorbaOnClickListener() {
+			((SvgView) this.findViewById(R.id.getTimeButton)).setOnClickListener(new ZorbaOnClickListener() {
+		
 			public void zonClick(View v) {
 				try {
 					timeLabel.setText("Get time cmd is being sent");
@@ -92,13 +102,18 @@ public class SettingsActivity extends ZorbaActivity {
 	}
 
 	private void oohSettings() {
-		Button enableOOHButton = (Button) findViewById(R.id.enableOOHButton);
-		Button readOOHButton = (Button) findViewById(R.id.readOOHStatusButton);
-		Button resetESBButton = (Button) findViewById(R.id.resetESBButton);//+spb 290117 for ecb shift to ooh
-			
+		
+		//-spb 030217
+		//Button enableOOHButton = (Button) findViewById(R.id.enableOOHButton);
+		//Button readOOHButton = (Button) findViewById(R.id.readOOHStatusButton);
+		//Button resetESBButton = (Button) findViewById(R.id.resetESBButton);//+spb 290117 for ecb shift to ooh
+		//-spb 030217	
 		final TextView oohStatusLabel = (TextView) findViewById(R.id.oohStatusLabel);
-		enableOOHButton.setOnClickListener(new ZorbaOnClickListener() {
-			public void zonClick(View v) {
+		
+		//-spb 030217 enableOOHButton.setOnClickListener(new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.enableOOHButton)).setOnClickListener(new ZorbaOnClickListener() {
+			
+		public void zonClick(View v) {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(!isOOHEnabled);
 				} catch (Exception e) {
@@ -109,8 +124,10 @@ public class SettingsActivity extends ZorbaActivity {
 			}
 		});
 
-		readOOHButton.setOnClickListener(new ZorbaOnClickListener() {
-			public void zonClick(View v) {
+	//-spb 030217	readOOHButton.setOnClickListener(new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.readOOHStatusButton)).setOnClickListener(new ZorbaOnClickListener() {
+
+		public void zonClick(View v) {
 				try {
 					isOOHEnabled = BtHwLayer.getInstance(SettingsActivity.this).readOOHStatus();
 					if (isOOHEnabled)
@@ -125,8 +142,10 @@ public class SettingsActivity extends ZorbaActivity {
 			}
 		});
 		
-		resetESBButton.setOnClickListener(new ZorbaOnClickListener() {
-			public void zonClick(View v) {
+//-spb 030217		resetESBButton.setOnClickListener(new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.resetESBButton)).setOnClickListener(new ZorbaOnClickListener() {
+
+		public void zonClick(View v) {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).resetESBCmd();
 				} catch (Exception e) {
@@ -158,17 +177,21 @@ public class SettingsActivity extends ZorbaActivity {
 
 	//+spb 290117 for adding password page to settings page
 	private void changepwdSettings() {
-		Button cancelButton = (Button)findViewById(R.id.cancelButton);
-		OnClickListener cancelListener = new ZorbaOnClickListener() {
-	         public void zonClick(View v) {
+	//-spb 030217	Button cancelButton = (Button)findViewById(R.id.cancelButton);
+	//-spb 030217	OnClickListener cancelListener = new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.cancelButton)).setOnClickListener(new ZorbaOnClickListener() {
+			
+		 public void zonClick(View v) {
 				finish();
 			}
-		};
-		cancelButton.setOnClickListener(cancelListener);
+		});
+		//-spb 030217 cancelButton.setOnClickListener(cancelListener);
 		
-		Button saveButton = (Button)findViewById(R.id.saveButton);
-		OnClickListener saveListener = new ZorbaOnClickListener() {
-	         public void zonClick(View v) {
+		//-spb 030217 Button saveButton = (Button)findViewById(R.id.saveButton);
+		//-spb 030217 OnClickListener saveListener = new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.saveButton)).setOnClickListener(new ZorbaOnClickListener() {
+			
+		 public void zonClick(View v) {
 				EditText currPwdText = (EditText)findViewById(R.id.currentPwdText);
 				EditText newPwdText = (EditText)findViewById(R.id.newPwdText);
 				EditText confirmPwdText = (EditText)findViewById(R.id.confirmPwdText);
@@ -188,23 +211,24 @@ public class SettingsActivity extends ZorbaActivity {
 				BtLocalDB.getInstance(SettingsActivity.this).setDevicePwd(newPwdText.getText().toString());
 				finish();
 			}
-		};
-		saveButton.setOnClickListener(saveListener);
+		});
+		//-spb 030217 saveButton.setOnClickListener(saveListener);
 	}
-	
-
-
 	//+spb 290117 for adding password page to settings page
 	
-	
-	
-	
+
 
 	private void gatewaySettings() {
-		Button setGatewayIPButton = (Button) findViewById(R.id.setGatewayIPButton);
+		
+		//-spb 030217 Button setGatewayIPButton = (Button) findViewById(R.id.setGatewayIPButton);
 		final EditText gatewaylabel = (EditText) findViewById(R.id.gatewaylabel);
-		setGatewayIPButton.setOnClickListener(new ZorbaOnClickListener() {
-			public void zonClick(View v) {
+		
+		//-spb 030217	setButton.setOnClickListener(new ZorbaOnClickListener() {
+		
+			//-spb 030217 setGatewayIPButton.setOnClickListener(new ZorbaOnClickListener() {
+		((SvgView) this.findViewById(R.id.setGatewayIPButton)).setOnClickListener(new ZorbaOnClickListener() {
+			
+		public void zonClick(View v) {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).setGatewayIPCmd(gatewaylabel.getText().toString());
 				} catch (Exception e) {

@@ -12,7 +12,7 @@ public class SchedulerData {
    int min = 0;
    String schedulerType = "";
    public static String schedulerTypes[] = {
-		   "Master", "Schedule"
+		   "Master  ", "Schedule  "
    };
    public static int imageResIds[] = {
 		   R.raw.sch_master, R.raw.sch_alarm

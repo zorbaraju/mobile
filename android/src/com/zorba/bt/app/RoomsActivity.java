@@ -1269,11 +1269,6 @@ public class RoomsActivity extends ZorbaActivity
 	private void enableMainActivityOnDeviceConfig(boolean enableConfigMode) {
 		System.out.println("enableMainActivityOnDeviceConfig: " + enableConfigMode);
 		isInConfigDeviceMode = enableConfigMode;
-
-		// +spb 270117 for alert box
-		if (isInConfigDeviceMode)
-			CommonUtils.AlertBox(this, "You are in config mode", "Press back to exit this menu");
-		// +spb 270117 for alert box
 		lightsPanel.enableEditMode(isInConfigDeviceMode);
 		devicePanel.enableEditMode(isInConfigDeviceMode);
 		groupPanel.enableEditMode(isInConfigDeviceMode);

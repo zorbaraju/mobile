@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    
+    android:layout_height="fill_parent"  
     android:orientation="vertical" >
     
     <!-- spb 280117 for heading of general settings page -->
@@ -25,7 +24,8 @@
         android:id="@+id/tabButtonView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        
        
         >
 <!-- spb 290117 for padding=35 and next padding=10 -->
@@ -34,8 +34,9 @@
     <LinearLayout
         android:id="@+id/tabContentView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
+       
          >
 
     </LinearLayout>

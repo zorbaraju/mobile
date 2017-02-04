@@ -42,7 +42,7 @@ public class SelectComp extends LinearLayout {
          var5.setTextColor(Color.parseColor(CommonUtils.SWITCHTEXT_COLOR));
          var5.setSwitchTextAppearance(getContext(), 0);
          var5.getThumbDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
-         var5.getTrackDrawable().setColorFilter(Color.parseColor(CommonUtils.SEEKBAR_COLOR), PorterDuff.Mode.SRC_IN);
+         var5.getTrackDrawable().setColorFilter(Color.DKGRAY, PorterDuff.Mode.SRC_IN);
          var5.setGravity(17);
          this.view = var5;
          var5.setOnTouchListener(new OnTouchListener() {

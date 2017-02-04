@@ -46,7 +46,7 @@
                 android:background="@layout/textedit"
                 android:hint="          Enter your email          "
                 android:textSize="21.0sp"
-                android:text="r" >
+                android:text="" >
 
                 <requestFocus />
             </EditText>

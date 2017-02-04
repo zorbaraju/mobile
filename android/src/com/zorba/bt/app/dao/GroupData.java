@@ -7,7 +7,7 @@ public class GroupData {
 	String name = "";
 	String groupType = "";
 	public static String groupTypes[] = {
-			   "Master", "Dinner", "Party", "Relax", "Romantic"
+			   "Master  ", "Dinner  ", "Party  ", "Relax  ", "Romantic  "
 	   };
 	public static int imageResIds[] = {
 			   R.raw.master, R.raw.dinner, R.raw.party, R.raw.relax, R.raw.romantic

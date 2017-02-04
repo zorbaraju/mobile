@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:id="@id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+     android:background="@drawable/new_welcome_back_check2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+          android:paddingTop="60.0dip">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16.0sp"
+                android:textSize="18.0sp"
                 android:textColor="#ffffff"
                 android:text="Current Password  " />
 
@@ -39,7 +42,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16.0sp"
+                android:textSize="18.0sp"
                 android:textColor="#ffffff"
                 android:text="New Password       " />
 
@@ -60,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16.0sp"
+                android:textSize="18.0sp"
                 android:textColor="#ffffff"
                 android:text="Confirm Password " />
 
@@ -76,8 +79,10 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent" 
+        >
 
+        <!-- spb 030217 
         <Button
             android:id="@+id/saveButton"
             style="?android:attr/buttonStyleInset"
@@ -98,7 +103,25 @@
             android:layout_marginLeft="200.0dip"
             android:background="#ff9400"
             android:text="Cancel" />
+ -->
+ 
+     <com.zorba.bt.app.SvgView
+            android:id="@+id/saveButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="15.0dip"
+            app:svgviewsrc="@raw/savepass" />
 
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/cancelButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="15.0dip"
+            app:svgviewsrc="@raw/cancelpass" />
     </LinearLayout>
 
 </LinearLayout>

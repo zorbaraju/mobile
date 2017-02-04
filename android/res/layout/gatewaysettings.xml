@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:layout_gravity="right"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+     android:background="@drawable/new_welcome_back_check2" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_gravity="center"
         android:layout_marginLeft="25.0dip"
         android:layout_marginRight="25.0dip"
@@ -22,6 +24,10 @@
             android:layout_centerVertical="true"
             android:hint="Enter IP eg: 192.168.0.1" />
 
+        
+         <!--
+        spb 030217 for custom button 
+        
         <Button
             android:id="@+id/setGatewayIPButton"
             style="?android:attr/buttonStyleInset"
@@ -32,6 +38,18 @@
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
             android:text="Set IP Gateway" />
+            
+            -->
+               <com.zorba.bt.app.SvgView
+            android:id="@+id/setGatewayIPButton"
+            android:layout_width="150.0dip"
+            android:layout_height="90.0dip"
+            android:layout_toRightOf="@id/gatewaylabel"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="Set IP Gateway"
+            app:svgviewsrc="@raw/gateway" />
+            
     </RelativeLayout>
 
 </LinearLayout>

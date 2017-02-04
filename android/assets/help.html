@@ -53,15 +53,15 @@ ul.tab li a:focus, .active {
 
 	<ul class="tab">
 		<li><a href="javascript:void(0)" class="tablinks "
+			onclick="openCity(event, 'Video')">Video</a></li>
+		<li><a href="javascript:void(0)" class="tablinks"
+			onclick="openCity(event, 'FAQs')">FAQs</a></li>
+		<li><a href="javascript:void(0)" class="tablinks"
 			onclick="openCity(event, 'Contact')">Contact</a></li>
-		<li><a href="javascript:void(0)" class="tablinks"
-			onclick="openCity(event, 'About')">About</a></li>
-		<li><a href="javascript:void(0)" class="tablinks"
-			onclick="openCity(event, 'Help')">Help</a></li>
 		<li><a href="javascript:void(0)" class="tablinks"
 			onclick="openCity(event, 'Config')">Config</a></li>
 	    <li><a href="javascript:void(0)" class="tablinks"
-			onclick="openCity(event, 'FAQs')">FAQs</a></li>		
+			onclick="openCity(event, 'About')">About</a></li>		
 	</ul>
 
 	<div id="Contact" class="tabcontent">
@@ -92,13 +92,14 @@ ul.tab li a:focus, .active {
 		<p>FAQs listed here</p>
 	</div>
 		
-	<div id="Help" class="tabcontent">
-		<h3>Help</h3>
+	<div id="Video" class="tabcontent">
+		<h3>Video</h3>
 		<html>
 <body>
 	Refer to below videos as your guide
 	<br>
 	<br>
+	<h3>Video for Adding device</h3>
 	<a
 		href="https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&sqi=2&ved=0ahUKEwjRtfatk97RAhXLkJQKHd0zB8cQyCkIHDAA&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D30tnmyzgRSI&usg=AFQjCNGdia2FejNTeWCqV9bgO2HWoNvIzA&sig2=gR5K9xRqticL9KoOOG7gCw&bvm=bv.145063293,d.dGo">Add Zorba Rooms</a>
 	
@@ -121,7 +122,7 @@ ul.tab li a:focus, .active {
 				tablinks = document.getElementsByClassName("tablinks");
 				tablinks[0].className = tablinks[0].className.replace(
 						" active", "");
-				document.getElementById('Contact').style.display = "block";
+				document.getElementById('Video').style.display = "block";
 				tablinks[0].className += " active";
 			} else {
 				var i, tabcontent, tablinks;
@@ -138,7 +139,7 @@ ul.tab li a:focus, .active {
 				evt.currentTarget.className += " active";
 			}
 		}
-		openCity('', 'Contact');
+		openCity('', 'Video');
 	</script>
 
 </body>

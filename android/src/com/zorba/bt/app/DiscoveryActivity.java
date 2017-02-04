@@ -288,7 +288,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 					System.out.println("Added room in configured panel");
 					addRoomButton(createdRoom);
 					//+spb 020217 for popup msg after room addition
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Room Added Successfully", "Kindly close and re-open the app");
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Success !", "Device added successfully.     Kindly restart Zorba app and add switches using 'Configure Zorba' in menu");
 					//+spb 020217 for popup msg after room addition
 					saveButton.setEnabled(false);
 				}
@@ -520,7 +520,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		this.runOnUiThread(new Runnable() {
 			public void run() {
 				((TextView) DiscoveryActivity.this.findViewById(R.id.controllerValue))
-				.setText("Search Complete     ");
+				.setText("Search Complete         ");
 				((SvgView) DiscoveryActivity.this.findViewById(R.id.spinnertriangle)).setVisibility(0);
 				DiscoveryActivity.this.little.stop();
 				saveButton.setEnabled(true);

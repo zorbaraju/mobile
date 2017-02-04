@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10.0dip"
-            android:text="ADD DEVICE"
+            android:text="ADD  DEVICE"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
     </LinearLayout>
@@ -50,8 +50,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/addroom"
         android:layout_gravity="center"
-        android:orientation="horizontal"
         android:layout_marginLeft="10.0dip"
+        android:orientation="horizontal"
         android:paddingBottom="15.0dip"
         android:paddingTop="15.0dip" >
 
@@ -61,9 +61,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:button="@drawable/checkbox_custom_01"
+            android:text="  Bluetooth  "
+            android:textColor="#fff7f2ed"
             android:textSize="15.0sp"
-             android:textStyle="bold"
-            android:text="   Bluetooth  " />
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/wifirdiscovery"
@@ -72,9 +73,10 @@
             android:layout_gravity="center"
             android:button="@drawable/checkbox_custom_01"
             android:checked="false"
-             android:textSize="15.0sp"
-              android:textStyle="bold"
-            android:text="   Wifi Router  " />
+            android:text="  Wifi Router  "
+            android:textColor="#fff7f2ed"
+            android:textSize="15.0sp"
+            android:textStyle="bold" />
 
         <RadioButton
             android:id="@+id/wifiapdiscovery"
@@ -83,9 +85,10 @@
             android:layout_gravity="right"
             android:button="@drawable/checkbox_custom_01"
             android:checked="true"
-             android:textSize="15.0sp"
-              android:textStyle="bold"
-            android:text="   Wifi AP  " />
+            android:text="  Wifi Direct  "
+            android:textColor="#fff7f2ed"
+            android:textSize="15.0sp"
+            android:textStyle="bold" />
     </RadioGroup>
 
     <CheckBox
@@ -98,6 +101,7 @@
         android:gravity="center"
         android:text="First discovery on Router?"
         android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="#fff7f2ed"
         android:visibility="gone" />
 
     <LinearLayout
@@ -106,51 +110,41 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/isfirstdiscovery"
         android:layout_gravity="center" >
-        
-     
-   
-          <ImageView
-        android:id="@id/loadingImage"
-        android:layout_width="40.0dip"
-        android:layout_height="40.0dip"        
-        android:layout_gravity="center"
-        android:layout_marginBottom="5.0dip"
-        android:layout_marginTop="5.0dip"
-        android:layout_marginLeft="10.0dip"
-        android:layout_marginRight="10.0dip"
-        android:gravity="center" />
-          
-          
+
+        <ImageView
+            android:id="@id/loadingImage"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5.0dip"
+            android:layout_marginLeft="7.0dip"
+            android:layout_marginRight="10.0dip"
+            android:layout_marginTop="5.0dip"
+            android:gravity="center" />
+
         <TextView
             android:id="@id/controllerValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10.0dip"
             android:layout_centerInParent="false"
             android:layout_gravity="center"
+            android:layout_marginRight="10.0dip"
             android:layout_toRightOf="@id/loadingImage"
-            android:textColor="#ff9400"
-            android:textSize="20.0sp"
-            android:text="  Kindly select mode"
-           
-            android:textAppearance="?android:textAppearanceMedium" />
-        
-        
-            <com.zorba.bt.app.SvgView
+            android:text="  Kindly select mode    "
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#666666"
+            android:textSize="20.0sp" />
+
+        <com.zorba.bt.app.SvgView
             android:id="@id/spinnertriangle"
             android:layout_width="80.0dip"
             android:layout_height="40.0dip"
-             android:layout_gravity="center"
-            android:layout_centerVertical="true"       
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:layout_marginRight="10.0dip"
-            app:svgviewsrc="@raw/refresh_discovery" />
-        
-          
-          
+            app:svgviewsrc="@raw/search_discovery" />
               />
     </LinearLayout>
-
-  
 
     <!--
 spb 110117 for removing black background
@@ -186,9 +180,10 @@ android:background="#ff131b22"
             android:id="@+id/devPwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
             android:text="Device Password"
-             android:layout_marginLeft="10.0dip"
             android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#ffa8a6a3"
             android:textSize="20.0sp" />
 
         <EditText
@@ -197,7 +192,7 @@ android:background="#ff131b22"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
             android:layout_marginRight="10.0dip"
-            android:background="#ff3d3d3d"
+            android:background="#ff2b2b2b"
             android:ems="10"
             android:inputType="textPassword"
             android:textAppearance="?android:textAppearanceMedium"
@@ -217,9 +212,10 @@ android:background="#ff131b22"
             android:id="@+id/wifiPwdLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_marginLeft="10.0dip"
-            android:text="Wifi Password     "
+            android:layout_marginLeft="10.0dip"
+            android:text="Router Password"
             android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="#ffa8a6a3"
             android:textSize="20.0sp" />
 
         <EditText
@@ -228,7 +224,7 @@ android:background="#ff131b22"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
             android:layout_marginRight="10.0dip"
-            android:background="#ff3d3d3d"
+            android:background="#ff2b2b2b"
             android:ems="10"
             android:inputType="textPassword"
             android:textAppearance="?android:textAppearanceMedium"
@@ -238,14 +234,16 @@ android:background="#ff131b22"
     <Button
         android:id="@id/savebutton"
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="300dp"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@id/wifiInfoPanel"
         android:layout_gravity="center"
-        android:textStyle="bold"
-        android:text="SAVE"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="5dp"
         android:background="#ff403c3a"
-        android:layout_centerInParent="true"
+        android:text="SAVE"
         android:textSize="18.0sp" />
 
     <LinearLayout
@@ -260,9 +258,9 @@ android:background="#ff131b22"
             android:id="@id/textlistmenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10.0dip"
             android:layout_centerVertical="true"
-            android:text="AVAILABLE DEVICES"
+            android:layout_marginLeft="10.0dip"
+            android:text="ADDED  DEVICES"
             android:textAppearance="?android:textAppearanceMedium"
             android:textSize="20.0sp" />
 
@@ -272,8 +270,8 @@ android:background="#ff131b22"
             android:layout_height="40.0dip"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="left"
-            android:layout_marginRight="5.0dip"
+            android:layout_marginLeft="50.0dip"
+            android:layout_marginRight="10.0dip"
             android:background="@android:color/transparent"
             android:visibility="gone"
             app:svgviewsrc="@raw/minus" />
@@ -283,8 +281,8 @@ android:background="#ff131b22"
         android:id="@id/roomscontent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10.0dip"
         android:layout_below="@id/configuredroomslayout"
+        android:layout_marginLeft="10.0dip"
         android:minWidth="100.0dip"
         android:paddingTop="10.0dip"
         app:elementSpacing="1.0dip"
