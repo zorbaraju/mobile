@@ -9,6 +9,7 @@
         android:id="@+id/tabView1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
+        android:background="@drawable/new_welcome_back_check2"
     />
 
 </LinearLayout>

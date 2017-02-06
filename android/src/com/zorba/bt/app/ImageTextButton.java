@@ -52,7 +52,7 @@ public class ImageTextButton extends LinearLayout {
          this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else if(var1 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
@@ -67,7 +67,7 @@ public class ImageTextButton extends LinearLayout {
          this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else if(var2 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#ffffff"));
+         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));

@@ -139,8 +139,8 @@
             android:id="@id/spinnertriangle"
             android:layout_width="80.0dip"
             android:layout_height="40.0dip"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_gravity="center"
             android:layout_marginRight="10.0dip"
             app:svgviewsrc="@raw/search_discovery" />
               />

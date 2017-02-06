@@ -288,7 +288,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 					System.out.println("Added room in configured panel");
 					addRoomButton(createdRoom);
 					//+spb 020217 for popup msg after room addition
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Success !", "Device added successfully.     Kindly restart Zorba app and add switches using 'Configure Zorba' in menu");
+					CommonUtils.AlertBox(DiscoveryActivity.this, "Device added successfully !", "Kindly restart app and add switches using 'Configure Zorba'");
 					//+spb 020217 for popup msg after room addition
 					saveButton.setEnabled(false);
 				}

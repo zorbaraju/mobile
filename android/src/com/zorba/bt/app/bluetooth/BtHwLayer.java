@@ -377,7 +377,8 @@ public class BtHwLayer {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "Authentication Error "+e.getMessage();
+			//-spb 060217 for aligning error return "Authentication Error "+e.getMessage();
+			return "Authentication Error 1 ";
 		}
 		if(macaddress != null) {
 			CommonUtils.getInstance().writeLog("macaddress used is : "+macaddress);

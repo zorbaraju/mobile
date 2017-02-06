@@ -7,6 +7,21 @@
     android:background="@drawable/new_welcome_back_check2"
     android:orientation="vertical" >
 
+        <!-- spb 060217 for heading of individual settings page -->
+
+   <TextView
+       android:id="@id/cbox"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_centerInParent="true"
+       android:background="@android:color/transparent"
+       android:paddingBottom="10.0dip"
+       android:paddingLeft="10.0dip"
+       android:paddingTop="15.0dip"
+       android:text="Out Of Home Settings"
+       android:textColor="#ffffffff"
+       android:textSize="20.0sp" />
+    
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -45,8 +60,10 @@
             android:layout_below="@id/resetESBButton"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:paddingTop="10.0dip"
+            
             android:text="Status is ON"
-            android:textColor="#ffffff"
+            android:textColor="#ff9400"
             android:textSize="18.0sp" />
 
         <!--

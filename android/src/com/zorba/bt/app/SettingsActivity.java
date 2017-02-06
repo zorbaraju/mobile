@@ -5,6 +5,7 @@ import java.util.Calendar;
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.db.BtLocalDB;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,7 +69,8 @@ public class SettingsActivity extends ZorbaActivity {
 					BtHwLayer.getInstance(SettingsActivity.this).setDateAndTime();
 					timeLabel.setText("Time updated successfully");
 				} catch (Exception e) {
-					timeLabel.setText("Error:" + e.getMessage());
+					//-spb 060217 for aligning error  timeLabel.setText("Error:" + e.getMessage());
+					timeLabel.setText("Error:No connection with the device");
 				}
 
 			}
@@ -93,7 +95,8 @@ public class SettingsActivity extends ZorbaActivity {
 					String currentDateandTime = sdf.format(cal.getTime());
 					timeLabel.setText(currentDateandTime);
 				} catch (Exception e) {
-					timeLabel.setText("Error:" + e.getMessage());
+					//-spb 060217 for aligning error  timeLabel.setText("Error:" + e.getMessage());
+					timeLabel.setText("Error:No connection with the device");
 				}
 
 			}
@@ -117,7 +120,8 @@ public class SettingsActivity extends ZorbaActivity {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(!isOOHEnabled);
 				} catch (Exception e) {
-					CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", e.getMessage());
+					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", e.getMessage());
+					CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", "OOH is disabled");
 				}
 				//esbSettings();
 
@@ -135,8 +139,10 @@ public class SettingsActivity extends ZorbaActivity {
 					else
 						oohStatusLabel.setText("Status is Off");
 				} catch (Exception e) {
-					oohStatusLabel.setText("Error:" + e.getMessage());
-					CommonUtils.AlertBox(SettingsActivity.this, "Read Error", e.getMessage());
+					//-spb 060217 for aligning error oohStatusLabel.setText("Error:" + e.getMessage());
+					oohStatusLabel.setText("Error: No connection with the device");
+					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Read Error", e.getMessage());
+					CommonUtils.AlertBox(SettingsActivity.this, "Read Error", "AWS connection error");
 				}
 
 			}
@@ -149,7 +155,8 @@ public class SettingsActivity extends ZorbaActivity {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).resetESBCmd();
 				} catch (Exception e) {
-					CommonUtils.AlertBox(SettingsActivity.this, "Reset Error", e.getMessage());
+					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Reset Error", e.getMessage());
+					CommonUtils.AlertBox(SettingsActivity.this, "Reset Error","Unable to reset the ESB");
 				}
 
 			}
@@ -232,7 +239,8 @@ public class SettingsActivity extends ZorbaActivity {
 				try {
 					BtHwLayer.getInstance(SettingsActivity.this).setGatewayIPCmd(gatewaylabel.getText().toString());
 				} catch (Exception e) {
-					CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", e.getMessage());
+					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", e.getMessage());
+					CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", "Unable to set Gateway");
 				}
 
 			}

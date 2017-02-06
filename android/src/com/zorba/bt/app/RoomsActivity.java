@@ -173,6 +173,7 @@ public class RoomsActivity extends ZorbaActivity
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
 			TextView countview = (TextView) findViewById(R.id.onDeviceCount);
 			countview.setOnClickListener(new OnClickListener() {
 
@@ -186,9 +187,9 @@ public class RoomsActivity extends ZorbaActivity
 				}
 			});
 
+		
 			TextView countlabel = (TextView) findViewById(R.id.countlabel);
 			countlabel.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					CommonUtils.increateCount(v);
@@ -249,6 +250,7 @@ public class RoomsActivity extends ZorbaActivity
 	public void onBackPressed() {
 		if (isInConfigDeviceMode) {
 			enableMainActivityOnDeviceConfig(false);
+			updateDeviceCount();//+spb 060217 for indication of device config mode
 			return;
 		}
 		CommonUtils.getInstance().deleteLog();
@@ -573,10 +575,13 @@ public class RoomsActivity extends ZorbaActivity
 									showDeleteButton(false);
 									return;
 								} catch (Exception paramAnonymous2DialogInterfacee) {
-									CommonUtils.AlertBox(RoomsActivity.this, "Delete Scheduler",
-											"Not able to send delete schedule("
-													+ RoomsActivity.this.selectedScheduleName + "): "
-													+ paramAnonymous2DialogInterfacee.getMessage());
+									//-spb 060217 for aligning error 
+									// CommonUtils.AlertBox(RoomsActivity.this, "Delete Scheduler",
+									//		"Not able to send delete schedule("
+									//				+ RoomsActivity.this.selectedScheduleName + "): "
+									//				+ paramAnonymous2DialogInterfacee.getMessage());
+									CommonUtils.AlertBox(RoomsActivity.this, "Delete Schedular",
+													"Not able to delete schedular");
 								}
 							}
 						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -683,7 +688,18 @@ public class RoomsActivity extends ZorbaActivity
 
 	protected void updateDeviceCount() {
 		int i = BtLocalDB.getInstance(RoomsActivity.this).getDevicesOnCount();
-		((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
+		//+spb 060217 for indication of device config mode
+		if(isInConfigDeviceMode)
+		{
+			((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);			
+			((TextView) findViewById(R.id.onDeviceCount)).setText("CONFIG MODE ON : PRESS BACK TO EXIT");
+		}
+		else
+		{
+			((TextView) findViewById(R.id.onDeviceCount)).setTextSize(20);
+		    ((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
+		}
+		//+spb 060217 for indication of device config mode
 	}
 
 	private void singleClickButton(final int devid, final String devtype, ImageTextButton paramImageTextButton) {
@@ -717,7 +733,8 @@ public class RoomsActivity extends ZorbaActivity
 						return null;
 					} catch (Exception paramString1) {
 						paramString1.printStackTrace();
-						CommonUtils.AlertBox(RoomsActivity.this, "Read Error", paramString1.getMessage());
+						//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Read Error", paramString1.getMessage());
+						CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Data on, wifi off error");
 					}
 					return null;
 				}
@@ -776,7 +793,8 @@ public class RoomsActivity extends ZorbaActivity
 					RoomsActivity.this.groupStatusMap.remove(groupName);
 					localImageTextButton.changeDeviceButtonStyle(-1);
 					localImageTextButton.setBackgroundImage(groupData.getImageResId());
-					CommonUtils.AlertBox(RoomsActivity.this, "Read Error", e.getMessage());
+					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Read Error", e.getMessage());
+					CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Device is Off ");
 				}
 			}
 		});
@@ -896,7 +914,8 @@ public class RoomsActivity extends ZorbaActivity
 			// -spb 010217 for error msg chg CommonUtils.AlertBox(this, "Read
 			// Error", "Error in reading command:" +
 			// paramImageTextButtone.getMessage());
-			CommonUtils.AlertBox(this, "Read Error", "Error in reading command:" + paramImageTextButtone.getMessage());
+			//-spb 060217 for aligning error CommonUtils.AlertBox(this, "Read Error", "Error in reading command:" + paramImageTextButtone.getMessage());
+			CommonUtils.AlertBox(this, "Read Error", "Error in reading command:Communication Error" );
 		}
 	}
 
@@ -975,10 +994,12 @@ public class RoomsActivity extends ZorbaActivity
 						isUpdate = true;
 					} catch (Exception e) {
 						isUpdate = false;
-						CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
+						//-spb 060217 for aligning error  CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
+						  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error 2","Error 2");
 					}
 				} else {
-					CommonUtils.AlertBox(RoomsActivity.this, "Connection", error);
+					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Connection", error);
+					CommonUtils.AlertBox(RoomsActivity.this, "Connection Error 3","Error 3");
 					connectionLost();
 					return null;
 				}
@@ -1286,7 +1307,8 @@ public class RoomsActivity extends ZorbaActivity
 					int numberOfDevices = btHwLayer.getNumberOfDevices();
 					CommonUtils.setMaxNoDevices(numberOfDevices);
 				} catch (Exception e) {
-					CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
+					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
+					CommonUtils.AlertBox(RoomsActivity.this, "Connection 4", "Error 4");
 				}
 				this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
 				this.roomDataList.remove(0);

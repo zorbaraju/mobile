@@ -67,6 +67,7 @@ public class TabView extends LinearLayout {
 		LinearLayout buttonLayout = (LinearLayout)findViewById(R.id.tabButtonView);
 		Button button = new Button(getContext());
 		button.setText(tabName);
+		button.setBackgroundColor(Color.TRANSPARENT);//+spb 060217 
 		buttonLayout.addView(button);
 		
 		View view = (View) ((LayoutInflater)getContext().getSystemService("layout_inflater")).inflate(layoutid, null);
@@ -83,6 +84,8 @@ public class TabView extends LinearLayout {
 				String tn = ((Button)v).getText().toString();
 				selectTab(tn);
 				listener.onClick(v);
+			
+
 			}
 		});
 		
@@ -90,8 +93,10 @@ public class TabView extends LinearLayout {
 	
 	public void selectTab(String tn){
 		LinearLayout contentLayout = (LinearLayout)findViewById(R.id.tabContentView);
+		
 		contentLayout.removeAllViews();
 		contentLayout.addView(contentMap.get(tn), 0);
+	 
 		
 	}
 

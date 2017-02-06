@@ -260,7 +260,8 @@ public class AwsIotActivity extends ZorbaActivity {
                 tvLastMessage.setText("");
             } catch (final Exception e) {
                 Log.e(LOG_TAG, "Connection error.", e);
-                tvStatus.setText("Error! " + e.getMessage());
+              //-spb 060217 for aligning error tvStatus.setText("Error! " + e.getMessage());
+                tvStatus.setText("Error! Connection Error");
             }
         }
     };
