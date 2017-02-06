@@ -697,7 +697,7 @@ public class RoomsActivity extends ZorbaActivity
 		else
 		{
 			((TextView) findViewById(R.id.onDeviceCount)).setTextSize(20);
-		    ((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
+			((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
 		}
 		//+spb 060217 for indication of device config mode
 	}
@@ -895,6 +895,7 @@ public class RoomsActivity extends ZorbaActivity
 
 				@Override
 				public void onStopTrackingTouch(SeekBar seekBar) {
+					updateDeviceCount();//+spb 060217 for device count not getting updated on dimmer change from off to on
 
 				}
 			});
@@ -1181,6 +1182,7 @@ public class RoomsActivity extends ZorbaActivity
 					RoomsActivity.this.devicePanel.resetButtonInPanel(false);
 					RoomsActivity.this.groupPanel.resetButtonInPanel(true);
 					setConnectionModeIcon(CommonUtils.CONNECTION_OFFLINE);
+		
 				}
 			}
 		});
@@ -1196,6 +1198,11 @@ public class RoomsActivity extends ZorbaActivity
 			aboutButton.setImageResource(R.raw.wifi);
 		else if (connectionType == CommonUtils.CONNECTION_DATA)
 			aboutButton.setImageResource(R.raw.oho);
+		
+		//+spb 060217 indication of lost connection and msg
+		((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);			
+		((TextView) findViewById(R.id.onDeviceCount)).setText("PRESS ANY SWITCH TO GET CONNECTION BACK");
+		//+spb 060217 indication of lost connection and msg
 	}
 
 	private void testExtras() {
