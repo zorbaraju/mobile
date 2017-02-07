@@ -39,7 +39,7 @@ public class BtLocalDB {
 		ArrayList<RoomData> roomList = getRoomList();
 		roomList.remove(0);
 		for(RoomData room: roomList) {
-			buf.append("<b><u>Room </b></u>: "+room.getName()+"<br/><b><u>Device List</b></u><br/>");
+			buf.append("<b><u>Room </b></u>: "+room.getName()+"<br/><b><u>Connection Details</b></u><br/>");
 			ArrayList<DeviceData> deviceList = getDevices(room.getDeviceName(), null);
 			for(DeviceData deviceData: deviceList) {
 				if( deviceData.getName().startsWith("Unknown "))

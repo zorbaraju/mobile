@@ -49,10 +49,10 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(this.deviceType, var1));
       if(var1 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
+         this.labelText.setTextColor(Color.parseColor("#505050"));//a8a6a3
       } else if(var1 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
+         this.labelText.setTextColor(Color.parseColor("#505050"));//a8a6a3         
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
@@ -64,10 +64,10 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(devtype, var2));
       if(var2 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
+         this.labelText.setTextColor(Color.parseColor("#505050"));
       } else if(var2 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#a8a6a3"));
+         this.labelText.setTextColor(Color.parseColor("#505050"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));

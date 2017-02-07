@@ -45,6 +45,7 @@ public class CommonUtils {
 	public static final String SEEKBAR_COLOR = "#ff9400";
 	public static final String DIMMER_DIALOG_COLOR = "#67615e";//+spb 2700117 for dimmer dialog color
 	public static final String DIMMER_SEEKBAR_COLOR = "#f7f2ed";//+spb 2700117 for seekbar color in room page
+	public static final String NO_CONNECTION_TAP_SWITCH_COLOR = "#1e1e1e";//+spb 060217 for text col chg
 	public static final String TABSWITCH = "Switches";
 	public static final String TABDIMMABLES = "Dimmables";
 	
@@ -124,9 +125,9 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("Dimmable Light")) {
          if(var1 <= 0) {
-            var2 = R.raw.chandelier_off;
+            var2 = R.raw.chandlier_off;
          } else {
-            var2 = R.raw.chandelier_on;
+            var2 = R.raw.chandlier_on;
          }
       } else if(var0.startsWith("Tube Light")) {
          if(var1 <= 0) {
@@ -136,9 +137,9 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("Chandlier")) {
          if(var1 <= 0) {
-            var2 = R.raw.chandelier_off;
+            var2 = R.raw.chandlier_off;
          } else {
-            var2 = R.raw.chandelier_on;
+            var2 = R.raw.chandlier_on;
          }
       } else if(var0.startsWith("Deco Light")) {
          if(var1 <= 0) {
@@ -214,9 +215,9 @@ public class CommonUtils {
          }
       } else if(var0.startsWith("Led")) {
          if(var1 <= 0) {
-            var2 = R.raw.led_off;
+            var2 = R.raw.light_off;
          } else {
-            var2 = R.raw.led_on;
+            var2 = R.raw.light_on;
          }
       } else if(var0.startsWith("Socket")) {
          if(var1 <= 0) {

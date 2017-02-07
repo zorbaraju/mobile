@@ -691,11 +691,13 @@ public class RoomsActivity extends ZorbaActivity
 		//+spb 060217 for indication of device config mode
 		if(isInConfigDeviceMode)
 		{
+			((TextView) findViewById(R.id.onDeviceCount)).setTextColor(Color.parseColor(CommonUtils.SEEKBAR_COLOR));//+spb 060217 for no connection text col chg
 			((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);			
 			((TextView) findViewById(R.id.onDeviceCount)).setText("CONFIG MODE ON : PRESS BACK TO EXIT");
 		}
 		else
 		{
+			((TextView) findViewById(R.id.onDeviceCount)).setTextColor(Color.parseColor(CommonUtils.SEEKBAR_COLOR));//+spb 060217 for no connection text col chg
 			((TextView) findViewById(R.id.onDeviceCount)).setTextSize(20);
 			((TextView) findViewById(R.id.onDeviceCount)).setText("" + i);
 		}
@@ -1200,7 +1202,8 @@ public class RoomsActivity extends ZorbaActivity
 			aboutButton.setImageResource(R.raw.oho);
 		
 		//+spb 060217 indication of lost connection and msg
-		((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);			
+		((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);		
+		((TextView) findViewById(R.id.onDeviceCount)).setTextColor(Color.parseColor(CommonUtils.NO_CONNECTION_TAP_SWITCH_COLOR));//+spb 060217 for no connection text col chg
 		((TextView) findViewById(R.id.onDeviceCount)).setText("PRESS ANY SWITCH TO GET CONNECTION BACK");
 		//+spb 060217 indication of lost connection and msg
 	}

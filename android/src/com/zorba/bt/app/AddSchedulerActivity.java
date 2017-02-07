@@ -280,7 +280,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
             AddSchedulerActivity.this.repeatTypeChanged();
          }
       });
-      var2.setMenuItems(new String[]{"Once", "Daily", "Weekly"});
+      var2.setMenuItems(new String[]{"Once    ", "Daily   ", "Weekly  "});
       MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
       listDialog.setMenu(SchedulerData.schedulerTypes, SchedulerData.imageResIds);
       this.populateSchedulers();

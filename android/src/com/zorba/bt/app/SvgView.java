@@ -27,7 +27,7 @@ public class SvgView extends LinearLayout {
 		iv = (ImageView) this.findViewById(R.id.svgimageview);
 
 		try {
-			this.svgimageid = typearr.getResourceId(R.styleable.SvgView_svgviewsrc, R.raw.g1);
+			this.svgimageid = typearr.getResourceId(R.styleable.SvgView_svgviewsrc, R.raw.unknown);
 			SVG svg = SVGParser.getSVGFromResource(getResources(), svgimageid);
 			// Needed because of image accelaration in some devices such as
 			// samsung
