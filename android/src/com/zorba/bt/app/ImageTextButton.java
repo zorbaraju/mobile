@@ -49,10 +49,10 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(this.deviceType, var1));
       if(var1 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#505050"));//a8a6a3
+         this.labelText.setTextColor(Color.parseColor("#606060"));//a8a6a3
       } else if(var1 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#505050"));//a8a6a3         
+         this.labelText.setTextColor(Color.parseColor("#606060"));//a8a6a3         
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
@@ -64,10 +64,10 @@ public class ImageTextButton extends LinearLayout {
       this.setBackgroundImage(CommonUtils.getDeviceImage(devtype, var2));
       if(var2 == 0) {
          this.setRoundColor(R.layout.roundblackcorner);
-         this.labelText.setTextColor(Color.parseColor("#505050"));
+         this.labelText.setTextColor(Color.parseColor("#606060"));
       } else if(var2 > 0) {
          this.setRoundColor(R.layout.roundorangecorner);
-         this.labelText.setTextColor(Color.parseColor("#505050"));
+         this.labelText.setTextColor(Color.parseColor("#606060"));
       } else {
          this.setRoundColor(R.layout.roundwhitecorner);
          this.labelText.setTextColor(Color.parseColor("#a9c5ac"));
@@ -101,10 +101,10 @@ public class ImageTextButton extends LinearLayout {
 
    public void setBorderSelected(boolean var1) {
       if(var1) {
-         this.labelText.setBackgroundColor(Color.parseColor("#1e1e1e")); //-spb 270117 for changing selected icon background text color original-->202e3b
+        //-spb 090217 for removing backgtound for selected icon text this.labelText.setBackgroundColor(Color.parseColor("#1e1e1e")); //-spb 270117 for changing selected icon background text color original-->202e3b
          this.labelText.setTypeface(this.labelText.getTypeface(), 3);
       } else {
-         this.labelText.setBackgroundColor(0);
+    	  //-spb 090217 for removing backgtound for selected icon text  this.labelText.setBackgroundColor(0);
          this.labelText.setTypeface(Typeface.DEFAULT);
       }
 

@@ -44,7 +44,7 @@ public class BtLocalDB {
 			for(DeviceData deviceData: deviceList) {
 				if( deviceData.getName().startsWith("Unknown "))
 					continue;
-				buf.append("Switch No: "+deviceData.getDevId()+"     Name: "+deviceData.getName()+"<br/>");
+				buf.append("Switch No: "+deviceData.getDevId()+"--> Name: "+deviceData.getName()+"<br/>");
 			}
 			buf.append("<br/><hr/>");
 		}
