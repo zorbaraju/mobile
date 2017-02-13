@@ -70,7 +70,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 	RadioButton wifiapdiscoveryBox = null;
 	String currentWifiSSID = null;
 	boolean isChangedToAPMode = false;
-	int currentDiscoveryType = 0;
 	private boolean isMaster = false;
 
 	private void addRoomButton(RoomData var1) {
@@ -116,6 +115,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				@Override
 				public Object runTask(Object params) {
 					String ipaddress = null;
+					int currentDiscoveryType = getCurrentDicoveryMode();
 					System.err.println("currentDiscoveryType>>>>>>>>>>>" + currentDiscoveryType);
 					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
 						if (!btHwLayer.makeWifiEnabled()) {
@@ -321,8 +321,9 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 	private void startDiscoveryProcess() {
 		presettingsForDiscovery();
-
-		if (currentDiscoveryType == DISCOVERYTYPE_BT) {
+		final int currentDiscoveryType = getCurrentDicoveryMode();
+		System.out.println("Current Discovery Mode is "+currentDiscoveryType);
+        if (currentDiscoveryType == DISCOVERYTYPE_BT) {
 			if (mBTA.isDiscovering()) {
 				mBTA.cancelDiscovery();
 			}
@@ -479,7 +480,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	private void presettingsForDiscovery() {
 		this.discoveryContent.removeAllViews();
 		TextView pwd = (TextView) findViewById(R.id.wifiPwdText);
-		pwd.setEnabled(currentDiscoveryType == DISCOVERYTYPE_WR);
+		pwd.setEnabled(getCurrentDicoveryMode() == DISCOVERYTYPE_WR);
 		if (!little.isRunning())
 			little.start();
 		saveButton.setEnabled(false);
@@ -491,17 +492,18 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	private String getDiscoveryModeStr() {
+		int discoveryType = getCurrentDicoveryMode();
 		String modeStr = "Bluetooth Discovery";
-		if (currentDiscoveryType == DISCOVERYTYPE_WR) {
+		if (discoveryType == DISCOVERYTYPE_WR) {
 			modeStr = "Station Discovery";
-		} else if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
+		} else if (discoveryType == DISCOVERYTYPE_WAP) {
 			modeStr = "Access point Discovery";
 		}
 		return modeStr;
 	}
 
 	private void populateCurrentSSID() {
-		if (currentDiscoveryType == DISCOVERYTYPE_WR) {
+		if (getCurrentDicoveryMode() == DISCOVERYTYPE_WR) {
 			WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 			WifiInfo currentWifi = wifiManager.getConnectionInfo();
 			if (currentWifi == null || currentWifi.getSSID() == null || currentWifi.getSSID().isEmpty()) {
@@ -609,37 +611,32 @@ public class DiscoveryActivity extends ZorbaActivity {
 		wifirdiscoveryBox = (RadioButton) findViewById(R.id.wifirdiscovery);
 		wifiapdiscoveryBox = (RadioButton) findViewById(R.id.wifiapdiscovery);
 		wifiapdiscoveryBox.setChecked(true);
-		currentDiscoveryType = DISCOVERYTYPE_WAP;
-
+		
 		TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
 		pwdview.setText("");// "8GE5R3N5J4");//"owyoe82486");
 		if( !isMaster) {
 			pwdview.setEnabled(false);
 			wifirdiscoveryBox.setChecked(true);
-			currentDiscoveryType = DISCOVERYTYPE_WR;
 		}
-		btdiscoveryBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
+		btdiscoveryBox.setOnClickListener(new OnClickListener() {
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					currentDiscoveryType = DISCOVERYTYPE_BT;
+			public void onClick(View v) {
+				if( btdiscoveryBox.isChecked()) {
 					if (!mBTA.isEnabled()) {
 						startActivityForResult(new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE"), 1);
 					}
-
 					startDiscoveryProcess();
 				}
 			}
 		});
-		wifirdiscoveryBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
+		wifirdiscoveryBox.setOnClickListener(new OnClickListener() {
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				currentDiscoveryType = DISCOVERYTYPE_WR;
+			public void onClick(View v) {
 				if( isMaster) {
 					CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
-					if( isChecked)
+					if( wifirdiscoveryBox.isChecked())
 						firsttimecheck.setVisibility(View.VISIBLE);
 					else
 						firsttimecheck.setVisibility(View.GONE);
@@ -647,20 +644,19 @@ public class DiscoveryActivity extends ZorbaActivity {
 					populateCurrentSSID();
 					startDiscoveryProcess();
 				}
-			}
+		}
 		});
-		wifiapdiscoveryBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
+		wifiapdiscoveryBox.setOnClickListener(new OnClickListener() {
+			
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					currentDiscoveryType = DISCOVERYTYPE_WAP;
+			public void onClick(View v) {
+				if (wifiapdiscoveryBox.isChecked()) {
 					populateCurrentSSID();
 					startDiscoveryProcess();
-				}
+				}	
 			}
 		});
-		saveButton = (Button) findViewById(R.id.savebutton);
+					saveButton = (Button) findViewById(R.id.savebutton);
 		saveButton.setEnabled(false);
 		((SvgView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new ZorbaOnClickListener() {
 	         public void zonClick(View var1) {
@@ -724,6 +720,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		saveButton.setOnClickListener(new ZorbaOnClickListener() {
 	         public void zonClick(View var1) {
 
+	        	 int currentDiscoveryType = getCurrentDicoveryMode();
 				String pwd = "null";
 				TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
 
@@ -819,13 +816,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 				
 				@Override
 				public void onClick(View v) {
-					currentDiscoveryType = DISCOVERYTYPE_WR;
 					populateCurrentSSID();
 					startDiscoveryProcess();
 				}
 			});
 		}
-		
+		little.stop();
 		CommonUtils.getInstance().writeLog("Discovery started");
 		Logger.e(this, "Discovery", "Discvoery started");
 //		this.startDiscoveryProcess();
@@ -851,7 +847,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	private boolean isStationModeMasterDiscovery() {
-		if( currentDiscoveryType == DISCOVERYTYPE_WR) {
+		if( getCurrentDicoveryMode() == DISCOVERYTYPE_WR) {
 			CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
 			return (isMaster && firsttimecheck.isChecked());
 		} else {
@@ -864,4 +860,17 @@ public class DiscoveryActivity extends ZorbaActivity {
 			sr = wifiManager.getScanResults();
 		}
 	}
+	
+	private int getCurrentDicoveryMode() {
+		int mode = DISCOVERYTYPE_BT;
+		if( btdiscoveryBox.isChecked())
+			mode = DISCOVERYTYPE_BT;
+		else if( wifirdiscoveryBox.isChecked())
+			mode = DISCOVERYTYPE_WR;
+		else if( wifiapdiscoveryBox.isChecked())
+			mode = DISCOVERYTYPE_WAP;
+		return mode;
+	}
+
+
 }
