@@ -622,6 +622,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			
 			@Override
 			public void onClick(View v) {
+				CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+				firsttimecheck.setVisibility(View.GONE);
 				if( btdiscoveryBox.isChecked()) {
 					if (!mBTA.isEnabled()) {
 						startActivityForResult(new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE"), 1);
@@ -634,12 +636,10 @@ public class DiscoveryActivity extends ZorbaActivity {
 			
 			@Override
 			public void onClick(View v) {
+				CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+				firsttimecheck.setVisibility(View.GONE);
 				if( isMaster) {
-					CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
-					if( wifirdiscoveryBox.isChecked())
-						firsttimecheck.setVisibility(View.VISIBLE);
-					else
-						firsttimecheck.setVisibility(View.GONE);
+					firsttimecheck.setVisibility(View.VISIBLE);
 				} else {
 					populateCurrentSSID();
 					startDiscoveryProcess();
@@ -650,6 +650,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			
 			@Override
 			public void onClick(View v) {
+				CheckBox firsttimecheck = (CheckBox)findViewById(R.id.isfirstdiscovery);
+				firsttimecheck.setVisibility(View.GONE);
 				if (wifiapdiscoveryBox.isChecked()) {
 					populateCurrentSSID();
 					startDiscoveryProcess();
