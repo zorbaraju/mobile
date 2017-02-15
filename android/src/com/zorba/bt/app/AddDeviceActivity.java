@@ -140,10 +140,12 @@ public class AddDeviceActivity extends ZorbaActivity {
     	  titleText.setText("New Switch");
          var6.setText("Switch Name");
          deviceTypeLabel.setText("Switch Icon");
+         isdimmable.setChecked(false);
       } else {
     	  titleText.setText("New Dimmable");
          var6.setText("Dimmable Name");
          deviceTypeLabel.setText("Dimmable Icon");
+         isdimmable.setChecked(true);
       }
       changeDevicePopup();
       this.initListeners();
@@ -175,14 +177,9 @@ public class AddDeviceActivity extends ZorbaActivity {
 	   MyPopupDialog var3 = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
 	      
       if (tabName.equals(CommonUtils.TABSWITCH)) {
-    	  if( isdimmable.isChecked()) {
-    		  deviceTypeWithDimmable = 1;
-    	  }
+    	  deviceTypeWithDimmable = 0;
       } else {
-    	  if( isdimmable.isChecked()) {
-    		  deviceTypeWithDimmable = 3;
-    	  } else
-    		  deviceTypeWithDimmable = 2;
+    	  deviceTypeWithDimmable = 1;
       }
       String devicenames[] = DeviceData.getDeviceNames(deviceTypeWithDimmable);
       var3.setMenu(devicenames, null);

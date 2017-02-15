@@ -491,9 +491,9 @@ public class RoomsActivity extends ZorbaActivity
 		for (int ddindex = 0; ddindex < numdevices; ddindex++) {
 			DeviceData device = deviceList.get(ddindex);
 			if (!device.isUnknownType()) {
-				if ((tabName.equals(CommonUtils.TABSWITCH)) && (DeviceData.isLightType(device.getType()))) {
+				if ((tabName.equals(CommonUtils.TABSWITCH)) && (!DeviceData.isDimmable(device.getType()))) {
 					addButtonPanel(local16, device, true);
-				} else if ((tabName.equals(CommonUtils.TABDIMMABLES)) && (!DeviceData.isLightType(device.getType()))) {
+				} else if ((tabName.equals(CommonUtils.TABDIMMABLES)) && (DeviceData.isDimmable(device.getType()))) {
 					addButtonPanel(local16, device, true);
 				}
 			}
@@ -1115,10 +1115,10 @@ public class RoomsActivity extends ZorbaActivity
 			String type = resultIntent.getExtras().getString("type");
 			DeviceData deviceData = new DeviceData(resultIntent.getExtras().getInt("index"), name, type,
 					resultIntent.getExtras().getString("power"), -1);
-			if (DeviceData.isLightType(type)) {
-				addButtonPanel(this.lightsPanel, deviceData, resultIntent.getExtras().getBoolean("isnew"));
-			} else {
+			if (DeviceData.isDimmable(type)) {
 				addButtonPanel(this.devicePanel, deviceData, resultIntent.getExtras().getBoolean("isnew"));
+			} else {
+				addButtonPanel(this.lightsPanel, deviceData, resultIntent.getExtras().getBoolean("isnew"));
 			}
 			updateDeviceCount();
 			return;

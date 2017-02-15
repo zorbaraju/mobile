@@ -29,6 +29,8 @@ public class DeviceData {
    public static final String[] dimmablelightdeviceTypes = new String[]{"Dimmable Light"};
    public static final String[] nonlightdeviceTypes = new String[]{"Table Lamp", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain Open", "Curtain Close", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Water Pump", "TV"};
    public static final String[] dimmablenonlightdeviceTypes = new String[]{"Fan"};
+   public static final String[] switchdeviceTypes = new String[]{"Light", "Tube Light", "Chandlier", "Deco Light", "Fan", "Table Lamp", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain Open", "Curtain Close", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
+   public static final String[] dimmabledeviceTypes = new String[]{"Dimmable Light", "Tube Light", "Is it light Chandlier", "is light Deco Light"};
    private int devid = 0;
    private String name = "";
    private String powerinwatts = "10";
@@ -44,8 +46,11 @@ public class DeviceData {
    }
 
    public static boolean isDimmable(String type) {
-      boolean isdimmable = !(!type.equals("Dimmable Light") && !type.equals("Fan"));
-      return isdimmable;
+	   for (String lightType : dimmabledeviceTypes) {
+			if( type.equals(lightType))
+				return true;
+	   }
+	   return false;
    }
 
    public static boolean isLightType(String type) {
@@ -99,13 +104,9 @@ public class DeviceData {
 	public static String[] getDeviceNames(int deviceTypeWithDimmable) {
 		String[] devicenames = DeviceData.nonlightdeviceTypes;
 	    if( deviceTypeWithDimmable == 0)
-	  	  devicenames = DeviceData.lightdeviceTypes;
+	  	  devicenames = DeviceData.switchdeviceTypes;
 	    else if( deviceTypeWithDimmable == 1)
-	  	  devicenames = DeviceData.dimmablelightdeviceTypes;
-	    else if( deviceTypeWithDimmable == 2)
-	  	  devicenames = DeviceData.nonlightdeviceTypes;
-	    else if( deviceTypeWithDimmable == 3)
-	  	  devicenames = DeviceData.dimmablenonlightdeviceTypes;
+	  	  devicenames = DeviceData.dimmabledeviceTypes;
 	    return devicenames;
 	}
 }
