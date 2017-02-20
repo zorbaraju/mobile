@@ -117,133 +117,182 @@ public class CommonUtils {
 
    public static int getDeviceImage(String var0, int var1) {
       int var2 = R.raw.unknown;
-      if(var0.equals("Light")) {
+      if(var0.equals("Light  ")) {
          if(var1 <= 0) {
             var2 = R.raw.light_off;
          } else {
             var2 = R.raw.light_on;
          }
-      } else if(var0.startsWith("Dimmable Light")) {
+      } else if(var0.startsWith("Chandlier  ")) {
          if(var1 <= 0) {
             var2 = R.raw.chandlier_off;
          } else {
             var2 = R.raw.chandlier_on;
          }
-      } else if(var0.startsWith("Tube Light")) {
+      } else if(var0.startsWith("Tube Light  ")) {
          if(var1 <= 0) {
             var2 = R.raw.tubelight_off;
          } else {
             var2 = R.raw.tubelight_on;
          }
+         /*
       } else if(var0.startsWith("Chandlier")) {
          if(var1 <= 0) {
             var2 = R.raw.chandlier_off;
          } else {
             var2 = R.raw.chandlier_on;
-         }
-      } else if(var0.startsWith("Deco Light")) {
+         }*/
+      } else if(var0.startsWith("Deco Light  ")) {
          if(var1 <= 0) {
             var2 = R.raw.table_off;
          } else {
             var2 = R.raw.table_on;
          }
-      } else if(var0.startsWith("Fan")) {
+      } else if(var0.startsWith("Fan  ")) {
          if(var1 <= 0) {
             var2 = R.raw.fan_off;
          } else {
             var2 = R.raw.fan_on;
          }
-      } else if(var0.startsWith("Table Lamp")) {
+      } else if(var0.startsWith("Table Lamp  ")) {
          if(var1 <= 0) {
             var2 = R.raw.tablelamp_off;
          } else {
             var2 = R.raw.tablelamp_on;
          }
-      } else if(var0.startsWith("Ac")) {
+      } else if(var0.startsWith("Ac  ")) {
          if(var1 <= 0) {
             var2 = R.raw.ac_off;
          } else {
             var2 = R.raw.ac_on;
          }
+         /*
       } else if(var0.startsWith("Ac Split")) {
          if(var1 <= 0) {
             var2 = R.raw.ac_off;
          } else {
             var2 = R.raw.ac_on;
-         }
-      } else if(var0.startsWith("Alarm")) {
+         }*/
+      } else if(var0.startsWith("Alarm  ")) {
          if(var1 <= 0) {
             var2 = R.raw.alarm_off;
          } else {
             var2 = R.raw.alarm_on;
          }
-      } else if(var0.startsWith("CC tv Indoor")) {
+      } else if(var0.startsWith("CCTV  ")) {
          if(var1 <= 0) {
             var2 = R.raw.cctvindoor_off;
          } else {
             var2 = R.raw.cctvindoor_on;
          }
+         /*
       } else if(var0.startsWith("CC tv Outdoor")) {
          if(var1 <= 0) {
             var2 = R.raw.cctvindoor_off;
          } else {
             var2 = R.raw.cctvindoor_on;
-         }
-      } else if(var0.startsWith("Curtain Open")) {
+         }*/
+      } else if(var0.startsWith("Curtain Open  ")) {
          if(var1 <= 0) {
             var2 = R.raw.curtianopen_off;
          } else {
             var2 = R.raw.curtianopen_on;
          }
-      } else if(var0.startsWith("Curtain Close")) {
+      } else if(var0.startsWith("Curtain Close  ")) {
          if(var1 <= 0) {
             var2 = R.raw.curtianclose_off;
          } else {
             var2 = R.raw.curtianclose_on;
          }
-      } else if(var0.startsWith("Door Lock")) {
+      } else if(var0.startsWith("Door Lock  ")) {
          if(var1 <= 0) {
             var2 = R.raw.doorlock_off;
          } else {
             var2 = R.raw.doorlock_on;
          }
-      } else if(var0.startsWith("Fridge")) {
+      } else if(var0.startsWith("Fridge  ")) {
          if(var1 <= 0) {
             var2 = R.raw.fridge_off;
          } else {
             var2 = R.raw.fridge_on;
          }
+         /*
       } else if(var0.startsWith("Led")) {
          if(var1 <= 0) {
             var2 = R.raw.light_off;
          } else {
             var2 = R.raw.light_on;
          }
-      } else if(var0.startsWith("Socket")) {
+         */
+      } else if(var0.startsWith("Socket  ")) {
          if(var1 <= 0) {
             var2 = R.raw.socket_off;
          } else {
             var2 = R.raw.socket_on;
          }
+         /*
       } else if(var0.startsWith("Micro Oven")) {
          if(var1 <= 0) {
             var2 = R.raw.microwave_off;
          } else {
             var2 = R.raw.microwave_on;
          }
-      } else if(var0.startsWith("Settop Box")) {
+         */
+      } else if(var0.startsWith("Settop Box  ")) {
          if(var1 <= 0) {
             var2 = R.raw.settopbox_off;
          } else {
             var2 = R.raw.settopbox_on;
          }
-      } else if(var0.startsWith("Water Pump")) {
+      } else if(var0.startsWith("Water Pump  ")) {
          if(var1 <= 0) {
             var2 = R.raw.water_pump_off;
          } else {
             var2 = R.raw.water_pump_on;
          }
-      } else if(var0.startsWith("TV")) {
+         
+      } else if(var0.startsWith("Dim Fan  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dfan_off;
+          } else {
+             var2 = R.raw.dfan_on;
+          }
+          
+      } else if(var0.startsWith("Dim Socket  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dsocket_off;
+          } else {
+             var2 = R.raw.dsocket_on;
+          }
+          
+      } else if(var0.startsWith("Dim Chandlier  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dchandelier_off;
+          } else {
+             var2 = R.raw.dchandelier_on;
+          }
+          
+      } else if(var0.startsWith("Dim Light  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dlight_off;
+          } else {
+             var2 = R.raw.dlight_on;
+          }
+      } else if(var0.startsWith("Dim TableLamp  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dtablelamp_off;
+          } else {
+             var2 = R.raw.dtablelamp_on;
+          }
+         
+      } else if(var0.startsWith("Dim DecoLight  ")) {
+          if(var1 <= 0) {
+             var2 = R.raw.dtable_off;
+          } else {
+             var2 = R.raw.dtable_on;
+          }
+         
+      } else if(var0.startsWith("TV  ")) {
          if(var1 <= 0) {
             var2 = R.raw.tv_off;
          } else {

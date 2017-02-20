@@ -1,29 +1,35 @@
 package com.zorba.bt.app.dao;
 
-public class DeviceData {
-   public static final String DEVICETYPE_AC = "Ac";
-   public static final String DEVICETYPE_ACSPLIT = "Ac Split";
-   public static final String DEVICETYPE_ALARM = "Alarm";
-   public static final String DEVICETYPE_CCTV_INDOOR = "CC tv Indoor";
-   public static final String DEVICETYPE_CCTV_OUTDOOR = "CC tv Outdoor";
-   public static final String DEVICETYPE_CFL = "Chandlier";
-   public static final String DEVICETYPE_COVE_LIGHT = "Deco Light";
-   public static final String DEVICETYPE_CURTAIN = "Curtain Open";
-   public static final String DEVICETYPE_DIM_LIGHT = "Dimmable Light";
-   public static final String DEVICETYPE_DOORBELL = "Curtain Close";
-   public static final String DEVICETYPE_DOORLOCK = "Door Lock";
-   public static final String DEVICETYPE_FAN = "Fan";
-   public static final String DEVICETYPE_FRIDGE = "Fridge";
-   public static final String DEVICETYPE_LED = "Led";
-   public static final String DEVICETYPE_LIGHT = "Light";
-   public static final String DEVICETYPE_MICROOVEN = "Micro Oven";
-   public static final String DEVICETYPE_SETTOPBOX = "Settop Box";
-   public static final String DEVICETYPE_SOCKET = "Socket";
-   public static final String DEVICETYPE_SPRINKLER = "Water Pump";
-   public static final String DEVICETYPE_TABLEFAN = "Table Lamp";
-   public static final String DEVICETYPE_TUBELIGHT = "Tube Light";
-   public static final String DEVICETYPE_TV = "TV";
-   public static final String DEVICETYPE_UNKNOWN = "Unknown";
+//-spb 160217 for icons rearrangement 
+
+   public class DeviceData {
+   public static final String DEVICETYPE_AC = "Ac  ";
+   public static final String DEVICETYPE_ALARM = "Alarm  ";
+   public static final String DEVICETYPE_CCTV_INDOOR = "CCTV  ";
+   public static final String DEVICETYPE_CFL = "Chandlier  ";
+   public static final String DEVICETYPE_COVE_LIGHT = "Deco Light  ";
+   public static final String DEVICETYPE_CURTAIN = "Curtain Open  ";
+   public static final String DEVICETYPE_DOORBELL = "Curtain Close  ";
+   public static final String DEVICETYPE_DOORLOCK = "Door Lock  ";
+   public static final String DEVICETYPE_FAN = "Fan  ";
+   public static final String DEVICETYPE_FRIDGE = "Fridge  ";
+   public static final String DEVICETYPE_LIGHT = "Light  ";
+   public static final String DEVICETYPE_SETTOPBOX = "Settop Box  ";
+   public static final String DEVICETYPE_SOCKET = "Socket  ";
+   public static final String DEVICETYPE_SPRINKLER = "Water Pump  ";
+   public static final String DEVICETYPE_TABLEFAN = "Table Lamp  ";
+   public static final String DEVICETYPE_TUBELIGHT = "Tube Light  ";
+   public static final String DEVICETYPE_TV = "TV  ";
+   public static final String DEVICETYPE_DLIGHT = "Dim Light  ";
+   public static final String DEVICETYPE_DCHANDLIER = "Dim Chandlier  ";
+   public static final String DEVICETYPE_DSOCKET = "Dim Socket  ";
+   public static final String DEVICETYPE_DFAN = "Dim Fan  ";
+   public static final String DEVICETYPE_DTABLE = "Dim TableLight  ";
+   public static final String DEVICETYPE_DDECO = "Dim DecoLight  ";
+   public static final String DEVICETYPE_UNKNOWN = "Unknown  ";
+      
+   //-spb 160217 for icons rearrangement 
+   /*
    public static final String[] deviceTypes = new String[]{"Light", "Dimmable Light", "Tube Light", "Chandlier", "Deco Light", "Fan", "Table Lamp", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain Open", "Curtain Close", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
    public static final String[] lightdeviceTypes = new String[]{"Light", "Tube Light", "Is it light Chandlier", "is light Deco Light"};
    public static final String[] dimmablelightdeviceTypes = new String[]{"Dimmable Light"};
@@ -31,6 +37,25 @@ public class DeviceData {
    public static final String[] dimmablenonlightdeviceTypes = new String[]{"Fan"};
    public static final String[] switchdeviceTypes = new String[]{"Light", "Tube Light", "Chandlier", "Deco Light", "Fan", "Table Lamp", "Ac", "Ac Split", "Alarm", "CC tv Indoor", "CC tv Outdoor", "Curtain Open", "Curtain Close", "Door Lock", "Fridge", "Led", "Socket", "Micro Oven", "Settop Box", "Sprinkler", "TV"};
    public static final String[] dimmabledeviceTypes = new String[]{"Dimmable Light", "Tube Light", "Is it light Chandlier", "is light Deco Light"};
+   */
+   //-spb 160217 for icons rearrangement 
+   
+   //+spb 160217: required dimmable devices: Fan, Socket,Chandlier,Table lampm
+   //+spb 160217: required dimmable devices:  All Devices : Light Table Lamp Tubelight Chandlier Deco Light Fan AC Alarm CCTV Curtain Open Curtain Close Door Lock Fridge Socket Settopbox Water Pump TV
+
+   //+spb 160217 for icons rearrangement 
+   public static final String[] deviceTypes = new String[]{"Light  ", "Table Lamp  ", "Tube Light  ", "Chandlier  ", "Deco Light  ", "Fan  ", "Ac  ", "Alarm  ", "CCTV  ", "Curtain Open  ", "Curtain Close  ", "Door Lock  ", "Fridge  ", "Socket  ", "Settop Box  ", "Water Pump  ", "TV  "};
+   public static final String[] lightdeviceTypes = new String[]{"Light  ", "Tube Light  ", "Chandlier  ", "Deco Light  "};
+   public static final String[] dimmablelightdeviceTypes = new String[]{"Table Lamp  ", "Chandlier  ", "Deco Light  ","Light  "};
+   public static final String[] nonlightdeviceTypes = new String[]{"Table Lamp  ", "Ac  ", "Ac Split  ", "Alarm  ", "CCTV  ", "Curtain Open  ", "Curtain Close  ", "Door Lock  ", "Fridge  ", "Socket  ", "Settop Box  ", "Water Pump  ", "TV  "};
+   public static final String[] dimmablenonlightdeviceTypes = new String[]{"Fan  ","Socket  "};
+   public static final String[] switchdeviceTypes = new String[]{"Light  ", "Table Lamp  ", "Tube Light  ", "Chandlier  ", "Deco Light  ", "Fan  ", "Ac  ", "Alarm  ", "CCTV  ", "Curtain Open  ", "Curtain Close  ", "Door Lock  ", "Fridge  ", "Socket  ", "Settop Box  ", "Water Pump  ", "TV  "};
+   public static final String[] dimmabledeviceTypes = new String[]{"Dim Light  ","Dim Fan  ","Dim Socket  ","Dim Chandlier  ","Dim TableLamp  ","Dim DecoLight  "};
+  
+   //+spb 160217 for icons rearrangement 
+   
+   
+   
    private int devid = 0;
    private String name = "";
    private String powerinwatts = "10";
