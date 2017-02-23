@@ -155,14 +155,16 @@ public class BtLocalDB {
 		String[] grps = this.dbInfo.getString("Group" + deviceName, "").split("#");
 		String updatedGroups = "";
 		int numGrps = grps.length;
-		for (int gindex = 0; gindex < numGrps; gindex++) {
+		for (int gindex = 0; gindex < numGrps; gindex += 2) {
 			String grp = grps[gindex];
+			String grpType = grps[gindex+1];
 			if (!grpName.equals(grp)) {
 				if (updatedGroups.isEmpty()) {
 					updatedGroups = grp;
 				} else {
 					updatedGroups += "#" + grp;
 				}
+				updatedGroups += "#" + grpType;
 			}
 		}
 
