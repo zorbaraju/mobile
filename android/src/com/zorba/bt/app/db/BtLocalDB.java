@@ -186,11 +186,11 @@ public class BtLocalDB {
 			String[] var10 = var8.split("#");
 			int var3 = 0;
 
-			for (var4 = var7; var3 < var10.length; var3 += 2) {
+			for (var4 = var7; var3 < var10.length; var3 += 3) {
 				if (Integer.parseInt(var10[var3]) == var2) {
 					var4 = var10[var3];
 				} else {
-					var6 = var10[var3] + "#" + var10[var3 + 1];
+					var6 = var10[var3] + "#" + var10[var3 + 1] + "#" + var10[var3 + 2];
 					if (var5.equals("")) {
 						var5 = var6;
 					} else {
@@ -337,7 +337,6 @@ public class BtLocalDB {
 		ArrayList<SchedulerData> var4 = new ArrayList<SchedulerData>();
 		if (!var3.isEmpty()) {
 			String[] var5 = var3.split("#");
-
 			for (int index = 0; index < var5.length; index += 3) {
 				String schedid = var5[index];
 				String name = var5[index+1];
@@ -455,6 +454,10 @@ public class BtLocalDB {
 
 	public void saveGroup(String deviceName, String grpName, String type, String grpdetail, boolean isNew) {
 		String groups = this.dbInfo.getString("Group" + deviceName, "");
+		if (groups.indexOf(grpName) != -1) {
+			deleteGroup(deviceName, grpName);
+		}
+		groups = this.dbInfo.getString("Group" + deviceName, "");
 		if (groups.indexOf(grpName) == -1) {
 			if (groups.isEmpty()) {
 				groups = grpName;
@@ -474,15 +477,19 @@ public class BtLocalDB {
 	public void saveSchedule(String deviceName, String type, boolean isNew, int schedid, int repeatType, int repeatValue, String schedname, int hr, int min,
 			DeviceData[] devData) {
 		String schediddetail = this.dbInfo.getString("Schedule" + deviceName, "");
+		if (schediddetail.indexOf(schedname) != -1) {
+			deleteSchedule(deviceName, schedid);
+		}
+		schediddetail = this.dbInfo.getString("Schedule" + deviceName, "");
 		if (schediddetail.indexOf(schedname) == -1) {
+			String sdetail = schedid + "#" + schedname + "#" + type;
 			if (schediddetail.isEmpty()) {
-				schediddetail = schedid + "#" + schedname;
+				schediddetail = sdetail;
 			} else {
-				schediddetail += "#" + schedid + "#" + schedname;
+				schediddetail += "#" + sdetail;
 			}
 		}
-		schediddetail += "#" + type;
-
+		
 		String detail = repeatType + "#" + repeatValue + "#" + hr + "#" + min;
 
 		for (int index = 0; index < devData.length; ++index) {
