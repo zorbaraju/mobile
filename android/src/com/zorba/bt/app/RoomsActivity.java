@@ -566,7 +566,7 @@ public class RoomsActivity extends ZorbaActivity
 							public void onClick(DialogInterface paramAnonymous2DialogInterface,
 									int paramAnonymous2Int) {
 								try {
-									// btHwLayer.sendDeleteAlarmCommandToDevice(MainActivity.this.selectedSchedulerId);
+									btHwLayer.sendDeleteAlarmCommandToDevice(RoomsActivity.this.selectedSchedulerId);
 									BtLocalDB.getInstance(RoomsActivity.this).deleteSchedule(
 											RoomsActivity.this.selectedRoom.getDeviceName(),
 											RoomsActivity.this.selectedSchedulerId);
@@ -574,12 +574,7 @@ public class RoomsActivity extends ZorbaActivity
 											.removeMyView(RoomsActivity.this.selectedScheduleName);
 									showDeleteButton(false);
 									return;
-								} catch (Exception paramAnonymous2DialogInterfacee) {
-									//-spb 060217 for aligning error 
-									// CommonUtils.AlertBox(RoomsActivity.this, "Delete Scheduler",
-									//		"Not able to send delete schedule("
-									//				+ RoomsActivity.this.selectedScheduleName + "): "
-									//				+ paramAnonymous2DialogInterfacee.getMessage());
+								} catch (Exception e) {
 									CommonUtils.AlertBox(RoomsActivity.this, "Delete Schedular",
 													"Not able to delete schedular");
 								}

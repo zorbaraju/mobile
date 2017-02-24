@@ -137,7 +137,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
           if(repeatType == 2) {
              int numdays = weeklyRows.getChildCount();
              
-             for(int dayindex = 0; dayindex < numdays; ++dayindex) {
+             for(int dayindex = numdays-1; dayindex >-1; --dayindex) {
             	int bitvalue = repeatTypeValue&01;
             	((CustomCheckBox)weeklyRows.getChildAt(dayindex)).setDaySelected(bitvalue>0);
                 repeatTypeValue >>= 1;
@@ -169,10 +169,10 @@ public class AddSchedulerActivity extends ZorbaActivity {
    private void repeatTypeChanged() {
       MyListMenu var2 = (MyListMenu)this.findViewById(R.id.repeattype);
       TableRow var1 = (TableRow)this.findViewById(R.id.weeklyselection);
-      if(var2.getSelectedItemPosition() != 1) {
-         var1.setVisibility(0);
+      if(var2.getSelectedItemPosition() == 2) {
+         var1.setVisibility(View.VISIBLE);
       } else {
-         var1.setVisibility(8);
+         var1.setVisibility(View.GONE);
       }
 
    }
@@ -189,13 +189,12 @@ public class AddSchedulerActivity extends ZorbaActivity {
       int daybits = 0;
       if( repeatType == 0) {
     	  repeatTypeValue = 1;
-      }
-      if( repeatType == 1) {
+      } else if( repeatType == 1) {
     	  daybits = 0xfe;
       } else {
          int numdays = weeklyRows.getChildCount();
          
-         for(int dayindex = numdays-1; dayindex >=0; --dayindex) {
+         for(int dayindex = 0; dayindex < numdays; ++dayindex) {
             if(((CustomCheckBox)weeklyRows.getChildAt(dayindex)).isDaySelected()) {
             	daybits |= 1;
             } else {
@@ -203,6 +202,7 @@ public class AddSchedulerActivity extends ZorbaActivity {
             }
             daybits <<= 1;
          }
+         daybits >>= 1;
       }
       repeatTypeValue |= daybits;
       boolean isNew = editSchedulerName==null;
@@ -223,7 +223,6 @@ public class AddSchedulerActivity extends ZorbaActivity {
             }
 
             if(numSelectedDevices ==0) {
-            	//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Save scheduler", "No devices are selected");
             	CommonUtils.AlertBox(this, "Can't save scheduler", "Kindly select switches and state in scheduler");
             } else {
                DeviceData[] devData = new DeviceData[numSelectedDevices];
