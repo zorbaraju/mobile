@@ -1,10 +1,9 @@
 package com.zorba.bt.app;
 
+import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.db.BtLocalDB;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -193,6 +192,32 @@ public class MyComp extends LinearLayout {
          }
       });
    }
+   
+	public void updateMyView(String compName, DeviceData deviceData) {
+		int count = this.compLaout.getChildCount();
+
+		for (int index = 0; index < count; ++index) {
+			ImageTextButton imageTextButton = (ImageTextButton) this.compLaout.getChildAt(index);
+			if (imageTextButton.getText().equals(compName)) {
+				imageTextButton.setDevice(deviceData);
+				break;
+			}
+		}
+	}
+	
+	public void updateMyView(String compName, int resid) {
+		int count = this.compLaout.getChildCount();
+
+		for (int index = 0; index < count; ++index) {
+			ImageTextButton imageTextButton = (ImageTextButton) this.compLaout.getChildAt(index);
+			if (imageTextButton.getText().equals(compName)) {
+				imageTextButton.setBackgroundImage(resid);
+				imageTextButton.setImageResId(resid);
+				break;
+			}
+		}
+	}
+
 
    public void removeMyView(String compName) {
       int count = this.compLaout.getChildCount();

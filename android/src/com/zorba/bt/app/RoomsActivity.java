@@ -600,18 +600,20 @@ public class RoomsActivity extends ZorbaActivity
 	}
 
 	private void addButtonPanel(final MyComp paramMyComp, DeviceData paramDeviceData, boolean isnew) {
-		if (!isnew)
+		final String deviceName = paramDeviceData.getName();
+		if (!isnew) {
+			paramMyComp.updateMyView(deviceName, paramDeviceData);
 			return;
+		}
 		final int devid = paramDeviceData.getDevId();
 		final String devtype = paramDeviceData.getType();
-		final String str2 = paramDeviceData.getName();
 		paramDeviceData.setStatus(BtLocalDB.getInstance(this).getDeviceStatus((byte) devid));
 		final ImageTextButton deviceButton = new ImageTextButton(this);
 		deviceButton.setDevice(paramDeviceData);
 		deviceButton.setOnLongClickListener(new View.OnLongClickListener() {
 			public boolean onLongClick(View paramAnonymousView) {
 				paramMyComp.showDeleteButton(true);
-				RoomsActivity.this.selectedDeviceName = str2;
+				RoomsActivity.this.selectedDeviceName = deviceName;
 				paramMyComp.selectComp(deviceButton);
 				if (!isInConfigDeviceMode) {
 					if (DeviceData.isDimmable(devtype)) {
@@ -747,14 +749,16 @@ public class RoomsActivity extends ZorbaActivity
 	}
 
 	private void addGroupButton(final String groupName, boolean isnew) {
-		if (!isnew)
-			return;
 		final ImageTextButton localImageTextButton = new ImageTextButton(this);
 		ArrayList<GroupData> grpArr = BtLocalDB.getInstance(this)
 				.getGroups(RoomsActivity.this.selectedRoom.getDeviceName(), groupName);
 		if (grpArr.size() == 0)
 			return;
 		final GroupData groupData = grpArr.get(0);
+		if (!isnew) {
+			groupPanel.updateMyView(groupName, groupData.getImageResId());
+			return;
+		}
 		localImageTextButton.setText(groupName);
 		localImageTextButton.changeDeviceButtonStyle(0);
 		localImageTextButton.setBackgroundImage(groupData.getImageResId());
@@ -808,15 +812,16 @@ public class RoomsActivity extends ZorbaActivity
 	}
 
 	private void addScheduleButton(final int paramInt, final String scheduleName, boolean isnew) {
-		if (!isnew)
-			return;
 		final ImageTextButton localImageTextButton = new ImageTextButton(this);
 		ArrayList<SchedulerData> schArr = BtLocalDB.getInstance(this)
 				.getSchedules(RoomsActivity.this.selectedRoom.getDeviceName(), scheduleName);
 		if (schArr.size() == 0)
 			return;
 		SchedulerData scheduleData = schArr.get(0);
-
+		if (!isnew) {
+			groupPanel.updateMyView(scheduleName, scheduleData.getImageResId());
+			return;
+		}
 		localImageTextButton.changeDeviceButtonStyle(0);// +spb 310117 for
 														// schedular image with
 														// black background on
