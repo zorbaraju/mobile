@@ -381,6 +381,8 @@ public class BtLocalDB {
 	
 	public boolean isDeviceIdExist(String deviceName, int devid) {
 		String[] var5 = this.dbInfo.getString("Room" + deviceName, "").split("#");
+		if( (devid-1)*3 >= var5.length)
+			return false;
 		return !var5[(devid-1)*3].startsWith("Unknown ");
 	}
 
