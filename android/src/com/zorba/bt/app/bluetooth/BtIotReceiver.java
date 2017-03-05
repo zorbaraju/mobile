@@ -34,7 +34,7 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 		byte readbytes[] = null;
 		synchronized (lock) {
 			try {
-				lock.wait(10000);
+				lock.wait(BtHwLayer.IOT_READ_TIMEOUT);
 				readbytes = responseQueue.remove(cmdNoAndReqNo);
 				return readbytes;
 			} catch (InterruptedException e) {

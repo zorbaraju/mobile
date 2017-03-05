@@ -33,6 +33,8 @@ import java.util.UUID;
 public class BtHwLayer {
 	
 	boolean _isOOH = false;
+	public static final int READ_TIMEOUT = 3000;
+	public static final int IOT_READ_TIMEOUT = 10000;
 	
 	private int idletimeout = 1000 * 60 * 3;
 	private long activedTime = -1;
@@ -138,7 +140,7 @@ public class BtHwLayer {
 	}
 
 	private void checkConnection() throws Exception {
-		if(isBt()) {
+		if(mBluetoothGatt != null) {
 			System.out.println("checkConnection for bt");
 			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
 				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
@@ -148,7 +150,7 @@ public class BtHwLayer {
 					throw new Exception(var1);
 				}
 			}
-		} else if (isWifi() && isWifiEnabled()) {
+		} else if (clientSocket != null) {
 			System.out.println("checkConnection for wifi");
 			if ( this.shouldReconnect(this.ipAddress)) {
 				System.out.println("In checkConnection reinit wifi");
@@ -532,18 +534,18 @@ public class BtHwLayer {
 	}
 
 	private byte[] getData(String cmdNoAndReqNo) {
-		if(isBt()) {
+		if( mBluetoothGatt!= null) {
 			byte readbytes[] = null;
 			synchronized (lock) {
 				try {
-					lock.wait(5000);
+					lock.wait(READ_TIMEOUT);
 					readbytes = responseQueue.remove(cmdNoAndReqNo);
 				} catch (InterruptedException e) {
 					System.out.println("Not able to get the readbytes from queue>"+e.getMessage());
 				}
 			}
 			return readbytes;
-		} else if (isWifi()) {
+		} else if (receiver != null) {
 			return receiver.getData(cmdNoAndReqNo);
 		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
 			return iotConnection.getData(cmdNoAndReqNo);
@@ -553,7 +555,7 @@ public class BtHwLayer {
 	}
 
 	public void writeBytes(byte[] wbytes) {
-		if(isBt()) {
+		if( mBluetoothGatt!= null) {
 			int numBytes = wbytes.length;
 			int numSent = 0;
 			int remainingBytes = numBytes;
@@ -573,7 +575,7 @@ public class BtHwLayer {
 				System.out.println("Numtobesent.." + numToBeSent + " numSent=" + numSent + " remain=" + remainingBytes
 						+ " numbtes.." + numBytes);
 			}
-		} else if (isWifi()) {
+		} else if (sender!= null) {
 			sender.sendCmd(wbytes);
 		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
 			iotConnection.sendMessage(wbytes);
@@ -590,15 +592,9 @@ public class BtHwLayer {
 			numRetries++;
 			this.writeBytes(writeBytes);
 			data = this.getData(cmdNoAndReqNo);
-			if( data == null) {
-				try {
-					//Thread.sleep(numRetries*5000);
-				}catch(Exception e){
-					System.out.println("Error in sleeping ..."+e.getMessage());
-				}
-				continue;
-			} else
+			if( data != null) {
 				break;
+			}
 		}
 		
 		if (data == null) {
@@ -651,7 +647,6 @@ public class BtHwLayer {
 	}
 	
 	private byte[] verifyPwd(String pwd) throws Exception {
-		this.checkConnection();
 		byte reqno = this.getNextReqno();
 		System.out.println("pwd="+pwd);
 		byte[] pwdbytes = pwd.getBytes();
@@ -855,13 +850,12 @@ public class BtHwLayer {
 		Thread.sleep(10000);
 	}
 	
-	public boolean shouldReconnect(String ipAddressOrDevAddress) {
+	private boolean shouldReconnect(String ipAddressOrDevAddress) {
 		boolean reconnect = false;
-		if (isWifi()) {
-			reconnect = !(this.ipAddress.equals(ipAddressOrDevAddress) && this.clientSocket != null);
-		} else {
-			System.out.println("devAddress="+devAddress+" ipAddressOrDevAddress="+ipAddressOrDevAddress+ " mBluetoothGatt="+mBluetoothGatt+" isconnected="+isConnected);
-			reconnect = ! (this.devAddress.equals(ipAddressOrDevAddress) && this.mBluetoothGatt != null && isConnected());
+		if (clientSocket != null || iotConnection != null) {
+			reconnect = !(this.ipAddress.equals(ipAddressOrDevAddress));
+		} else if (mBluetoothGatt != null){
+			reconnect = ! (this.devAddress.equals(ipAddressOrDevAddress));
 			System.out.println(" reconnect..."+reconnect);
 		}
 		if( reconnect ) {

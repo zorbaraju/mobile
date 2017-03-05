@@ -421,7 +421,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							ArrayList localList = new ArrayList<String>();
 							for (ScanResult wc : sr) {
 								String ssid = wc.SSID;
-								if (ssid.startsWith("ZOR")) {
+								if (ssid.contains("ZOR")) {
 									if (localList.contains(ssid)
 											|| BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(ssid)) {
 										Logger.e(DiscoveryActivity.this, "Discovery",
@@ -444,7 +444,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 							for (WifiConfiguration wc : list) {
 								String ssid = wc.SSID;
 								ssid = ssid.substring(1, ssid.length() - 1);
-								if (ssid.startsWith("ZOR")) {
+								if (ssid.contains("ZOR")) {
 									if (localList.contains(ssid)
 											|| BtLocalDB.getInstance(DiscoveryActivity.this).isRoomExists(ssid)) {
 										Logger.e(DiscoveryActivity.this, "Discovery",
@@ -564,7 +564,6 @@ public class DiscoveryActivity extends ZorbaActivity {
 	}
 
 	public ArrayList<String> performIpDiscovery() {
-		CommonUtils.printStackTrace();
 		ArrayList<String> ipaddressList = new ArrayList<String>();
 		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		WifiInfo info = wifiManager.getConnectionInfo();
@@ -575,7 +574,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		ssid = ssid.substring(1, ssid.length() - 1);
 		String ip = Formatter.formatIpAddress(info.getIpAddress());
 		String subnet = ip.substring(0, ip.lastIndexOf("."));
-		for (int i = 1; i < 255; i++) {
+		for (int i = 201; i < 255; i++) {
 			try {
 				InetAddress addr = InetAddress.getByName(subnet + "." + i);
 				boolean isused = addr.isReachable(200);

@@ -23,18 +23,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Process;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
@@ -1300,6 +1297,8 @@ public class RoomsActivity extends ZorbaActivity
 	private void enableMainActivityOnDeviceConfig(boolean enableConfigMode) {
 		System.out.println("enableMainActivityOnDeviceConfig: " + enableConfigMode);
 		isInConfigDeviceMode = enableConfigMode;
+		if( lightsPanel == null)
+			return;
 		lightsPanel.enableEditMode(isInConfigDeviceMode);
 		devicePanel.enableEditMode(isInConfigDeviceMode);
 		groupPanel.enableEditMode(isInConfigDeviceMode);

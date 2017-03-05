@@ -38,7 +38,7 @@ public class BtReceiver extends Thread {
 		byte readbytes[] = null;
 		synchronized (lock) {
 			try {
-				lock.wait(1000);
+				lock.wait(BtHwLayer.READ_TIMEOUT);
 				readbytes = responseQueue.remove(cmdNoAndReqNo);
 				return readbytes;
 			} catch (InterruptedException e) {

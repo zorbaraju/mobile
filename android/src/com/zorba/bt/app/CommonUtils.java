@@ -381,18 +381,16 @@ public class CommonUtils {
 		String ip = Formatter.formatIpAddress(info.getIpAddress());
 		String subnet = ip.substring(0,ip.lastIndexOf("."));
 		networkInfo.unusedIndex = -1;
-		for(int i=254; i>0; i--) {
+		for(int i=254; i>200; i--) {
 			try {
-				boolean isused = InetAddress.getByName(subnet+"."+i).isReachable(1000);
-				if( isused)
-				continue;
-			} catch (UnknownHostException e) {
-				System.out.println("Unknown host..."+e.getMessage());
-			} catch (IOException e) {
-				System.out.println("Unknown ..."+e.getMessage());
-			}
-			networkInfo.unusedIndex = i;
-			break;
+				boolean isreachable = InetAddress.getByName(subnet+"."+i).isReachable(2000);
+				System.out.println("Isreachable..."+isreachable+" "+subnet+"."+i);
+				if( !isreachable) {
+					System.out.println("Isreachable..."+isreachable+" "+subnet+"."+i);
+					networkInfo.unusedIndex = i;
+					break;
+				}
+			} catch (Exception e) {}
 		}
 		networkInfo.ssid = ssid;
 		networkInfo.subnet = subnet;

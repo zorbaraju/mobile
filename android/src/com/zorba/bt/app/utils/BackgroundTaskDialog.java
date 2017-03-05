@@ -15,13 +15,13 @@ public abstract class BackgroundTaskDialog extends AsyncTask<Object, Object, Obj
 	public BackgroundTaskDialog(Activity context) {
 		if( waitDialogEnabled ) {
 			Builder builder = new Builder(context);
-			builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+			/*builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog,int id) {
 					cancelTask();
 					dialog.cancel();
 				}
-			});
-			//builder.setCancelable(true);
+			});*/
+			builder.setCancelable(false);
 			dialog = builder.create();
 			dialog.setTitle("Wait");
 			dialog.setMessage("Please wait");
