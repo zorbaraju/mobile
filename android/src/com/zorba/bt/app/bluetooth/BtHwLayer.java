@@ -296,12 +296,12 @@ public class BtHwLayer {
 						byte numdevs = values[2];
 						byte alldevs = (byte)0xFF;
 						if( numdevs == alldevs) {
-							byte[] data = new byte[CommonUtils.getMaxNoDevices()*2];
-							byte devindex = 1;
-							for (int i = 3; i < data.length; i++) {
-								byte status = data[i];
-								data[devindex*2] = devindex;
-								data[devindex*2+1] = status;
+							numdevs = (byte)(values.length-3);
+							byte[] data = new byte[numdevs*2];
+							for (int i = 0; i < numdevs; i++) {
+								byte status = values[i+3];
+								data[i*2] = (byte)(i+1);
+								data[i*2+1] = status;
 							}
 							activity.notificationReceived(data);
 						} else {
