@@ -138,7 +138,16 @@ public class BtHwLayer {
 	}
 
 	private void checkConnection() throws Exception {
-		if( CommonUtils.isMobileDataConnection(activity) ){
+		if(isBt()) {
+			System.out.println("checkConnection for bt");
+			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
+				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
+				String var1 = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress, false);
+				if (var1 != null) {
+					System.out.println("In checkConnection reinit bt error="+var1);
+					throw new Exception(var1);
+				}
+			}
 		} else if (isWifi() && isWifiEnabled()) {
 			System.out.println("checkConnection for wifi");
 			if ( this.shouldReconnect(this.ipAddress)) {
@@ -147,16 +156,6 @@ public class BtHwLayer {
 				if (error != null) {
 					System.out.println("In checkConnection reinit wifi error="+error);
 					throw new Exception(error);
-				}
-			}
-		} else {
-			System.out.println("checkConnection for bt");
-			if (getInstance(this.activity).makeBtEnabled() && this.shouldReconnect(this.devAddress)) {
-				System.out.println("In checkConnection reinit bt macaddress="+this.devAddress+" ipaddress="+ this.ipAddress);
-				String var1 = this.initDevice(this.roomname, this.devAddress, this.ssid, this.ipAddress, false);
-				if (var1 != null) {
-					System.out.println("In checkConnection reinit bt error="+var1);
-					throw new Exception(var1);
 				}
 			}
 		}
@@ -190,10 +189,6 @@ public class BtHwLayer {
 		this.devAddress = macaddress;
 		System.out.println("In InitDevice Incoming macaddress= "+macaddress + " ssid = "+ssid+" ipaddress...." + ipaddr+" isdiscovery="+isDiscovery);
 		isConnected = false;
-		if( !_isOOH && CommonUtils.isMobileDataConnection(activity)) {
-			//return "Please disbale data connection";
-		}
-		
 		if (ipaddr != null && ipaddr.equals("null")) {
 			ipaddr = null;
 		}
@@ -232,7 +227,7 @@ public class BtHwLayer {
 			}
 		} else {
 			CommonUtils.getInstance().writeLog("Bt  mode...macaddress is "+macaddress);
-			if(!this.mBluetoothAdapter.isEnabled()) {
+			if(!isBt()) {
 				isConnected = false;
 				return BTNOTENABLED;
 			}
@@ -511,10 +506,11 @@ public class BtHwLayer {
 		return var3;
 	}
 
+	public boolean isBt() {
+		return this.mBluetoothAdapter.isEnabled();
+	}
 	public boolean makeBtEnabled() {
-		System.out.println("Hai,,,,,,,,,,,,,,,,");
-		CommonUtils.printStackTrace();
-		boolean isEnabled = this.mBluetoothAdapter.isEnabled();
+		boolean isEnabled = isBt();
 		if (!isEnabled) {
 			Intent var2 = new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE");
 			this.activity.startActivityForResult(var2, RoomsActivity.ENABLEBT_CODE);
@@ -536,11 +532,7 @@ public class BtHwLayer {
 	}
 
 	private byte[] getData(String cmdNoAndReqNo) {
-		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
-			return iotConnection.getData(cmdNoAndReqNo);
-		} else if (isWifi()) {
-			return receiver.getData(cmdNoAndReqNo);
-		} else {
+		if(isBt()) {
 			byte readbytes[] = null;
 			synchronized (lock) {
 				try {
@@ -551,27 +543,17 @@ public class BtHwLayer {
 				}
 			}
 			return readbytes;
+		} else if (isWifi()) {
+			return receiver.getData(cmdNoAndReqNo);
+		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+			return iotConnection.getData(cmdNoAndReqNo);
+		} else {
+			return null;
 		}
-
 	}
 
 	public void writeBytes(byte[] wbytes) {
-		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
-			iotConnection.sendMessage(wbytes);
-		} else if (isWifi()) {
-			/*long current = System.currentTimeMillis();
-			if( current - lastsenttime < 1) {
-				System.out.println("Waiting for 1 ms before writing the data to wifi device");
-				try {
-					Thread.sleep(1);
-				} catch (Exception e) {
-				}
-			} else {
-				System.out.println(" no Waiting for 1 ms");
-			}*/
-			sender.sendCmd(wbytes);
-			lastsenttime = System.currentTimeMillis();
-		} else {
+		if(isBt()) {
 			int numBytes = wbytes.length;
 			int numSent = 0;
 			int remainingBytes = numBytes;
@@ -591,7 +573,12 @@ public class BtHwLayer {
 				System.out.println("Numtobesent.." + numToBeSent + " numSent=" + numSent + " remain=" + remainingBytes
 						+ " numbtes.." + numBytes);
 			}
+		} else if (isWifi()) {
+			sender.sendCmd(wbytes);
+		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+			iotConnection.sendMessage(wbytes);
 		}
+		lastsenttime = System.currentTimeMillis();
 	}
 
 	private byte[] processReqWithRetries(byte reqno, byte[] writeBytes)  throws Exception {
