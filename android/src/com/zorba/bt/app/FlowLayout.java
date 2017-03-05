@@ -360,9 +360,9 @@ public class FlowLayout extends ViewGroup {
 
             LayoutParams childLayoutParams = (LayoutParams) child.getLayoutParams();
 
-            int childWidthMeasureSpec = makeMeasureSpec(childLayoutParams.width, widthSize, isWrapContentWidth);
-            int childHeightMeasureSpec = makeMeasureSpec(childLayoutParams.height, heightSize, isWrapContentHeight);
-            child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
+            //int childWidthMeasureSpec = makeMeasureSpec(childLayoutParams.width, widthSize, isWrapContentWidth);
+            //int childHeightMeasureSpec = makeMeasureSpec(childLayoutParams.height, heightSize, isWrapContentHeight);
+            //child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
             int childWidth = child.getMeasuredWidth();
             if( childWidth> childMaxWidth)
             	childMaxWidth = childWidth;
