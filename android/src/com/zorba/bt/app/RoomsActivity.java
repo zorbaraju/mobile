@@ -180,6 +180,7 @@ public class RoomsActivity extends ZorbaActivity
 					System.out.println("Tocuhcount..." + CommonUtils.getTouchCount(v));
 					if (CommonUtils.getTouchCount(v) > 5) {
 						invokeSendLog();
+						CommonUtils.resetCount();//+spb 180417
 					}
 				}
 			});
@@ -193,6 +194,7 @@ public class RoomsActivity extends ZorbaActivity
 					System.out.println("Tocuhcount..." + CommonUtils.getTouchCount(v));
 					if (CommonUtils.getTouchCount(v) > 5) {
 						invokeMTLOG();
+						CommonUtils.resetCount();//+spb 180417
 					}
 				}
 			});
