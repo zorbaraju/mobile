@@ -384,7 +384,6 @@ public class CommonUtils {
 		for(int i=254; i>200; i--) {
 			try {
 				boolean isreachable = InetAddress.getByName(subnet+"."+i).isReachable(2000);
-				System.out.println("Isreachable..."+isreachable+" "+subnet+"."+i);
 				if( !isreachable) {
 					System.out.println("Isreachable..."+isreachable+" "+subnet+"."+i);
 					networkInfo.unusedIndex = i;
