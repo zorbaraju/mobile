@@ -117,14 +117,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 					String ipaddress = null;
 					int currentDiscoveryType = getCurrentDicoveryMode();
 					System.err.println("currentDiscoveryType>>>>>>>>>>>" + currentDiscoveryType);
-					if (currentDiscoveryType == DISCOVERYTYPE_WR) {
-						try {
-							Thread.sleep(15000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+				
 					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
 						if (!btHwLayer.makeWifiEnabled()) {
 							return null;
