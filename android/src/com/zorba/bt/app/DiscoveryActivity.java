@@ -752,14 +752,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}
 				nonEmptyChildren.clear();
 				isLastDiscoveryWifi = currentDiscoveryType != DISCOVERYTYPE_BT;
-				if( currentDiscoveryType == DISCOVERYTYPE_WR){
+			/*	if( currentDiscoveryType == DISCOVERYTYPE_WR){
 					try {
 						Thread.sleep(15000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+				}*///check
 			}
 		});
 		this.deleteButton = (SvgView) this.findViewById(R.id.deletebutton);
