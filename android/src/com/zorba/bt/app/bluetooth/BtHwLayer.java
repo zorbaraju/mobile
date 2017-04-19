@@ -204,7 +204,7 @@ public class BtHwLayer {
 		ipAddress = ipaddr;
 		this.ssid = ssid;
 		
-		if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+		if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
 			System.out.println("Iot connection is to be used");
 		} else if (isWifi()) {
 			CommonUtils.getInstance().writeLog("Wifi mode...ipaddress is "+ipAddress);
@@ -547,7 +547,7 @@ public class BtHwLayer {
 			return readbytes;
 		} else if (receiver != null) {
 			return receiver.getData(cmdNoAndReqNo);
-		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+		} else if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
 			return iotConnection.getData(cmdNoAndReqNo);
 		} else {
 			return null;
@@ -577,7 +577,7 @@ public class BtHwLayer {
 			}
 		} else if (sender!= null) {
 			sender.sendCmd(wbytes);
-		} else if( !isDiscovery && CommonUtils.isMobileDataConnection(activity)) {
+		} else if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
 			iotConnection.sendMessage(wbytes);
 		}
 		lastsenttime = System.currentTimeMillis();

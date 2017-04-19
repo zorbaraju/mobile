@@ -123,11 +123,12 @@ public class RoomsActivity extends ZorbaActivity
 	}
 
 	private void showMainScreen(final Bundle savedInstanceState) {
+		System.out.println("email"+ BtLocalDB.getInstance(this).getEmailId());
+		BtLocalDB.getInstance(this).cleanDB();
 		if (!BtLocalDB.getInstance(this).getEmailId().equals("")) {
 
 			try {
 				setContentView(R.layout.rooms);
-				BtLocalDB.getInstance(this).cleanDB();
 				rgbController = new RGBController(this);
 				final ListPopupWindow homeMenu = prepareHomeMenu();
 				SvgView homeButton = (SvgView) findViewById(R.id.homeButton);
@@ -215,13 +216,13 @@ public class RoomsActivity extends ZorbaActivity
 				public void onClick(View paramAnonymousView1) {
 
 					String emailid = getValidEmailId();
-					if (emailid == null) {
+						if (emailid == null || emailid.isEmpty()) {
 						CommonUtils.AlertBox(RoomsActivity.this, "Error", "Enter valid email id");
 						return;
 					}
 					// -spb 250117 RadioButton masterbox =
 					// (RadioButton)findViewById(R.id.master);
-					CheckBox masterbox = (CheckBox) findViewById(R.id.master);
+					CheckBox masterbox = (CheckBox) findViewById(R.id.master);			
 					saveEmailIdAndUserType(emailid, masterbox.isChecked());
 					showMainScreen(savedInstanceState);
 				}

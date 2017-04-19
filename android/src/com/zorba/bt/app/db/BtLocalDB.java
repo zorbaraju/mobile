@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import com.zorba.bt.app.CommonUtils;
+import com.zorba.bt.app.RoomsActivity;
 import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.dao.GroupData;
 import com.zorba.bt.app.dao.RoomData;
@@ -227,6 +228,7 @@ public class BtLocalDB {
 	public ArrayList<DeviceData> getDevices(String deviceName, String switchName) {
 		currentDeviceName  = deviceName;
 		String[] var3 = this.dbInfo.getString("Room" + deviceName, "").split("#");
+		
 		ArrayList<DeviceData> list = new ArrayList<DeviceData>();
 		for (int var2 = 0; var2 < var3.length / 3; ++var2) {
 			DeviceData deviceData = new DeviceData(var2 + 1, var3[var2 * 3], var3[var2 * 3 + 1], var3[var2 * 3 + 2], -1);
@@ -269,6 +271,7 @@ public class BtLocalDB {
 	public ArrayList<GroupData> getGroups(String deviceName, String groupName) {
 		String var3 = this.dbInfo.getString("Group" + deviceName, "");
 		System.out.println("group..."+deviceName+"..."+var3 +" groupName="+groupName);
+		
 		ArrayList<GroupData> var4 = new ArrayList<GroupData>();
 		if (!var3.isEmpty()) {
 			String[] var5 = var3.split("#");
