@@ -44,7 +44,7 @@ import com.zorba.bt.app.utils.BackgroundTaskDialog;
 
 public class DiscoveryActivity extends ZorbaActivity {
 
-	boolean isLastDiscoveryBt = false;
+	boolean isLastDiscoveryWifi = false;
 	
 	static final int DISCOVERYTYPE_BT = 0;
 	static final int DISCOVERYTYPE_WR = DISCOVERYTYPE_BT + 1;
@@ -551,8 +551,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				e.printStackTrace();
 			}
 		}
-		if( !isLastDiscoveryBt && !CommonUtils.isActiveNetwork(this)) {
-			//-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Network", "Please enable network");
+		if( isLastDiscoveryWifi && !CommonUtils.isActiveNetwork(this)) {
 			CommonUtils.AlertBox(this, "Network", "Please enable Wifi network");
 			return;
 		}
@@ -752,7 +751,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 
 				}
 				nonEmptyChildren.clear();
-				isLastDiscoveryBt = currentDiscoveryType == DISCOVERYTYPE_BT;
+				isLastDiscoveryWifi = currentDiscoveryType != DISCOVERYTYPE_BT;
 				if( currentDiscoveryType == DISCOVERYTYPE_WR){
 					try {
 						Thread.sleep(15000);

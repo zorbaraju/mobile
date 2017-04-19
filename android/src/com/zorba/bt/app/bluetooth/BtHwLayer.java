@@ -335,7 +335,7 @@ public class BtHwLayer {
 			System.out.println("Waiting for service found for 5 secs");
 			synchronized (lock) {
 				try {
-					lock.wait(5000);
+					lock.wait(3000);
 					System.out.println("Waiting for service released>>>isconnectied...<"+isConnected+">");
 				} catch (InterruptedException e) {
 					System.out.println("Waiting is interupted and not connected..."+e.getMessage());
