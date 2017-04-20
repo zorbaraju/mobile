@@ -10,12 +10,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.text.format.Formatter;
 import android.view.View;
@@ -23,17 +22,15 @@ import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
 import android.widget.ListAdapter;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 
 import com.zorba.bt.app.bluetooth.BtHwLayer;
 import com.zorba.bt.app.bluetooth.NetworkInfo;
@@ -74,6 +71,8 @@ public class CommonUtils {
    
    private static StringBuffer logContentBuf = null;
    private static HashMap<View, Integer> hiddenCountMap= new HashMap<View, Integer>();
+   private Properties properties = new Properties();
+
    private CommonUtils() {
 	   logContentBuf = new StringBuffer();
    }
@@ -83,6 +82,25 @@ public class CommonUtils {
 		   instance = new CommonUtils();
 	   return instance;
    }
+   
+   public void loadErrors(Context context) {
+		try {
+			AssetManager assetManager = context.getAssets();
+			InputStream inputStream = assetManager.open("errors.properties");
+			properties.load(inputStream);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+   }
+   
+   public String getErrorString(String errorCode){
+	   if( properties.containsKey(errorCode)) 
+		   return properties.getProperty(errorCode);
+	   else
+		   return errorCode;
+   }
+   
 	public static void AlertBox(final Activity var0, final String var1, final String var2) {
 		var0.runOnUiThread(new Runnable() {
 			public void run() {

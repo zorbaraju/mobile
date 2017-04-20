@@ -10,7 +10,7 @@
         android:textColor="#ff9400"
         android:textSize="20.0sp" />
 
-    <EditText android:textSize="20.0sp" android:id="@id/roomname" android:layout_width="wrap_content" android:layout_height="wrap_content"  android:textColor="#ff9400" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:ems="10"  android:hint="       Enter room name">
+    <EditText android:textSize="20.0sp" android:id="@id/roomname" android:layout_width="wrap_content" android:layout_height="wrap_content"  android:textColor="#ff9400" android:layout_marginLeft="10.0dip" android:layout_marginRight="10.0dip" android:ems="10"  android:hint="Enter room name">
         <requestFocus />
     </EditText>
 </LinearLayout>

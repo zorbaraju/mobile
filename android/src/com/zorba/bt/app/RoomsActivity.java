@@ -48,6 +48,7 @@ public class RoomsActivity extends ZorbaActivity
 	// -spb 010217 for removing change password from menu String
 	// MENUNAME_CHANGEPWD = "Change Pwd";
 	String MENUNAME_SETTINGS = "Admin Settings";
+	String MENUNAME_OOH = "OOH";
 	String MENUNAME_SENDLOG = "Send Log";
 	String MENUNAME_MTLOG = "Mt Log";
 	String MENUNAME_HELP = "Help";
@@ -97,14 +98,8 @@ public class RoomsActivity extends ZorbaActivity
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*
-		 * String ipaddr =
-		 * CommonUtils.enableNetwork(RoomsActivity.this,"ZORWB_504",
-		 * "ZORWB_504");
-		 * System.out.println("afterenable netwew..."+"ZORWB_504"+".."+ipaddr);
-		 */
+		CommonUtils.getInstance().loadErrors(this);
 		showMainScreen(savedInstanceState);
-
 	}
 
 	private void invokeSendLog() {
@@ -296,6 +291,7 @@ public class RoomsActivity extends ZorbaActivity
 		if (BtLocalDB.getInstance(RoomsActivity.this).isMasterUser()) {
 			arrayList.add(new ImageTextData(MENUNAME_SETTINGS, R.raw.settings));
 		}
+		arrayList.add(new ImageTextData(MENUNAME_OOH, R.raw.oho));
 		// arrayList.add(new ImageTextData(MENUNAME_SENDLOG, R.raw.sendlog));
 		// arrayList.add(new ImageTextData(MENUNAME_MTLOG, R.raw.mtlog));
 		arrayList.add(new ImageTextData(MENUNAME_HELP, R.raw.help));
@@ -339,6 +335,8 @@ public class RoomsActivity extends ZorbaActivity
 				} else if (selectedMenuName.equals(MENUNAME_SETTINGS)) {
 					Intent intent = new Intent(RoomsActivity.this, SettingsActivity.class);
 					RoomsActivity.this.startActivityForResult(intent, CHANGEPWD_CODE);
+				} else if (selectedMenuName.equals(MENUNAME_OOH)) {
+					enableOOH(true);
 				} else if (selectedMenuName.equals(MENUNAME_MTLOG)) {
 					Intent intent = new Intent(RoomsActivity.this, AwsIotActivity.class);
 					String macaddress = "zorbadummy";
@@ -993,16 +991,13 @@ public class RoomsActivity extends ZorbaActivity
 					try {
 						int numberOfDevices = btHwLayer.getNumberOfDevices();
 						CommonUtils.setMaxNoDevices(numberOfDevices);
-						// btHwLayer.setDateAndTime();
 						isUpdate = true;
 					} catch (Exception e) {
 						isUpdate = false;
-						//-spb 060217 for aligning error  CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
-						  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error 2","Error 2");
+						  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR2"));
 					}
 				} else {
-					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Connection", error);
-					CommonUtils.AlertBox(RoomsActivity.this, "Connection Error 3","Error 3");
+					CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR3"));
 					connectionLost();
 					return null;
 				}
