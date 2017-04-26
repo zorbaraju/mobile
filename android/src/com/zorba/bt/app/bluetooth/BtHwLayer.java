@@ -17,7 +17,6 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.provider.Settings;
 import com.zorba.bt.app.CommonUtils;
-import com.zorba.bt.app.DiscoveryActivity;
 import com.zorba.bt.app.Logger;
 import com.zorba.bt.app.NetworkStateReceiver;
 import com.zorba.bt.app.RoomsActivity;
@@ -31,6 +30,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class BtHwLayer {
+	
+	public static final int CONNETIONTYPE_BT = 0;
+	public static final int CONNETIONTYPE_WIFI = 1;
+	public static final int CONNETIONTYPE_DATA = 2;
+	
+	int connectionType = -1;
 	
 	boolean _isOOH = false;
 	public static final int READ_TIMEOUT = 3000;
@@ -170,8 +175,7 @@ public class BtHwLayer {
 		return instance;
 	}
 
-	public boolean enableOOH(boolean enable){
-		_isOOH = true;
+	public boolean isDataEnabled(boolean enable){
 		if( CommonUtils.isMobileDataConnection(activity) ){
 			_isOOH = enable;
 		}
@@ -220,6 +224,7 @@ public class BtHwLayer {
 				Thread.sleep(1 * 1000);
 				System.out.println("wait is released for 1 sec");
 				isConnected = true;
+				connectionType = CONNETIONTYPE_WIFI;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -275,6 +280,7 @@ public class BtHwLayer {
 							synchronized (lock) {
 								lock.notifyAll();
 								isConnected = true;
+								connectionType = CONNETIONTYPE_BT;
 								if(connectionListener != null)
 									connectionListener.connectionStarted(CommonUtils.CONNECTION_BT);
 							}
@@ -459,7 +465,12 @@ public class BtHwLayer {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		if( iotConnection != null){
+			iotConnection.closeConnection();
+			iotConnection = null;
+		}
 		isConnected = false;
+		connectionType = -1;
 		System.out.println("Connection to device is closed");
 		if( connectionListener != null) {
 			connectionListener.connectionLost();
@@ -534,7 +545,7 @@ public class BtHwLayer {
 	}
 
 	private byte[] getData(String cmdNoAndReqNo) {
-		if( mBluetoothGatt!= null) {
+		if( connectionType == CONNETIONTYPE_BT) {
 			byte readbytes[] = null;
 			synchronized (lock) {
 				try {
@@ -545,9 +556,9 @@ public class BtHwLayer {
 				}
 			}
 			return readbytes;
-		} else if (receiver != null) {
+		} else if (connectionType == CONNETIONTYPE_WIFI) {
 			return receiver.getData(cmdNoAndReqNo);
-		} else if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
+		} else if( connectionType == CONNETIONTYPE_DATA) {
 			return iotConnection.getData(cmdNoAndReqNo);
 		} else {
 			return null;
@@ -555,7 +566,7 @@ public class BtHwLayer {
 	}
 
 	public void writeBytes(byte[] wbytes) {
-		if( mBluetoothGatt!= null) {
+		if( connectionType == CONNETIONTYPE_BT) {
 			int numBytes = wbytes.length;
 			int numSent = 0;
 			int remainingBytes = numBytes;
@@ -575,9 +586,9 @@ public class BtHwLayer {
 				System.out.println("Numtobesent.." + numToBeSent + " numSent=" + numSent + " remain=" + remainingBytes
 						+ " numbtes.." + numBytes);
 			}
-		} else if (sender!= null) {
+		} else if (connectionType == CONNETIONTYPE_WIFI) {
 			sender.sendCmd(wbytes);
-		} else if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
+		} else if( connectionType == CONNETIONTYPE_DATA) {
 			iotConnection.sendMessage(wbytes);
 		}
 		lastsenttime = System.currentTimeMillis();
@@ -1042,24 +1053,15 @@ public class BtHwLayer {
 	}
 	public boolean enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
 		boolean enabled = false;
-		if( iotConnection == null) {
-			iotConnection = new AwsConnection(activity,this.devAddress);
-			int timeout = 0;
-			while( timeout<10) {
-				if( iotConnection.isConnected())
-					break;
-				try{
-					Thread.sleep(3000);
-					timeout += 3;
-				}catch(Exception e){
-					
-				}
-			}
+		if( iotConnection != null && !iotConnection.isConnected()) {
+			iotConnection.closeConnection();
+			iotConnection = null;
 		}
+		if( iotConnection == null) {
+			iotConnection = new AwsConnection(activity,this.devAddress, connectionListener);
+		}
+		System.out.println("...iotConnection...."+iotConnection.isConnected());
 		if( iotConnection.isConnected()) {
-			if( _isOOH) {
-				connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
-			}
 			for(RoomData rd: roomDataList){
 				if( !rd.getAddress().equals(devAddress)) {
 					iotConnection.enableNotificationForRoom(listener, rd);
@@ -1068,6 +1070,10 @@ public class BtHwLayer {
 			iotConnection.setNotificationListener(activity,listener);
 			isConnected = true;
 			enabled = true;
+			connectionType = CONNETIONTYPE_DATA;
+		} else {
+			iotConnection.closeConnection();
+			iotConnection = null;
 		}
 		return enabled;
 	}

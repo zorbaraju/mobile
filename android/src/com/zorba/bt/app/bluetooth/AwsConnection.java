@@ -33,6 +33,7 @@ import java.util.UUID;
 
 public class AwsConnection {
 
+	ConnectionListener connectionListener = null;
 	String macAddress = null;
 	static final String LOG_TAG = AwsConnection.class.getCanonicalName();
 
@@ -71,9 +72,10 @@ public class AwsConnection {
 
 	CognitoCachingCredentialsProvider credentialsProvider;
 
-	public AwsConnection(Context activity, String macaddress) {
+	public AwsConnection(Context activity, String macaddress,ConnectionListener cl) {
 
 		this.macAddress = macaddress;
+		this.connectionListener = cl;
 		// MQTT client IDs are required to be unique per AWS IoT account.
 		// This UUID is "practically unique" but does not _guarantee_
 		// uniqueness.
@@ -130,7 +132,51 @@ public class AwsConnection {
 		} catch (Exception e) {
 			Log.e(LOG_TAG, "An error occurred retrieving cert/key from keystore.", e);
 		}
+		if ( clientKeyStore == null ) {
+			try {
+                // Create a new private key and certificate. This call
+                // creates both on the server and returns them to the
+                // device.
+                CreateKeysAndCertificateRequest createKeysAndCertificateRequest =
+                        new CreateKeysAndCertificateRequest();
+                createKeysAndCertificateRequest.setSetAsActive(true);
+                final CreateKeysAndCertificateResult createKeysAndCertificateResult;
+                createKeysAndCertificateResult =
+                        mIotAndroidClient.createKeysAndCertificate(createKeysAndCertificateRequest);
+                Log.i(LOG_TAG,
+                        "Cert ID: " +
+                                createKeysAndCertificateResult.getCertificateId() +
+                                " created.");
 
+                // store in keystore for use in MQTT client
+                // saved as alias "default" so a new certificate isn't
+                // generated each run of this application
+                AWSIotKeystoreHelper.saveCertificateAndPrivateKey(certificateId,
+                        createKeysAndCertificateResult.getCertificatePem(),
+                        createKeysAndCertificateResult.getKeyPair().getPrivateKey(),
+                        keystorePath, keystoreName, keystorePassword);
+
+                // load keystore from file into memory to pass on
+                // connection
+                clientKeyStore = AWSIotKeystoreHelper.getIotKeystore(certificateId,
+                        keystorePath, keystoreName, keystorePassword);
+
+                // Attach a policy to the newly created certificate.
+                // This flow assumes the policy was already created in
+                // AWS IoT and we are now just attaching it to the
+                // certificate.
+                AttachPrincipalPolicyRequest policyAttachRequest =
+                        new AttachPrincipalPolicyRequest();
+                policyAttachRequest.setPolicyName(AwsConnection.AWS_IOT_POLICY_NAME);
+                policyAttachRequest.setPrincipal(createKeysAndCertificateResult
+                        .getCertificateArn());
+                mIotAndroidClient.attachPrincipalPolicy(policyAttachRequest);
+            } catch (Exception e) {
+                Log.e(LOG_TAG,
+                        "Exception occurred when generating new private key and certificate.",
+                        e);
+            }
+		}
 		if (clientKeyStore == null) {
 			Log.i(LOG_TAG, "Cert/key was not found in keystore - creating new key and certificate.");
 
@@ -146,10 +192,27 @@ public class AwsConnection {
 						isConnected = true;
 						receiver = new BtIotReceiver();
 						mqttManager.subscribeToTopic(macAddress+"/publish", AWSIotMqttQos.QOS0, receiver);
+						connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
+					} else if (arg0.equals(AWSIotMqttClientStatus.Reconnecting)) {
+						if( isConnected) {
+						closeConnection();
+						connectionListener.connectionLost();
+						}
 					}
 				}
 			});
 
+			int timeout = 0;
+			while( timeout<10) {
+				if( isConnected())
+					break;
+				try{
+					Thread.sleep(3000);
+					timeout += 3;
+				}catch(Exception e){
+					
+				}
+			}
 		} catch (Exception e) {
 			Log.e(LOG_TAG, "Subscription error.", e);
 		}
@@ -221,6 +284,23 @@ public class AwsConnection {
 	
 	public void setNotificationListener(NotificationListener l, IOTMessageListener listener) {
 		receiver.setNotificationListener(l, listener);
+	}
+
+	public void closeConnection() {
+		if( mqttManager != null){
+			mqttManager.disconnect();
+		}
+		if( receiver != null)
+			try {
+				receiver.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		receiver = null;
+		mqttManager = null;
+		isConnected = false;
+		System.out.println("...closeConnection  iot");
 	}
 
 }

@@ -1303,27 +1303,35 @@ public class RoomsActivity extends ZorbaActivity
 		schedulePanel.enableEditMode(isInConfigDeviceMode);
 	}
 
-	private void enableOOH(boolean enable) {
-		btHwLayer.enableOOH(true);
-
-		boolean enabled = btHwLayer.isOOH();
-		if (enabled) {
-			enabled = btHwLayer.enableOOH(enable);
-			if (enabled) {
-				try {
-					int numberOfDevices = btHwLayer.getNumberOfDevices();
-					CommonUtils.setMaxNoDevices(numberOfDevices);
-				} catch (Exception e) {
-					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Connection", e.getMessage());
-					CommonUtils.AlertBox(RoomsActivity.this, "Connection 4", "Error 4");
+	private void enableOOH(final boolean enable) {
+		BackgroundTaskDialog task = new BackgroundTaskDialog(RoomsActivity.this) {
+			
+			@Override
+			public Object runTask(Object params) {
+				boolean enabled = btHwLayer.isDataEnabled(enable);
+				if( !enabled) {
+					CommonUtils.AlertBox(RoomsActivity.this, "OOH", "Enable Data for OOH");
+					return null;
 				}
-				this.roomDataList = BtLocalDB.getInstance(this).getRoomList();
-				this.roomDataList.remove(0);
-				for (RoomData rd : roomDataList) {
-					btHwLayer.enableNotificationForRooms(this, this.roomDataList);
+				if (enabled) {
+					roomDataList = BtLocalDB.getInstance(RoomsActivity.this).getRoomList();
+					roomDataList.remove(0);
+					enabled = btHwLayer.enableNotificationForRooms(RoomsActivity.this, RoomsActivity.this.roomDataList);
+					readAndUpateStatusForRoom(true);
+				}
+				return enabled;
+			}
+			
+			@Override
+			public void finishedTask(Object result) {
+				if( result != null) {
+					boolean enabled = (Boolean)result;
+					if(!enabled){
+						CommonUtils.AlertBox(RoomsActivity.this, "OOH", "No connection to Server");
+					}
 				}
 			}
-		}
+		};
 	}
 
 	@Override
