@@ -59,22 +59,11 @@
                     android:id="@+id/wifirdiscovery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:button="@drawable/checkbox_custom_01"
-                    android:checked="false"
-                    android:text="  Wifi Router  "
-                    android:textColor="#fff7f2ed"
-                    android:textSize="15.0sp"
-                    android:textStyle="bold" />
-
-                <RadioButton
-                    android:id="@+id/wifiapdiscovery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
+                    android:layout_marginLeft="15.0dip"
                     android:button="@drawable/checkbox_custom_01"
                     android:checked="true"
-                    android:text="  Wifi Direct  "
+                    android:text="  Wifi Router  "
                     android:textColor="#fff7f2ed"
                     android:textSize="15.0sp"
                     android:textStyle="bold" />

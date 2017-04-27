@@ -48,7 +48,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	
 	static final int DISCOVERYTYPE_BT = 0;
 	static final int DISCOVERYTYPE_WR = DISCOVERYTYPE_BT + 1;
-	static final int DISCOVERYTYPE_WAP = DISCOVERYTYPE_WR + 1;
+	//-spb 270417 remove wifiap static final int	static final int DISCOVERYTYPE_WAP = DISCOVERYTYPE_WR + 1;
 	static final int ENABLE_BT = 1;
 	SvgView deleteButton = null;
 	private String deletedRoomList = "";
@@ -67,7 +67,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 	BtHwLayer btHwLayer = null;
 	RadioButton btdiscoveryBox = null;
 	RadioButton wifirdiscoveryBox = null;
-	RadioButton wifiapdiscoveryBox = null;
+	//-spb 270417 remove wifiap 	RadioButton wifiapdiscoveryBox = null;
 	String currentWifiSSID = null;
 	boolean isChangedToAPMode = false;
 	private boolean isMaster = false;
@@ -117,7 +117,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 					String ipaddress = null;
 					int currentDiscoveryType = getCurrentDicoveryMode();
 					System.err.println("currentDiscoveryType>>>>>>>>>>>" + currentDiscoveryType);
-				
+					//-spb 270417 remove wifiap
+					/*
 					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
 						if (!btHwLayer.makeWifiEnabled()) {
 							return null;
@@ -145,7 +146,10 @@ public class DiscoveryActivity extends ZorbaActivity {
 							e.printStackTrace();
 							return null;
 						}
-					} else if (currentDiscoveryType == DISCOVERYTYPE_BT) {
+						//-spb 270417 remove wifiap
+					//-spb 270417 remove wifiap } else if (currentDiscoveryType == DISCOVERYTYPE_BT) {
+						*/
+					if (currentDiscoveryType == DISCOVERYTYPE_BT) {
 						System.err.println("Trying for bt........");
 						String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, null);
 						if (error != null) {
@@ -263,9 +267,13 @@ public class DiscoveryActivity extends ZorbaActivity {
 					System.out.println("Closed device...successfully  done" );
 					String macaddress = droom.getDeviceAddress();
 					String ssid = null;
+					//-spb 270417 remove wifiap
+					/*
 					if (currentDiscoveryType == DISCOVERYTYPE_WAP) {
 						ssid = droom.getDeviceName();
 					}
+					*/
+					//-spb 270417 remove wifiap
 					if (currentDiscoveryType != DISCOVERYTYPE_BT) {
 						macaddress = btHwLayer.getPopulateMacAddress();
 					}
@@ -489,7 +497,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 		((TextView) findViewById(R.id.controllerValue)).setText("Please Wait...");
 		btdiscoveryBox.setEnabled(false);
 		wifirdiscoveryBox.setEnabled(false);
-		wifiapdiscoveryBox.setEnabled(false);
+		//-spb 270417 remove wifiap wifiapdiscoveryBox.setEnabled(false);
 	}
 
 	private String getDiscoveryModeStr() {
@@ -497,9 +505,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 		String modeStr = "Bluetooth Discovery";
 		if (discoveryType == DISCOVERYTYPE_WR) {
 			modeStr = "Station Discovery";
-		} else if (discoveryType == DISCOVERYTYPE_WAP) {
+		}
+			//-spb 270417 remove wifiap
+		/*	
+		 else if (discoveryType == DISCOVERYTYPE_WAP) {
 			modeStr = "Access point Discovery";
 		}
+		*/
+		//-spb 270417 remove wifiap
 		return modeStr;
 	}
 
@@ -529,7 +542,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				saveButton.setEnabled(true);
 				btdiscoveryBox.setEnabled(true);
 				wifirdiscoveryBox.setEnabled(true);
-				wifiapdiscoveryBox.setEnabled(true);
+				//-spb 270417 remove wifiap  wifiapdiscoveryBox.setEnabled(true);
 
 			}
 		});
@@ -608,8 +621,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		btHwLayer.closeDevice();
 		btdiscoveryBox = (RadioButton) findViewById(R.id.btdiscovery);
 		wifirdiscoveryBox = (RadioButton) findViewById(R.id.wifirdiscovery);
-		wifiapdiscoveryBox = (RadioButton) findViewById(R.id.wifiapdiscovery);
-		wifiapdiscoveryBox.setChecked(true);
+		//-spb 270417 remove wifiap  wifiapdiscoveryBox = (RadioButton) findViewById(R.id.wifiapdiscovery);
+		//-spb 270417 remove wifiap  wifiapdiscoveryBox.setChecked(true);
 		
 		TextView pwdview = (TextView) findViewById(R.id.wifiPwdText);
 		pwdview.setText("");// "8GE5R3N5J4");//"owyoe82486");
@@ -645,6 +658,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}
 		}
 		});
+		//-spb 270417 remove wifiap 
+		/*
 		wifiapdiscoveryBox.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -657,6 +672,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}	
 			}
 		});
+		*/
+		//-spb 270417 remove wifiap 
 					saveButton = (Button) findViewById(R.id.savebutton);
 		saveButton.setEnabled(false);
 		((SvgView) this.findViewById(R.id.spinnertriangle)).setOnClickListener(new ZorbaOnClickListener() {
@@ -861,8 +878,12 @@ public class DiscoveryActivity extends ZorbaActivity {
 			mode = DISCOVERYTYPE_BT;
 		else if( wifirdiscoveryBox.isChecked())
 			mode = DISCOVERYTYPE_WR;
+		//-spb 270417 remove wifiap 
+		/*
 		else if( wifiapdiscoveryBox.isChecked())
 			mode = DISCOVERYTYPE_WAP;
+		*/
+		//-spb 270417 remove wifiap 
 		return mode;
 	}
 

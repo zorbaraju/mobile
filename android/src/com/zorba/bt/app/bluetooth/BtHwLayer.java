@@ -1051,14 +1051,14 @@ public class BtHwLayer {
 		}, idletimeout);
 
 	}
-	public boolean enableNotificationForRooms(IOTMessageListener listener, ArrayList<RoomData> roomDataList){
+	public boolean enableNotificationForRooms(IOTMessageListener listener, RoomData currentRoom, ArrayList<RoomData> roomDataList){
 		boolean enabled = false;
 		if( iotConnection != null && !iotConnection.isConnected()) {
 			iotConnection.closeConnection();
 			iotConnection = null;
 		}
 		if( iotConnection == null) {
-			iotConnection = new AwsConnection(activity,this.devAddress, connectionListener);
+			iotConnection = new AwsConnection(activity,currentRoom, connectionListener);
 		}
 		System.out.println("...iotConnection...."+iotConnection.isConnected());
 		if( iotConnection.isConnected()) {

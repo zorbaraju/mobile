@@ -72,9 +72,9 @@ public class AwsConnection {
 
 	CognitoCachingCredentialsProvider credentialsProvider;
 
-	public AwsConnection(Context activity, String macaddress,ConnectionListener cl) {
+	public AwsConnection(Context activity, final RoomData rd,ConnectionListener cl) {
 
-		this.macAddress = macaddress;
+		this.macAddress = rd.getAddress();
 		this.connectionListener = cl;
 		// MQTT client IDs are required to be unique per AWS IoT account.
 		// This UUID is "practically unique" but does not _guarantee_
@@ -190,7 +190,7 @@ public class AwsConnection {
 					System.out.println("status....." + arg0 + " aa>>" + arg1 + ".." + mqttManager.isAutoReconnect());
 					if (arg0.equals(AWSIotMqttClientStatus.Connected)) {
 						isConnected = true;
-						receiver = new BtIotReceiver();
+						receiver = new BtIotReceiver(rd.getName());
 						mqttManager.subscribeToTopic(macAddress+"/publish", AWSIotMqttQos.QOS0, receiver);
 						connectionListener.connectionStarted(CommonUtils.CONNECTION_DATA);
 					} else if (arg0.equals(AWSIotMqttClientStatus.Reconnecting)) {
@@ -237,7 +237,7 @@ public class AwsConnection {
                     new AWSIotMqttNewMessageCallback() {
                         @Override
                         public void onMessageArrived(final String topic, final byte[] data) {
-                        	System.out.println("Hai...."+topic+"data>>>"+data);
+                        	System.out.println("Hai...."+topic+"data>>>"+data+"...mac="+rd.getAddress()+" roomname="+rd.getName());
                         	CommonUtils.printBytes("Read", data);
                     		byte cmd = data[0];
                     		if (cmd == 36) {
@@ -266,9 +266,12 @@ public class AwsConnection {
 	                				if( switchName == null){
 	                					switchName = "No match";
 	                				}*/
-		                    		byte[] devid = {data[3]};
-		                    		byte[] status = {data[4]};
-		                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
+	                				int numchanges = data[2];
+	                				for( int i=0; i<numchanges; i++) {
+	                					byte[] devid = {data[3+2*i]};
+	                            		byte[] status = {data[3+2*i+1]};
+			                    		messgeListener.mesgReceveid(rd.getName(), devid, status);
+	                				}
 	                			}
                     		}
                         }

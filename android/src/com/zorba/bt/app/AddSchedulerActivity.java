@@ -132,6 +132,9 @@ public class AddSchedulerActivity extends ZorbaActivity {
     	  int repeatType = schedData.getRepeatType();
     	  repeatMenu.setSelectedItem(repeatType);
     	  repeatTypeChanged();
+    	// -spb 270417 remove weekly schedular
+    				/*
+
     	  TableRow weeklyRows = (TableRow)this.findViewById(R.id.weeklyselection);
           int repeatTypeValue = schedData.getRepeatValue();
           if(repeatType == 2) {
@@ -143,7 +146,9 @@ public class AddSchedulerActivity extends ZorbaActivity {
                 repeatTypeValue >>= 1;
              }
           }
-          
+          */
+			// -spb 270417 remove weekly schedular
+
     	  int devidAndStatus[] = schedData.getDevData();
     	  for(int dindex = 0; dindex<devidAndStatus.length/2; dindex++) {
         	  SelectComp comp = getSelectComp(devidAndStatus[dindex*2]);
@@ -168,13 +173,16 @@ public class AddSchedulerActivity extends ZorbaActivity {
 
    private void repeatTypeChanged() {
       MyListMenu var2 = (MyListMenu)this.findViewById(R.id.repeattype);
-      TableRow var1 = (TableRow)this.findViewById(R.id.weeklyselection);
+  	// -spb 270417 remove weekly schedular       TableRow var1 = (TableRow)this.findViewById(R.id.weeklyselection);
+  	// -spb 270417 remove weekly schedular 
+      /*
       if(var2.getSelectedItemPosition() == 2) {
          var1.setVisibility(View.VISIBLE);
       } else {
          var1.setVisibility(View.GONE);
       }
-
+     */
+  	// -spb 270417 remove weekly schedular 
    }
 
    private void saveScheduler() {
@@ -279,7 +287,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
             AddSchedulerActivity.this.repeatTypeChanged();
          }
       });
-      var2.setMenuItems(new String[]{"Once    ", "Daily   ", "Weekly  "});
+  	// -spb 270417 remove weekly schedular       var2.setMenuItems(new String[]{"Once    ", "Daily   ", "Weekly  "});
+  	var2.setMenuItems(new String[] { "Once    ", "Daily   " });
       MyPopupDialog listDialog = (MyPopupDialog)this.findViewById(R.id.deviceTypeList);
       listDialog.setMenu(SchedulerData.schedulerTypes, SchedulerData.imageResIds);
       this.populateSchedulers();

@@ -48,7 +48,7 @@ public class RoomsActivity extends ZorbaActivity
 	// -spb 010217 for removing change password from menu String
 	// MENUNAME_CHANGEPWD = "Change Pwd";
 	String MENUNAME_SETTINGS = "Admin Settings";
-	String MENUNAME_OOH = "OOH";
+	String MENUNAME_OOH = "Enable OOH";
 	String MENUNAME_SENDLOG = "Send Log";
 	String MENUNAME_MTLOG = "Mt Log";
 	String MENUNAME_HELP = "Help";
@@ -1316,7 +1316,7 @@ public class RoomsActivity extends ZorbaActivity
 				if (enabled) {
 					roomDataList = BtLocalDB.getInstance(RoomsActivity.this).getRoomList();
 					roomDataList.remove(0);
-					enabled = btHwLayer.enableNotificationForRooms(RoomsActivity.this, RoomsActivity.this.roomDataList);
+					enabled = btHwLayer.enableNotificationForRooms(RoomsActivity.this, RoomsActivity.this.selectedRoom, RoomsActivity.this.roomDataList);
 					readAndUpateStatusForRoom(true);
 				}
 				return enabled;
@@ -1336,7 +1336,7 @@ public class RoomsActivity extends ZorbaActivity
 
 	@Override
 	public void mesgReceveid(String roomname, byte devids[], byte statuses[]) {
-		CommonUtils.getInstance().addNotification(this, selectedRoom.getName(), devids, statuses);
+		CommonUtils.getInstance().addNotification(this, roomname, devids, statuses);
 	}
 
 }

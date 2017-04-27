@@ -16,12 +16,13 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
 	NotificationListener notificationListener = null;
 	IOTMessageListener iotListener = null;
 	ConnectionListener connectionListener = null;
-
+	String roomName = "";
 	Object lock = new Object();
 	HashMap<String, byte[]> responseQueue = new HashMap<String, byte[]>();
 	boolean shouldStop = false;
 
-	public BtIotReceiver() {
+	public BtIotReceiver(String rn) {
+		roomName = rn;
 	}
 
 	public void close() throws Exception {
@@ -101,9 +102,15 @@ public class BtIotReceiver implements AWSIotMqttNewMessageCallback {
     					switchName = "No match";
     				}
     				*/
-					iotListener.mesgReceveid(roomname, devids, statuses);
+					iotListener.mesgReceveid(roomName, devids, statuses);
 				}
 			} else {
+				int numchanges = readBytes[2];
+				for( int i=0; i<numchanges; i++) {
+            		byte[] devid = {readBytes[3+2*i]};
+            		byte[] status = {readBytes[3+2*i+1]};
+            		iotListener.mesgReceveid(roomName, devid, status);
+				}
 				CommonUtils.processMultipleNotification(readBytes, 0, notificationListener, null);
 			}
 			synchronized (lock) {
