@@ -106,7 +106,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 		if (validName == null) {
 			return null;
 		} else if (BtLocalDB.getInstance(this.getApplication()).isRoomNameExist(validName)) {
-			CommonUtils.AlertBox(this, "Already exist", "Name" + "(" + validName + ")" + " is exist already");
+			//-spb 270417 for errors CommonUtils.AlertBox(this, "Already exist", "Name" + "(" + validName + ")" + " is exist already");
+			CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR26"), "Name" + "(" + validName + ")" +  CommonUtils.getInstance().getErrorString("ERROR27"));
 			return null;
 		} else {
 			saveButton.setEnabled(false);
@@ -153,8 +154,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 						System.err.println("Trying for bt........");
 						String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, null);
 						if (error != null) {
+							//-spb 270417 for errors 
+							/*
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName() + " : " + error);
+							*/
+							//-spb 270417 for errors 
+							CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),
+									 CommonUtils.getInstance().getErrorString("ERROR31") + droom.getRoomName() + " : " + error);
 							return null;
 						}
 						try {
@@ -196,8 +203,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 						}
 						String error = btHwLayer.initDevice(droom.getRoomName(), droom.getDeviceAddress(), null, ipaddr);
 						if (error != null) {
+							//-spb 270417 for errors 
+							/*
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 									"Not able to init connection " + droom.getRoomName() + " : " + error);
+							//-spb 270417 for errors 
+							*/
+							CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),
+									 CommonUtils.getInstance().getErrorString("ERROR31") + droom.getRoomName() + " : " + error);
 							return null;
 						}
 						
@@ -217,14 +230,26 @@ public class DiscoveryActivity extends ZorbaActivity {
 								byte[] response = btHwLayer.setIpAddress(networkInfo.ssid, pwd, ipaddress);
 								if (response != null) {
 									if (response[0] != 48) {
+										//-spb 270417 for errors 
+										/*
 										CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 												"Ip address is not set for " + droom.getRoomName());
+										//-spb 270417 for errors 
+										*/
+										CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),
+												 CommonUtils.getInstance().getErrorString("ERROR32") + droom.getRoomName());
 										return null;
 									}
 									
 								} else {
+									//-spb 270417 for errors 
+									/*
 									CommonUtils.AlertBox(DiscoveryActivity.this, "Ip set",
 											"No response from device for ip set");
+									*/
+									//-spb 270417 for errors 
+									CommonUtils.AlertBox(DiscoveryActivity.this, CommonUtils.getInstance().getErrorString("ERROR33"),
+											CommonUtils.getInstance().getErrorString("ERROR34"));
 									ipaddress = "null";
 								}
 								System.err.println("Seting ipaddress: sleeping for 5 secs for mode");
@@ -233,8 +258,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 							}
 						} catch (Exception e) {
 							System.out.println("Closing device..." + e.getMessage());
+							//-spb 270417 for errors 
+							/*
 							CommonUtils.AlertBox(DiscoveryActivity.this, "Ip set",
 									"No response from device for ip set");
+							//-spb 270417 for errors 
+							*/
+							CommonUtils.AlertBox(DiscoveryActivity.this, CommonUtils.getInstance().getErrorString("ERROR33"),
+									CommonUtils.getInstance().getErrorString("ERROR34"));
 							return null;
 						}
 						if (isStationModeMasterDiscovery()) {
@@ -243,8 +274,14 @@ public class DiscoveryActivity extends ZorbaActivity {
 								btHwLayer.setWifiAPMode(false);
 							} catch (Exception e1) {
 								e1.printStackTrace();
+								//-spb 270417 for errors 
+								/*
 								CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery",
 										"Not able to set station mode " + droom.getRoomName());
+								*/
+								//-spb 270417 for errors 
+								CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),
+										CommonUtils.getInstance().getErrorString("ERROR35") + droom.getRoomName());
 								return null;
 							}
 							try {
@@ -297,7 +334,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 					System.out.println("Added room in configured panel");
 					addRoomButton(createdRoom);
 					//+spb 020217 for popup msg after room addition
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Device added successfully !", "Kindly restart app and add switches using 'Configure Zorba'");
+					//-spb 270417 for errors CommonUtils.AlertBox(DiscoveryActivity.this, "Device added successfully !", "Kindly restart app and add switches using 'Configure Zorba'");
+					CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR28"),  CommonUtils.getInstance().getErrorString("ERROR29"));
 					//+spb 020217 for popup msg after room addition
 					saveButton.setEnabled(false);
 				}
@@ -522,7 +560,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			WifiInfo currentWifi = wifiManager.getConnectionInfo();
 			if (currentWifi == null || currentWifi.getSSID() == null || currentWifi.getSSID().isEmpty()) {
 				//-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Discovery", "Wifi connection is not enabled");
-				CommonUtils.AlertBox(this, "Discovery", "Kindly start Wifi on phone and try again");
+				//-spb 270417 for errors CommonUtils.AlertBox(this, "Discovery", "Kindly start Wifi on phone and try again");
+				CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR30"), CommonUtils.getInstance().getErrorString("ERROR36"));
 				return;
 			}
 			currentWifiSSID = currentWifi.getSSID().substring(1, currentWifi.getSSID().length() - 1);
@@ -566,7 +605,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			}
 		}
 		if( isLastDiscoveryWifi && !CommonUtils.isActiveNetwork(this)) {
-			CommonUtils.AlertBox(this, "Network", "Please enable Wifi network");
+			//-spb 270417 for errors CommonUtils.AlertBox(this, "Network", "Please enable Wifi network");
+			CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR37"),  CommonUtils.getInstance().getErrorString("ERROR38"));
 			return;
 		}
 		Intent intent = new Intent();
@@ -685,13 +725,15 @@ public class DiscoveryActivity extends ZorbaActivity {
 			mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
 			if (mBluetoothManager == null) {
 				//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Bt Manager", "Unable to initialize BluetoothManager.");
-				CommonUtils.AlertBox(this, "Bluetooth setting", "Unable to initialize Bluetooth Manager.");
+				//-spb 270417 for errors CommonUtils.AlertBox(this, "Bluetooth setting", "Unable to initialize Bluetooth Manager.");
+				CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR39"),  CommonUtils.getInstance().getErrorString("ERROR40"));
 				return;
 			}
 		}
 		this.mBTA = mBluetoothManager.getAdapter();
 		if (this.mBTA == null) {
-			CommonUtils.AlertBox(this, "Bt Manager", "No Bluetooth on this handset");
+			//-spb 270417 for errors CommonUtils.AlertBox(this, "Bt Manager", "No Bluetooth on this handset");
+			CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR41"),  CommonUtils.getInstance().getErrorString("ERROR42"));
 			this.finish();
 			return;
 		}
@@ -746,7 +788,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 				System.out.println("Pwd........" + pwd);
 				if (currentDiscoveryType == DISCOVERYTYPE_WR && pwd.isEmpty() && isStationModeMasterDiscovery()) {
 					//-spb 010217 for error msg chg  CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Password is empty");
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Kindly enter valid Wifi password for selected network");
+					//-spb 270417 for errors CommonUtils.AlertBox(DiscoveryActivity.this, "Wifi", "Kindly enter valid Wifi password for selected network");
+					CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR43"),  CommonUtils.getInstance().getErrorString("ERROR44"));
 					return;
 				}
 				int numdiscovered = DiscoveryActivity.this.discoveryContent.getChildCount();
@@ -759,7 +802,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 				}
 				if (nonEmptyChildren.size() == 0) {
 					//-spb 010217 for error msg chg   CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Name is empty");
-					CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Kindly enter room name");
+					//-spb 270417 for errors CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Kindly enter room name");
+					CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),  CommonUtils.getInstance().getErrorString("ERROR46"));
 					return;
 				}
 				numdiscovered = nonEmptyChildren.size();
@@ -833,7 +877,8 @@ public class DiscoveryActivity extends ZorbaActivity {
 			});
 		}
 		little.stop();
-		CommonUtils.getInstance().writeLog("Discovery started");
+		//-spb 270417 for errors CommonUtils.getInstance().writeLog("Discovery started");
+		CommonUtils.getInstance().writeLog( CommonUtils.getInstance().getErrorString("ERROR46"));
 		Logger.e(this, "Discovery", "Discvoery started");
 //		this.startDiscoveryProcess();
 	}

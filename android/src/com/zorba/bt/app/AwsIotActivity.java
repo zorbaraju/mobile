@@ -276,7 +276,8 @@ public class AwsIotActivity extends ZorbaActivity {
             final String msg = txtMessage.getText().toString();
             String str = txtMessage.getText().toString();
 			if (str.length() % 2 == 1) {
-				CommonUtils.AlertBox(AwsIotActivity.this, "Write Error", "Write even digits");
+				//-spb 270417 for errors CommonUtils.AlertBox(AwsIotActivity.this, "Write Error", "Write even digits");
+				CommonUtils.AlertBox(AwsIotActivity.this,  CommonUtils.getInstance().getErrorString("ERROR13"),  CommonUtils.getInstance().getErrorString("ERROR14"));
 				return;
 			}
 			try {
@@ -287,7 +288,8 @@ public class AwsIotActivity extends ZorbaActivity {
 				mqttManager.publishData(wbytes, topic, AWSIotMqttQos.QOS0);
 			} catch (Exception e) {
 				CommonUtils.getInstance().writeLog(str+":"+e.getMessage());
-				CommonUtils.AlertBox(AwsIotActivity.this, "Write Error", e.getMessage());
+				//-spb 270417 for errors CommonUtils.AlertBox(AwsIotActivity.this, "Write Error", e.getMessage());
+				CommonUtils.AlertBox(AwsIotActivity.this, CommonUtils.getInstance().getErrorString("ERROR13"), e.getMessage());
 				Log.e(LOG_TAG, "Publish error.", e);
 			}
 

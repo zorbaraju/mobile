@@ -121,7 +121,8 @@ public class SettingsActivity extends ZorbaActivity {
 					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(!isOOHEnabled);
 				} catch (Exception e) {
 					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", e.getMessage());
-					CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", "OOH is disabled");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Enable Error", "OOH is disabled");
+					CommonUtils.AlertBox(SettingsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR71"),  CommonUtils.getInstance().getErrorString("ERROR72"));
 				}
 				//esbSettings();
 
@@ -142,7 +143,8 @@ public class SettingsActivity extends ZorbaActivity {
 					//-spb 060217 for aligning error oohStatusLabel.setText("Error:" + e.getMessage());
 					oohStatusLabel.setText("Error: No connection with the device");
 					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Read Error", e.getMessage());
-					CommonUtils.AlertBox(SettingsActivity.this, "Read Error", "AWS connection error");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Read Error", "AWS connection error");
+					CommonUtils.AlertBox(SettingsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR47"),  CommonUtils.getInstance().getErrorString("ERROR73"));
 				}
 
 			}
@@ -156,7 +158,8 @@ public class SettingsActivity extends ZorbaActivity {
 					BtHwLayer.getInstance(SettingsActivity.this).resetESBCmd();
 				} catch (Exception e) {
 					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Reset Error", e.getMessage());
-					CommonUtils.AlertBox(SettingsActivity.this, "Reset Error","Unable to reset the ESB");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Reset Error","Unable to reset the ESB");
+					CommonUtils.AlertBox(SettingsActivity.this, CommonUtils.getInstance().getErrorString("ERROR74"),CommonUtils.getInstance().getErrorString("ERROR75"));
 				}
 
 			}
@@ -204,15 +207,18 @@ public class SettingsActivity extends ZorbaActivity {
 				EditText confirmPwdText = (EditText)findViewById(R.id.confirmPwdText);
 				String currPwdStr = currPwdText.getText().toString();
 				if( !currPwdStr.equals(BtLocalDB.getInstance(SettingsActivity.this).getDevicePwd()) ){
-					CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Current pwd is not matched");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Current pwd is not matched");
+					CommonUtils.AlertBox(SettingsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR66"),  CommonUtils.getInstance().getErrorString("ERROR67"));
 					return;
 				}
 				if( newPwdText.getText().toString().isEmpty()){
-					CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Please enter new pwd");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Please enter new pwd");
+					CommonUtils.AlertBox(SettingsActivity.this, CommonUtils.getInstance().getErrorString("ERROR66"), CommonUtils.getInstance().getErrorString("ERROR68"));
 					return;
 				}
 				if( !newPwdText.getText().toString().equals(confirmPwdText.getText().toString()) ) {
-					CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Confirm pwd is not matched");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Pwd Error", "Confirm pwd is not matched");
+					 CommonUtils.AlertBox(SettingsActivity.this, CommonUtils.getInstance().getErrorString("ERROR66"), CommonUtils.getInstance().getErrorString("ERROR69"));
 					return;
 				}
 				BtLocalDB.getInstance(SettingsActivity.this).setDevicePwd(newPwdText.getText().toString());
@@ -240,7 +246,8 @@ public class SettingsActivity extends ZorbaActivity {
 					BtHwLayer.getInstance(SettingsActivity.this).setGatewayIPCmd(gatewaylabel.getText().toString());
 				} catch (Exception e) {
 					//-spb 060217 for aligning error CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", e.getMessage());
-					CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", "Unable to set Gateway");
+					//-spb 270417 for errors CommonUtils.AlertBox(SettingsActivity.this, "Set gateway Error", "Unable to set Gateway");
+					CommonUtils.AlertBox(SettingsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR69"),  CommonUtils.getInstance().getErrorString("ERROR70"));
 				}
 
 			}

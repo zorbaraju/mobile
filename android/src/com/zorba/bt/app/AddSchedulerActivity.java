@@ -219,7 +219,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
       if(name != null) {
          if(isNew && BtLocalDB.getInstance(this.getApplication()).isSchedulerNameExist(this.deviceName, name)) {
         	 //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
-         	 CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
+        	//-spb 270417 for errors CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
+        	 CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR1"), CommonUtils.getInstance().getErrorString("ERROR2"));
          } else {
             int chCount = layout.getChildCount();
             int numSelectedDevices = 0;
@@ -231,7 +232,8 @@ public class AddSchedulerActivity extends ZorbaActivity {
             }
 
             if(numSelectedDevices ==0) {
-            	CommonUtils.AlertBox(this, "Can't save scheduler", "Kindly select switches and state in scheduler");
+            	//-spb 270417 for errors  CommonUtils.AlertBox(this, "Can't save scheduler", "Kindly select switches and state in scheduler");
+            	CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR9"), CommonUtils.getInstance().getErrorString("ERROR10"));
             } else {
                DeviceData[] devData = new DeviceData[numSelectedDevices];
                int dindex = 0;

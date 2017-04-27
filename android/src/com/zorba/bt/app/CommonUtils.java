@@ -326,13 +326,16 @@ public class CommonUtils {
       name = name.trim();
       if(name.isEmpty()) {
     	//-spb 010217 for error msg chg  AlertBox(var0, "Name", "Name is empty");
-    	  AlertBox(var0, "Can't add name ", "Kindly enter name"); 
+    	//-spb 270417 for errors  AlertBox(var0, "Can't add name ", "Kindly enter name");
+    	  AlertBox(var0,  CommonUtils.getInstance().getErrorString("ERROR20"),  CommonUtils.getInstance().getErrorString("ERROR21"));
       } else if(name.length() > 12) {
     	//-spb 010217 for error msg chg AlertBox(var0, "Name", "Name should not be more than 12 chars");
-    	  AlertBox(var0, "Maximum limit reached !", "Name should not be more than 12 chars");
+    	//-spb 270417 for errors  AlertBox(var0, "Maximum limit reached !", "Name should not be more than 12 chars");
+    	  AlertBox(var0, CommonUtils.getInstance().getErrorString("ERROR22"), CommonUtils.getInstance().getErrorString("ERROR23"));
       } else if(name.contains("#")) {
     	//-spb 010217 for error msg chg AlertBox(var0, "Name", "Name should not contain # letter in the name");
-    	  AlertBox(var0, "Special characters not allowed", "Name characters should be in A-Z and 0-9");
+    	//-spb 270417 for errors  AlertBox(var0, "Special characters not allowed", "Name characters should be in A-Z and 0-9");
+    	  AlertBox(var0, CommonUtils.getInstance().getErrorString("ERROR24"), CommonUtils.getInstance().getErrorString("ERROR25"));
       } else {
     	  validName = Character.toString(name.charAt(0)).toUpperCase() + name.substring(1);
       }

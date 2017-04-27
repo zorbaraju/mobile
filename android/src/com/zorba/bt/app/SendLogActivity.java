@@ -41,7 +41,8 @@ public class SendLogActivity extends ZorbaActivity {
 				TextView writeView = (TextView) findViewById(R.id.writeTextView);
 				String str = writeView.getText().toString();
 				if (str.length() % 2 == 1) {
-					CommonUtils.AlertBox(SendLogActivity.this, "Write Error", "Write even digits");
+					//-spb 270417 for errors CommonUtils.AlertBox(SendLogActivity.this, "Write Error", "Write even digits");
+					CommonUtils.AlertBox(SendLogActivity.this,  CommonUtils.getInstance().getErrorString("ERROR64"),  CommonUtils.getInstance().getErrorString("ERROR65"));
 					return;
 				}
 				try {
@@ -51,7 +52,8 @@ public class SendLogActivity extends ZorbaActivity {
 					BtHwLayer.getInstance(SendLogActivity.this).sendRawBytes(wbytes);
 				} catch (Exception e) {
 					CommonUtils.getInstance().writeLog(str+":"+e.getMessage());
-					CommonUtils.AlertBox(SendLogActivity.this, "Write Error", e.getMessage());
+					//-spb 270417 for errors CommonUtils.AlertBox(SendLogActivity.this, "Write Error", e.getMessage());
+					CommonUtils.AlertBox(SendLogActivity.this, CommonUtils.getInstance().getErrorString("ERROR64"), e.getMessage());
 				}
 				String content = CommonUtils.getInstance().closeLog();
 

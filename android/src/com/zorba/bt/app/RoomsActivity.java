@@ -212,7 +212,8 @@ public class RoomsActivity extends ZorbaActivity
 
 					String emailid = getValidEmailId();
 						if (emailid == null || emailid.isEmpty()) {
-						CommonUtils.AlertBox(RoomsActivity.this, "Error", "Enter valid email id");
+							//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "Error", "Enter valid email id");
+							CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR50"),  CommonUtils.getInstance().getErrorString("ERROR58"));
 						return;
 					}
 					// -spb 250117 RadioButton masterbox =
@@ -573,8 +574,14 @@ public class RoomsActivity extends ZorbaActivity
 									showDeleteButton(false);
 									return;
 								} catch (Exception e) {
+									//-spb 270417 for errors 
+									/*
 									CommonUtils.AlertBox(RoomsActivity.this, "Delete Schedular",
 													"Not able to delete schedular");
+									//-spb 270417 for errors 
+									*/
+									CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR56"),
+											 CommonUtils.getInstance().getErrorString("ERROR57"));
 								}
 							}
 						}).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -638,7 +645,8 @@ public class RoomsActivity extends ZorbaActivity
 				if (allStatus == null) {
 					// -spb 010217 for error msg chg CommonUtils.AlertBox(this,
 					// "Device count", "No data from device");
-					CommonUtils.AlertBox(this, "Device count", "No communication with the device");
+					//-spb 270417 for errors CommonUtils.AlertBox(this, "Device count", "No communication with the device");
+					CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR76"), CommonUtils.getInstance().getErrorString("ERROR77"));
 					return;
 				}
 				for (byte ind = 1; ind < allStatus.length; ind++) {
@@ -675,7 +683,8 @@ public class RoomsActivity extends ZorbaActivity
 						groupPanel.resetButtonInPanel(true);
 					return;
 				} catch (Exception localException) {
-					CommonUtils.AlertBox(RoomsActivity.this, "Read Power", "No data from device");
+					//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "Read Power", "No data from device");
+					CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR78"), CommonUtils.getInstance().getErrorString("ERROR79"));
 				}
 			}
 		});
@@ -731,7 +740,8 @@ public class RoomsActivity extends ZorbaActivity
 					} catch (Exception paramString1) {
 						paramString1.printStackTrace();
 						//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Read Error", paramString1.getMessage());
-						CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Data on, wifi off error");
+						//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Data on, wifi off error");
+						CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR47"), CommonUtils.getInstance().getErrorString("ERROR80"));
 					}
 					return null;
 				}
@@ -793,7 +803,8 @@ public class RoomsActivity extends ZorbaActivity
 					localImageTextButton.changeDeviceButtonStyle(-1);
 					localImageTextButton.setBackgroundImage(groupData.getImageResId());
 					//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Read Error", e.getMessage());
-					CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Device is Off ");
+					//-spb 270417 for errors  CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Device is Off ");
+					CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR47"),  CommonUtils.getInstance().getErrorString("ERROR48"));
 				}
 			}
 		});
@@ -883,8 +894,14 @@ public class RoomsActivity extends ZorbaActivity
 							prevvalue = progresValue;
 							return;
 						} catch (Exception paramAnonymousSeekBare) {
+							//-spb 270417 for errors 
+							/*
 							CommonUtils.AlertBox(RoomsActivity.this, "Error",
 									"Sending cmd to Device:" + paramAnonymousSeekBare.getMessage());
+							//-spb 270417 for errors 
+							*/
+							CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR50"),
+									 CommonUtils.getInstance().getErrorString("ERROR51") + paramAnonymousSeekBare.getMessage());
 						}
 
 					}
@@ -916,7 +933,8 @@ public class RoomsActivity extends ZorbaActivity
 			// Error", "Error in reading command:" +
 			// paramImageTextButtone.getMessage());
 			//-spb 060217 for aligning error CommonUtils.AlertBox(this, "Read Error", "Error in reading command:" + paramImageTextButtone.getMessage());
-			CommonUtils.AlertBox(this, "Read Error", "Error in reading command:Communication Error" );
+			//-spb 270417 for errors CommonUtils.AlertBox(this, "Read Error", "Error in reading command:Communication Error" );
+			CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR47"),  CommonUtils.getInstance().getErrorString("ERROR49") );
 		}
 	}
 
@@ -973,8 +991,14 @@ public class RoomsActivity extends ZorbaActivity
 						macaddress = null;
 						ipaddress = CommonUtils.enableNetwork(RoomsActivity.this, incomingssid, incomingssid);
 						if (ipaddress == null) {
+							//-spb 270417 for errors 
+							/*
 							CommonUtils.AlertBox(RoomsActivity.this, "Connection",
 									"Ipaddress is found for ssid:" + incomingssid);
+							*/
+							//-spb 270417 for errors 
+							CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR59"),
+									 CommonUtils.getInstance().getErrorString("ERROR60")+ incomingssid);
 							return null;
 						}
 					} else {
@@ -994,10 +1018,12 @@ public class RoomsActivity extends ZorbaActivity
 						isUpdate = true;
 					} catch (Exception e) {
 						isUpdate = false;
-						  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR2"));
+						//-spb 270417 for errors  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR2"));
+						CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR61"),CommonUtils.getInstance().getErrorString("ERROR62"));
 					}
 				} else {
-					CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR3"));
+					//-spb 270417 for errors  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR3"));
+					CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR61"),CommonUtils.getInstance().getErrorString("ERROR63"));
 					connectionLost();
 					return null;
 				}
@@ -1124,7 +1150,8 @@ public class RoomsActivity extends ZorbaActivity
 			requestCode = resultIntent.getExtras().getInt("scheduleid");
 			String name = resultIntent.getExtras().getString("name");
 			if (resultIntent.getExtras().containsKey("error")) {
-				CommonUtils.AlertBox(this, "Scheduler:" + name, resultIntent.getExtras().getString("error"));
+				//-spb 270417 for errors CommonUtils.AlertBox(this, "Scheduler:" + name, resultIntent.getExtras().getString("error"));
+				CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR55") + name, resultIntent.getExtras().getString("error"));
 				return;
 			}
 			addScheduleButton(requestCode, name, resultIntent.getExtras().getBoolean("isnew"));
@@ -1310,7 +1337,8 @@ public class RoomsActivity extends ZorbaActivity
 			public Object runTask(Object params) {
 				boolean enabled = btHwLayer.isDataEnabled(enable);
 				if( !enabled) {
-					CommonUtils.AlertBox(RoomsActivity.this, "OOH", "Enable Data for OOH");
+					//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "OOH", "Enable Data for OOH");
+					CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR52"),  CommonUtils.getInstance().getErrorString("ERROR54"));
 					return null;
 				}
 				if (enabled) {
@@ -1327,7 +1355,8 @@ public class RoomsActivity extends ZorbaActivity
 				if( result != null) {
 					boolean enabled = (Boolean)result;
 					if(!enabled){
-						CommonUtils.AlertBox(RoomsActivity.this, "OOH", "No connection to Server");
+						//-spb 270417 for errors 	CommonUtils.AlertBox(RoomsActivity.this, "OOH", "No connection to Server");
+						CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR52"),  CommonUtils.getInstance().getErrorString("ERROR53"));
 					}
 				}
 			}

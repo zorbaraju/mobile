@@ -77,12 +77,14 @@ public class AddDeviceActivity extends ZorbaActivity {
     	 boolean isNew = editDeviceName==null;
          if(editDeviceName == null && com.zorba.bt.app.db.BtLocalDB.getInstance(this.getApplication()).isDeviceNameExist(this.deviceName, var9)) {
             //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Already exist", "Name is exist already");
-        	 CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
+        	//-spb 270417 for errors CommonUtils.AlertBox(this, "Same name exists", "Please enter another name");
+        	 CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR1"), CommonUtils.getInstance().getErrorString("ERROR2"));
          } else {
         	 ArrayList<DeviceData> deviceList = com.zorba.bt.app.db.BtLocalDB.getInstance(this).getDevices(this.deviceName, null);
             if(var4.getText().isEmpty()) {
             	//-spb 010217 for error msg chg  CommonUtils.AlertBox(this, "Device Limit", "Maximum of " + deviceList.size() + " devices can only be added");
-              CommonUtils.AlertBox(this, "Maximum limit reached!!", "You have already added " + deviceList.size() + " switches");
+            	//-spb 270417 for errors CommonUtils.AlertBox(this, "Maximum limit reached!!", "You have already added " + deviceList.size() + " switches");
+            	CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR3"), CommonUtils.getInstance().getErrorString("ERROR4") + deviceList.size() + " switches");
             } else {
                String var12 = var5.getText().toString().trim();
                if(var12.isEmpty()) {
@@ -96,14 +98,16 @@ public class AddDeviceActivity extends ZorbaActivity {
                   BtHwLayer.getInstance(this).setSwitchType((byte)var1, isdimmable.isChecked(), false, (byte)var4.getSelectedItemPosition());
                } catch (Exception var7) {
             	 //-spb 010217 for error msg chg CommonUtils.AlertBox(this, "Setting device type", "Setting device type is failed");
-            	   CommonUtils.AlertBox(this, "Can't add switch", "Kindly check connectivity");
+            	 //-spb 270417 for errors  CommonUtils.AlertBox(this, "Can't add switch", "Kindly check connectivity");
+            	   CommonUtils.AlertBox(this,  CommonUtils.getInstance().getErrorString("ERROR5"), CommonUtils.getInstance().getErrorString("ERROR6"));
                   //return;
                }
                
                try {
                    BtHwLayer.getInstance(this).getSwitchTypes();
                 } catch (Exception var7) {
-                   CommonUtils.AlertBox(this, "getting device type", "Getting device types is failed");
+                	//-spb 270417 for errors CommonUtils.AlertBox(this, "getting device type", "Getting device types is failed");
+                	CommonUtils.AlertBox(this, CommonUtils.getInstance().getErrorString("ERROR7"), CommonUtils.getInstance().getErrorString("ERROR8"));
                 }
 
                com.zorba.bt.app.db.BtLocalDB.getInstance(this).updateDevice(this.deviceName, var10);
