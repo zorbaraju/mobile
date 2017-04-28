@@ -1221,7 +1221,7 @@ public class RoomsActivity extends ZorbaActivity
 		else if (connectionType == CommonUtils.CONNECTION_WIFI)
 			aboutButton.setImageResource(R.raw.wifi);
 		else if (connectionType == CommonUtils.CONNECTION_DATA)
-			aboutButton.setImageResource(R.raw.oho);
+			aboutButton.setImageResource(R.raw.oho_ind);
 		
 		//+spb 060217 indication of lost connection and msg
 		((TextView) findViewById(R.id.onDeviceCount)).setTextSize(14);		
