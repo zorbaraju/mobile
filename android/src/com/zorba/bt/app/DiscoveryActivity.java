@@ -803,7 +803,7 @@ public class DiscoveryActivity extends ZorbaActivity {
 				if (nonEmptyChildren.size() == 0) {
 					//-spb 010217 for error msg chg   CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Name is empty");
 					//-spb 270417 for errors CommonUtils.AlertBox(DiscoveryActivity.this, "Discovery", "Kindly enter room name");
-					CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),  CommonUtils.getInstance().getErrorString("ERROR46"));
+					CommonUtils.AlertBox(DiscoveryActivity.this,  CommonUtils.getInstance().getErrorString("ERROR30"),  CommonUtils.getInstance().getErrorString("ERROR45"));
 					return;
 				}
 				numdiscovered = nonEmptyChildren.size();

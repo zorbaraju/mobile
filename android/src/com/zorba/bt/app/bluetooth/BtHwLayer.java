@@ -845,11 +845,11 @@ public class BtHwLayer {
 		Thread.sleep(10000);
 	}
 	
-	public void setGatewayIPCmd(String ipaddress) throws Exception {
+	public void setGatewayIPCmd(String gatewayip) throws Exception {
 		this.checkConnection();
 		byte reqno = this.getNextReqno();
-		System.out.println("setting ip addresse " + ipaddress);
-		String[] ipchars = ipaddress.split(".");
+		System.out.println("setting ip addresse " + gatewayip);
+		String[] ipchars = gatewayip.trim().split("\\.");
 		byte[] ipsetbytes = new byte[2 + ipchars.length];
 		int index = 0;
 		ipsetbytes[0] = 0x73;

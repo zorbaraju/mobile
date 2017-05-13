@@ -48,7 +48,7 @@ public class RoomsActivity extends ZorbaActivity
 	// -spb 010217 for removing change password from menu String
 	// MENUNAME_CHANGEPWD = "Change Pwd";
 	String MENUNAME_SETTINGS = "Admin Settings";
-	String MENUNAME_OOH = "Enable OOH";
+	String MENUNAME_OOH = "Connect to OOH";
 	String MENUNAME_SENDLOG = "Send Log";
 	String MENUNAME_MTLOG = "Mt Log";
 	String MENUNAME_HELP = "Help";
@@ -660,8 +660,7 @@ public class RoomsActivity extends ZorbaActivity
 					}
 				}
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				CommonUtils.AlertBox(this, "Data error", e1.getMessage());
 			}
 
 		}
@@ -738,10 +737,7 @@ public class RoomsActivity extends ZorbaActivity
 
 						return null;
 					} catch (Exception paramString1) {
-						paramString1.printStackTrace();
-						//-spb 060217 for aligning error CommonUtils.AlertBox(RoomsActivity.this, "Read Error", paramString1.getMessage());
-						//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "Read Error", "Data on, wifi off error");
-						CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR47"), CommonUtils.getInstance().getErrorString("ERROR80"));
+						CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR47"), paramString1.getMessage());
 					}
 					return null;
 				}
@@ -1338,7 +1334,7 @@ public class RoomsActivity extends ZorbaActivity
 				boolean enabled = btHwLayer.isDataEnabled(enable);
 				if( !enabled) {
 					//-spb 270417 for errors CommonUtils.AlertBox(RoomsActivity.this, "OOH", "Enable Data for OOH");
-					CommonUtils.AlertBox(RoomsActivity.this,  CommonUtils.getInstance().getErrorString("ERROR52"),  CommonUtils.getInstance().getErrorString("ERROR54"));
+					CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR52"),  CommonUtils.getInstance().getErrorString("ERROR54"));
 					return null;
 				}
 				if (enabled) {
