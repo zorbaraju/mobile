@@ -99,25 +99,27 @@ public class SettingsActivity extends ZorbaActivity {
 		// -spb 030217
 		final TextView oohStatusLabel = (TextView) findViewById(R.id.oohStatusLabel);
 
-		// -spb 030217 enableOOHButton.setOnClickListener(new
-		// ZorbaOnClickListener() {
 		((SvgView) this.findViewById(R.id.enableOOHButton)).setOnClickListener(new ZorbaOnClickListener() {
 
 			public void zonClick(View v) {
 				try {
-					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(!isOOHEnabled);
+					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(true);
 				} catch (Exception e) {
-					// -spb 060217 for aligning error
-					// CommonUtils.AlertBox(SettingsActivity.this, "Enable
-					// Error", e.getMessage());
-					// -spb 270417 for errors
-					// CommonUtils.AlertBox(SettingsActivity.this, "Enable
-					// Error", "OOH is disabled");
 					CommonUtils.AlertBox(SettingsActivity.this, CommonUtils.getInstance().getErrorString("ERROR71"),
 							CommonUtils.getInstance().getErrorString("ERROR72"));
 				}
-				// esbSettings();
+			}
+		});
+		
+		((SvgView) this.findViewById(R.id.disableOOHButton)).setOnClickListener(new ZorbaOnClickListener() {
 
+			public void zonClick(View v) {
+				try {
+					BtHwLayer.getInstance(SettingsActivity.this).enableOOHCmd(false);
+				} catch (Exception e) {
+					CommonUtils.AlertBox(SettingsActivity.this, CommonUtils.getInstance().getErrorString("ERROR71"),
+							CommonUtils.getInstance().getErrorString("ERROR72"));
+				}
 			}
 		});
 
