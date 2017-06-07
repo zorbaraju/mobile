@@ -24,6 +24,7 @@ import com.zorba.bt.app.dao.DeviceData;
 import com.zorba.bt.app.dao.RoomData;
 import com.zorba.bt.app.db.BtLocalDB;
 
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -211,12 +212,22 @@ public class BtHwLayer {
 		if( !isDiscovery && _isOOH && CommonUtils.isMobileDataConnection(activity)) {
 			System.out.println("Iot connection is to be used");
 		} else if (isWifi()) {
+			if( CommonUtils.isMobileDataConnection(activity) ) {
+				isConnected = false;
+				return "Wifi and Data connection are enabled, Please disable Data connection";
+			}
+			System.out.println("Wifi.....");
 			CommonUtils.getInstance().writeLog("Wifi mode...ipaddress is "+ipAddress);
 			try {
-				clientSocket = new Socket(ipAddress, 1336);
+				System.out.println("Wifi.1....");
+				clientSocket = new Socket();
+				clientSocket.connect(new InetSocketAddress(ipAddress, 1336),3000);
+				System.out.println("Wifi..2...");
 				receiver = new BtReceiver(this, clientSocket.getInputStream());
+				System.out.println("Wifi...3..");
 				receiver.setNotificationListener(activity);
 				receiver.setConnectionListener(connectionListener);
+				System.out.println("Wifi...4..");
 				sender = new BtSender(this, clientSocket.getOutputStream());
 				if( connectionListener != null)
 					connectionListener.connectionStarted(CommonUtils.CONNECTION_WIFI);
@@ -233,6 +244,7 @@ public class BtHwLayer {
 				return NOCONNECTION;
 			}
 		} else {
+			System.out.println("not Wifi.....");
 			CommonUtils.getInstance().writeLog("Bt  mode...macaddress is "+macaddress);
 			if(!isBt()) {
 				isConnected = false;
@@ -390,6 +402,9 @@ public class BtHwLayer {
 	}
 
 	private String verifyAuth(String devpwd) throws Exception{
+		if( connectionType == -1 ) {
+			return "Please Connect to OOH";
+		}
 		String error = null;
 		byte[] response = verifyPwd(devpwd);
 		if( response[0] == '0') {
@@ -505,7 +520,11 @@ public class BtHwLayer {
 	}
 
 	public boolean isConnected() {
-		return isConnected;
+		if( connectionType == CONNETIONTYPE_DATA) {
+			return iotConnection.isConnected();
+		} else {
+			return isConnected;
+		}
 	}
 
 	public long convertBytesToLong(byte[] var1) {
@@ -589,6 +608,7 @@ public class BtHwLayer {
 		} else if (connectionType == CONNETIONTYPE_WIFI) {
 			sender.sendCmd(wbytes);
 		} else if( connectionType == CONNETIONTYPE_DATA) {
+			System.out.println("Data...write...");
 			iotConnection.sendMessage(wbytes);
 		}
 		lastsenttime = System.currentTimeMillis();

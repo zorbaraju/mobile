@@ -223,6 +223,7 @@ public class AwsConnection {
 	}
 
 	public void sendMessage(byte[] bytes) {
+		System.out.println("Data...."+bytes.length+" isconnected..."+isConnected);
 		mqttManager.publishData(bytes, macAddress+"/subscribe", AWSIotMqttQos.QOS0);
 	}
 	

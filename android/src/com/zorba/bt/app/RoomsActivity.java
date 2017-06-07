@@ -2,6 +2,7 @@ package com.zorba.bt.app;
 
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -770,16 +771,23 @@ public class RoomsActivity extends ZorbaActivity
 		localImageTextButton.setOnClickListener(new ZorbaOnClickListener() {
 			public void zonClick(View paramAnonymousView) {
 				RoomsActivity.this.groupPanel.deselectAll();
-				int groudIds[] = BtLocalDB.getInstance(RoomsActivity.this)
+				int groupIds[] = BtLocalDB.getInstance(RoomsActivity.this)
 						.getGroupDevices(RoomsActivity.this.selectedRoom.getDeviceName(), groupName);
 				boolean groupClicked = RoomsActivity.this.groupStatusMap.containsKey(groupName);
 				if (groupClicked) {
-					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
-						groudIds[dindex + 1] = 0;
+					for (int dindex = 0; dindex < groupIds.length; dindex += 2) {
+						groupIds[dindex + 1] = 0;
 					}
 				}
 				try {
-					btHwLayer.sendCommandToDevices(groudIds);
+					if( groupIds.length >8) {
+						int groupIds1[] = Arrays.copyOfRange(groupIds, 0,8);
+						btHwLayer.sendCommandToDevices(groupIds1);
+						int groupIds2[] = Arrays.copyOfRange(groupIds, 8, groupIds.length);
+						btHwLayer.sendCommandToDevices(groupIds2);
+					} else {
+						btHwLayer.sendCommandToDevices(groupIds);
+					}
 					if (!groupClicked) {
 						RoomsActivity.this.groupStatusMap.put(groupName, Boolean.valueOf(true));
 						localImageTextButton.changeDeviceButtonStyle(1);
@@ -789,9 +797,9 @@ public class RoomsActivity extends ZorbaActivity
 						localImageTextButton.changeDeviceButtonStyle(0);
 						localImageTextButton.setBackgroundImage(groupData.getImageResId());
 					}
-					for (int dindex = 0; dindex < groudIds.length; dindex += 2) {
-						BtLocalDB.getInstance(RoomsActivity.this).updateDeviceStatus((byte) groudIds[dindex],
-								(byte) groudIds[dindex + 1]);
+					for (int dindex = 0; dindex < groupIds.length; dindex += 2) {
+						BtLocalDB.getInstance(RoomsActivity.this).updateDeviceStatus((byte) groupIds[dindex],
+								(byte) groupIds[dindex + 1]);
 					}
 					RoomsActivity.this.readAndUpateStatusForRoom(false);
 				} catch (Exception e) {
@@ -1019,7 +1027,7 @@ public class RoomsActivity extends ZorbaActivity
 					}
 				} else {
 					//-spb 270417 for errors  CommonUtils.AlertBox(RoomsActivity.this, "Connection Error",CommonUtils.getInstance().getErrorString("ERROR3"));
-					CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR61"),CommonUtils.getInstance().getErrorString("ERROR63"));
+					CommonUtils.AlertBox(RoomsActivity.this, CommonUtils.getInstance().getErrorString("ERROR61"),error);
 					connectionLost();
 					return null;
 				}
