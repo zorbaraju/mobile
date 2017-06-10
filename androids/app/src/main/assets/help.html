@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {
+	font-family: "Lato", sans-serif;
+}
+
+ul.tab {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 2px solid #ff9400;
+	background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {
+	float: left;
+}
+
+/* Style the links inside the list items */
+ul.tab li a {
+	display: inline-block;
+	color: black;
+	text-align: center;
+	padding: 14px 10px;
+	text-decoration: none;
+	transition: 0.3s;
+	font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {
+	background-color: #ff9400;
+}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {
+	background-color: #ff9400;
+}
+
+/* Style the tab content */
+.tabcontent {
+	display: none;
+	padding: 6px 12px;
+	border: 2px solid #ff9400;
+	border-top: none;
+}
+</style>
+<body>
+
+
+	<ul class="tab">
+		<li><a href="javascript:void(0)" class="tablinks "
+			onclick="openCity(event, 'Video')">Video</a></li>
+		<li><a href="javascript:void(0)" class="tablinks"
+			onclick="openCity(event, 'FAQs')">FAQs</a></li>
+		<li><a href="javascript:void(0)" class="tablinks"
+			onclick="openCity(event, 'Contact')">Contact</a></li>
+		<li><a href="javascript:void(0)" class="tablinks"
+			onclick="openCity(event, 'Config')">Config</a></li>
+	    <li><a href="javascript:void(0)" class="tablinks"
+			onclick="openCity(event, 'About')">About</a></li>		
+	</ul>
+
+	<div id="Contact" class="tabcontent">
+		<div class="address_info">
+			<h4>
+				COMPANY <strong>ADDRESS</strong>
+			</h4>
+			<ul>
+				<li><strong>Zorba Innovations Pvt Ltd </strong><br>
+					Level 2 , Raheja Center Point,<br>
+					SCLR , Kalina , Santacruz East,<br>
+				    Mumbai 400098, India .<br>
+					Email: <a href="mailto:sales@zorba.tech">sales@zorba.tech</a><br>
+					Website: <a href="http://www.zorba.tech">www.zorba.tech</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="Config" class="tabcontent">
+		<h3>SWITCH CONFIGURATION</h3>
+		<p>ReplaceConfig</p>
+	</div>
+	<div id="About" class="tabcontent">
+		<h3>ABOUT</h3>
+		<p>Version zorba 1.2</p>
+	</div>
+
+	<div id="FAQs" class="tabcontent">
+		<h3>FREQUENTLY ASKED QUESTIONS</h3>
+		<p><h4>FAQs listed here:</h4></p>
+		<ul>
+		<h4><b><i><li>Can I know about Zorba ?</b></i></h4></li>
+		<h4>Zorba is a theme around which innovations are getting build 
+			for improving the lifestyle of customers. Currently Zorba is 
+			innovating new products for Home and office Automation.</h4>
+		<h4><b><i><li>Can I know about installation process ?</b></i></li></h4>
+		<h4>Zorba has kept the installation process simple, so that it can
+	     	be done easily by electrician. First of all there is no need for 
+	     	re-wiring from switchboard to electrical appliance. Zorba ES fits 
+	     	easily in switchbox behind existing switches. The power to the 
+	     	electrical appliances is routed through Zorba EC. It takes around 30 mins
+	     	for installation process. We also take customer feedback on installation 
+	     	process and explanation on use of product</h4>
+		<h4><b><i><li>Who have developed Zorba Products ?</b></i></li></h4>
+		<h4>Each member of Zorba team has around 20 years of domain experience.</h4>
+		<h4><b><i><li>Can I know about warranty of products ?</b></i></li></h4>
+		<h4>Zorba strives to give atmost service experience to customers. 
+			All Zorba products come with one-year warranty. Kindly read the 
+			warranty document for more information.</h4>
+		<h4><b><i><li>Can I know about product technical specification?</b></i></li></h4>
+		<h4><u>Specification for Zorba ES:</u><br/>
+			<u>Input Voltage</u>-->100- 240 volts<br/>
+			<u>Voltage frequency</u>-->50- 60 Hz<br/>
+			<u>Maximum load</u>-->3000 Watts<br/>
+			<u>Operating temperature</u>-->0 - 50 degree Cel.<br/>
+			<u>Bluetooth</u>-->Yes<br/>
+			<u>Wifi</u>-->Yes<br/>
+			<u>Dimmable switches from app</u>-->All<br/>
+			<u>Dimmable switches from switchboard</u>-->First four<br/>
+			</h4>
+		<h4><b><i><li>Do I need any router or master controller when using inside home?</b></i></li></h4>
+		<h4>No. Zorba is offering a technology that enables Mobile app to talk
+		    directly with switchboard even on Wifi.</h4>
+		<h4><b><i><li>Do I need any router or master controller when using outside home?</b></i></li></h4>
+		<h4>You need to have fixed Internet connection inside home for the same.</h4>
+		<h4><b><i><li>Do I require any Static IP or Dynamic DNS IP ?</b></i></li></h4>
+		<h4>No. Zorba gives you control of your switches from anywhere in world, without
+			any static or dynamic IP.</h4>
+		<h4><b><i><li>How many switches can be controlled by single hardware?</b></i></li></h4>
+		<h4>Zorba ES comes with the option of 10 switches and 6 switches modules.</h4>
+		<h4><b><i><li>If I have more than 10 switches then ?</b></i></li></h4>
+		<h4>You can combine two Zorba switch modules</h4>
+		<h4><b><i><li>Can I access internal rooms using Bluetooth or Wifi Direct ?</b></i></li></h4>
+		<h4>It depends your room structure and walls . Walls can reduce the range of Wifi
+			and Bluetooth . If you want to access entire rooms from single location , 
+			then user can choose Wifi router mode . If router range is provided to all 
+			the rooms then all switches can be operate from single location.</h4>
+		<h4><b><i><li>Will my existing switches work ?</b></i></li></h4>
+		<h4>Yes they will, but we suggest customer to change it to flat switches for 
+			user experience.</h4>
+		<h4><b><i><li>Can I control high wattage appliances using Zorba ESH ?</b></i></li></h4>
+		<h4>For high wattage appliances Zorba has developed Zorba ESH . Its a single switch
+		    for switching need of high wattage appliances i.e. more then 600 watts</h4>
+		<h4><b><i><li>Can I control curtain motors using Zorba ES ?</b></i></li></h4>
+		<h4>Yes, you need to use two switches for forward and backward movements</h4>
+		<h4><b><i><li>What is difference between Admin and User ?</b></i></li></h4>
+		<h4>Zorba has defined two user categories for app software rights restriction. 
+			Admin has rights to set admin settings like Out of home access, switch timer 
+			settings, etc. User can use all the app features but cannot enable/ disable system 
+			settings.</h4>
+		<h4><b><i><li>Can I operate many switches on single click on app?</b></i></li></h4>
+		<h4>Yes, this is group feature. User can create groups in app and 
+			select the status of level of all switches. When user clicks on 
+			the group all the switches goes to respective dimming levels, 
+			so that the ambience can be set on a single click on mobile app.</h4>
+		<h4><b><i><li>How many numbers of groups can be created in mobile app?</b></i></li></h4>
+		<h4>Currently we are providing eight number of user defined groups provision.</h4>
+		<h4><b><i><li>How many switches can be operated using single scheduler?</b></i></li></h4>
+		<h4>All switches in ES can be operated using single scheduler on given day and time.</h4>
+		<h4><b><i><li>How many numbers of scheduler can be created in mobile app?</b></i></li></h4>
+		<h4>Currently we are providing eight number of user defined scheduler provision.</h4>
+		<h4><b><i><li>Do Zorba ES or mobile app detect which device is dimmable?</b></i></li></h4>
+		<h4>No, the user has to add switch as ON /OFF or dimmable after confirming 
+			the same. The device can get damaged if switch is not dimmable and 
+			added in dimmable.</h4>
+		<h4><b><i><li>If I press switch on switchboard will it reflect on mobile app ?</b></i></li></h4>
+		<h4>Yes, it will reflect real time on the mobile app . Also if two people are 
+			using mobile app simultaneously, the status of all switches update real time 
+			on every mobile app. Four people can simultaneously work on mobile app.</h4>
+		</ul>
+		
+	</div>
+		
+	<div id="Video" class="tabcontent">
+		<h3>TUTORIAL VIDEOS</h3>
+		<html>
+<body>
+	Refer to below videos as your guide
+	<br>
+	<br>
+	<h3>Video for Adding device</h3>
+	<a
+			href="https://www.youtube.com/watch?v=1D5n9dMTxak">1.Add Zorba device on BT Only mode</a>
+	<br>		
+	<a
+		href="https://youtu.be/ByLtw_5E3ao">2.Add Zorba device on Wifi + BT</a>		
+	<br>
+	<a
+			href="https://www.youtube.com/watch?v=z4SIVk9aVIw">3.Add Zorba device on Wifi + BT Second time onward</a>
+	<br>
+	<a
+			href="https://youtu.be/1W34_psFpVI">4.Add New Switches and Devices</a>
+	<br>
+	<a
+			href="https://youtu.be/pHQ9tps7Qe8">5.Add Group</a>
+	<br>
+	<a
+			href="https://youtu.be/cpGWjQOG4rA">6.Add Scheduler</a>
+	<br>
+	<a
+			href="https://youtu.be/ClAoYw_E_v4">7.Delete Switch, Dimmable, Group and Scheduler</a>
+	<br>
+		
+	
+</body>
+		</html>
+		<!-- <iframe class="youtube-player" type="text/html" width="640" height="385" src="http://www.youtube.com/embed/bIPcobKMB94" frameborder="0"/>
+ -->
+	</div>
+	<script>
+		function openCity(evt, cityName) {
+			if (evt == '') {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				tabcontent[0].style.display = "none";
+				tablinks = document.getElementsByClassName("tablinks");
+				tablinks[0].className = tablinks[0].className.replace(
+						" active", "");
+				document.getElementById('Video').style.display = "block";
+				tablinks[0].className += " active";
+			} else {
+				var i, tabcontent, tablinks;
+				tabcontent = document.getElementsByClassName("tabcontent");
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+				tablinks = document.getElementsByClassName("tablinks");
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className.replace(
+							" active", "");
+				}
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active";
+			}
+		}
+		openCity('', 'Video');
+	</script>
+
+</body>
+</html>

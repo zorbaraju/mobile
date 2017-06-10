@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:id="@+id/rootView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/new_welcome_back_check2" >
+
+    <include
+        android:id="@id/top_container"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_alignParentTop="true"
+        layout="@layout/header"
+        android:background="#ff131b22" />
+
+    <include
+        android:id="@id/bottom_container"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_alignParentBottom="true"
+        layout="@layout/footer"
+        android:background="#ff131b22" />
+
+    <ScrollView
+        android:id="@id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_container"
+        android:layout_below="@id/top_container"
+        android:fillViewport="false"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/roomContent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@id/emptydevicepanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottom_container"
+        android:layout_below="@id/top_container"
+        android:layout_centerInParent="false"
+        android:background="@drawable/new_welcome_back_check2"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+       <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10.0dip"
+            android:layout_marginTop="50.0dip"
+            android:text="Click to Add new Zorba"
+            android:textColor="#fff7f2ed"
+            android:textSize="20.0sp" />
+
+        <com.zorba.bt.app.SvgView
+            android:id="@id/discoverbutton"
+            android:layout_width="40.0dip"
+            android:layout_height="40.0dip"
+            android:layout_gravity="center"
+            android:text="Discover new device"
+            app:svgviewsrc="@raw/addroom" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rgbPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_container"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentTop="false"
+        android:layout_below="@id/top_container"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+</RelativeLayout>

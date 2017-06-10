@@ -1,0 +1,178 @@
+[
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/oohsettings.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/oohsettings.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/collapsepanel.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/collapsepanel.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/addschedulerlayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/addschedulerlayout.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/discoveryroom.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/discoveryroom.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/settingspanel.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/settingspanel.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/imagetextitem.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/imagetextitem.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/help.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/help.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/roundwhitecorner.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/roundwhitecorner.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/devicecontroller.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/devicecontroller.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/selectcomp.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/selectcomp.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/about.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/about.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/changepwd.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/changepwd.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/discoverylayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/discoverylayout.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/inverter.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/inverter.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/color_cursor.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/color_cursor.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/devicelist.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/devicelist.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/imagetextbutton.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/imagetextbutton.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/activity_sample.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/activity_sample.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/addgrouplayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/addgrouplayout.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/footer.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/footer.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/roundorangecorner.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/roundorangecorner.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/activity_time_settings.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/activity_time_settings.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/svgview.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/svgview.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/gatewaysettings.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/gatewaysettings.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/mtdebug.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/mtdebug.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/spinner_item.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/spinner_item.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/child_item.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/child_item.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/configroomlayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/configroomlayout.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/textedit.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/textedit.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/group_item.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/group_item.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/timesettings.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/timesettings.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/activity_done.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/activity_done.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/customcheckbox.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/customcheckbox.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/sendlog.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/sendlog.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/esbsettings.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/esbsettings.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/activity_welcome.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/activity_welcome.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/tabview.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/tabview.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/dialogheader.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/dialogheader.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/rooms.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/rooms.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/adddevicelayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/adddevicelayout.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/roundblackcorner.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/roundblackcorner.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/mylistmenu.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/mylistmenu.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/header.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/header.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/layout/analyticslayout.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/layout/analyticslayout.xml"
+    }
+]

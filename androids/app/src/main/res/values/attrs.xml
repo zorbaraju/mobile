@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="titleText" format="string" />
+    <attr name="showText" format="boolean" />
+    <attr name="labelPosition">
+        <enum name="left" value="0" />
+        <enum name="right" value="1" />
+    </attr>
+    <attr name="text" format="string" /> 
+</resources>

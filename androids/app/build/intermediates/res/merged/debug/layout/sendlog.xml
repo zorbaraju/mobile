@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ff131b22" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt">
+    <TextView android:textAppearance="?android:textAppearanceLarge" android:textSize="23.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/cbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Log" />
+
+    <Button
+        android:id="@+id/sendLog"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Send Log" />
+
+    <ScrollView
+        android:id="@+id/scrlv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:fillViewport="true" >
+
+<TextView
+    android:id="@+id/logView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:textSize="18dp" />
+</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/writeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textMultiLine" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/writeButton"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Write" />
+
+    </LinearLayout>
+
+</LinearLayout>

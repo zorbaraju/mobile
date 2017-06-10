@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/libs/android-support-v4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="1dc1f63cee098b27db60b9a2833fd7ca58f89636">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/2/android-support-v4_f24028f9f3dcb025ad78455b7631f2730fb7e8bd/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/libs/svg-android-1.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="9f7c80e87e9925b691875dc9388869d87515f7d2">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/2/svg-android-1.1_2d40a7ddff64f9d7e571d241588afb00f1426a65/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/libs/aws-android-sdk-core-2.3.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="310ea75331d384005cfa5ea743b34edad83ad5cb">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/2/aws-android-sdk-core-2.3.5_cc758c43dbf67e99f11ed52d449093b1f87b07c5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="cec278b94b3ceaa07d751a3bf576f12c8b6049f9">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_fc4f5dcc5af44af48cf74d1bfa1f3542dbd8d9a8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_fd9e00bb56b46a1c3eb9c079706cb631a577c24d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/mackbook/StudioProjects/mobile/androids/app/libs/aws-android-sdk-iot-2.3.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.3"
+        sha1="92603a351dd1b10e78857d61d9698218b1074200">
+        <dex dex="/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/transforms/dex/debug/folders/1000/2/aws-android-sdk-iot-2.3.5_5b74ae4a05a10d03bebdc75f3bc3aa40f593f96d/classes.dex" />
+    </item>
+
+</items>

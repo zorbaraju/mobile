@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:id="@id/layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@id/emptydevicepanel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/dialogheader" />
+
+    <ScrollView
+        android:id="@id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ff1e1e1e" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ff1e1e1e"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@id/cbox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:background="#ff1e1e1e"
+                android:paddingBottom="4.0dip"
+                android:paddingTop="4.0dip"
+                android:text="Schedule Name"
+                android:textColor="#ffa8a6a3"
+                android:textSize="20.0sp" />
+
+            <EditText
+                android:id="@id/schedulerNameText"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="5.0dip"
+                android:background="#ff403c3a"
+                android:paddingBottom="4.0dip"
+                android:paddingTop="4.0dip" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:background="#ff1e1e1e"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@id/devicetype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="10.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Scheduler Icon"
+                    android:textColor="#ffa8a6a3"
+                    android:textSize="20.0sp" />
+
+                <com.zorba.bt.app.MyPopupDialog
+                    android:id="@id/deviceTypeList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:textSize="20.0sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff1e1e1e"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="10.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Start Time"
+                    android:textColor="#ffa8a6a3"
+                    android:textSize="20.0sp" />
+
+                <TextView
+                    android:id="@id/startDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="18.0sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@id/startTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:textAppearance="?android:textAppearanceLarge"
+                    android:textSize="18.0sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:background="#ff1e1e1e"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginLeft="10.0dip"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:text="Repeat type"
+                    android:textColor="#ffa8a6a3"
+                    android:textSize="20.0sp" />
+
+                <com.zorba.bt.app.MyListMenu
+                    android:id="@id/repeattype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="1.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_weight="1.0"
+                    android:background="#ff1e1e1e"
+                    android:paddingBottom="4.0dip"
+                    android:paddingTop="4.0dip"
+                    android:textSize="20.0sp" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:background="#ff1e1e1e"
+                android:paddingBottom="4.0dip"
+                android:paddingTop="4.0dip"
+                android:text="Switches and Dimmables"
+                android:textColor="#ffa8a6a3"
+                android:textSize="20.0sp" />
+
+            <LinearLayout
+                android:id="@id/scheduledevices"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_margin="2.0dip"
+                android:background="#ff1e1e1e"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:id="@id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/new_welcome_back_check2"
+    android:orientation="vertical" >
+
+    <!-- spb 060217 for heading of individual settings page -->
+
+    <TextView
+        android:id="@id/cbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10.0dip"
+        android:paddingLeft="10.0dip"
+        android:paddingTop="15.0dip"
+        android:text="Password Settings"
+        android:textColor="#ffffffff"
+        android:textSize="20.0sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="50.0dip" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10.0dip"
+            android:paddingLeft="10.0dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Current Password  "
+                android:textColor="#ffffff"
+                android:textSize="18.0sp" />
+
+            <EditText
+                android:id="@+id/currentPwdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter current password"
+                android:textColor="#ffffff"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10.0dip"
+            android:paddingLeft="10.0dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Password       "
+                android:textColor="#ffffff"
+                android:textSize="18.0sp" />
+
+            <EditText
+                android:id="@+id/newPwdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter a new password"
+                android:textColor="#ffffff"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10.0dip"
+            android:paddingLeft="10.0dip" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Password "
+                android:textColor="#ffffff"
+                android:textSize="18.0sp" />
+
+            <EditText
+                android:id="@+id/confirmPwdText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm new password"
+                android:textColor="#ffffff"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="30.0dip"
+        android:paddingTop="20.0dip" >
+        >
+
+        <!--
+        spb 030217 
+        <Button
+            android:id="@+id/saveButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/confirmPwdText"
+            android:background="#ff9400"
+            android:layout_marginLeft="10.0dip"
+          android:layout_alignParentLeft="true"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="200.0dip"
+            android:background="#ff9400"
+            android:text="Cancel" />
+        -->
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/saveButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="15.0dip"
+            app:svgviewsrc="@raw/savepass" />
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/cancelButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="25.0dip"
+            android:paddingRight="15.0dip"
+            app:svgviewsrc="@raw/cancelpass" />
+    </LinearLayout>
+
+</LinearLayout>

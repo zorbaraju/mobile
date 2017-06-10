@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"  
+    android:orientation="vertical" >
+    
+    <!-- spb 280117 for heading of general settings page -->
+   <TextView 
+         android:textSize="20.0sp" 
+         android:textColor="#ffffffff" 
+         android:id="@id/cbox" 
+         android:layout_width="fill_parent" 
+         android:layout_height="wrap_content" 
+         android:background="#ff403c3a"
+         android:text="Admin Settings"
+         android:paddingLeft="10.0dip" 
+         android:paddingTop="10.0dip"
+         android:paddingBottom="10.0dip"
+         android:textAllCaps="true"
+        />  
+    
+  
+    <LinearLayout
+        android:id="@+id/tabButtonView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        
+       
+        >
+<!-- spb 290117 for padding=35 and next padding=10 -->
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tabContentView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+       
+         >
+
+    </LinearLayout>
+    
+    </LinearLayout>

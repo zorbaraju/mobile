@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:background="#ff1e1e1e" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt">
+    <TextView android:textAppearance="?android:textAppearanceLarge" android:textSize="23.0sp" android:textStyle="bold" android:textColor="#ffffffff" android:layout_gravity="center" android:id="@id/cbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Application Detail" />
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@id/controllerValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50.0dip"
+            android:text="Version zorba 1.2"
+            android:textAppearance="?android:textAppearanceMedium" />
+
+    </LinearLayout>
+</LinearLayout>

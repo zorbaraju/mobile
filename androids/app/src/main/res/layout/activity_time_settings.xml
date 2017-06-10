@@ -1,0 +1,22 @@
+<LinearLayout 
+    android:orientation="vertical" 
+    android:background="#ff403c3a" 
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingspanel"
+    tools:context="com.zorba.bt.app.TimeSettingsActivity" >
+   
+    
+     <TextView 
+         android:textSize="20.0sp" 
+         android:textColor="#ffffffff" 
+         android:id="@id/cbox" 
+         android:layout_width="fill_parent" 
+         android:layout_height="wrap_content" 
+         android:background="#ff403c3a"
+         android:text="Time Setting" 
+         android:layout_centerInParent="true" />
+   
+</LinearLayout>

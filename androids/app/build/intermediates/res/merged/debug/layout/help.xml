@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff403c3a"
+    android:orientation="vertical" >
+
+    
+    <TextView
+        android:id="@id/cbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+          android:layout_marginLeft="10.0dip"
+          android:paddingTop="5.0dip"
+           android:paddingBottom="5.0dip"
+        android:text="HELP"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:textColor="#ffffffff"
+        android:textSize="20.0sp"
+        android:textStyle="bold" />
+
+    <WebView
+        android:id="@id/helpView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

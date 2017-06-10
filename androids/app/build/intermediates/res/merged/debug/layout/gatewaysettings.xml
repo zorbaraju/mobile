@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="right"
+    android:background="@drawable/new_welcome_back_check2"
+    android:orientation="vertical" >
+
+    <!-- spb 060217 for heading of individual settings page -->
+
+    <TextView
+        android:id="@id/cbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10.0dip"
+        android:paddingLeft="10.0dip"
+        android:paddingTop="15.0dip"
+        android:text="Internet Gateway Settings"
+        android:textColor="#ffffffff"
+        android:textSize="20.0sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="25.0dip"
+        android:layout_marginRight="25.0dip"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="60.0dip" >
+
+        <EditText
+            android:id="@+id/gatewaylabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Eg: 192.168.0.1" />
+
+        <!--
+        spb 030217 for custom button 
+        
+        <Button
+            android:id="@+id/setGatewayIPButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/gatewaylabel"
+            android:background="#ff9400"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="Set IP Gateway" />
+        -->
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/setGatewayIPButton"
+            android:layout_width="150.0dip"
+            android:layout_height="50.0dip"
+            android:layout_toRightOf="@id/gatewaylabel"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="Set IP Gateway"
+            app:svgviewsrc="@raw/gateway" />
+    </RelativeLayout>
+
+</LinearLayout>

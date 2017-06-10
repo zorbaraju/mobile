@@ -1,0 +1,86 @@
+[
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/orange_tick_deselect.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/orange_tick_deselect.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/discovery.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/discovery.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/daysorange.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/daysorange.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/orange_tick_select.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/orange_tick_select.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/custom_checkbox_orange.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/custom_checkbox_orange.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/finalwelcomeback.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/finalwelcomeback.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/checkbox_custom_2.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/checkbox_custom_2.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/app_icon.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/app_icon.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/refresh.gif",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/refresh.gif"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/oohicon.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/oohicon.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/logo.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/logo.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/userbutton_off.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/userbutton_off.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/new_welcome_back_check2.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/new_welcome_back_check2.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/checkbox_custom_01.xml",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/checkbox_custom_01.xml"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/refresh_square.gif",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/refresh_square.gif"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/adminoff.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/adminoff.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/new_welcome_back_check.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/new_welcome_back_check.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/adminon.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/adminon.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/userbutton_on.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/userbutton_on.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/logotmtagline.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/logotmtagline.png"
+    },
+    {
+        "merged": "/Users/mackbook/StudioProjects/mobile/androids/app/build/intermediates/res/merged/debug/drawable/new_welcome_back_check3.png",
+        "source": "/Users/mackbook/StudioProjects/mobile/androids/app/src/main/res/drawable/new_welcome_back_check3.png"
+    }
+]

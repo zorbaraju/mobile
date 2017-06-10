@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Zorba</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_discovery">Discovery</string>
+    <string name="title_help">Help</string>
+    <string name="title_appinfo">About App</string>
+    <string name="title_changepwd">Change password</string>
+    <string name="title_sendlog">Send Log</string>
+    <string name="title_inverter">Inverter Power</string>
+    <string name="title_activity_welcome">Zorba</string>
+    <string name="title_activity_time_settings">TimeSettingsActivity</string>
+
+</resources>

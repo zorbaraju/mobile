@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="1.0dip"
+    android:background="#ff1e1e1e"
+    android:orientation="vertical" >
+
+    <!-- spb 070217 for switches top heading margin added below -->
+    <RelativeLayout
+        android:id="@+id/collapseheader"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dip"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5.0dip"
+        android:layout_marginRight="5.0dip"
+        android:background="#ff1e1e1e"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true" >
+
+            <com.zorba.bt.app.SvgView
+                android:id="@id/loadingImage"
+                android:layout_width="25.0dip"
+                android:layout_height="25.0dip"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4.0dip"
+                android:layout_marginTop="4.0dip"
+                app:svgviewsrc="@raw/rightarrow" />
+
+            <TextView
+                android:id="@id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="4.0dip"
+                android:layout_marginTop="4.0dip"
+                android:paddingLeft="10.0dip"
+                android:textColor="#c9c4bd"
+                android:textSize="20.0sp" />
+            <!-- spb 070217 for switches and dimmables text color dimmed a little -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10.0dip"
+            android:gravity="right" >
+
+            <com.zorba.bt.app.SvgView
+                android:id="@id/addbutton"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center"
+                android:layout_marginRight="5.0dip"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:svgviewsrc="@raw/plus" />
+
+            <com.zorba.bt.app.SvgView
+                android:id="@id/configbutton"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5.0dip"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:svgviewsrc="@raw/edit" />
+
+            <com.zorba.bt.app.SvgView
+                android:id="@id/deletebutton"
+                android:layout_width="40.0dip"
+                android:layout_height="40.0dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5.0dip"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:svgviewsrc="@raw/minus" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.zorba.bt.app.FlowLayout
+        android:id="@id/compfield1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="10.0dip"
+        android:layout_marginTop="10.0dip"
+        android:background="#ff1e1c1b"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:elementSpacing="10.0dip"
+        app:lineSpacing="10.0dip" />
+
+</LinearLayout>

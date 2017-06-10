@@ -1,0 +1,397 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .DS_Store
+* .gitignore
+* .metadata/
+* .metadata/.bak_0.log
+* .metadata/.lock
+* .metadata/.log
+* .metadata/.mylyn/
+* .metadata/.mylyn/repositories.xml.zip
+* .metadata/.plugins/
+* .metadata/.plugins/com.android.ide.eclipse.adt/
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/AnalogClock.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/AutoCompleteTextView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Button.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/CalendarView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/CheckBox.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/CheckedTextView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Date.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/DigitalClock.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Email.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ExpandableListView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/LargeText.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ListView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/MediumText.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/MultiAutoCompleteTextView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/MultilineText.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Number.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/NumberDecimal.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/NumberSigned.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Password.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/PasswordNumeric.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/PersonName.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Phone.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/PlainText.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/PostalAddress.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ProgressBarHorizontal.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ProgressBarLarge.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ProgressBarNormal.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ProgressBarSmall.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/QuickContactBadge.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/RadioButton.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/RadioGroup.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/RatingBar.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/SeekBar.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/SmallButton.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/SmallText.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Spinner.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/TabHost.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/TabWidget.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/TextView.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/Time.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ToggleButton.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ZoomButton.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/ZoomControls.png
+* .metadata/.plugins/com.android.ide.eclipse.adt/palette-preview-r16b-19-apptheme-37wvganexusone/preview.properties
+* .metadata/.plugins/org.eclipse.andmore.android.logger/
+* .metadata/.plugins/org.eclipse.andmore.android.logger/environment.log
+* .metadata/.plugins/org.eclipse.andmore.android.logger/studio.log
+* .metadata/.plugins/org.eclipse.cdt.core/
+* .metadata/.plugins/org.eclipse.cdt.core/.log
+* .metadata/.plugins/org.eclipse.cdt.make.core/
+* .metadata/.plugins/org.eclipse.cdt.make.core/specs.c
+* .metadata/.plugins/org.eclipse.cdt.make.core/specs.cpp
+* .metadata/.plugins/org.eclipse.core.resources/
+* .metadata/.plugins/org.eclipse.core.resources/.history/
+* .metadata/.plugins/org.eclipse.core.resources/.history/13/
+* .metadata/.plugins/org.eclipse.core.resources/.history/13/80e7fd2751f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/13/c088b19a44f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/19/
+* .metadata/.plugins/org.eclipse.core.resources/.history/19/a0b3e38242f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/1c/
+* .metadata/.plugins/org.eclipse.core.resources/.history/1c/80dbe82939f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/29/
+* .metadata/.plugins/org.eclipse.core.resources/.history/29/40f77fb341f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/30/
+* .metadata/.plugins/org.eclipse.core.resources/.history/30/009757473ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/3e/
+* .metadata/.plugins/org.eclipse.core.resources/.history/3e/d02405b246f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/44/
+* .metadata/.plugins/org.eclipse.core.resources/.history/44/e087fa4f45f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/52/
+* .metadata/.plugins/org.eclipse.core.resources/.history/52/209510d93ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/54/
+* .metadata/.plugins/org.eclipse.core.resources/.history/54/20b4aeba46f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/55/
+* .metadata/.plugins/org.eclipse.core.resources/.history/55/f0344b3e44f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/6/
+* .metadata/.plugins/org.eclipse.core.resources/.history/6/10eb0a8139f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/62/
+* .metadata/.plugins/org.eclipse.core.resources/.history/62/e0ac244e39f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/63/
+* .metadata/.plugins/org.eclipse.core.resources/.history/63/f0e1379f49f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/65/
+* .metadata/.plugins/org.eclipse.core.resources/.history/65/a0a0937639f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/66/
+* .metadata/.plugins/org.eclipse.core.resources/.history/66/809b94d544f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/67/
+* .metadata/.plugins/org.eclipse.core.resources/.history/67/60eaca2139f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/6a/
+* .metadata/.plugins/org.eclipse.core.resources/.history/6a/6067b00449f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/6b/
+* .metadata/.plugins/org.eclipse.core.resources/.history/6b/6054aa8649f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/6f/
+* .metadata/.plugins/org.eclipse.core.resources/.history/6f/80e89e4c3ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/77/
+* .metadata/.plugins/org.eclipse.core.resources/.history/77/c0d492c23ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/7b/
+* .metadata/.plugins/org.eclipse.core.resources/.history/7b/a05bd64445f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/7c/
+* .metadata/.plugins/org.eclipse.core.resources/.history/7c/60f3ecbd3ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/7f/
+* .metadata/.plugins/org.eclipse.core.resources/.history/7f/406ae09649f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/81/
+* .metadata/.plugins/org.eclipse.core.resources/.history/81/80c74b803ef300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/81/f065199241f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/82/
+* .metadata/.plugins/org.eclipse.core.resources/.history/82/201d59e53ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/82/4001769e38f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/83/
+* .metadata/.plugins/org.eclipse.core.resources/.history/83/70e1f6eb40f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/84/
+* .metadata/.plugins/org.eclipse.core.resources/.history/84/9086a20a43f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/87/
+* .metadata/.plugins/org.eclipse.core.resources/.history/87/e0d5332651f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/88/
+* .metadata/.plugins/org.eclipse.core.resources/.history/88/50a5954243f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/8f/
+* .metadata/.plugins/org.eclipse.core.resources/.history/8f/3028fb7349f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/91/
+* .metadata/.plugins/org.eclipse.core.resources/.history/91/2003cdf741f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/9a/
+* .metadata/.plugins/org.eclipse.core.resources/.history/9a/c00856e949f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/9e/
+* .metadata/.plugins/org.eclipse.core.resources/.history/9e/107da5d341f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/b/
+* .metadata/.plugins/org.eclipse.core.resources/.history/b/90f0884242f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/b5/
+* .metadata/.plugins/org.eclipse.core.resources/.history/b5/003b632151f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/b8/
+* .metadata/.plugins/org.eclipse.core.resources/.history/b8/d09daa2451f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/ba/
+* .metadata/.plugins/org.eclipse.core.resources/.history/ba/1093bfdb40f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/bc/
+* .metadata/.plugins/org.eclipse.core.resources/.history/bc/804d88f443f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/c/
+* .metadata/.plugins/org.eclipse.core.resources/.history/c/002174ee41f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/c1/
+* .metadata/.plugins/org.eclipse.core.resources/.history/c1/e0622fda50f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/c2/
+* .metadata/.plugins/org.eclipse.core.resources/.history/c2/50e2ff2e46f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/c2/70bd7ddf49f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/c8/
+* .metadata/.plugins/org.eclipse.core.resources/.history/c8/2099ff2343f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/cc/
+* .metadata/.plugins/org.eclipse.core.resources/.history/cc/d06b890c3ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/da/
+* .metadata/.plugins/org.eclipse.core.resources/.history/da/b0cd32bb45f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/de/
+* .metadata/.plugins/org.eclipse.core.resources/.history/de/80340b0146f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/e/
+* .metadata/.plugins/org.eclipse.core.resources/.history/e/7060e35e49f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/e0/
+* .metadata/.plugins/org.eclipse.core.resources/.history/e0/e02f33e33ff300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/ec/
+* .metadata/.plugins/org.eclipse.core.resources/.history/ec/70c10eb147f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/ee/
+* .metadata/.plugins/org.eclipse.core.resources/.history/ee/e046e1cb50f3001513189a5a1d3be53e
+* .metadata/.plugins/org.eclipse.core.resources/.history/f/
+* .metadata/.plugins/org.eclipse.core.resources/.history/f/705b7cd449f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/f/c0df4d8345f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/f0/
+* .metadata/.plugins/org.eclipse.core.resources/.history/f0/b0e94c1f47f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/f7/
+* .metadata/.plugins/org.eclipse.core.resources/.history/f7/906348ae49f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.history/ff/
+* .metadata/.plugins/org.eclipse.core.resources/.history/ff/00d1cf8639f300151d068d3e5d42fbde
+* .metadata/.plugins/org.eclipse.core.resources/.projects/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/5f/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/5f/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/d6/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/d6/history.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/d6/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/de/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/a0/de/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/7e/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/7e/history.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/92/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/92/history.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/ae/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/ae/history.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/e4/81/dc/52/21/history.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/.markers
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/1.tree
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/org.eclipse.jdt.core/
+* .metadata/.plugins/org.eclipse.core.resources/.projects/ZBtHome/org.eclipse.jdt.core/state.dat
+* .metadata/.plugins/org.eclipse.core.resources/.root/
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/history.version
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.index
+* .metadata/.plugins/org.eclipse.core.resources/.root/.indexes/properties.version
+* .metadata/.plugins/org.eclipse.core.resources/.root/.markers.snap
+* .metadata/.plugins/org.eclipse.core.resources/.root/5.tree
+* .metadata/.plugins/org.eclipse.core.resources/.safetable/
+* .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+* .metadata/.plugins/org.eclipse.core.resources/5.snap
+* .metadata/.plugins/org.eclipse.core.runtime/
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/com.android.ide.eclipse.adt.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/com.android.ide.eclipse.ddms.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.andmore.ddms.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.andmore.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.cdt.debug.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.cdt.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.core.resources.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.debug.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.debug.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.egit.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.epp.logging.aeri.ide.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.launching.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.m2e.discovery.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.mylyn.context.core.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.mylyn.java.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.mylyn.monitor.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.mylyn.tasks.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.pde.api.tools.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.recommenders.completion.rcp.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.team.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.editors.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.ide.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.ui.workbench.prefs
+* .metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.wst.sse.ui.prefs
+* .metadata/.plugins/org.eclipse.datatools.connectivity/
+* .metadata/.plugins/org.eclipse.datatools.connectivity/driverManagerPreferences.xml
+* .metadata/.plugins/org.eclipse.datatools.connectivity/driverStorage.xml
+* .metadata/.plugins/org.eclipse.debug.core/
+* .metadata/.plugins/org.eclipse.debug.core/.launches/
+* .metadata/.plugins/org.eclipse.debug.core/.launches/ZBtHome.launch
+* .metadata/.plugins/org.eclipse.debug.ui/
+* .metadata/.plugins/org.eclipse.debug.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.debug.ui/launchConfigurationHistory.xml
+* .metadata/.plugins/org.eclipse.e4.workbench/
+* .metadata/.plugins/org.eclipse.e4.workbench/workbench.xmi
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.fdt
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.fdx
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.fnm
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.frq
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.nrm
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.tii
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/_0.tis
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/segments.gen
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/segments_1
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/local-history/write.lock
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.fdt
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.fdx
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.fnm
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.frq
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.nrm
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.prx
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.tii
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/_1.tis
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/segments.gen
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/remote-history/segments_2
+* .metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/server-config.json
+* .metadata/.plugins/org.eclipse.equinox.p2.ui/
+* .metadata/.plugins/org.eclipse.equinox.p2.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.jdt.core/
+* .metadata/.plugins/org.eclipse.jdt.core/3019696119.index
+* .metadata/.plugins/org.eclipse.jdt.core/767467994.index
+* .metadata/.plugins/org.eclipse.jdt.core/assumedExternalFilesCache
+* .metadata/.plugins/org.eclipse.jdt.core/externalFilesCache
+* .metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+* .metadata/.plugins/org.eclipse.jdt.core/javaLikeNames.txt
+* .metadata/.plugins/org.eclipse.jdt.core/nonChainingJarsCache
+* .metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
+* .metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+* .metadata/.plugins/org.eclipse.jdt.launching/
+* .metadata/.plugins/org.eclipse.jdt.launching/.install.xml
+* .metadata/.plugins/org.eclipse.jdt.launching/libraryInfos.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/
+* .metadata/.plugins/org.eclipse.jdt.ui/OpenTypeHistory.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/QualifiedTypeNameHistory.xml
+* .metadata/.plugins/org.eclipse.jdt.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/2016/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/2016/3/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/2016/3/13/
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/2016/3/13/refactorings.history
+* .metadata/.plugins/org.eclipse.ltk.core.refactoring/.refactorings/ZBtHome/2016/3/13/refactorings.index
+* .metadata/.plugins/org.eclipse.ltk.ui.refactoring/
+* .metadata/.plugins/org.eclipse.ltk.ui.refactoring/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.m2e.logback.configuration/
+* .metadata/.plugins/org.eclipse.m2e.logback.configuration/0.log
+* .metadata/.plugins/org.eclipse.m2e.logback.configuration/logback.1.6.2.20150902-0002.xml
+* .metadata/.plugins/org.eclipse.oomph.setup/
+* .metadata/.plugins/org.eclipse.oomph.setup/workspace.setup
+* .metadata/.plugins/org.eclipse.pde.core/
+* .metadata/.plugins/org.eclipse.pde.core/.cache/
+* .metadata/.plugins/org.eclipse.pde.core/.cache/clean-cache.properties
+* .metadata/.plugins/org.eclipse.ui.ide/
+* .metadata/.plugins/org.eclipse.ui.ide/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench.texteditor/
+* .metadata/.plugins/org.eclipse.ui.workbench.texteditor/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench/
+* .metadata/.plugins/org.eclipse.ui.workbench/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
+* .metadata/.plugins/org.eclipse.wst.sse.core/
+* .metadata/.plugins/org.eclipse.wst.sse.core/task-tags.properties
+* .metadata/.plugins/org.eclipse.wst.sse.ui/
+* .metadata/.plugins/org.eclipse.wst.sse.ui/dialog_settings.xml
+* .metadata/.plugins/org.eclipse.wst.xml.core/
+* .metadata/.plugins/org.eclipse.wst.xml.core/default_catalog.xml
+* .metadata/.plugins/org.eclipse.wst.xml.core/system_catalog.xml
+* .metadata/version.ini
+* .recommenders/
+* .recommenders/caches/
+* .recommenders/caches/identified-project-coordinates.json
+* .recommenders/caches/manual-mappings.json
+* and.txt
+* ic_launcher-web.png
+* proguard-project.txt
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.1.0
+svg-android-1.1.jar => com.github.japgolly.android:svg-android:2.0.6
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* assets/ => app/src/main/assets/
+* libs/aws-android-sdk-core-2.3.5.jar => app/libs/aws-android-sdk-core-2.3.5.jar
+* libs/aws-android-sdk-iot-2.3.5.jar => app/libs/aws-android-sdk-iot-2.3.5.jar
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+* src/.DS_Store => app/src/main/resources/.DS_Store
+* src/.gitignore => app/src/main/resources/.gitignore
+* src/com/.DS_Store => app/src/main/resources/com/.DS_Store
+* src/com/.gitignore => app/src/main/resources/com/.gitignore
+* src/com/zorba/.DS_Store => app/src/main/resources/com/zorba/.DS_Store
+* src/com/zorba/.gitignore => app/src/main/resources/com/zorba/.gitignore
+* src/com/zorba/bt/.DS_Store => app/src/main/resources/com/zorba/bt/.DS_Store
+* src/com/zorba/bt/.gitignore => app/src/main/resources/com/zorba/bt/.gitignore
+* src/com/zorba/bt/app/.DS_Store => app/src/main/resources/com/zorba/bt/app/.DS_Store
+* src/com/zorba/bt/app/.gitignore => app/src/main/resources/com/zorba/bt/app/.gitignore
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="50px" height="50px" viewBox="-14 -14 50 50" enable-background="new -14 -14 50 50" xml:space="preserve">
+<title>Rectangle 30 + Fill 104</title>
+<desc>Created with Sketch.</desc>
+<g>
+	<g>
+		<g>
+			<defs>
+				<polyline id="SVGID_1_" points="-2,-2 24,-2 24,24 -2,24 -2,-2 				"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  overflow="visible"/>
+			</clipPath>
+		</g>
+		<g>
+			<defs>
+				<polyline id="SVGID_3_" points="-2,-2 24,-2 24,24 -2,24 -2,-2 				"/>
+			</defs>
+			<clipPath id="SVGID_4_">
+				<use xlink:href="#SVGID_3_"  overflow="visible"/>
+			</clipPath>
+			<path clip-path="url(#SVGID_4_)" fill="#FF9400" d="M4,2h14c0.6,0,1,0.2,1.4,0.6C19.8,3,20,3.4,20,4v14c0,0.6-0.2,1-0.6,1.4
+				C19,19.8,18.6,20,18,20H4c-0.6,0-1-0.2-1.4-0.6C2.2,19,2,18.6,2,18V4c0-0.6,0.2-1,0.6-1.4S3.4,2,4,2L4,2 M18,0H4C1.8,0,0,1.8,0,4
+				v14c0,2.2,1.8,4,4,4h14c2.2,0,4-1.8,4-4V4C22,1.8,20.2,0,18,0"/>
+		</g>
+	</g>
+</g>
+</svg>

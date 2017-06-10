@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.zorba.bt.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="right"
+    android:background="@drawable/new_welcome_back_check2"
+    android:orientation="vertical" >
+
+    <!-- spb 060217 for heading of individual settings page -->
+
+    <TextView
+        android:id="@id/cbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10.0dip"
+        android:paddingLeft="10.0dip"
+        android:paddingTop="15.0dip"
+        android:text="Out Of Home Settings"
+        android:textColor="#ffffffff"
+        android:textSize="20.0sp" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="25.0dip"
+        android:layout_marginRight="25.0dip"
+        android:paddingBottom="10.0dip"
+        android:paddingTop="60.0dip" >
+
+        <!--
+        spb 030217 for custom button 
+        <Button
+            android:id="@+id/readOOHStatusButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="#ff9400"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:text="Read Status" />
+        -->
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/readOOHStatusButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:svgviewsrc="@raw/readoohstatus" />
+
+        <TextView
+            android:id="@+id/oohStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/resetESBButton"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:paddingTop="10.0dip"
+            android:text="Status is ON"
+            android:textColor="#ff9400"
+            android:textSize="18.0sp" />
+
+        <!--
+        spb 030217 
+        <Button
+            android:id="@+id/enableOOHButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="#ff9400"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            android:text="Disable OOH" />
+        -->
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/enableOOHButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            app:svgviewsrc="@raw/enableooh" />
+
+        <!--
+        spb 030217  
+        <Button
+            android:id="@+id/resetESBButton"
+            style="?android:attr/buttonStyleInset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/enableOOHButton"
+            android:layout_centerInParent="true"
+            android:background="#ff9400"
+            android:paddingLeft="6.0dp"
+            android:paddingRight="6.0dp"
+            android:text="Reset ESB" />
+        -->
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/resetESBButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/readOOHStatusButton"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            app:svgviewsrc="@raw/resetesb" />
+
+        <com.zorba.bt.app.SvgView
+            android:id="@+id/disableOOHButton"
+            android:layout_width="130.0dip"
+            android:layout_height="50.0dip"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/readOOHStatusButton"
+            android:paddingLeft="1dp"
+            android:paddingRight="2dp"
+            app:svgviewsrc="@raw/disableooh" />
+        <!-- spb 290117 for shifting ecb to ooh page -->
+    </RelativeLayout>
+
+</LinearLayout>

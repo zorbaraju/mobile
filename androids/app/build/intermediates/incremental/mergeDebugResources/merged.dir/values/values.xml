@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="repeat_types">
+        <item>Once</item>
+        <item>Daily</item>
+        <item>Weekly</item>
+    </string-array>
+    <attr name="labelPosition">
+        <enum name="left" value="0"/>
+        <enum name="right" value="1"/>
+    </attr>
+    <attr format="boolean" name="showText"/>
+    <attr format="string" name="text"/>
+    <attr format="string" name="titleText"/>
+    <declare-styleable name="CustomCheckBox"><attr name="text"/></declare-styleable>
+    <declare-styleable name="FlowLayout"><attr format="dimension" name="elementSpacing"/><attr format="dimension" name="lineSpacing"/><attr format="enum" name="flowDirection">
+            <enum name="leftToRight" value="0"/>
+            <enum name="topDown" value="1"/>
+            <enum name="rightToLeft" value="2"/>
+            <enum name="bottomUp" value="3"/>
+        </attr><attr name="android:maxLines"/><attr name="android:gravity"/></declare-styleable>
+    <declare-styleable name="FlowLayout_Layout"><attr format="boolean" name="layout_breakLine"/></declare-styleable>
+    <declare-styleable name="ImageTextButton"><attr name="android:galleryItemBackground"/></declare-styleable>
+    <declare-styleable name="SvgView"><attr format="reference" name="svgviewsrc"/></declare-styleable>
+    <declare-styleable name="TabView"><attr format="string" name="exampleString"/><attr format="dimension" name="exampleDimension"/><attr format="color" name="exampleColor"/><attr format="color|reference" name="exampleDrawable"/></declare-styleable>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <item name="addbutton" type="id">false</item>
+    <item name="analyticsButton" type="id">false</item>
+    <item name="analyticsContent" type="id">false</item>
+    <item name="bottom_container" type="id">false</item>
+    <item name="buttontext" type="id">false</item>
+    <item name="cancel" type="id">false</item>
+    <item name="cbox" type="id">false</item>
+    <item name="checkbox" type="id">false</item>
+    <item name="compfield1" type="id">false</item>
+    <item name="configbutton" type="id">false</item>
+    <item name="controllerImage" type="id">false</item>
+    <item name="controllerValue" type="id">false</item>
+    <item name="deletebutton" type="id">false</item>
+    <item name="deviceNameInput" type="id">false</item>
+    <item name="deviceTypeList" type="id">false</item>
+    <item name="deviceid" type="id">false</item>
+    <item name="devicename" type="id">false</item>
+    <item name="devicetype" type="id">false</item>
+    <item name="devicetypecontent" type="id">false</item>
+    <item name="devinfo" type="id">false</item>
+    <item name="discoverbutton" type="id">false</item>
+    <item name="discoveryContent" type="id">false</item>
+    <item name="emptydevicepanel" type="id">false</item>
+    <item name="footer" type="id">false</item>
+    <item name="groupNameText" type="id">false</item>
+    <item name="groupdevices" type="id">false</item>
+    <item name="header" type="id">false</item>
+    <item name="helpView" type="id">false</item>
+    <item name="homeButton" type="id">false</item>
+    <item name="imagebutton" type="id">false</item>
+    <item name="imagetextbutton" type="id">false</item>
+    <item name="imageview1" type="id">false</item>
+    <item name="layout_root" type="id">false</item>
+    <item name="loadingImage" type="id">false</item>
+    <item name="middleh" type="id">false</item>
+    <item name="name" type="id">false</item>
+    <item name="onDeviceCount" type="id">false</item>
+    <item name="overlay" type="id">false</item>
+    <item name="powerinwatts" type="id">false</item>
+    <item name="repeattype" type="id">false</item>
+    <item name="roomContent" type="id">false</item>
+    <item name="roomList" type="id">false</item>
+    <item name="roomname" type="id">false</item>
+    <item name="roomscontent" type="id">false</item>
+    <item name="save" type="id">false</item>
+    <item name="savebutton" type="id">false</item>
+    <item name="scheduledevices" type="id">false</item>
+    <item name="schedulerNameText" type="id">false</item>
+    <item name="scrollView" type="id">false</item>
+    <item name="seekBar1" type="id">false</item>
+    <item name="selectcontroller" type="id">false</item>
+    <item name="selected" type="id">false</item>
+    <item name="spinnertriangle" type="id">false</item>
+    <item name="startDate" type="id">false</item>
+    <item name="startTime" type="id">false</item>
+    <item name="svgimageview" type="id">false</item>
+    <item name="svgview" type="id">false</item>
+    <item name="text" type="id">false</item>
+    <item name="textlistmenu" type="id">false</item>
+    <item name="title" type="id">false</item>
+    <item name="top_container" type="id">false</item>
+    <item name="totalpower" type="id">false</item>
+    <item name="weeklyselection" type="id">false</item>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">Zorba</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_time_settings">TimeSettingsActivity</string>
+    <string name="title_activity_welcome">Zorba</string>
+    <string name="title_appinfo">About App</string>
+    <string name="title_changepwd">Change password</string>
+    <string name="title_discovery">Discovery</string>
+    <string name="title_help">Help</string>
+    <string name="title_inverter">Inverter Power</string>
+    <string name="title_sendlog">Send Log</string>
+    <style name="AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:textCursorDrawable">@layout/color_cursor</item>
+    </style>
+</resources>
